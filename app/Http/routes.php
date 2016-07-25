@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::post('deleteUser','AdminController@deleteUser');
     Route::post('addNewAndUpdateUser','AdminController@addNewAndUpdateUser');
     Route::post('postViewRole','AdminController@postViewRole');
+    Route::post('addNewAndUpdateRole','AdminController@addNewAndUpdateRole');
 });
 
 /*

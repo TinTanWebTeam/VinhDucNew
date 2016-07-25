@@ -19,11 +19,10 @@ class AdminController extends Controller
 
     public function getViewRole()
     {
-        try{
-            $role = Role::where('active',1)->get();
-            return view('admin.role')->with('roles',$role);
-        }
-        catch (Exception $ex){
+        try {
+            $role = Role::where('active', 1)->get();
+            return view('admin.role')->with('roles', $role);
+        } catch (Exception $ex) {
 
         }
     }
@@ -38,22 +37,77 @@ class AdminController extends Controller
         }
     }
 
+    public function getRole()
+    {
+        $arrayListRole = [];
+        $listRole = Role::where('active', 1)->get();
+        foreach ($listRole as $role) {
+            $array = [
+                'id' => $role->id,
+                'name' => $role->name,
+                'description'=>$role->name
+            ];
+            array_push($arrayListRole, $array);
+        }
+        return $arrayListRole;
+    }
+
+    public function addNewAndUpdateRole(Request $request)
+    {
+        $result = null;
+        try {
+            if ($this->validator($request->all(), "validatorRole")->fails()) {
+                return $this->validator($request->all(), "validatorRole")->errors();
+            } else {
+                if ($request->get('addNewOrUpdateId') == null) {
+                    try {
+                        $role = new Role();
+                        $role->name = $request->get('dataRole')['Name'];
+                        $role->description = $request->get('dataRole')['Description'];
+                        $role->createdBy = Auth::user()->id;
+                        $role->upDatedBy = Auth::user()->id;
+                        $role->save();
+                        $result = array(1, 'listUser' => $this->getRole());
+                    } catch (Exception $ex) {
+                        return $ex;
+                    }
+                } else {
+                    try {
+                        $role = Role::where('active', 1)->where('id', $request->get('dataRole')['Id'])->first();
+                        if ($role) {
+                            $role->name = $request->get('dataRole')['Name'];
+                            $role->description = $request->get('dataRole')['Description'];
+                            $role->upDatedBy = Auth::user()->id;
+                            $role->save();
+                            $result = array(2, 'listUser' => $this->getRole());
+                        } else {
+                            $result = array(0, 'listUser' => null);
+                        }
+                    } catch (Exception $ex) {
+                        return $ex;
+                    }
+                }
+                return $result;
+            }
+        } catch (Exception $ex) {
+
+        }
+    }
+
     public function getViewPatient()
     {
-        try{
+        try {
             return view('admin.patient');
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
 
         }
     }
 
     public function getViewTherapist()
     {
-        try{
+        try {
             return view('admin.therapist');
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
 
         }
     }
@@ -181,18 +235,25 @@ class AdminController extends Controller
     {
         $datas = [
             'Id' => $data['dataUser']['Id'],
-            'Name' => $data['dataUser']['Name'],
+            'NameUser' => $data['dataUser']['Name'],
             'Password' => $data['dataUser']['Password'],
             'RoleId' => $data['dataUser']['RoleId'],
-            'Email' => $data['dataUser']['Email']
+            'Email' => $data['dataUser']['Email'],
+            'NameRole' => $data['dataRole']['Name']
         ];
         $rules = null;
         switch ($variable) {
             case "validatorUser": {
                 $rules = [
-                    'Name' => 'required|min:6',
+                    'NameUser' => 'required|min:6',
                     'RoleId' => 'required',
                     'Email' => 'required|email'
+                ];
+                break;
+            }
+            case "validatorRole": {
+                $rules = [
+                    'NameRole' => 'required'
                 ];
                 break;
             }

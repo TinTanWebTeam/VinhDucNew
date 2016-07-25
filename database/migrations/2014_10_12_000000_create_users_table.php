@@ -22,10 +22,12 @@ class CreateUsersTable extends Migration
             $table->string('upDatedBy');
             $table->boolean('active')->default(1);
             $table->integer('roleId')->unsigned();
+            $table->integer('positionId')->unsigned();
             $table->rememberToken();
             $table->timestamps();
 
             $table->foreign('roleId')->references('id')->on('roles')->onDelete('no action');
+            $table->foreign('positionId')->references('id')->on('positions')->onDelete('no action');
         });
     }
 

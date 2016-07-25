@@ -26,4 +26,7 @@ class User extends Authenticatable
     public function Role(){
         return $this->belongsTo('App\Role','roleId','id')->first();
     }
+    public function Position(){
+        return $this->belongsTo('App\Position','positionId','id')->first();
+    }
 }

@@ -17,14 +17,16 @@ class UserTableSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'fullName'=>'HungLam',
             'password' => crypt(Config::get('app.key'),'tintansoft'),
-            'roleId' => 1
+            'roleId' => 1,
+            'positionId'=>random_int(1,5)
         ]);
         User::create([
             'name' => 'user',
             'email' => 'user@gmail.com',
             'fullName'=>'LamHung',
             'password' => crypt(Config::get('app.key'),'tintansoft'),
-            'roleId' => 2
+            'roleId' => 2,
+            'positionId'=>random_int(1,5)
         ]);
 
     }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTreatmentPackagesTable extends Migration
+class CreatePositionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +12,15 @@ class CreateTreatmentPackagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('treatment_packages', function (Blueprint $table) {
+        Schema::create('positions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('note');
-            $table->integer('packageId')->unsigned();
+            $table->string('description');
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->string('upDatedBy');
             $table->timestamps();
-
-            $table->foreign('packageId')->references('id')->on('packages')->onDelete('no action');
+            
         });
     }
 
@@ -33,6 +31,6 @@ class CreateTreatmentPackagesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('treatment_packages');
+        Schema::drop('positions');
     }
 }

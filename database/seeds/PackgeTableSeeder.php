@@ -17,9 +17,9 @@ class PackgeTableSeeder extends Seeder
         $faker =Factory::create();
         foreach (range(1,5) as $index){
             Package::create([
-               'name'=>$faker->name,
+                'name'=>$faker->name,
+                'price'=>$faker->numberBetween(1500,2000),
                 'note'=>$faker->paragraph(5),
-                'treatmentPackageId'=>$index
             ]);
         }
     }

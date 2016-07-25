@@ -25,7 +25,8 @@ class TreatmentPackagerTableSeeder extends Seeder
         foreach (range(1,5) as $index){
             TreatmentPackage::create([
                 'name' => $name[$index],
-                'note' => $faker->paragraph(5)
+                'note' => $faker->paragraph(5),
+                'packageId'=>$index
             ]);
         }
         

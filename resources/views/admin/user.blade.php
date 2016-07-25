@@ -195,7 +195,6 @@
                     })
                 },
                 fillTbody: function (data) {
-                    console.log(data);
                     $("tbody#tbodyUserList").empty();
                     var row = "";
                     for (var i = 0; i < data["listUser"].length; i++) {
@@ -325,7 +324,6 @@
                             addNewOrUpdateId: $("input[name=Id]").val(),
                             dataUser: userView.UserObject
                         }, function (data) {
-                            console.log(data);
                             if (data[0] !== 3) {
                                 if (data[0] === 1) {
                                     $("div#modalConfirm").modal("show");

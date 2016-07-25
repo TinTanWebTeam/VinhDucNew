@@ -30,9 +30,9 @@
                 <div class="panel-heading">
                     <div style="color: #158cba;font-size: 17px;">Danh sách chức vụ</div>
                     {{--<div style="position: absolute;margin: -25px 0px 0px 450px;">--}}
-                        {{--<button type="button" class="btn btn-danger btn-circle" onclick="roleView.deleteUser()"><i--}}
-                                    {{--class="fa fa-times"></i>--}}
-                        {{--</button>--}}
+                    {{--<button type="button" class="btn btn-danger btn-circle" onclick="roleView.deleteUser()"><i--}}
+                    {{--class="fa fa-times"></i>--}}
+                    {{--</button>--}}
                     {{--</div>--}}
                 </div>
                 <div>
@@ -75,7 +75,7 @@
                         <form role="form" id="formRole">
                             <div class="form-body">
                                 <div class="col-md-12">
-                                    <div class="form-group form-md-line-input" style="display:none">
+                                    <div class="form-group form-md-line-input" style="display()">
                                         <input type="text" class="form-control" name="Id" id="Id">
                                     </div>
                                     <div class="form-group form-md-line-input">
@@ -98,7 +98,8 @@
                                     <button type="button" class="btn blue" onclick="roleView.addNewAndUpdateUser()">
                                         Submit
                                     </button>
-                                    <button type="button" class="btn default" onclick="roleView.Cancel()">Cancel</button>
+                                    <button type="button" class="btn default" onclick="roleView.Cancel()">Cancel
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -112,7 +113,7 @@
     $(function () {
         if (typeof (roleView) === 'undefined') {
             roleView = {
-                goBack:null,
+                goBack: null,
                 idRole: null,
                 RoleObject: {
                     Id: null,
@@ -130,7 +131,7 @@
                     if ($("input[name=Id]").val() === "") {
                         var allinput = $("input");
                         $("div[class=form-body]").find(allinput).val("");
-                    }else{
+                    } else {
                         roleView.viewListRole(roleView.goBack);
                     }
                 },
@@ -149,7 +150,7 @@
                         }
                     })
                 },
-                Cancel:function () {
+                Cancel: function () {
                     roleView.resetForm();
                 },
                 resetRoleObject: function () {
@@ -159,20 +160,63 @@
                         }
                     }
                 },
-                addNewAndUpdateUser:function () {
+                fillTbody: function (data) {
+                    $("tbody#tbodyUserList").empty();
+                    var row = "";
+                    for (var i = 0; i < data["listUser"].length; i++) {
+                        var tr = "";
+                        tr += "<tr id=" + data["listUser"][i]["id"] + " onclick='userView.viewListUser(this)' style='cursor: pointer'>";
+                        tr += "<td>" + data["listUser"][i]["name"] + "</td>";
+                        tr += "<td>" + data["listUser"][i]["fullName"] + "</td>";
+                        tr += "<td>" + data["listUser"][i]["email"] + "</td>";
+                        tr += "<td>" + data["listUser"][i]["role"] + "</td>";
+                        row += tr;
+                    }
+                    $("tbody#tbodyUserList").append(row);
+                    userView.idUser = null;
+                    userView.addNewUser();
+                },
+                addNewAndUpdateUser: function () {
                     roleView.resetRoleObject();
-                    for(var i=0;i<Object.keys(roleView.RoleObject).length;i++){
-                        roleView.RoleObject[Object.keys(roleView.RoleObject)[i]]=$("#"+Object.keys(roleView.RoleObject)[i]).val();
+                    for (var i = 0; i < Object.keys(roleView.RoleObject).length; i++) {
+                        roleView.RoleObject[Object.keys(roleView.RoleObject)[i]] = $("#" + Object.keys(roleView.RoleObject)[i]).val();
                     }
                     $("#formRole").validate({
-                        rules:{
-                            Name:"required"
+                        rules: {
+                            Name: "required"
                         },
-                        messages:{
-                            Name:"Tên chức vụ không được để trống"
+                        messages: {
+                            Name: "Tên chức vụ không được để trống"
                         }
-                    })
-
+                    });
+                    if($("#formRole").valid()){
+                        $.post(url+"admin/addNewAndUpdateRole",{
+                            _token:_token,
+                            addNewOrUpdateId:$("input[name=Id]").val(),
+                            dataUser: roleView.RoleObject
+                        },function (data) {
+                            console.log(data);
+                            if (data[0] === 1) {
+                                $("div#modalConfirm").modal("show");
+                                $("div#modalContent").empty().append("Thêm mới thành công");
+                                $("button[name=modalAgree]").hide();
+                                userView.fillTbody(data);
+                            } else if (data[0] === 2) {
+                                $("div#modalConfirm").modal("show");
+                                $("div#modalContent").empty().append("Chỉnh sửa thành công");
+                                $("button[name=modalAgree]").hide();
+                                userView.fillTbody(data);
+                            } else if (data[0] === 0) {
+                                $("div#modalConfirm").modal("show");
+                                $("div#modalContent").empty().append("Chỉnh sửa KHÔNG thành công");
+                                $("button[name=modalAgree]").hide();
+                            }
+                            else {
+                                $("div#modalConfirm").modal("show");
+                                $("div#modalContent").empty().append("Thêm mới KHÔNG thành công");
+                                $("button[name=modalAgree]").hide();
+                            }
+                        })
                     }
                 }
             }
