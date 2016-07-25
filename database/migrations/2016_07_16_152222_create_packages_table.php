@@ -16,13 +16,13 @@ class CreatePackagesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('note');
-            $table->integer('treatmentPackageId');
+            $table->integer('treatmentPackageId')->unsigned();
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->string('upDatedBy');
             $table->timestamps();
 
-//            $table->foreign('TreatmentpackageId')->references('id')->on('treatment_packages')->onDelete('no action');
+            $table->foreign('treatmentPackageId')->references('id')->on('treatment_packages')->onDelete('no action');
         });
     }
 

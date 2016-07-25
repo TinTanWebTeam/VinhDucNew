@@ -18,6 +18,7 @@ class CreateManagementTherapistsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('phone');
+            $table->string('sex');
             $table->string('provincialId');
             $table->boolean('active')->default(1);
             $table->string('createdBy');

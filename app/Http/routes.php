@@ -23,11 +23,15 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     //Get
     Route::get('dashboard','AdminController@dashboard');
     Route::get('getViewUser','AdminController@getViewUser');
+    Route::get('getViewRole','AdminController@getViewRole');
+    Route::get('getViewPatient','AdminController@getViewPatient');
+    Route::get('getViewTherapist','AdminController@getViewTherapist');
     Route::get('getViewTreatmentPackage','AdminController@getViewTreatmentPackage');
     //Post
     Route::post('postViewUser','AdminController@postViewUser');
     Route::post('deleteUser','AdminController@deleteUser');
-
+    Route::post('addNewAndUpdateUser','AdminController@addNewAndUpdateUser');
+    Route::post('postViewRole','AdminController@postViewRole');
 });
 
 /*

@@ -230,6 +230,9 @@
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Quản lí<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
+                            <a href="javascript:;">Chức vụ</a>
+                        </li>
+                        <li>
                             <a href="javascript:;">Người dùng</a>
                         </li>
                         <li>

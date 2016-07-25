@@ -14,10 +14,15 @@ class ManagementTherapistTableSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create();
+        $sex=[
+            'Nam',
+            'Nữ'
+        ];
         foreach (range(1, 5) as $index) {
             ManagementTherapist::create([
                 'code' => 'CODE' . str_random(3) . (string) date_timestamp_get(date_create()),
                 'name'=>$faker->userName,
+                'sex'=>$sex[$index],
                 'address'=>$faker->address,
                 'provincialId'=>$index
             ]);

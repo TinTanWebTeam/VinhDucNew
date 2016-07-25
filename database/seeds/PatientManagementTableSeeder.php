@@ -14,12 +14,16 @@ class PatientManagementTableSeeder extends Seeder
     public function run()
     {
         $faker=Factory::create();
+        $sex=[
+            'Nam',
+            'Nữ',
+        ];
         foreach (range(1,5) as $index){
             PatientManagement::create([
                 'code'=>'CODE' . str_random(3) . (string) date_timestamp_get(date_create()),
                 'fullName'=>$faker->userName,
                 'address'=>$faker->address,
-                'sex'=>rand(20,80),
+                'sex'=>$sex[$index],
                 'weight'=>rand(40,70),
                 'height'=>rand(150,180),
                 'bloodPressure'=>rand(130,160),

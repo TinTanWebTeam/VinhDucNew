@@ -55,7 +55,8 @@
 
         <!-- Metis Menu Plugin JavaScript -->
         <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
+        <!-- VALIDATE-->
+        <script src="../assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
         <!-- Morris Charts JavaScript -->
         <script src="../bower_components/raphael/raphael-min.js"></script>
         <script src="../bower_components/morrisjs/morris.min.js"></script>

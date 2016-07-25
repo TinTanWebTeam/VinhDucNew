@@ -8,9 +8,24 @@
 // });
 var user = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li >ul.nav.nav-second-level > li");
 user.click(function () {
+    if($(this).find("a").text().trim()==="Chức vụ"){
+        $.get(url + "admin/getViewRole",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    };
    if($(this).find("a").text().trim()==="Người dùng"){
        $.get(url + "admin/getViewUser",function (data) {
             $("div.page-container").empty().append(data);
        })
-   }
+   };
+    if($(this).find("a").text().trim()==="Bệnh nhân"){
+        $.get(url + "admin/getViewPatient",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    };
+    if($(this).find("a").text().trim()==="Điều trị viên"){
+        $.get(url + "admin/getViewTherapist",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
 });

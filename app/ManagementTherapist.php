@@ -12,6 +12,7 @@ class ManagementTherapist extends Model
         'name',
         'address',
         'phone',
+        'sex',
         'provincialId',
         'createdBy',
         'upDatedBy',
