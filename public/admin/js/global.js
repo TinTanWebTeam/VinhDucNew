@@ -9,7 +9,7 @@
 var user = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li >ul.nav.nav-second-level > li");
 user.click(function () {
     if($(this).find("a").text().trim()==="Chức vụ"){
-        $.get(url + "admin/getViewRole",function (data) {
+        $.get(url + "admin/getViewPosition",function (data) {
             $("div.page-container").empty().append(data);
         })
     };

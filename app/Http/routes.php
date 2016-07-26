@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     //Get
     Route::get('dashboard','AdminController@dashboard');
     Route::get('getViewUser','AdminController@getViewUser');
-    Route::get('getViewRole','AdminController@getViewRole');
+    Route::get('getViewPosition','AdminController@getViewPosition');
     Route::get('getViewPatient','AdminController@getViewPatient');
     Route::get('getViewTherapist','AdminController@getViewTherapist');
     Route::get('getViewTreatmentPackage','AdminController@getViewTreatmentPackage');
@@ -31,8 +31,8 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::post('postViewUser','AdminController@postViewUser');
     Route::post('deleteUser','AdminController@deleteUser');
     Route::post('addNewAndUpdateUser','AdminController@addNewAndUpdateUser');
-    Route::post('postViewRole','AdminController@postViewRole');
-    Route::post('addNewAndUpdateRole','AdminController@addNewAndUpdateRole');
+    Route::post('postViewPosition','AdminController@postViewPosition');
+    Route::post('addNewAndUpdatePosition','AdminController@addNewAndUpdatePosition');
 });
 
 /*

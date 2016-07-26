@@ -44,10 +44,10 @@
                             <th>Diễn giải</th>
                         </tr>
                         </thead>
-                        <tbody id="tbodyRoleList">
-                        @if($roles)
-                            @foreach($roles as $item)
-                                <tr id="{{$item->id}}" onclick="roleView.viewListRole(this)"
+                        <tbody id="tbodyPositionList">
+                        @if($positions)
+                            @foreach($positions as $item)
+                                <tr id="{{$item->id}}" onclick="positionView.viewListPosition(this)"
                                     style="cursor: pointer">
                                     <td>{{$item->name}}</td>
                                     <td>{{$item->description}}</td>
@@ -65,14 +65,14 @@
                 <div class="panel-heading">
                     <div style="color: #158cba;font-size: 17px;">Thêm mới | Chỉnh sửa</div>
                     <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-info btn-circle" onclick="roleView.addNewUser()"><i
+                        <button type="button" class="btn btn-info btn-circle" onclick="positionView.addNewUser()"><i
                                     class="fa fa-plus"></i>
                         </button>
                     </div>
                 </div>
                 <div>
                     <div class="portlet-body form">
-                        <form role="form" id="formRole">
+                        <form role="form" id="formPosition">
                             <div class="form-body">
                                 <div class="col-md-12">
                                     <div class="form-group form-md-line-input" style="display()">
@@ -95,10 +95,10 @@
                                 </div>
 
                                 <div class="form-actions noborder">
-                                    <button type="button" class="btn blue" onclick="roleView.addNewAndUpdateUser()">
+                                    <button type="button" class="btn blue" onclick="positionView.addNewAndUpdateUser()">
                                         Submit
                                     </button>
-                                    <button type="button" class="btn default" onclick="roleView.Cancel()">Cancel
+                                    <button type="button" class="btn default" onclick="positionView.Cancel()">Cancel
                                     </button>
                                 </div>
                             </div>
@@ -111,11 +111,11 @@
 </div>
 <script>
     $(function () {
-        if (typeof (roleView) === 'undefined') {
-            roleView = {
+        if (typeof (positionView) === 'undefined') {
+            positionView = {
                 goBack: null,
-                idRole: null,
-                RoleObject: {
+                idPosition: null,
+                PositionObject: {
                     Id: null,
                     Name: null,
                     Description: null
@@ -125,38 +125,38 @@
                 },
                 addNewUser: function () {
                     $("input[name=Id]").val("");
-                    roleView.resetForm();
+                    positionView.resetForm();
                 },
                 resetForm: function () {
                     if ($("input[name=Id]").val() === "") {
                         var allinput = $("input");
                         $("div[class=form-body]").find(allinput).val("");
                     } else {
-                        roleView.viewListRole(roleView.goBack);
+                        positionView.viewListPosition(positionView.goBack);
                     }
                 },
-                viewListRole: function (element) {
-                    roleView.goBack = element;
-                    roleView.idRole = $(element).attr("id");
-                    $("tbody#tbodyRoleList").find("tr").removeClass("active");
+                viewListPosition: function (element) {
+                    positionView.goBack = element;
+                    positionView.idPosition = $(element).attr("id");
+                    $("tbody#tbodyPositionList").find("tr").removeClass("active");
                     $(element).addClass("active");
-                    $.post(url + "admin/postViewRole", {
+                    $.post(url + "admin/postViewPosition", {
                         _token: _token,
-                        idRole: roleView.idRole
+                        idPosition: positionView.idPosition
                     }, function (data) {
-                        $("input[name=Id]").empty().val(roleView.idRole)
+                        $("input[name=Id]").empty().val(positionView.idPosition)
                         for (var propertyName in data) {
-                            $("input[id=" + roleView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
+                            $("input[id=" + positionView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                         }
                     })
                 },
                 Cancel: function () {
-                    roleView.resetForm();
+                    positionView.resetForm();
                 },
-                resetRoleObject: function () {
-                    for (var propertyName in roleView.RoleObject) {
-                        if (roleView.RoleObject.hasOwnProperty(propertyName)) {
-                            roleView.RoleObject.propertyName = null;
+                resetPositionObject: function () {
+                    for (var propertyName in positionView.PositionObject) {
+                        if (positionView.PositionObject.hasOwnProperty(propertyName)) {
+                            positionView.PositionObject.propertyName = null;
                         }
                     }
                 },
@@ -177,11 +177,11 @@
                     userView.addNewUser();
                 },
                 addNewAndUpdateUser: function () {
-                    roleView.resetRoleObject();
-                    for (var i = 0; i < Object.keys(roleView.RoleObject).length; i++) {
-                        roleView.RoleObject[Object.keys(roleView.RoleObject)[i]] = $("#" + Object.keys(roleView.RoleObject)[i]).val();
+                    positionView.resetPositionObject();
+                    for (var i = 0; i < Object.keys(positionView.PositionObject).length; i++) {
+                        positionView.PositionObject[Object.keys(positionView.PositionObject)[i]] = $("#" + Object.keys(positionView.PositionObject)[i]).val();
                     }
-                    $("#formRole").validate({
+                    $("#formPosition").validate({
                         rules: {
                             Name: "required"
                         },
@@ -189,11 +189,11 @@
                             Name: "Tên chức vụ không được để trống"
                         }
                     });
-                    if($("#formRole").valid()){
-                        $.post(url+"admin/addNewAndUpdateRole",{
+                    if($("#formPosition").valid()){
+                        $.post(url+"admin/addNewAndUpdatePosition",{
                             _token:_token,
                             addNewOrUpdateId:$("input[name=Id]").val(),
-                            dataUser: roleView.RoleObject
+                            dataUser: positionView.PositionObject
                         },function (data) {
                             console.log(data);
                             if (data[0] === 1) {

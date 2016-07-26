@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Position;
 use App\Role;
 use App\User;
 use Auth;
@@ -17,69 +18,69 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
-    public function getViewRole()
+    public function getViewPosition()
     {
         try {
-            $role = Role::where('active', 1)->get();
-            return view('admin.role')->with('roles', $role);
+            $position = Position::where('active', 1)->get();
+            return view('admin.Position')->with('Positions', $position);
         } catch (Exception $ex) {
 
         }
     }
 
-    public function postViewRole(Request $request)
+    public function postViewPosition(Request $request)
     {
         try {
-            $role = Role::where('active', 1)->where('id', $request->get('idRole'))->first();
-            return $role;
+            $position = Position::where('active', 1)->where('id', $request->get('idPosition'))->first();
+            return $position;
         } catch (Exception $ex) {
             return $ex;
         }
     }
 
-    public function getRole()
+    public function getPosition()
     {
-        $arrayListRole = [];
-        $listRole = Role::where('active', 1)->get();
-        foreach ($listRole as $role) {
+        $arrayListPosition = [];
+        $listPosition = Position::where('active', 1)->get();
+        foreach ($listPosition as $position) {
             $array = [
-                'id' => $role->id,
-                'name' => $role->name,
-                'description'=>$role->name
+                'id' => $position->id,
+                'name' => $position->name,
+                'description'=>$position->description
             ];
-            array_push($arrayListRole, $array);
+            array_push($arrayListPosition, $array);
         }
-        return $arrayListRole;
+        return $arrayListPosition;
     }
 
-    public function addNewAndUpdateRole(Request $request)
+    public function addNewAndUpdatePosition(Request $request)
     {
         $result = null;
         try {
-            if ($this->validator($request->all(), "validatorRole")->fails()) {
-                return $this->validator($request->all(), "validatorRole")->errors();
+            if ($this->validator($request->all(), "validatorPosition")->fails()) {
+                return $this->validator($request->all(), "validatorPosition")->errors();
             } else {
                 if ($request->get('addNewOrUpdateId') == null) {
                     try {
-                        $role = new Role();
-                        $role->name = $request->get('dataRole')['Name'];
-                        $role->description = $request->get('dataRole')['Description'];
-                        $role->createdBy = Auth::user()->id;
-                        $role->upDatedBy = Auth::user()->id;
-                        $role->save();
-                        $result = array(1, 'listUser' => $this->getRole());
+                        $position = new Position();
+                        $position->name = $request->get('dataPosition')['Name'];
+                        $position->description = $request->get('dataPosition')['Description'];
+                        $position->createdBy = Auth::user()->id;
+                        $position->upDatedBy = Auth::user()->id;
+                        $position->save();
+                        $result = array(1, 'listUser' => $this->getPosition());
                     } catch (Exception $ex) {
                         return $ex;
                     }
                 } else {
                     try {
-                        $role = Role::where('active', 1)->where('id', $request->get('dataRole')['Id'])->first();
-                        if ($role) {
-                            $role->name = $request->get('dataRole')['Name'];
-                            $role->description = $request->get('dataRole')['Description'];
-                            $role->upDatedBy = Auth::user()->id;
-                            $role->save();
-                            $result = array(2, 'listUser' => $this->getRole());
+                        $position = Position::where('active', 1)->where('id', $request->get('dataPosition')['Id'])->first();
+                        if ($position) {
+                            $position->name = $request->get('dataPosition')['Name'];
+                            $position->description = $request->get('dataPosition')['Description'];
+                            $position->upDatedBy = Auth::user()->id;
+                            $position->save();
+                            $result = array(2, 'listUser' => $this->getPosition());
                         } else {
                             $result = array(0, 'listUser' => null);
                         }
@@ -239,7 +240,7 @@ class AdminController extends Controller
             'Password' => $data['dataUser']['Password'],
             'RoleId' => $data['dataUser']['RoleId'],
             'Email' => $data['dataUser']['Email'],
-            'NameRole' => $data['dataRole']['Name']
+            'NamePosition' => $data['dataPosition']['Name']
         ];
         $rules = null;
         switch ($variable) {
@@ -251,9 +252,9 @@ class AdminController extends Controller
                 ];
                 break;
             }
-            case "validatorRole": {
+            case "validatorPosition": {
                 $rules = [
-                    'NameRole' => 'required'
+                    'NamePosition' => 'required'
                 ];
                 break;
             }
