@@ -15,7 +15,7 @@ class CreateDiagnosesTable extends Migration
         Schema::create('diagnoses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('idPatientManagement');
+            $table->integer('patientManagementId')->unsigned();
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->string('upDatedBy');

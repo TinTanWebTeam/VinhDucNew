@@ -17,7 +17,10 @@ class CreateTreatmentPackagesTable extends Migration
             $table->string('name');
             $table->string('note');
             $table->integer('packageId')->unsigned();
+            $table->integer('patientId')->unsigned();
             $table->boolean('active')->default(1);
+            $table->date('createdDate');
+            $table->date('updateDate');
             $table->string('createdBy');
             $table->string('upDatedBy');
             $table->timestamps();

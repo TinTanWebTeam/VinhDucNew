@@ -9,7 +9,7 @@ class Diagnose extends Model
     protected $table='diagnoses';
     protected $fillable=[
         'name',
-        'idPatientManagement',
+        'patientManagementId',
         'createdBy',
         'upDatedBy',
         'active'

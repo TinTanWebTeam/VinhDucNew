@@ -10,7 +10,11 @@ class TreatmentPackage extends Model
     protected $fillable = [
         'name',
         'note',
+        'packageId',
+        'patientId',
+        'createdDate',
         'createdBy',
+        'updateDate',
         'upDatedBy',
         'active'
     ];

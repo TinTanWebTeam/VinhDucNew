@@ -12,6 +12,7 @@ class Doctor extends Model
         'name',
         'reference',
         'note',
+        'ageId',
         'provincialId',
         'createdBy',
         'upDatedBy',

@@ -29,31 +29,34 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #158cba;font-size: 17px;">Danh sách chức vụ</div>
-                    {{--<div style="position: absolute;margin: -25px 0px 0px 450px;">--}}
-                    {{--<button type="button" class="btn btn-danger btn-circle" onclick="roleView.deleteUser()"><i--}}
-                    {{--class="fa fa-times"></i>--}}
-                    {{--</button>--}}
-                    {{--</div>--}}
+                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
+                        <button type="button" class="btn btn-danger btn-circle" onclick="positionView.deleteUser()"><i
+                                    class="fa fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 <div>
-                    <table class="table table-bordered table-hover order-column" id="tableUserList"
+                    <table class="table table-bordered table-hover order-column" id="tablePositionViewList"
                            style="margin-bottom: 0px;">
                         <thead>
                         <tr>
-                            <th>Tên chức vụ</th>
-                            <th>Diễn giải</th>
+                            <th>Mã</th>
+                            <th>Họ và tên</th>
+                            <th>Giới tính</th>
                         </tr>
                         </thead>
-                        <tbody id="tbodyPositionList">
-                        @if($positions)
-                            @foreach($positions as $item)
-                                <tr id="{{$item->id}}" onclick="positionView.viewListPosition(this)"
-                                    style="cursor: pointer">
-                                    <td>{{$item->name}}</td>
-                                    <td>{{$item->description}}</td>
-                                </tr>
-                            @endforeach
-                        @endif
+                        <tbody id="tbodyPositionViewList">
+                        {{--@if($users)--}}
+                        {{--@foreach($users as $item)--}}
+                        {{--<tr id="{{$item->id}}" onclick="userView.viewListUser(this)"--}}
+                        {{--style="cursor: pointer">--}}
+                        {{--<td>{{$item->name}}</td>--}}
+                        {{--<td>{{$item->fullName}}</td>--}}
+                        {{--<td>{{$item->email}}</td>--}}
+                        {{--<td>{{$item->Role()->name}}</td>--}}
+                        {{--</tr>--}}
+                        {{--@endforeach--}}
+                        {{--@endif--}}
                         </tbody>
                     </table>
 
@@ -72,34 +75,37 @@
                 </div>
                 <div>
                     <div class="portlet-body form">
-                        <form role="form" id="formPosition">
+                        <form role="form" id="formPatient">
                             <div class="form-body">
-                                <div class="col-md-12">
-                                    <div class="form-group form-md-line-input" style="display()">
+                                <div>
+                                    <div class="form-group form-md-line-input" style="display:none">
                                         <input type="text" class="form-control" name="Id" id="Id">
                                     </div>
-                                    <div class="form-group form-md-line-input">
-                                        <label for="Name"><b>Tên chức vụ</b></label>
-                                        <input type="text" class="form-control"
-                                               id="Name"
-                                               name="Name"
-                                               placeholder="root">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-md-line-input">
+                                            <label for="Name"><b>Tên chức vụ</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="Name"
+                                                   name="Name"
+                                                   placeholder="bác sĩ">
+                                        </div>
+                                        <div class="form-group form-md-line-input">
+                                            <label for="Description"><b>Diễn giải</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="Description"
+                                                   name="Description"
+                                                   placeholder="Trực tiếp điều trịc ho bệnh nhân">
+                                        </div>
                                     </div>
-                                    <div class="form-group form-md-line-input">
-                                        <label for="Description"><b>Diễn giải</b></label>
-                                        <input type="text" class="form-control"
-                                               id="Description"
-                                               name="Description"
-                                               placeholder="Quyền cao nhất">
-                                    </div>
+
                                 </div>
 
+
                                 <div class="form-actions noborder">
-                                    <button type="button" class="btn blue" onclick="positionView.addNewAndUpdateUser()">
+                                    <button type="button" class="btn blue" onclick="roleView.addNewAndUpdateUser()">
                                         Submit
                                     </button>
-                                    <button type="button" class="btn default" onclick="positionView.Cancel()">Cancel
-                                    </button>
+                                    <button type="button" class="btn default">Cancel</button>
                                 </div>
                             </div>
                         </form>
@@ -113,112 +119,12 @@
     $(function () {
         if (typeof (positionView) === 'undefined') {
             positionView = {
-                goBack: null,
-                idPosition: null,
-                PositionObject: {
+                idPositionView: null,
+                PositionViewObject: {
                     Id: null,
                     Name: null,
                     Description: null
                 },
-                firstToUpperCase: function (str) {
-                    return str.substr(0, 1).toUpperCase() + str.substr(1);
-                },
-                addNewUser: function () {
-                    $("input[name=Id]").val("");
-                    positionView.resetForm();
-                },
-                resetForm: function () {
-                    if ($("input[name=Id]").val() === "") {
-                        var allinput = $("input");
-                        $("div[class=form-body]").find(allinput).val("");
-                    } else {
-                        positionView.viewListPosition(positionView.goBack);
-                    }
-                },
-                viewListPosition: function (element) {
-                    positionView.goBack = element;
-                    positionView.idPosition = $(element).attr("id");
-                    $("tbody#tbodyPositionList").find("tr").removeClass("active");
-                    $(element).addClass("active");
-                    $.post(url + "admin/postViewPosition", {
-                        _token: _token,
-                        idPosition: positionView.idPosition
-                    }, function (data) {
-                        $("input[name=Id]").empty().val(positionView.idPosition)
-                        for (var propertyName in data) {
-                            $("input[id=" + positionView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
-                        }
-                    })
-                },
-                Cancel: function () {
-                    positionView.resetForm();
-                },
-                resetPositionObject: function () {
-                    for (var propertyName in positionView.PositionObject) {
-                        if (positionView.PositionObject.hasOwnProperty(propertyName)) {
-                            positionView.PositionObject.propertyName = null;
-                        }
-                    }
-                },
-                fillTbody: function (data) {
-                    $("tbody#tbodyUserList").empty();
-                    var row = "";
-                    for (var i = 0; i < data["listUser"].length; i++) {
-                        var tr = "";
-                        tr += "<tr id=" + data["listUser"][i]["id"] + " onclick='userView.viewListUser(this)' style='cursor: pointer'>";
-                        tr += "<td>" + data["listUser"][i]["name"] + "</td>";
-                        tr += "<td>" + data["listUser"][i]["fullName"] + "</td>";
-                        tr += "<td>" + data["listUser"][i]["email"] + "</td>";
-                        tr += "<td>" + data["listUser"][i]["role"] + "</td>";
-                        row += tr;
-                    }
-                    $("tbody#tbodyUserList").append(row);
-                    userView.idUser = null;
-                    userView.addNewUser();
-                },
-                addNewAndUpdateUser: function () {
-                    positionView.resetPositionObject();
-                    for (var i = 0; i < Object.keys(positionView.PositionObject).length; i++) {
-                        positionView.PositionObject[Object.keys(positionView.PositionObject)[i]] = $("#" + Object.keys(positionView.PositionObject)[i]).val();
-                    }
-                    $("#formPosition").validate({
-                        rules: {
-                            Name: "required"
-                        },
-                        messages: {
-                            Name: "Tên chức vụ không được để trống"
-                        }
-                    });
-                    if($("#formPosition").valid()){
-                        $.post(url+"admin/addNewAndUpdatePosition",{
-                            _token:_token,
-                            addNewOrUpdateId:$("input[name=Id]").val(),
-                            dataUser: positionView.PositionObject
-                        },function (data) {
-                            console.log(data);
-                            if (data[0] === 1) {
-                                $("div#modalConfirm").modal("show");
-                                $("div#modalContent").empty().append("Thêm mới thành công");
-                                $("button[name=modalAgree]").hide();
-                                userView.fillTbody(data);
-                            } else if (data[0] === 2) {
-                                $("div#modalConfirm").modal("show");
-                                $("div#modalContent").empty().append("Chỉnh sửa thành công");
-                                $("button[name=modalAgree]").hide();
-                                userView.fillTbody(data);
-                            } else if (data[0] === 0) {
-                                $("div#modalConfirm").modal("show");
-                                $("div#modalContent").empty().append("Chỉnh sửa KHÔNG thành công");
-                                $("button[name=modalAgree]").hide();
-                            }
-                            else {
-                                $("div#modalConfirm").modal("show");
-                                $("div#modalContent").empty().append("Thêm mới KHÔNG thành công");
-                                $("button[name=modalAgree]").hide();
-                            }
-                        })
-                    }
-                }
             }
         }
     })

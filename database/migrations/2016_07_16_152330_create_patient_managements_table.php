@@ -23,9 +23,10 @@ class CreatePatientManagementsTable extends Migration
             $table->string('bloodPressure');
             $table->string('pulse');
             $table->string('job');
+            $table->integer('phone');
             $table->string('address');
-            $table->string('provincialId');
-            $table->string('ageId');
+            $table->integer('provincialId')->unsigned();
+            $table->integer('ageId')->unsigned();
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->string('upDatedBy');

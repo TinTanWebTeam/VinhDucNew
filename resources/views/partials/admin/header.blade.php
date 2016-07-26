@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; background-color: #fcfcfc; height: 80">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; background-color: #fcfcfc;">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -6,12 +6,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        {{--<a class="navbar-brand" href="index.html">Vinh Duc</a>--}}
-        <div class="col-xs-12 col-sm-4 col-md-3">
-            <div class="widget no-border m-0">
-                <a class="menuzord-brand pull-left flip xs-pull-center mb-15" href="." ><img src=".././img/logo.jpg" alt="CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC"></a>
-            </div>
-        </div>
+        <a class="navbar-brand" href="index.html">Vinh Duc</a>
+        {{--<div class="col-xs-12 col-sm-4 col-md-3">--}}
+            {{--<div class="widget no-border m-0">--}}
+                {{--<a class="menuzord-brand pull-left flip xs-pull-center mb-15" href="." ><img src=".././img/logo.jpg" alt="CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC"></a>--}}
+            {{--</div>--}}
+        {{--</div>--}}
     </div>
     <!-- /.navbar-header -->
 

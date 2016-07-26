@@ -18,7 +18,8 @@ class CreateDoctorsTable extends Migration
             $table->string('name');
             $table->string('reference');
             $table->string('note');
-            $table->string('provincialId');
+            $table->integer('ageId')->unsigned();
+            $table->integer('provincialId')->unsigned();
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->string('upDatedBy');

@@ -118,7 +118,8 @@ class AdminController extends Controller
         try {
             $role = Role::where('active', 1)->where('name', '!=', 'admin')->get();
             $user = User::where('active', 1)->where('roleId', '!=', 1)->get();
-            return view('admin.user')->with('users', $user)->with('roles', $role);
+            $position = Position::where('active',1)->get();
+            return view('admin.user')->with('users', $user)->with('roles', $role)->with('positions',$position);
         } catch (Exception $ex) {
             return $ex;
         }
@@ -144,7 +145,8 @@ class AdminController extends Controller
                 'name' => $user->name,
                 'fullName' => $user->fullName,
                 'email' => $user->email,
-                'role' => $user->Role()->name
+                'role' => $user->Role()->name,
+                'position' => $user->Position()->name
             ];
             array_push($arrayListUser, $array);
         }
@@ -183,6 +185,7 @@ class AdminController extends Controller
                             $user->fullName = $request->get('dataUser')['FullName'];
                             $user->roleId = $request->get('dataUser')['RoleId'];
                             $user->email = $request->get('dataUser')['Email'];
+                            $user->positionId = $request->get('dataUser')['PositionId'];
                             $user->createdBy = Auth::user()->id;
                             $user->upDatedBy = Auth::user()->id;
                             $user->save();
@@ -206,6 +209,7 @@ class AdminController extends Controller
                                 $user->fullName = $request->get('dataUser')['FullName'];
                                 $user->roleId = $request->get('dataUser')['RoleId'];
                                 $user->email = $request->get('dataUser')['Email'];
+                                $user->positionId = $request->get('dataUser')['PositionId'];
                                 $user->upDatedBy = Auth::user()->id;
                                 $user->save();
                                 $user->save();
@@ -239,8 +243,7 @@ class AdminController extends Controller
             'NameUser' => $data['dataUser']['Name'],
             'Password' => $data['dataUser']['Password'],
             'RoleId' => $data['dataUser']['RoleId'],
-            'Email' => $data['dataUser']['Email'],
-            'NamePosition' => $data['dataPosition']['Name']
+            'Email' => $data['dataUser']['Email']
         ];
         $rules = null;
         switch ($variable) {

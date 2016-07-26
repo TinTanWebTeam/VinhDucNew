@@ -10,6 +10,7 @@ class ProfessionalTreatment extends Model
     protected $fillable=[
         'name',
         'note',
+        'locationTreatmentId',
         'createdBy',
         'upDatedBy',
         'active'

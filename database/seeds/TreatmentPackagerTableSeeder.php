@@ -26,7 +26,8 @@ class TreatmentPackagerTableSeeder extends Seeder
             TreatmentPackage::create([
                 'name' => $name[$index],
                 'note' => $faker->paragraph(5),
-                'packageId'=>$index
+                'packageId'=>$index,
+                'patientId'=>$index
             ]);
         }
         

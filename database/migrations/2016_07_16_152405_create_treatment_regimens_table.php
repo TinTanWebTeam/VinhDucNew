@@ -15,7 +15,7 @@ class CreateTreatmentRegimensTable extends Migration
         Schema::create('treatment_regimens', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code')->unique();
-            $table->integer('idPatient');
+            $table->integer('patientId')->unsigned();
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->string('updatedBy');

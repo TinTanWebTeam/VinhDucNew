@@ -15,9 +15,9 @@ class CreateStatusesTable extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('idTherapist');
-            $table->string('idDoctor');
-            $table->string('idPatient');
+            $table->integer('therapistId')->unsigned();
+            $table->integer('doctorId')->unsigned();
+            $table->integer('patientId')->unsigned();
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->date('upDatedBy');

@@ -14,10 +14,10 @@ class CreateProvincesTable extends Migration
     {
         Schema::create('provinces', function (Blueprint $table) {
             $table->increments('id');
-            $table->String('name')->unique();
+            $table->string('name')->unique();
             $table->boolean('active')->default(1);
-            $table->String('createdBy');
-            $table->String('upDatedBy');
+            $table->string('createdBy');
+            $table->string('upDatedBy');
             $table->timestamps();
         });
     }

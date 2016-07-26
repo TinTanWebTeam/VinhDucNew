@@ -43,6 +43,7 @@
                             <th>Tài khoản</th>
                             <th>Họ và tên</th>
                             <th>Email</th>
+                            <th>Chức vụ</th>
                             <th>Quyền</th>
                         </tr>
                         </thead>
@@ -54,6 +55,7 @@
                                     <td>{{$item->name}}</td>
                                     <td>{{$item->fullName}}</td>
                                     <td>{{$item->email}}</td>
+                                    <td>{{$item->Position()->name}}</td>
                                     <td>{{$item->Role()->name}}</td>
                                 </tr>
                             @endforeach
@@ -86,6 +88,14 @@
                                         <label for="RoleId"><b>Quyền</b></label>
                                         <select class="form-control" id="RoleId">
                                             @foreach($roles as $item)
+                                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label for="PositionId"><b>Chức vụ</b></label>
+                                        <select class="form-control" id="PositionId">
+                                            @foreach($positions as $item)
                                                 <option value="{{$item->id}}">{{$item->name}}</option>
                                             @endforeach
                                         </select>
@@ -155,7 +165,8 @@
                     Email: null,
                     FullName: null,
                     Password: null,
-                    RoleId: null
+                    RoleId: null,
+                    PositionId:null
                 },
                 resetUserObject: function () {
                     for (var propertyName in userView.UserObject) {
@@ -203,6 +214,7 @@
                         tr += "<td>" + data["listUser"][i]["name"] + "</td>";
                         tr += "<td>" + data["listUser"][i]["fullName"] + "</td>";
                         tr += "<td>" + data["listUser"][i]["email"] + "</td>";
+                        tr += "<td>" + data["listUser"][i]["position"] + "</td>";
                         tr += "<td>" + data["listUser"][i]["role"] + "</td>";
                         row += tr;
                     }
@@ -231,7 +243,7 @@
                     }
                 },
                 addNewUser: function () {
-                    $("div#modalConfirm").modal("hide");
+                    //$("div#modalConfirm").modal("hide");
                     $("input[name=Id]").val("");
                     userView.resetForm();
                 },
@@ -243,7 +255,7 @@
                     for (var i = 0; i < Object.keys(userView.UserObject).length; i++) {
                         userView.UserObject[Object.keys(userView.UserObject)[i]] = $("#" + Object.keys(userView.UserObject)[i]).val();
                     }
-                    if ($("input[name=Id]").val().length <= 0 || ($("input[name=Id]").val().length > 0 && $("input[name=Password]").val().length > 0)) {
+                    if ($("input[name=Id]").val().length == 0 || ($("input[name=Id]").val().length > 0 && $("input[name=Password]").val().length > 0)) {
                         $("#formUser").validate({
                             rules: {
                                 Name: {
@@ -291,7 +303,7 @@
                                 }
                             }
                         });
-                    } else if ($("input[name=Id]").val().length > 0 && $("input[name=Password]").val().length <= 0) {
+                    } else if ($("input[name=Id]").val().length > 0 && $("input[name=Password]").val().length == 0) {
                         $("#formUser").validate({
                             rules: {
                                 Name: {

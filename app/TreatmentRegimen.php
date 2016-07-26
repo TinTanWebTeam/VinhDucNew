@@ -9,7 +9,7 @@ class TreatmentRegimen extends Model
     protected $table='treatment_regimens';
     protected $fillable=[
         'code',
-        'idPatient',
+        'patientId',
         'createdBy',
         'updatedBy',
         'active'

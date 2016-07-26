@@ -9,9 +9,9 @@ class Status extends Model
     protected $table='statuses';
     protected $fillable=[
         'name',
-        'idTherapist',
-        'idDoctor',
-        'idPatient',
+        'therapistId',
+        'doctorId',
+        'patientId',
         'createdBy',
         'upDatedBy',
         'active'

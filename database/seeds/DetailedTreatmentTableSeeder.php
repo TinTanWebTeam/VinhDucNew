@@ -1,10 +1,10 @@
 <?php
 
-use App\Diagnose;
+use App\DetailedTreatment;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 
-class DiagonsesTableSeeder extends Seeder
+class DetailedTreatmentTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,9 +15,11 @@ class DiagonsesTableSeeder extends Seeder
     {
         $faker=Factory::create();
         foreach (range(1,5) as $index){
-            Diagnose::create([
+            DetailedTreatment::create([
                 'name' =>$faker->userName,
-                'patientManagementId'=>$index
+                'treatmentPackageId'=>$index,
+                'professionalTreatmentId'=>$index,
+                'therapistId'=>$index
             ]);
         }
     }
