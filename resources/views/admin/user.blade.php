@@ -2,11 +2,11 @@
 <div class="modal fade" id="modalConfirm" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body" id="modalContent">Are you sure delete ?</div>
+            <div class="modal-body" id="modalContent">Chắt chắn xoá ?</div>
             <div class="modal-footer">
-                <button type="button" class="btn dark btn-outline" data-dismiss="modal" name="modalClose">Close</button>
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal" name="modalClose">Đóng</button>
                 <button type="button" class="btn green" name="modalAgree"
-                        onclick="userView.modalAgree()">Save changes
+                        onclick="userView.modalAgree()">Tiếp tục
                 </button>
             </div>
         </div>
@@ -18,7 +18,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4>Quản lí > Người dùng</h4>
+            <h4 style="color: #00a859">Quản lí > Người dùng</h4>
             <hr style="margin-top: 0px;">
         </div>
         <!-- /.col-lg-12 -->
@@ -28,7 +28,7 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #158cba;font-size: 17px;">Danh sách người dùng</div>
+                    <div style="color: #00a859;font-size: 17px;">Danh sách người dùng</div>
                     <div style="position: absolute;margin: -25px 0px 0px 450px;">
                         <button type="button" class="btn btn-danger btn-circle" onclick="userView.deleteUser()"><i
                                     class="fa fa-times"></i>
@@ -69,9 +69,9 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #158cba;font-size: 17px;">Thêm mới | Chỉnh sửa</div>
+                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa</div>
                     <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-info btn-circle" onclick="userView.addNewUser()"><i
+                        <button type="button" class="btn btn-info btn-circle" onclick="userView.addNewUser('')"><i
                                     class="fa fa-plus"></i>
                         </button>
                     </div>
@@ -141,9 +141,9 @@
                                 </div>
                                 <div class="form-actions noborder">
                                     <button type="button" class="btn blue" onclick="userView.addNewAndUpdateUser()">
-                                        Submit
+                                        Hoàn tất
                                     </button>
-                                    <button type="button" class="btn default" onclick="userView.Cancel()">Cancel</button>
+                                    <button type="button" class="btn default" onclick="userView.Cancel()">Huỷ</button>
                                 </div>
                             </div>
                         </form>
@@ -205,7 +205,7 @@
                         }
                     })
                 },
-                fillTbody: function (data) {
+                fillTbody: function (data,result) {
                     $("tbody#tbodyUserList").empty();
                     var row = "";
                     for (var i = 0; i < data["listUser"].length; i++) {
@@ -220,7 +220,7 @@
                     }
                     $("tbody#tbodyUserList").append(row);
                     userView.idUser = null;
-                    userView.addNewUser();
+                    userView.addNewUser(result);
                 },
                 deleteUser: function () {
                     $("div#modalConfirm").modal("show");
@@ -232,7 +232,7 @@
                             idUser: userView.idUser
                         }, function (data) {
                             if (data[0] === 1) {
-                                userView.fillTbody(data);
+                                userView.fillTbody(data,'delete');
                             }
                         });
                     }
@@ -242,10 +242,18 @@
                         $("button[name=modalAgree]").hide();
                     }
                 },
-                addNewUser: function () {
-                    //$("div#modalConfirm").modal("hide");
-                    $("input[name=Id]").val("");
-                    userView.resetForm();
+                addNewUser: function (result) {
+                    if(result===""){
+                        //$("div#modalConfirm").modal("hide");
+                        $("input[name=Id]").val("");
+                        userView.resetForm();
+                    }else if(result==="delete"){
+                        $("div#modalContent").empty().append("Xoá thành công");
+                        $("button[name=modalAgree]").hide();
+                        $("input[name=Id]").val("");
+                        therapistView.resetForm();
+                    }
+
                 },
                 checkEmail: function () {
                     $("label#Email").hide();
@@ -282,7 +290,7 @@
                             },
                             messages: {
                                 Name: {
-                                    required: "Tên đăng nhập không được rỗng,",
+                                    required: "Tên đăng nhập không được rỗng",
                                     minlenght: "Tên đăng nhập phải từ 6 kí tự đến 20 kí tự",
                                     maxlenght: "Tên đăng nhập phải từ 6 kí tự đến 20 kí tự"
                                 },
@@ -341,12 +349,12 @@
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Thêm mới thành công");
                                     $("button[name=modalAgree]").hide();
-                                    userView.fillTbody(data);
+                                    userView.fillTbody(data,'');
                                 } else if (data[0] === 2) {
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Chỉnh sửa thành công");
                                     $("button[name=modalAgree]").hide();
-                                    userView.fillTbody(data);
+                                    userView.fillTbody(data,'');
                                 } else if (data[0] === 0) {
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Chỉnh sửa KHÔNG thành công");

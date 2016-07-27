@@ -27,12 +27,20 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::get('getViewPatient','AdminController@getViewPatient');
     Route::get('getViewTherapist','AdminController@getViewTherapist');
     Route::get('getViewTreatmentPackage','AdminController@getViewTreatmentPackage');
+    Route::get('getViewDiagnostic','AdminController@getViewDiagnostic');
     //Post
     Route::post('postViewUser','AdminController@postViewUser');
     Route::post('deleteUser','AdminController@deleteUser');
     Route::post('addNewAndUpdateUser','AdminController@addNewAndUpdateUser');
     Route::post('postViewPosition','AdminController@postViewPosition');
     Route::post('addNewAndUpdatePosition','AdminController@addNewAndUpdatePosition');
+    Route::post('postViewTherapist','AdminController@postViewTherapist');
+    Route::post('deleteTherapist','AdminController@deleteTherapist');
+    Route::post('addNewAndUpdateTherapist','AdminController@addNewAndUpdateTherapist');
+    Route::post('postViewPatient','AdminController@postViewPatient');
+    Route::post('deletePatient','AdminController@deletePatient');
+    Route::post('addNewAndUpdatePatient','AdminController@addNewAndUpdatePatient');
+    Route::post('searchPatient','AdminController@searchPatient');
 });
 
 /*

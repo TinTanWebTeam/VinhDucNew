@@ -16,8 +16,8 @@ class CreatePatientManagementsTable extends Migration
             $table->increments('id');
             $table->string('code')->unique();
             $table->string('fullName');
-            $table->date('birthday');
-            $table->integer('sex');
+            $table->string('birthday');
+            $table->string('sex');
             $table->float('weight');
             $table->float('height');
             $table->string('bloodPressure');
@@ -32,6 +32,10 @@ class CreatePatientManagementsTable extends Migration
             $table->string('upDatedBy');
 
             $table->timestamps();
+
+            $table->foreign('provincialId')->references('id')->on('provinces')->onDelete('no action');
+            $table->foreign('ageId')->references('id')->on('ages')->onDelete('no action');
+
         });
     }
 

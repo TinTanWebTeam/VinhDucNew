@@ -29,3 +29,11 @@ user.click(function () {
         })
     }
 });
+var Diagnostic = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li");
+Diagnostic.click(function () {
+    if($(this).find("a").text().trim()==="Chẩn đoán"){
+        $.get(url + "admin/getViewDiagnostic",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+});

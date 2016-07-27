@@ -22,9 +22,10 @@ class ManagementTherapistTableSeeder extends Seeder
             ManagementTherapist::create([
                 'code' => 'CODE' . str_random(3) . (string) date_timestamp_get(date_create()),
                 'name'=>$faker->userName,
-                'sex'=>$sex[random_int(0,count($sex)-1)],
+                'sex'=>$sex[rand(0,count($sex)-1)],
                 'address'=>$faker->address,
-                'provincialId'=>$index
+                'provincialId'=>$index,
+                'ageId'=>$index
             ]);
         }
     }

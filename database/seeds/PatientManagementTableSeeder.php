@@ -23,7 +23,7 @@ class PatientManagementTableSeeder extends Seeder
                 'code'=>'CODE' . str_random(3) . (string) date_timestamp_get(date_create()),
                 'fullName'=>$faker->userName,
                 'address'=>$faker->address,
-                'sex'=>$sex[random_int(0,count($sex)-1)],
+                'sex'=>$sex[rand(0,count($sex)-1)],
                 'weight'=>rand(40,70),
                 'height'=>rand(150,180),
                 'bloodPressure'=>rand(130,160),
