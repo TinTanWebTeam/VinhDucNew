@@ -6,7 +6,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn dark btn-outline" data-dismiss="modal" name="modalClose">Đóng</button>
                 <button type="button" class="btn green" name="modalAgree"
-                        onclick="DiagnosticView.modalAgree()">Tiếp tục
+                        onclick="diagnosticView.modalAgree()">Tiếp tục
                 </button>
             </div>
         </div>
@@ -26,46 +26,90 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-md-6 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Danh sách gói điều trị</div>
-                </div>
-                <div>
-                    <table class="table table-bordered table-hover order-column" id="tableDiagnosticList"
-                           style="margin-bottom: 0px;">
-                        <thead>
-                        <tr>
-                            <th>Gói</th>
-                            <th>Diễn giải</th>
-                            <th>Ngày tạo</th>
-                            <th>Chi tiết</th>
-                        </tr>
-                        </thead>
-                        <tbody id="tbodyDiagnosticList">
-                        {{--@if($patients)--}}
-                        {{--@foreach($patients as $item)--}}
-                        {{--<tr id="{{$item->id}}" onclick="patientView.viewListPatient(this)"--}}
-                        {{--style="cursor: pointer">--}}
-                        {{--<td>{{$item->code}}</td>--}}
-                        {{--<td>{{$item->fullName}}</td>--}}
-                        {{--<td>{{$item->sex}}</td>--}}
-                        {{--<td>{{$item->phone}}</td>--}}
-                        {{--</tr>--}}
-                        {{--@endforeach--}}
-                        {{--@endif--}}
-                        </tbody>
-                    </table>
+            <div class="row" id="menuPackageTreatment">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div style="color: #00a859;font-size: 17px;">Danh sách gói điều trị</div>
+                    </div>
+                    <div>
+                        <table class="table table-bordered table-hover order-column" id="tableDiagnosticList"
+                               style="margin-bottom: 0px;">
+                            <thead>
+                            <tr>
+                                <th>Gói</th>
+                                <th>Diễn giải</th>
+                                <th>Ngày tạo</th>
+                                <th>Chi tiết</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbodyDiagnosticList">
+                            {{--@if($patients)--}}
+                            {{--@foreach($patients as $item)--}}
+                            {{--<tr id="{{$item->id}}" onclick="patientView.viewListPatient(this)"--}}
+                            {{--style="cursor: pointer">--}}
+                            {{--<td>{{$item->code}}</td>--}}
+                            {{--<td>{{$item->fullName}}</td>--}}
+                            {{--<td>{{$item->sex}}</td>--}}
+                            {{--<td>{{$item->phone}}</td>--}}
+                            {{--</tr>--}}
+                            {{--@endforeach--}}
+                            {{--@endif--}}
+                            </tbody>
+                        </table>
 
+                    </div>
                 </div>
+            </div>
+            <div class="row" id="TablePackages" style="display:none">
+                <div style="background-color: white;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div style="color: #00a859;font-size: 17px;">Điều trị chuyên môn</div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover order-column" id="PackagesTable"
+                                   style="overflow: scroll;">
+                                <tbody id="PackagesTable">
+                                @if($professionals)
+                                    @foreach($professionals as $professional)
+                                        <tr>
+                                            <td colspan="1">{{ \App\locationTreatment::where('id',$professional->first()->locationTreatmentId)->first()->name }}</td>
+                                        </tr>
+                                        @foreach(array_chunk($professional->all(),4)as $rows)
+                                            <tr>
+                                                <td style="width: 3%;"></td>
+                                                @foreach($rows as $item)
+                                                    <td id="check" name="{{$item->id}}"><input type="checkbox"
+                                                                                               onclick="diagnosticView.checked(this)"
+                                                                                               id="{{$item->id}}">{{$item->name}}
+                                                    </td>
+                                                @endforeach
+                                            </tr>
+                                        @endforeach
+                                    @endforeach
+                                @endif
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="form-group pull-bottom" style="margin-top: 10%; text-align: center; ">
+                            <button type="button" class="btn blue"
+                                    onclick="diagnosticView.CompleteTreatmentPackage(this)">
+                                Hoàn tất
+                            </button>
+                            <button type="button" class="btn default">Huỷ</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="col-md-6 col-sm-6" id="seachPatient">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Tìm kiếm bệnh nhân</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-info btn-circle"
-                                onclick="DiagnosticView.addNewDiagnostic('')"><i
+                    <div style="color: #00a859;font-size: 17px;">Tìm kiếm bệnh nhân
+                        <button type="button" class="btn btn-info btn-circle pull-right"
+                                onclick="diagnosticView.addNewDiagnostic('')"><i
                                     class="fa fa-refresh"></i>
                         </button>
                     </div>
@@ -77,6 +121,22 @@
                                 <div>
                                     <div class="form-group form-md-line-input" style="display:none">
                                         <input type="text" class="form-control" name="Id" id="Id">
+                                    </div>
+                                    <div class="row col-md-12" style="display:none" id="Table">
+                                        <table class="table table-hover table-light" id="AutoCompleteTable">
+                                            <thead>
+                                            <tr class="AutoCompleteTableHeader">
+                                                <th>Mã</th>
+                                                <th>Họ và tên</th>
+                                                <th>Giới tính</th>
+                                                <th>Số điện thoại</th>
+                                                <th>Choose</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="AutoCompleteTableBody">
+
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12">
                                         <label for="Code"><b>Mã</b></label>
@@ -109,39 +169,25 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-                                <div class="form-actions noborder">
+                            </div>
+                            <div class="form-actions noborder">
+                                <div class="form-group" style="padding-left: 15px;">
                                     <button type="button" class="btn blue"
                                             onclick="diagnosticView.searchPatient(this)">
                                         Tìm kiếm
                                     </button>
                                     <button type="button" class="btn default">Huỷ</button>
                                 </div>
+
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6 col-sm-6"
-             style="position: absolute;background-color: white; z-index: 50 ;width: 495px; display:none"
-             id="Table">
-            <table class="table table-hover table-light" id="AutoCompleteTable">
-                <thead>
-                <tr class="AutoCompleteTableHeader">
-                    <th >Mã</th>
-                    <th >Họ và tên</th>
-                    <th >Giới tính</th>
-                    <th >Số điện thoại</th>
-                    <th >Choose</th>
-                </tr>
-                </thead>
-                <tbody id="AutoCompleteTableBody">
 
-                </tbody>
-            </table>
         </div>
+
+
     </div>
 </div>
 <script>
@@ -166,12 +212,12 @@
             addNewDiagnostic: function (result) {
                 if (result === "") {
                     $("input[name=Id]").val("");
-                    DiagnosticView.resetForm();
+                    diagnosticView.resetForm();
                 } else if (result === "delete") {
                     $("div#modalContent").empty().append("Xoá thành công");
                     $("button[name=modalAgree]").hide();
                     $("input[name=Id]").val("");
-                    DiagnosticView.resetForm();
+                    diagnosticView.resetForm();
                 }
             },
             Cancel: function () {
@@ -190,32 +236,113 @@
                     //diagnosticView.viewListPatient(patientView.goBack);
                 }
             },
+            checked: function (element) {
+                1
+                if ($(element).prop("checked") !== true) {
+                    $(element).parent().css("background-color", "white").css('color', '#555555');
+                    $(element).removeAttr("checked");
+                } else {
+                    $(element).parent().css('background-color', '#00a859').css('color', '#fff');
+
+                }
+            },
             fillTbody: function (data, result) {
                 $("tbody#tbodyDiagnosticList").empty();
                 var row = "";
-                for (var i = 0; i < data["listDiagnostic"].length; i++) {
+                for (var i = 0; i < data.length; i++) {
                     var tr = "";
-                    tr += "<tr id=" + data["listDiagnostic"][i]["id"] + " onclick='DiagnosticView.viewListDiagnostic(this)' style='cursor: pointer'>";
-                    tr += "<td>" + data["listDiagnostic"][i]["code"] + "</td>";
-                    tr += "<td>" + data["listDiagnostic"][i]["fullName"] + "</td>";
-                    tr += "<td>" + data["listDiagnostic"][i]["sex"] + "</td>";
-                    tr += "<td>" + data["listDiagnostic"][i]["phone"] + "</td>";
+                    tr += "<tr id=" + data[i]["id"] + " onclick='diagnosticView.delete(this)' style='cursor: pointer'>";
+                    tr += "<td>" + data[i]["namePackage"] + "</td>";
+                    tr += "<td>" + data[i]["note"] + "</td>";
+                    tr += "<td>" + data[i]["createdDate"] + "</td>";
+                    tr += "<td style='min-width: 100px;'><button type='button' style='margin-left: 20%;' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.fillAddNewToTable(this)'><i class='fa fa-plus' ></i></button><button  type='button' style='margin-left: 5%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.fillUpdateToTable(this)'><i class='fa fa-cog' ></i></button><button type='button' style='margin-left: 5%;border-color: rgb(212, 0, 0);background-color: rgb(212, 0, 0);' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.fillDeleteToTable(this)'><i class='fa fa-times' ></i></button></td>";
                     row += tr;
                 }
                 $("tbody#tbodyDiagnosticList").append(row);
-                DiagnosticView.idDiagnostic = null;
-                DiagnosticView.addNewDiagnostic(result);
+                diagnosticView.idDiagnostic = null;
+                //diagnosticView.addNewDiagnostic(result);
+            },
+            setValueObject: function () {
+                diagnosticView.resetDiagnosticObject();
+                for (var i = 0; i < Object.keys(diagnosticView.DiagnosticObject).length; i++) {
+                    diagnosticView.DiagnosticObject[Object.keys(diagnosticView.DiagnosticObject)[i]] = $("#" + Object.keys(diagnosticView.DiagnosticObject)[i]).val();
+                }
             },
             searchPatient: function (element) {
-                var position = $(element).offset();
+                diagnosticView.setValueObject();
+                var dataArray = [];
+                for (var i = 0; i < Object.keys(diagnosticView.DiagnosticObject).length; i++) {
+                    if (diagnosticView.DiagnosticObject[Object.keys(diagnosticView.DiagnosticObject)[i]] != null) {
+                        dataArray.push(diagnosticView.DiagnosticObject[Object.keys(diagnosticView.DiagnosticObject)[i]]);
+                    }
+                }
                 $.post(url + "admin/searchPatient", {
                     _token: _token,
-                    Patient: diagnosticView.idDiagnostic
+                    Patient: diagnosticView.DiagnosticObject
                 }, function (data) {
-                    $("div#Table").show();
-                    $("div#Table").css("left", position.left).css("top", (position.top - 235));
+                    if (data.length !== 0) {
+                        var row = "";
+                        for (var i = 0; i < data.length; i++) {
+                            var tr = "";
+                            tr += "<tr id=" + data[i]["id"] + ">";
+                            tr += "<td>" + data[i]["code"] + "</td>";
+                            tr += "<td>" + data[i]["fullName"] + "</td>";
+                            tr += "<td>" + data[i]["sex"] + "</td>";
+                            tr += "<td>" + data[i]["birthday"] + "</td>";
+                            tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
+                            tr += "</tr>";
+                            row += tr;
+                        }
+                        $("tbody#AutoCompleteTableBody").empty().append(row);
+                        $("div#Table").show();
+                        //$("div#Table").css("left", position.left).css("top", (position.top - 235));
+                    }
+
                 });
+            },
+            fillToInput: function (element) {
+                $("div#Table").hide();
+                $("input[name=Code]").val($(element).parent().parent().find("td").eq(0).text());
+                $("input[name=FullName]").val($(element).parent().parent().find("td").eq(1).text());
+                $("input[name=Sex]").val($(element).parent().parent().find("td").eq(2).text());
+                $("input[name=Birthday]").val($(element).parent().parent().find("td").eq(3).text());
+                diagnosticView.SearchTreatmentPackages($(element).attr("data-Id"));
+            },
+            SearchTreatmentPackages: function (element) {
+                $.post(url + "admin/SearchTreatmentPackages", {
+                    _token: _token,
+                    IdPatient: element
+
+                }, function (data) {
+                    diagnosticView.fillTbody(data, '')
+                })
+            },
+            fillUpdateToTable: function (element) {
+                $.post(url + "admin/searchProfessional", {
+                    _token: _token,
+                    idPackageTreatment: $(element).attr("data-Id")
+                }, function (data) {
+                    $("tbody#PackagesTable").children().children().css("background-color", "white").css('color', '#555555');
+                    $("tbody#PackagesTable").children().children().find("input").removeAttr("checked");
+                    for (var i = 0; i < data.length; i++) {
+                        if ($("tbody#PackagesTable").children().find("td[name=" + data[i]["professionalId"] + "]")) {
+                            $("td[name=" + data[i]["professionalId"] + "]").css("background-color", "#00a859").css('color', '#ffffff');
+                            $("td[name=" + data[i]["professionalId"] + "]").find("input").prop("checked", true);
+                        }
+                    }
+                });
+                $("div#TablePackages").show();
+                $("div#menuPackageTreatment").hide();
+                //$(element).parent().parent().addClass("active");
+            },
+            CompleteTreatmentPackage: function () {
+                $("div#TablePackages").hide();
+                $("div#menuPackageTreatment").show();
+            },
+            fillDeleteToTable: function () {
+                alert("1");
             }
+
         }
     }
 </script>

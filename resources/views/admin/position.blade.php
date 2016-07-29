@@ -30,9 +30,9 @@
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách chức vụ</div>
                     {{--<div style="position: absolute;margin: -25px 0px 0px 450px;">--}}
-                        {{--<button type="button" class="btn btn-danger btn-circle" onclick="positionView.deleteUser()"><i--}}
-                                    {{--class="fa fa-times"></i>--}}
-                        {{--</button>--}}
+                    {{--<button type="button" class="btn btn-danger btn-circle" onclick="positionView.deleteUser()"><i--}}
+                    {{--class="fa fa-times"></i>--}}
+                    {{--</button>--}}
                     {{--</div>--}}
                 </div>
                 <div>
@@ -63,9 +63,8 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-info btn-circle" onclick="positionView.addNewPosition()"><i
+                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa
+                        <button type="button" class="btn btn-info btn-circle pull-right" onclick="positionView.addNewPosition()"><i
                                     class="fa fa-plus"></i>
                         </button>
                     </div>
@@ -74,35 +73,35 @@
                     <div class="portlet-body form">
                         <form role="form" id="formPosition">
                             <div class="form-body">
-                                <div>
-                                    <div class="form-group form-md-line-input" style="display:none">
-                                        <input type="text" class="form-control" name="Id" id="Id">
+                                <div class="form-group form-md-line-input" style="display:none">
+                                    <input type="text" class="form-control" name="Id" id="Id">
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group form-md-line-input">
+                                        <label for="Name"><b>Tên chức vụ</b></label>
+                                        <input type="text" class="form-control"
+                                               id="Name"
+                                               name="Name"
+                                               placeholder="bác sĩ">
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group form-md-line-input">
-                                            <label for="Name"><b>Tên chức vụ</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Name"
-                                                   name="Name"
-                                                   placeholder="bác sĩ">
-                                        </div>
-                                        <div class="form-group form-md-line-input">
-                                            <label for="Description"><b>Diễn giải</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Description"
-                                                   name="Description"
-                                                   placeholder="Trực tiếp điều trị cho bệnh nhân">
-                                        </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label for="Description"><b>Diễn giải</b></label>
+                                        <input type="text" class="form-control"
+                                               id="Description"
+                                               name="Description"
+                                               placeholder="Trực tiếp điều trị cho bệnh nhân">
                                     </div>
-
                                 </div>
 
 
                                 <div class="form-actions noborder">
-                                    <button type="button" class="btn blue" onclick="positionView.addNewAndUpdatePosition()">
-                                        Hoàn tất
-                                    </button>
-                                    <button type="button" class="btn default" onclick="positionView.Cancel()">Huỷ</button>
+                                    <div class="form-group" style="padding-left: 15px;">
+                                        <button type="button" class="btn blue"
+                                                onclick="patientView.addNewAndUpdatePatient()">
+                                            Hoàn tất
+                                        </button>
+                                        <button type="button" class="btn default">Huỷ</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -116,7 +115,7 @@
     $(function () {
         if (typeof (positionView) === 'undefined') {
             positionView = {
-                goBack:null,
+                goBack: null,
                 idPositionView: null,
                 PositionViewObject: {
                     Id: null,
@@ -135,7 +134,7 @@
                     $("input[name=Id]").val("");
                     positionView.resetForm();
                 },
-                Cancel:function () {
+                Cancel: function () {
                     positionView.resetForm();
                 },
                 firstToUpperCase: function (str) {
@@ -145,7 +144,7 @@
                     if ($("input[name=Id]").val() === "") {
                         var allinput = $("input");
                         $("div[class=form-body]").find(allinput).val("");
-                    }else{
+                    } else {
                         positionView.viewListPosition(positionView.goBack);
                     }
                 },
@@ -178,7 +177,7 @@
                     positionView.idPositionView = null;
                     positionView.addNewPosition();
                 },
-                addNewAndUpdatePosition:function () {
+                addNewAndUpdatePosition: function () {
                     positionView.resetPositionObject();
                     for (var i = 0; i < Object.keys(positionView.PositionViewObject).length; i++) {
                         positionView.PositionViewObject[Object.keys(positionView.PositionViewObject)[i]] = $("#" + Object.keys(positionView.PositionViewObject)[i]).val();
@@ -187,16 +186,16 @@
                         rules: {
                             Name: 'required'
                         },
-                        messages:{
-                            Name:"Tên chức vụ không được rỗng",
+                        messages: {
+                            Name: "Tên chức vụ không được rỗng",
                         }
                     });
-                    if($("#formPosition").valid()){
-                        $.post(url+"admin/addNewAndUpdatePosition",{
-                            _token:_token,
+                    if ($("#formPosition").valid()) {
+                        $.post(url + "admin/addNewAndUpdatePosition", {
+                            _token: _token,
                             addNewOrUpdateId: $("input[name=Id]").val(),
                             dataPosition: positionView.PositionViewObject
-                        },function (data) {
+                        }, function (data) {
                             if (data[0] === 1) {
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Thêm mới thành công");

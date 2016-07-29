@@ -28,9 +28,8 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Danh sách người dùng</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-danger btn-circle" onclick="userView.deleteUser()"><i
+                    <div style="color: #00a859;font-size: 17px;">Danh sách người dùng
+                        <button type="button" class="btn btn-danger btn-circle pull-right" onclick="userView.deleteUser()"><i
                                     class="fa fa-times"></i>
                         </button>
                     </div>
@@ -69,9 +68,8 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-info btn-circle" onclick="userView.addNewUser('')"><i
+                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa
+                        <button type="button" class="btn btn-info btn-circle pull-right" onclick="userView.addNewUser('')"><i
                                     class="fa fa-plus"></i>
                         </button>
                     </div>
@@ -140,10 +138,13 @@
                                     </div>
                                 </div>
                                 <div class="form-actions noborder">
-                                    <button type="button" class="btn blue" onclick="userView.addNewAndUpdateUser()">
-                                        Hoàn tất
-                                    </button>
-                                    <button type="button" class="btn default" onclick="userView.Cancel()">Huỷ</button>
+                                    <div class="form-group" style="padding-left: 15px;">
+                                        <button type="button" class="btn blue"
+                                                onclick="patientView.addNewAndUpdatePatient()">
+                                            Hoàn tất
+                                        </button>
+                                        <button type="button" class="btn default">Huỷ</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -155,6 +156,7 @@
 </div>
 <script>
     $(function () {
+        idUser=null;
         if (typeof (userView) === 'undefined') {
             userView = {
                 goBack:null,
@@ -191,6 +193,7 @@
                 },
                 viewListUser: function (element) {
                     userView.goBack = element;
+                    idUser= $(element).attr("id");
                     userView.idUser = $(element).attr("id");
                     $("tbody#tbodyUserList").find("tr").removeClass("active");
                     $(element).addClass("active");
@@ -226,10 +229,10 @@
                     $("div#modalConfirm").modal("show");
                 },
                 modalAgree:function () {
-                    if (userView.idUser !== null) {
+                    if (idUser !== null) {
                         $.post(url + "admin/deleteUser", {
                             _token: _token,
-                            idUser: userView.idUser
+                            idUser: idUser
                         }, function (data) {
                             if (data[0] === 1) {
                                 userView.fillTbody(data,'delete');

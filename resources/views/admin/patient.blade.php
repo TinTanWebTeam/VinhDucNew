@@ -28,15 +28,15 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Danh sách bệnh nhân</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-danger btn-circle" onclick="patientView.deletePatient()"><i
+                    <div style="color: #00a859;font-size: 17px;">Danh sách bệnh nhân
+                        <button type="button" class="btn btn-danger btn-circle pull-right"
+                                onclick="patientView.deletePatient()"><i
                                     class="fa fa-times"></i>
                         </button>
                     </div>
                 </div>
                 <div>
-                    <table class="table table-bordered table-hover order-column" id="tablePatientList"
+                    <table class="table table-bordered table-hover order-column col-md-6" id="tablePatientList"
                            style="margin-bottom: 0px;">
                         <thead>
                         <tr>
@@ -67,9 +67,8 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-info btn-circle" onclick="patientView.addNewPatient('')"><i
+                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa
+                        <button type="button" class="btn btn-info btn-circle pull-right" onclick="patientView.addNewPatient('')"><i
                                     class="fa fa-plus"></i>
                         </button>
                     </div>
@@ -109,7 +108,7 @@
                                             <input type="text" class="form-control"
                                                    id="Birthday"
                                                    name="Birthday"
-                                                   value={{date('Y-m-d')}}>
+                                                   value={{date('d/m/Y')}}>
 
                                         </div>
                                     </div>
@@ -204,15 +203,15 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <div class="form-actions noborder">
+                                    <div class="form-group" style="padding-left: 15px;">
                                     <button type="button" class="btn blue"
                                             onclick="patientView.addNewAndUpdatePatient()">
                                         Hoàn tất
                                     </button>
                                     <button type="button" class="btn default">Huỷ</button>
                                 </div>
+                                    </div>
                             </div>
                         </form>
                     </div>
@@ -223,6 +222,7 @@
 </div>
 <script>
     $(function () {
+        idPatient=null;
         if (typeof (patientView) === 'undefined') {
             patientView = {
                 goBack:null,
@@ -258,21 +258,6 @@
                     return datetime;
                 },
                 addNewPatient: function (result) {
-
-                    var date = new Date();
-
-                    var day = date.getDate();
-                    var month = date.getMonth() + 1;
-                    var year = date.getFullYear();
-
-                    if (month < 10) month = "0" + month;
-                    if (day < 10) day = "0" + day;
-
-                    var today = year + "-" + month + "-" + day;
-
-
-                    var date = patientView.convertStringToDate(today)
-                    $("input[id=Birthday]").val(today);
                     if(result===""){
                         $("input[name=Id]").val("");
                         patientView.resetForm();
@@ -294,7 +279,14 @@
                         var allinput = $("input");
                         $("div[class=form-body]").find(allinput).val("");
                         $("div[class=form-body]").find("select").val(1);
-
+                        var date = new Date();
+                        var day = date.getDate();
+                        var month = date.getMonth() + 1;
+                        var year = date.getFullYear();
+                        if (month < 10) month = "0" + month;
+                        if (day < 10) day = "0" + day;
+                        var  today= day + "-" + month + "-" + year;
+                        $("input[id=Birthday]").val(today);
                     }else{
                         patientView.viewListPatient(patientView.goBack);
                     }
@@ -320,6 +312,7 @@
                 },
                 viewListPatient: function (element) {
                     patientView.goBack = element;
+                    idPatient = $(element).attr("id");
                     patientView.idPatient = $(element).attr("id");
                     $("tbody#tbodyPatientList").find("tr").removeClass("active");
                     $(element).addClass("active");
@@ -335,10 +328,10 @@
                     })
                 },
                 modalAgree:function () {
-                    if (patientView.idPatient !== null) {
+                    if (idPatient !== null) {
                         $.post(url + "admin/deletePatient", {
                             _token: _token,
-                            idPatient: patientView.idPatient
+                            idPatient: idPatient
                         }, function (data) {
                             if (data[0] === 1) {
                                 patientView.fillTbody(data,'delete');

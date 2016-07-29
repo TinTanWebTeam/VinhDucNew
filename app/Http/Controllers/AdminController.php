@@ -6,10 +6,13 @@ use App\Age;
 use App\ManagementTherapist;
 use App\PatientManagement;
 use App\Position;
+use App\ProfessionalTreatment;
 use App\Provinces;
 use App\Role;
+use App\TreatmentPackage;
 use App\User;
 use Auth;
+use DB;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -26,9 +29,9 @@ class AdminController extends Controller
     {
         try {
             $position = Position::where('active', 1)->get();
-            if($position) {
+            if ($position) {
                 return view('admin.position')->with('Positions', $position);
-            }else{
+            } else {
                 return null;
             }
         } catch (Exception $ex) {
@@ -40,9 +43,9 @@ class AdminController extends Controller
     {
         try {
             $position = Position::where('active', 1)->where('id', $request->get('idPosition'))->first();
-            if($position){
+            if ($position) {
                 return $position;
-            }else{
+            } else {
                 return null;
             }
         } catch (Exception $ex) {
@@ -113,7 +116,7 @@ class AdminController extends Controller
         $listPatient = PatientManagement::where('active', 1)->get();
         foreach ($listPatient as $patient) {
             $array = [
-                'id'=>$patient->id,
+                'id' => $patient->id,
                 'code' => $patient->code,
                 'fullName' => $patient->fullName,
                 'sex' => $patient->sex,
@@ -138,45 +141,43 @@ class AdminController extends Controller
 
     public function postViewPatient(Request $request)
     {
-        try{
-            $patient=PatientManagement::where('active',1)->where('id',$request->get('idPatient'))->first();
-            if($patient){
+        try {
+            $patient = PatientManagement::where('active', 1)->where('id', $request->get('idPatient'))->first();
+            if ($patient) {
                 return $patient;
-            }else{
+            } else {
                 return null;
             }
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
             return $ex;
         }
     }
 
     public function deletePatient(Request $request)
     {
-        try{
-            $patient= PatientManagement::where('active',1)->where('id',$request->get('idPatient'))->first();
-            if($patient){
-                $patient->active=0;
+        try {
+            $patient = PatientManagement::where('active', 1)->where('id', $request->get('idPatient'))->first();
+            if ($patient) {
+                $patient->active = 0;
                 $patient->upDatedBy = Auth::user()->id;
                 $patient->save();
-                return array(1,'listPatient'=>$this->getPatient());
-            }else{
-                return array(0,'listPatient'=>null);
+                return array(1, 'listPatient' => $this->getPatient());
+            } else {
+                return array(0, 'listPatient' => null);
             }
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
             return $ex;
         }
     }
 
     public function addNewAndUpdatePatient(Request $request)
     {
-        try{
+        try {
             $result = null;
             if ($this->validator($request->all(), "validatorPatient")->fails()) {
                 return $this->validator($request->all(), "validatorPatient")->errors();
             } else {
-                if($request->get('addNewOrUpdateId')==""){
+                if ($request->get('addNewOrUpdateId') == "") {
                     try {
                         $patient = new PatientManagement();
                         $patient->code = $request->get('dataPatient')['Code'];
@@ -195,16 +196,14 @@ class AdminController extends Controller
                         $patient->createdBy = Auth::user()->id;
                         $patient->upDatedBy = Auth::user()->id;
                         $patient->save();
-                        $result = array(1, 'listPatient'=>$this->getPatient());
-                    }
-                    catch (Exception $ex){
+                        $result = array(1, 'listPatient' => $this->getPatient());
+                    } catch (Exception $ex) {
                         return $ex;
                     }
-                }
-                else{
-                    $patient=PatientManagement::where('active',1)->where('id',$request->get('addNewOrUpdateId'))->first();
-                    if($patient){
-                        try{
+                } else {
+                    $patient = PatientManagement::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
+                    if ($patient) {
+                        try {
                             $patient->code = $request->get('dataPatient')['Code'];
                             $patient->fullName = $request->get('dataPatient')['FullName'];
                             $patient->birthday = $request->get('dataPatient')['Birthday'];
@@ -220,19 +219,17 @@ class AdminController extends Controller
                             $patient->ageId = $request->get('dataPatient')['AgeId'];
                             $patient->upDatedBy = Auth::user()->id;
                             $patient->save();
-                            $result = array(2, 'listPatient'=>$this->getPatient());
-                        }
-                        catch (Exception $ex){
+                            $result = array(2, 'listPatient' => $this->getPatient());
+                        } catch (Exception $ex) {
                             return $ex;
                         }
-                    }else{
-                        $result = array(0, 'listPatient'=>null);
+                    } else {
+                        $result = array(0, 'listPatient' => null);
                     }
                 }
             }
             return $result;
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
             return $ex;
         }
     }
@@ -272,9 +269,9 @@ class AdminController extends Controller
     {
         try {
             $therapist = ManagementTherapist::where('active', 1)->where('id', $request->get('idTherapist'))->first();
-            if($therapist) {
+            if ($therapist) {
                 return $therapist;
-            }else{
+            } else {
                 return null;
             }
         } catch (Exception $ex) {
@@ -311,38 +308,36 @@ class AdminController extends Controller
                         $therapist = new ManagementTherapist();
                         $therapist->code = $request->get('dataTherapist')['Code'];
                         $therapist->name = $request->get('dataTherapist')['Name'];
-                        $therapist->address=$request->get('dataTherapist')['Address'];
-                        $therapist->phone=$request->get('dataTherapist')['Phone'];
-                        $therapist->sex=$request->get('dataTherapist')['Sex'];
-                        $therapist->ageId=$request->get('dataTherapist')['AgeId'];
-                        $therapist->provincialId=$request->get('dataTherapist')['ProvincialId'];
-                        $therapist->createdBy=Auth::user()->id;
-                        $therapist->updatedBy=Auth::user()->id;
+                        $therapist->address = $request->get('dataTherapist')['Address'];
+                        $therapist->phone = $request->get('dataTherapist')['Phone'];
+                        $therapist->sex = $request->get('dataTherapist')['Sex'];
+                        $therapist->ageId = $request->get('dataTherapist')['AgeId'];
+                        $therapist->provincialId = $request->get('dataTherapist')['ProvincialId'];
+                        $therapist->createdBy = Auth::user()->id;
+                        $therapist->updatedBy = Auth::user()->id;
                         $therapist->save();
-                        $result = array(1,'listTherapist'=>$this->getTherapist());
+                        $result = array(1, 'listTherapist' => $this->getTherapist());
                     } catch (Exception $ex) {
                         return $ex;
                     }
-                }
-                else{
-                    try{
-                        $therapist=ManagementTherapist::where('active',1)->where('id',$request->get('addNewOrUpdateId'))->first();
-                        if($therapist){
+                } else {
+                    try {
+                        $therapist = ManagementTherapist::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
+                        if ($therapist) {
                             $therapist->code = $request->get('dataTherapist')['Code'];
                             $therapist->name = $request->get('dataTherapist')['Name'];
-                            $therapist->address=$request->get('dataTherapist')['Address'];
-                            $therapist->phone=$request->get('dataTherapist')['Phone'];
-                            $therapist->sex=$request->get('dataTherapist')['Sex'];
-                            $therapist->ageId=$request->get('dataTherapist')['AgeId'];
-                            $therapist->provincialId=$request->get('dataTherapist')['ProvincialId'];
-                            $therapist->updatedBy=Auth::user()->id;
+                            $therapist->address = $request->get('dataTherapist')['Address'];
+                            $therapist->phone = $request->get('dataTherapist')['Phone'];
+                            $therapist->sex = $request->get('dataTherapist')['Sex'];
+                            $therapist->ageId = $request->get('dataTherapist')['AgeId'];
+                            $therapist->provincialId = $request->get('dataTherapist')['ProvincialId'];
+                            $therapist->updatedBy = Auth::user()->id;
                             $therapist->save();
-                            $result = array(2,'listTherapist'=>$this->getTherapist());
-                        }else{
-                            $result = array(0,'listTherapist'=>null);
+                            $result = array(2, 'listTherapist' => $this->getTherapist());
+                        } else {
+                            $result = array(0, 'listTherapist' => null);
                         }
-                    }
-                    catch (Exception $ex){
+                    } catch (Exception $ex) {
                         return $ex;
                     }
                 }
@@ -369,9 +364,9 @@ class AdminController extends Controller
     {
         try {
             $user = User::where('active', 1)->where('id', $request->get('idUser'))->first();
-            if($user){
+            if ($user) {
                 return $user;
-            }else{
+            } else {
                 return null;
             }
         } catch (Exception $ex) {
@@ -478,20 +473,46 @@ class AdminController extends Controller
 
     public function searchPatient(Request $request)
     {
-        try{
-            if($request->get('Patient') !=null){
-                $patient=PatientManagement::where('fullName','LIKE','%'.$request->get('Patient')['FullName'].'%')
-                                            ->where('code','LIKE','%'.$request->get('Patient')['Code'].'%')
-                                            ->where('sex',$request->get('Patient')['Sex'])
+        try {
+            $SQL = "SELECT id,code, fullName, sex, birthday FROM patient_managements WHERE active = 1";
+            if ($request->get('Patient')['Code'] != "") {
 
-                                            ->where('birthday','LIKE','%'.$request->get('Patient')['Birthday'].'%')
-
-                                            ->where('active',1)->get();
+                $SQL .= " AND code LIKE '" .'%'. $request->get('Patient')['Code'] .'%'. "'";
             }
+            if ($request->get('Patient')['FullName'] != "") {
+                $SQL .= " AND fullName LIKE '".'%'. $request->get('Patient')['FullName'] .'%'. "'";
+            }
+            if ($request->get('Patient')['Birthday'] != "") {
+                $SQL .= " AND birthday LIKE '".'%'. $request->get('Patient')['Birthday'] .'%'. "'";
+            }
+            if ($request->get('Patient')['Sex'] != "") {
+                $SQL .= " AND sex LIKE '".'%'. $request->get('Patient')['Sex'] .'%'. "'";
+            }
+            $patient = DB::select($SQL);
+            return $patient;
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
 
+    public function SearchTreatmentPackages(Request $request)
+    {
+        try{
+            $arraylistTreatment=[];
+            $TreatmentPackage=TreatmentPackage::where('active',1)->where('patientId',$request->get('IdPatient'))->get();
+            foreach ($TreatmentPackage as $item){
+                $array = [
+                    'id' => $item->id,
+                    'namePackage' => $item->Package()->name,
+                    'note'=>$item->note,
+                    'createdDate' => $item->createdDate,
+                ];
+                array_push($arraylistTreatment, $array);
+            }
+            return $arraylistTreatment;
         }
         catch (Exception $ex){
-
+            return $ex;
         }
     }
 
@@ -500,9 +521,40 @@ class AdminController extends Controller
         return view('admin.treatmentPackage');
     }
 
+    public function getDiagnostic()
+    {
+        $professional = ProfessionalTreatment::where('active',1)->get()->groupBy('locationTreatmentId');
+        return $professional;
+    }
+
     public function getViewDiagnostic()
     {
-        return view('admin.diagnostic');
+
+        return view('admin.diagnostic')->with('professionals',$this->getDiagnostic());
+    }
+
+    public function searchProfessional(Request $request)
+    {
+        try{
+            $Professional=DB::table('detailed_treatments as detail')
+                                ->join('professional_treatments as pro','detail.professionalTreatmentId','=','pro.id')
+                                ->join('location_treatments as location','pro.locationTreatmentId','=','location.id')
+                                ->join('treatment_packages as treatment','treatment.id','=','detail.treatmentPackageId')
+                                ->where('treatment.id','=',$request->get('idPackageTreatment'))
+                                ->select(
+                                    'detail.id as detailId',
+                                    'detail.name as detailName',
+                                    'location.id as locationId',
+                                    'location.name as locationName',
+                                    'pro.id as professionalId',
+                                    'pro.name as professionalName'
+                                )
+                                ->get();
+            return $Professional;
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
     }
 
     private function validator(array $data, $variable)
@@ -559,7 +611,7 @@ class AdminController extends Controller
                 'Address.required' => 'Địa chỉ chuyên viên không được rỗng',
                 'Phone.required' => 'Số điện thoại chuyên viên không được rỗng'
             ];
-        }else if($variable=="validatorPatient"){
+        } else if ($variable == "validatorPatient") {
             $datas = [
                 'Code' => $data['dataPatient']['Code'],
                 'Name' => $data['dataPatient']['FullName'],

@@ -28,13 +28,13 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Danh sách điều trị viên</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-danger btn-circle"
+                    <div style="color: #00a859;font-size: 17px;">Danh sách điều trị viên
+                        <button type="button" class="btn btn-danger btn-circle pull-right"
                                 onclick="therapistView.deleteTherapist()"><i
                                     class="fa fa-times"></i>
                         </button>
                     </div>
+
                 </div>
                 <div>
                     <table class="table table-bordered table-hover order-column" id="tableTherapistList"
@@ -68,13 +68,12 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-info btn-circle" onclick="therapistView.addNewTherapist('')">
-                            <i
-                                    class="fa fa-plus"></i>
+                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa
+                        <button type="button" class="btn btn-info btn-circle pull-right" onclick="therapistView.addNewTherapist('')">
+                            <i class="fa fa-plus"></i>
                         </button>
                     </div>
+
                 </div>
                 <div>
                     <div class="portlet-body form">
@@ -150,11 +149,13 @@
                                     </div>
                                 </div>
                                 <div class="form-actions noborder">
-                                    <button type="button" class="btn blue"
-                                            onclick="therapistView.addNewAndUpdateTherapist()">
-                                        Hoàn tất
-                                    </button>
-                                    <button type="button" class="btn default">Huỷ</button>
+                                    <div class="form-group" style="padding-left: 15px;">
+                                        <button type="button" class="btn blue"
+                                                onclick="patientView.addNewAndUpdatePatient()">
+                                            Hoàn tất
+                                        </button>
+                                        <button type="button" class="btn default">Huỷ</button>
+                                    </div>
                                 </div>
 
                             </div>
@@ -167,8 +168,10 @@
 </div>
 <script>
     $(function () {
+        Therapist=null;
         if (typeof (therapistView) === 'undefined') {
             therapistView = {
+                checkDelete:false,
                 goBack:null,
                 idTherapist: null,
                 TherapistObject: {
@@ -235,6 +238,7 @@
                 },
                 viewListTherapist: function (element) {
                     therapistView.goBack = element;
+                    Therapist=$(element).attr("id");
                     therapistView.idTherapist = $(element).attr("id");
                     $("tbody#tbodyTherapistList").find("tr").removeClass("active");
                     $(element).addClass("active");
@@ -250,10 +254,10 @@
                     })
                 },
                 modalAgree:function () {
-                    if (therapistView.idTherapist !== null) {
+                    if (Therapist !== null) {
                         $.post(url + "admin/deleteTherapist", {
                             _token: _token,
-                            idTherapist: therapistView.idTherapist
+                            idTherapist: Therapist
                         }, function (data) {
                             if (data[0] === 1) {
                                 therapistView.fillTbody(data,'delete');
