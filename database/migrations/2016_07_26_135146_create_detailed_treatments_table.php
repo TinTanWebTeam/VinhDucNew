@@ -16,6 +16,7 @@ class CreateDetailedTreatmentsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('treatmentPackageId')->unsigned();
+            $table->integer('patientId')->unsigned();
             $table->integer('professionalTreatmentId')->unsigned();
             $table->integer('therapistId')->unsigned();
             $table->boolean('ail')->default(0);

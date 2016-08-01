@@ -8,6 +8,7 @@ class TreatmentPackage extends Model
 {
     protected $table='treatment_packages';
     protected $fillable = [
+        'code',
         'name',
         'note',
         'packageId',

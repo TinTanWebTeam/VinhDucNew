@@ -14,6 +14,7 @@ class CreateTreatmentPackagesTable extends Migration
     {
         Schema::create('treatment_packages', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code');
             $table->string('name');
             $table->string('note');
             $table->integer('packageId')->unsigned();

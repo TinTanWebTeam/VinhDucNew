@@ -24,6 +24,7 @@ class TreatmentPackagerTableSeeder extends Seeder
         ];
         foreach (range(1,5) as $index){
             TreatmentPackage::create([
+                'code'=>'MP' . str_random(3) . (string) date_timestamp_get(date_create()),
                 'name' => $name[$index],
                 'note' => $faker->paragraph(5),
                 'packageId'=>$index,

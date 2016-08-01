@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Age;
+use App\DetailedTreatment;
+use App\locationTreatment;
 use App\ManagementTherapist;
 use App\PatientManagement;
 use App\Position;
@@ -12,6 +14,7 @@ use App\Role;
 use App\TreatmentPackage;
 use App\User;
 use Auth;
+use DateTime;
 use DB;
 use Exception;
 use Illuminate\Http\Request;
@@ -477,16 +480,16 @@ class AdminController extends Controller
             $SQL = "SELECT id,code, fullName, sex, birthday FROM patient_managements WHERE active = 1";
             if ($request->get('Patient')['Code'] != "") {
 
-                $SQL .= " AND code LIKE '" .'%'. $request->get('Patient')['Code'] .'%'. "'";
+                $SQL .= " AND code LIKE '" . '%' . $request->get('Patient')['Code'] . '%' . "'";
             }
             if ($request->get('Patient')['FullName'] != "") {
-                $SQL .= " AND fullName LIKE '".'%'. $request->get('Patient')['FullName'] .'%'. "'";
+                $SQL .= " AND fullName LIKE '" . '%' . $request->get('Patient')['FullName'] . '%' . "'";
             }
             if ($request->get('Patient')['Birthday'] != "") {
-                $SQL .= " AND birthday LIKE '".'%'. $request->get('Patient')['Birthday'] .'%'. "'";
+                $SQL .= " AND birthday LIKE '" . '%' . $request->get('Patient')['Birthday'] . '%' . "'";
             }
             if ($request->get('Patient')['Sex'] != "") {
-                $SQL .= " AND sex LIKE '".'%'. $request->get('Patient')['Sex'] .'%'. "'";
+                $SQL .= " AND sex LIKE '" . '%' . $request->get('Patient')['Sex'] . '%' . "'";
             }
             $patient = DB::select($SQL);
             return $patient;
@@ -497,19 +500,37 @@ class AdminController extends Controller
 
     public function SearchTreatmentPackages(Request $request)
     {
-        try{
-            $arraylistTreatment=[];
-            $TreatmentPackage=TreatmentPackage::where('active',1)->where('patientId',$request->get('IdPatient'))->get();
-            foreach ($TreatmentPackage as $item){
+        try {
+            $arraylistTreatment = [];
+            $TreatmentPackage = TreatmentPackage::where('patientId', $request->get('IdPatient'))->get();
+            foreach ($TreatmentPackage as $item) {
                 $array = [
                     'id' => $item->id,
+                    'active'=>$item->active,
+                    'code'=>$item->code,
                     'namePackage' => $item->Package()->name,
-                    'note'=>$item->note,
+                    'note' => $item->note,
                     'createdDate' => $item->createdDate,
                 ];
                 array_push($arraylistTreatment, $array);
             }
             return $arraylistTreatment;
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function deleteTreatmentPackage(Request $request)
+    {
+        try{
+            $delete = TreatmentPackage::where('active',1)->where('id',$request->get('id'))->first();
+            if($delete){
+                $delete->active = 0;
+                $delete->save();
+                return 1;
+            }else{
+                return 0;
+            }
         }
         catch (Exception $ex){
             return $ex;
@@ -523,36 +544,84 @@ class AdminController extends Controller
 
     public function getDiagnostic()
     {
-        $professional = ProfessionalTreatment::where('active',1)->get()->groupBy('locationTreatmentId');
+        $professional = ProfessionalTreatment::where('active', 1)->get()->groupBy('locationTreatmentId');
         return $professional;
     }
 
     public function getViewDiagnostic()
     {
 
-        return view('admin.diagnostic')->with('professionals',$this->getDiagnostic());
+        return view('admin.diagnostic')->with('professionals', $this->getDiagnostic());
+    }
+
+    public function deleteRowDetail(Request $request)
+    {
+        try {
+            DB::table('detailed_treatments')
+                ->where('patientId', '=', $request->get('idPatient'))
+                ->where('treatmentPackageId', '=', $request->get('idTreatmentPackage'))
+                ->delete();
+            return true;
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function updateDetailTreatment(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $date = date('Y/m/d H:i:s');
+            if ($this->deleteRowDetail($request)) {
+                try {
+                    for ($i = 0; $i < count($request->get('data')); $i++) {
+                        $updateDetail = new DetailedTreatment();
+                        $updateDetail->name = "";
+                        $updateDetail->treatmentPackageId = $request->get('idTreatmentPackage');
+                        $updateDetail->patientId = $request->get('idPatient');
+                        $updateDetail->professionalTreatmentId = $request->get('data')[$i];
+                        $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
+                        $updateDetail->ail = 3;//chua biet dau hay khong dau
+                        $updateDetail->note = "";
+                        $updateDetail->createdDate = $date;
+                        $updateDetail->updateDate = $date;
+                        $updateDetail->createdBy = Auth::user()->id;
+                        $updateDetail->upDatedBy = Auth::user()->id;
+                        $updateDetail->save();
+                    }
+                }
+                catch (Exception $ex){
+                    DB::rollback();
+                    return $ex;
+                }
+                DB::commit();
+                return 1;
+            }
+        } catch (Exception $ex) {
+            DB::rollback();
+            return $ex;
+        }
     }
 
     public function searchProfessional(Request $request)
     {
-        try{
-            $Professional=DB::table('detailed_treatments as detail')
-                                ->join('professional_treatments as pro','detail.professionalTreatmentId','=','pro.id')
-                                ->join('location_treatments as location','pro.locationTreatmentId','=','location.id')
-                                ->join('treatment_packages as treatment','treatment.id','=','detail.treatmentPackageId')
-                                ->where('treatment.id','=',$request->get('idPackageTreatment'))
-                                ->select(
-                                    'detail.id as detailId',
-                                    'detail.name as detailName',
-                                    'location.id as locationId',
-                                    'location.name as locationName',
-                                    'pro.id as professionalId',
-                                    'pro.name as professionalName'
-                                )
-                                ->get();
+        try {
+            $Professional = DB::table('detailed_treatments as detail')
+                ->join('professional_treatments as pro', 'detail.professionalTreatmentId', '=', 'pro.id')
+                ->join('location_treatments as location', 'pro.locationTreatmentId', '=', 'location.id')
+                ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
+                ->where('treatment.id', '=', $request->get('idPackageTreatment'))
+                ->select(
+                    'detail.id as detailId',
+                    'detail.name as detailName',
+                    'location.id as locationId',
+                    'location.name as locationName',
+                    'pro.id as professionalId',
+                    'pro.name as professionalName'
+                )
+                ->get();
             return $Professional;
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
             return $ex;
         }
     }

@@ -11,6 +11,7 @@ class DetailedTreatment extends Model
         'name',
         'treatmentPackageId',
         'professionalTreatmentId',
+        'patientId',
         'therapistId',
         'ail',
         'note',

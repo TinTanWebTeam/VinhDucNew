@@ -19,6 +19,7 @@ class DetailedTreatmentTableSeeder extends Seeder
                 'name' =>$faker->userName,
                 'treatmentPackageId'=>$index,
                 'professionalTreatmentId'=>$index,
+                'patientId'=>$index,
                 'therapistId'=>$index
             ]);
         }

@@ -43,6 +43,8 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::post('searchPatient','AdminController@searchPatient');
     Route::post('SearchTreatmentPackages','AdminController@SearchTreatmentPackages');
     Route::post('searchProfessional','AdminController@searchProfessional');
+    Route::post('updateDetailTreatment','AdminController@updateDetailTreatment');
+    Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
 });
 
 /*
