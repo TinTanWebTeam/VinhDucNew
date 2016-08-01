@@ -37,3 +37,11 @@ Diagnostic.click(function () {
         })
     }
 });
+var SurveyProgression = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li > ul.nav.nav-second-level >li");
+SurveyProgression.click(function () {
+    if($(this).find("a").text().trim()==="Tiến triển bệnh"){
+        $.get(url + "admin/SurveyProgression",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+});

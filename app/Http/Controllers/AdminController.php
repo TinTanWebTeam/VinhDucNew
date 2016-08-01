@@ -626,6 +626,11 @@ class AdminController extends Controller
         }
     }
 
+    public function SurveyProgression()
+    {
+        return view('admin.surveyprogression')->with('professionals', $this->getDiagnostic());
+    }
+
     private function validator(array $data, $variable)
     {
         $rules = null;

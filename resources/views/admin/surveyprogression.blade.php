@@ -401,29 +401,29 @@
                 }
             },
             CompleteTreatmentPackage:function () {
-                    var array = [];
-                    var findtdchecked = $("tbody#PackagesTable").children().children();
-                    for (var i = 1; i <= findtdchecked.children().length; i++) {
-                        if (findtdchecked.find("input[id=" + i + "]").prop("checked") === true) {
-                            array.push(findtdchecked.find("input[id=" + i + "]").attr("id"));
-                        }
+                var array = [];
+                var findtdchecked = $("tbody#PackagesTable").children().children();
+                for (var i = 1; i <= findtdchecked.children().length; i++) {
+                    if (findtdchecked.find("input[id=" + i + "]").prop("checked") === true) {
+                        array.push(findtdchecked.find("input[id=" + i + "]").attr("id"));
                     }
-                    $.post(url + "admin/updateDetailTreatment", {
-                        _token: _token,
-                        idTreatmentPackage: diagnosticView.idTreatmentPackage,
-                        data: array,
-                        idPatient: $("input[name=Id]").val()
-                    }, function (data) {
-                        if (data === "1") {
-                            console.log(diagnosticView.idTreatmentPackage);
-                            diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage);
-                            $("div#modalConfirm").modal("show");
-                            $("div#modalContent").empty().append("Lưu thành công");
-                            $("button[name=modalAgree]").hide();
-                            $("div#TablePackages").hide();
-                            $("div#menuPackageTreatment").show();
-                        }
-                    });
+                }
+                $.post(url + "admin/updateDetailTreatment", {
+                    _token: _token,
+                    idTreatmentPackage: diagnosticView.idTreatmentPackage,
+                    data: array,
+                    idPatient: $("input[name=Id]").val()
+                }, function (data) {
+                    if (data === "1") {
+                        console.log(diagnosticView.idTreatmentPackage);
+                        diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage);
+                        $("div#modalConfirm").modal("show");
+                        $("div#modalContent").empty().append("Lưu thành công");
+                        $("button[name=modalAgree]").hide();
+                        $("div#TablePackages").hide();
+                        $("div#menuPackageTreatment").show();
+                    }
+                });
 
             },
 

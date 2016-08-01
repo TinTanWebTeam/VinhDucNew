@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::get('getViewTherapist','AdminController@getViewTherapist');
     Route::get('getViewTreatmentPackage','AdminController@getViewTreatmentPackage');
     Route::get('getViewDiagnostic','AdminController@getViewDiagnostic');
+    Route::get('SurveyProgression','AdminController@SurveyProgression');
     //Post
     Route::post('postViewUser','AdminController@postViewUser');
     Route::post('deleteUser','AdminController@deleteUser');
