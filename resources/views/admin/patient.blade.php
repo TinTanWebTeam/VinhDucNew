@@ -195,6 +195,7 @@
                                             <label for="AgeId"><b>Độ tuổi</b></label>
                                             <select class="form-control" id="AgeId">
                                                 @if($ages)
+                                                    <option value="0">-- Chọn Tuoi --</option>
                                                     @foreach($ages as $item)
                                                         <option value="{{$item->id}}">{{$item->age}}</option>
                                                     @endforeach
@@ -278,7 +279,7 @@
                     if ($("input[name=Id]").val() === "") {
                         var allinput = $("input");
                         $("div[class=form-body]").find(allinput).val("");
-                        $("div[class=form-body]").find("select").val(1);
+                        $("div[class=form-body]").find("select").val("0");
                         var date = new Date();
                         var day = date.getDate();
                         var month = date.getMonth() + 1;
