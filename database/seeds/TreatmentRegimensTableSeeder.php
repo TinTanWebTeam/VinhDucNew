@@ -17,7 +17,8 @@ class TreatmentRegimensTableSeeder extends Seeder
         foreach (range(1,5) as $index){
             TreatmentRegimen::create([
                 'code'=>'CODE' . str_random(3) . (string) date_timestamp_get(date_create()),
-                'patientId'=>$index
+                'patientId'=>$index,
+                'treatmentPackageId'=>$index
             ]);
         }
     }

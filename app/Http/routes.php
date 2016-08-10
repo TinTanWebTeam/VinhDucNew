@@ -28,7 +28,9 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::get('getViewTherapist','AdminController@getViewTherapist');
     Route::get('getViewTreatmentPackage','AdminController@getViewTreatmentPackage');
     Route::get('getViewDiagnostic','AdminController@getViewDiagnostic');
-    Route::get('SurveyProgression','AdminController@SurveyProgression');
+    Route::get('getSurveyProgression','AdminController@getSurveyProgression');
+    Route::get('getRegimens','AdminController@getRegimens');
+    Route::get('getViewProfessional','AdminController@getViewProfessional');
     //Post
     Route::post('postViewUser','AdminController@postViewUser');
     Route::post('deleteUser','AdminController@deleteUser');
@@ -45,7 +47,13 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::post('SearchTreatmentPackages','AdminController@SearchTreatmentPackages');
     Route::post('searchProfessional','AdminController@searchProfessional');
     Route::post('updateDetailTreatment','AdminController@updateDetailTreatment');
+    Route::post('addNewTreatment','AdminController@addNewTreatment');
     Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
+    Route::post('checkAilOrNotAil','AdminController@checkAilOrNotAil');
+    Route::post('updateAil','AdminController@updateAil');
+    Route::post('updateNotAil','AdminController@updateNotAil');
+    Route::post('searchRegimens','AdminController@searchRegimens');
+    Route::post('fillToTbody','AdminController@fillToTbody');
 });
 
 /*

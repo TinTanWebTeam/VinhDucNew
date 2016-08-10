@@ -34,7 +34,7 @@
                         </button>
                     </div>
                 </div>
-                <div>
+                <div class="table-responsive">
                     <table class="table table-bordered table-hover order-column" id="tableUserList"
                            style="margin-bottom: 0px;">
                         <thead>

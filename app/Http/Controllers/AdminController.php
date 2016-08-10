@@ -6,6 +6,7 @@ use App\Age;
 use App\DetailedTreatment;
 use App\locationTreatment;
 use App\ManagementTherapist;
+use App\Package;
 use App\PatientManagement;
 use App\Position;
 use App\ProfessionalTreatment;
@@ -520,6 +521,36 @@ class AdminController extends Controller
         }
     }
 
+    public function addNewTreatment(Request $request)
+    {
+        $date = date('Y/m/d H:i:s');
+        try{
+            if ($this->validator($request->all(), "validatorTreatmentPackages")->fails()) {
+                return $this->validator($request->all(), "validatorTreatmentPackages")->errors();
+            } else {
+                if($request->get('data')['AddNewId'] == ""){
+                    $treatment= new TreatmentPackage();
+                    $treatment->code = $request->get('data')['TreatmentPackageCode'];
+                    $treatment->name ="";
+                    $treatment->note = $request->get('data')['Note'];
+                    $treatment->packageId = $request->get('data')['PackagesId'];
+                    $treatment->patientId = $request->get('data')['PatientId'];
+                    $treatment->createdDate = $date;
+                    $treatment->updateDate = $date;
+                    $treatment->createdBy = Auth::user()->id;
+                    $treatment->upDatedBy = Auth::user()->id;
+                    $treatment->save();
+                    return 1;
+                }else{
+                    return 2;
+                }
+            }
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+
     public function deleteTreatmentPackage(Request $request)
     {
         try{
@@ -550,8 +581,10 @@ class AdminController extends Controller
 
     public function getViewDiagnostic()
     {
-
-        return view('admin.diagnostic')->with('professionals', $this->getDiagnostic());
+        $package = Package::where('active',1)->get();
+        $patient = PatientManagement::where('active',1)->get();
+        return view('admin.diagnostic')->with('professionals', $this->getDiagnostic())
+                                        ->with('packages',$package)->with('patients',$patient);
     }
 
     public function deleteRowDetail(Request $request)
@@ -581,7 +614,7 @@ class AdminController extends Controller
                         $updateDetail->patientId = $request->get('idPatient');
                         $updateDetail->professionalTreatmentId = $request->get('data')[$i];
                         $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
-                        $updateDetail->ail = 3;//chua biet dau hay khong dau
+                        $updateDetail->ail = 2;//chua biet dau hay khong dau
                         $updateDetail->note = "";
                         $updateDetail->createdDate = $date;
                         $updateDetail->updateDate = $date;
@@ -620,13 +653,14 @@ class AdminController extends Controller
                     'pro.name as professionalName'
                 )
                 ->get();
-            return $Professional;
+            $detail = DetailedTreatment::where('active',1)->where('treatmentPackageId',$request->get('idPackageTreatment'))->get();
+            return array($Professional,$detail);
         } catch (Exception $ex) {
             return $ex;
         }
     }
 
-    public function SurveyProgression()
+    public function getSurveyProgression()
     {
         return view('admin.surveyprogression')->with('professionals', $this->getDiagnostic());
     }
@@ -704,7 +738,121 @@ class AdminController extends Controller
                 'Address.required' => 'Địa chỉ bệnh nhân không được rỗng',
                 'Phone.required' => 'Số điện thoại bệnh nhân không được rỗng'
             ];
+        } else if($variable == "validatorTreatmentPackages"){
+            $datas = [
+                'TreatmentPackageCode' => $data['data']['TreatmentPackageCode'],
+            ];
+            $rules = [
+                'TreatmentPackageCode' => 'required',
+            ];
+            [
+                'TreatmentPackageCode.required' => 'Mã phiếu không được rỗng',
+            ];
         }
         return Validator::make($datas, $rules);
+    }
+
+    public function checkAilOrNotAil(Request $request)
+    {
+        try{
+            $detail = DetailedTreatment::where('active',1)
+                                        ->where('professionalTreatmentId',$request->get('professionalId'))->first();
+            return $detail;
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+
+    public function updateAil(Request $request)
+    {
+        try{
+            $detail = DetailedTreatment::where('active',1)->where('treatmentPackageId',$request->get('treatmentPackageId'))
+                                        ->where('patientId',$request->get('patientId'))->where('professionalTreatmentId',$request->get('professionalId'))->first();
+            if($detail){
+                $detail->ail = $request->get('ail');
+                $detail->therapistId = $request->get('therapistId');
+                $detail->save();
+                return 1;
+            }else{
+                return 2;
+            }
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+
+    public function updateNotAil(Request $request)
+    {
+        try{
+            $detail = DetailedTreatment::where('active',1)->where('id',$request->get('id'))->first();
+            if($detail){
+                $detail->ail = 0;
+                $detail->therapistId = Auth::user()->id;
+                $detail->save();
+                return 1;
+            }else{
+                return 2;
+            }
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+
+    public function getRegimens()
+    {
+        return view('admin.regimens')->with('professionals', $this->getDiagnostic());
+    }
+
+    public function searchRegimens(Request $request)
+    {
+        try{
+            $SQL = "SELECT pm.`code` as 'maBN',pm.fullName, tr.`code` as 'maPD',tr.createdDate FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.id = tr.patientId WHERE pm.active = 1";
+            if ($request->get('Patient')['CodePatient'] != "") {
+                $SQL .= " AND pm.`code` LIKE '" . '%' . $request->get('Patient')['Code'] . '%' . "'";
+            }
+            if ($request->get('Patient')['FullName'] != "") {
+                $SQL .= " AND pm.fullName LIKE '" . '%' . $request->get('Patient')['FullName'] . '%' . "'";
+            }
+            if ($request->get('Patient')['CodeRegimen'] != "") {
+                $SQL .= " AND tr.`code` LIKE '" . '%' . $request->get('Patient')['CodeRegimen'] . '%' . "'";
+            }
+            if ($request->get('Patient')['CreatedDate'] != "") {
+                $SQL .= " AND tr.createdDate LIKE '" . '%' . $request->get('Patient')['CreatedDate'] . '%' . "'";
+            }
+            $patient = DB::select($SQL);
+            return $patient;
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+
+    public function getViewProfessional()
+    {
+        $therapist = ManagementTherapist::where('active',1)->get();
+        return view('admin.professional')->with('professionals', $this->getDiagnostic())
+                                        ->with('therapists',$therapist);
+    }
+
+    public function fillToTbody(Request $request)
+    {
+        $Professional = DB::table('detailed_treatments as detail')
+            ->join('professional_treatments as pro', 'detail.professionalTreatmentId', '=', 'pro.id')
+            ->join('location_treatments as location', 'pro.locationTreatmentId', '=', 'location.id')
+            ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
+            ->where('treatment.id', '=', $request->get('idPackageTreatment'))
+            ->select(
+                'detail.id as detailId',
+                'detail.name as detailName',
+                'location.id as locationId',
+                'location.name as locationName',
+                'pro.id as professionalId',
+                'pro.name as professionalName'
+            )
+            ->get();
+        return view('admin.tbody')->with('professional',$Professional);
     }
 }

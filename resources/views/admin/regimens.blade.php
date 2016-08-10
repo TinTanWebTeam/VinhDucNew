@@ -5,35 +5,35 @@
             <div class="modal-body" id="modalContent">
                 <table class="table table-bordered table-hover order-column" id="PackagesTable"
                        style="overflow: scroll;">
-                        <tr>
-                            <td style="width: 50%;">
-                                <label for=""> Tên chuyên viên</label>
-                                <input type="text"
-                                       id="NameTherapist"
-                                       name="NameTherapist"
-                                       value="{{\Auth::user()->name}}"
-                                       readonly
-                                        style="margin-left: 10%;">
-                            </td>
-                            <td>
-                                <button type="button"
-                                       id="ail"
-                                       name="ail"
-                                        onclick="diagnosticView.Ail()"
-                                        style="margin-left: 20%;" class="btn btn-default">Đau</button>
-                                <button type="button"
-                                       id="notAil"
-                                       name="notAil"
-                                        onclick="diagnosticView.notAil()"
-                                        style="margin-left: 20%;" class="btn btn-default">Không đau</button>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td style="width: 50%;">
+                            <label for=""> Tên chuyên viên</label>
+                            <input type="text"
+                                   id="NameTherapist"
+                                   name="NameTherapist"
+                                   value="{{\Auth::user()->name}}"
+                                   readonly
+                                   style="margin-left: 10%;">
+                        </td>
+                        <td>
+                            <button type="button"
+                                    id="ail"
+                                    name="ail"
+                                    onclick="regimensView.Ail()"
+                                    style="margin-left: 20%;" class="btn btn-default">Đau</button>
+                            <button type="button"
+                                    id="notAil"
+                                    name="notAil"
+                                    onclick="regimensView.notAil()"
+                                    style="margin-left: 20%;" class="btn btn-default">Không đau</button>
+                        </td>
+                    </tr>
                 </table>
             </div>
             {{--<div class="modal-footer">--}}
-                {{--<button type="button" class="btn green" name="modalAgree"--}}
-                        {{--onclick="diagnosticView.modalAgree()">Tiếp tục--}}
-                {{--</button>--}}
+            {{--<button type="button" class="btn green" name="modalAgree"--}}
+            {{--onclick="regimensView.modalAgree()">Tiếp tục--}}
+            {{--</button>--}}
             {{--</div>--}}
         </div>
         <!-- /.modal-content -->
@@ -44,7 +44,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 style="color: #00a859">Khảo sát > Tiến triển bệnh > Điều trị chuyên môn</h4>
+            <h4 style="color: #00a859">Khảo sát > Tiến triển bệnh > Phác đồ điều trị</h4>
             <hr style="margin-top: 0px;">
         </div>
         <!-- /.col-lg-12 -->
@@ -55,22 +55,22 @@
             <div class="row" id="menuPackageTreatment">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div style="color: #00a859;font-size: 17px;">Danh sách gói điều trị</div>
+                        <div style="color: #00a859;font-size: 17px;">Danh sách phác đồ </div>
                     </div>
                     <div class="table-responsive" >
-                        <table class="table table-responsive table-bordered table-hover order-column" id="tableDiagnosticList"
+                        <table class="table table-responsive table-bordered table-hover order-column" id="tableregimensList"
                                style="margin-bottom: 0px;">
                             <thead>
                             <tr>
 
-                                <th>Mã phiếu</th>
-                                <th>Ghi chú</th>
+                                <th>Mã</th>
                                 <th>Ngày tạo</th>
-                                <th>Gói</th>
+                                <th>Tình trạng</th>
+                                <th>Ghi chú</th>
                                 <th>Chi tiết</th>
                             </tr>
                             </thead>
-                            <tbody id="tbodyDiagnosticList">
+                            <tbody id="tbodyregimensList">
                             </tbody>
                         </table>
 
@@ -96,8 +96,8 @@
                                             <tr>
                                                 <td style="width: 3%;"></td>
                                                 @foreach($rows as $item)
-                                                    <td id="check" name="{{$item->id}}" ondblclick="diagnosticView.survey(this)" ><input type="checkbox"
-                                                                                               id="{{$item->id}}">{{$item->name}}
+                                                    <td id="check" name="{{$item->id}}" ondblclick="regimensView.survey(this)" ><input type="checkbox"
+                                                                                                                                         id="{{$item->id}}">{{$item->name}}
                                                     </td>
                                                 @endforeach
                                             </tr>
@@ -109,7 +109,7 @@
 
                         </div>
                         <div class="form-group pull-bottom" style="margin-top: 10%; text-align: center; ">
-                            <button type="button" name="cancelTreatment" onclick="diagnosticView.goBack(this)" class="btn default">Trở về</button>
+                            <button type="button" name="cancelTreatment" onclick="regimensView.goBack(this)" class="btn default">Trở về</button>
                         </div>
                     </div>
                 </div>
@@ -121,14 +121,14 @@
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Tìm kiếm bệnh nhân
                         <button type="button" class="btn btn-info btn-circle pull-right"
-                                onclick="diagnosticView.addNewDiagnostic('')"><i
+                                onclick="regimensView.addNewregimens('')"><i
                                     class="fa fa-refresh"></i>
                         </button>
                     </div>
                 </div>
                 <div>
                     <div class="portlet-body form">
-                        <form role="form" id="formDiagnostic">
+                        <form role="form" id="formregimens">
                             <div class="form-body">
                                 <div>
                                     <div class="form-group form-md-line-input" style="display:none">
@@ -138,10 +138,10 @@
                                         <table class="table table-hover table-light" id="AutoCompleteTable">
                                             <thead>
                                             <tr class="AutoCompleteTableHeader">
-                                                <th>Mã</th>
+                                                <th>Mã bệnh nhân</th>
                                                 <th>Họ và tên</th>
-                                                <th>Giới tính</th>
-                                                <th>Số điện thoại</th>
+                                                <th>Mã phác đồ</th>
+                                                <th>Ngày tạo</th>
                                                 <th>Choose</th>
                                             </tr>
                                             </thead>
@@ -151,10 +151,10 @@
                                         </table>
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12">
-                                        <label for="Code"><b>Mã</b></label>
+                                        <label for="CodePatient"><b>Mã</b></label>
                                         <input type="text" class="form-control"
-                                               id="Code"
-                                               name="Code"
+                                               id="CodePatient"
+                                               name="CodePatient"
                                                placeholder="BN001">
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12">
@@ -166,17 +166,19 @@
                                     </div>
                                     <div class="">
                                         <div class="form-group form-md-line-input col-md-6">
-                                            <label for="Sex"><b>Giới tính</b></label>
+                                            <label for="CodeRegimen"><b>Mã phác đồ</b></label>
                                             <input type="text" class="form-control"
-                                                   id="Sex"
-                                                   name="Sex"
-                                                   placeholder="nam">
+                                                   id="CodeRegimen"
+                                                   name="CodeRegimen"
+                                                   placeholder="PD001">
                                         </div>
                                         <div class="form-group form-md-line-input col-md-6">
-                                            <label for="Birthday"><b>Năm sinh</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Birthday"
-                                                   name="Birthday">
+                                            <label for="CreatedDate"><b>Ngày tạo phác đồ</b></label>
+                                            <input type="date" class="form-control"
+                                                   id="CreatedDate"
+                                                   name="CreatedDate"
+                                                    value="{{date('Y-m-d')}}">
+
 
                                         </div>
                                     </div>
@@ -185,7 +187,7 @@
                             <div class="form-actions noborder">
                                 <div class="form-group" style="padding-left: 15px;">
                                     <button type="button" class="btn blue"
-                                            onclick="diagnosticView.searchPatient(this)">
+                                            onclick="regimensView.searchPatient(this)">
                                         Tìm kiếm
                                     </button>
                                     <button type="button" class="btn default">Huỷ</button>
@@ -203,41 +205,41 @@
     </div>
 </div>
 <script>
-    if (typeof (diagnosticView) === 'undefined') {
-        diagnosticView = {
+    if (typeof (regimensView) === 'undefined') {
+        regimensView = {
             goBack: null,
             idTreatmentPackage:null,
-            idDiagnostic: null,
+            idregimens: null,
             data:null,
             deleteTreatmentPackage:null,
             AilOrNotAilId:null,
-            DiagnosticObject: {
+            regimensObject: {
                 Id: null,
-                Code: null,
+                CodePatient: null,
                 FullName: null,
-                Birthday: null,
-                Sex: null
+                CodeRegimen: null,
+                CreatedDate: null
             },
-            resetDiagnosticObject: function () {
-                for (var propertyName in diagnosticView.DiagnosticObject) {
-                    if (diagnosticView.DiagnosticObject.hasOwnProperty(propertyName)) {
-                        diagnosticView.DiagnosticObject.propertyName = null;
+            resetregimensObject: function () {
+                for (var propertyName in regimensView.regimensObject) {
+                    if (regimensView.regimensObject.hasOwnProperty(propertyName)) {
+                        regimensView.regimensObject.propertyName = null;
                     }
                 }
             },
-            addNewDiagnostic: function (result) {
+            addNewregimens: function (result) {
                 if (result === "") {
                     $("input[name=Id]").val("");
-                    diagnosticView.resetForm();
+                    regimensView.resetForm();
                 } else if (result === "delete") {
                     $("div#modalContent").empty().append("Xoá thành công");
                     $("button[name=modalAgree]").hide();
                     $("input[name=Id]").val("");
-                    diagnosticView.resetForm();
+                    regimensView.resetForm();
                 }
             },
             Cancel: function () {
-                diagnosticView.resetForm();
+                regimensView.resetForm();
             },
             firstToUpperCase: function (str) {
                 return str.substr(0, 1).toUpperCase() + str.substr(1);
@@ -249,11 +251,11 @@
                     $("div[class=form-body]").find("select").val(1);
 
                 } else {
-                    //diagnosticView.viewListPatient(patientView.goBack);
+                    //regimensView.viewListPatient(patientView.goBack);
                 }
             },
             fillTbody: function (data) {
-                $("tbody#tbodyDiagnosticList").empty();
+                $("tbody#tbodyregimensList").empty();
                 var row = "";
                 for (var i = 0; i < data.length; i++) {
                     var tr = "";
@@ -266,41 +268,41 @@
                     tr += "<td>" + data[i]["note"] + "</td>";
                     tr += "<td>" + data[i]["createdDate"] + "</td>";
                     tr += "<td>" + data[i]["namePackage"] + "</td>";
-                    tr += "<td style='min-width: 50px;'><button  type='button' style='margin-left: 10%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='"+ data[i]["active"] +"' data-date='"+ data[i]["createdDate"] +"' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";
+                    tr += "<td style='min-width: 50px;'><button  type='button' style='margin-left: 10%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='"+ data[i]["active"] +"' data-date='"+ data[i]["createdDate"] +"' data-Id='" + data[i]["id"] + "' onclick='regimensView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";
                     row += tr;
                 }
-                $("tbody#tbodyDiagnosticList").append(row);
-                diagnosticView.idDiagnostic = null;
-                //diagnosticView.addNewDiagnostic(result);
+                $("tbody#tbodyregimensList").append(row);
+                regimensView.idregimens = null;
+                //regimensView.addNewregimens(result);
             },
             setValueObject: function () {
-                diagnosticView.resetDiagnosticObject();
-                for (var i = 0; i < Object.keys(diagnosticView.DiagnosticObject).length; i++) {
-                    diagnosticView.DiagnosticObject[Object.keys(diagnosticView.DiagnosticObject)[i]] = $("#" + Object.keys(diagnosticView.DiagnosticObject)[i]).val();
+                regimensView.resetregimensObject();
+                for (var i = 0; i < Object.keys(regimensView.regimensObject).length; i++) {
+                    regimensView.regimensObject[Object.keys(regimensView.regimensObject)[i]] = $("#" + Object.keys(regimensView.regimensObject)[i]).val();
                 }
             },
             searchPatient: function (element) {
-                diagnosticView.setValueObject();
+                regimensView.setValueObject();
                 var dataArray = [];
-                for (var i = 0; i < Object.keys(diagnosticView.DiagnosticObject).length; i++) {
-                    if (diagnosticView.DiagnosticObject[Object.keys(diagnosticView.DiagnosticObject)[i]] != null) {
-                        dataArray.push(diagnosticView.DiagnosticObject[Object.keys(diagnosticView.DiagnosticObject)[i]]);
+                for (var i = 0; i < Object.keys(regimensView.regimensObject).length; i++) {
+                    if (regimensView.regimensObject[Object.keys(regimensView.regimensObject)[i]] != null) {
+                        dataArray.push(regimensView.regimensObject[Object.keys(regimensView.regimensObject)[i]]);
                     }
                 }
-                $.post(url + "admin/searchPatient", {
+                $.post(url + "admin/searchRegimens", {
                     _token: _token,
-                    Patient: diagnosticView.DiagnosticObject
+                    Patient: regimensView.regimensObject
                 }, function (data) {
                     if (data.length !== 0) {
                         var row = "";
                         for (var i = 0; i < data.length; i++) {
                             var tr = "";
                             tr += "<tr id=" + data[i]["id"] + ">";
-                            tr += "<td>" + data[i]["code"] + "</td>";
+                            tr += "<td>" + data[i]["maBN"] + "</td>";
                             tr += "<td>" + data[i]["fullName"] + "</td>";
-                            tr += "<td>" + data[i]["sex"] + "</td>";
-                            tr += "<td>" + data[i]["birthday"] + "</td>";
-                            tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
+                            tr += "<td>" + data[i]["maPD"] + "</td>";
+                            tr += "<td>" + data[i]["createdDate"] + "</td>";
+                            tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='regimensView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
                             tr += "</tr>";
                             row += tr;
                         }
@@ -314,11 +316,11 @@
             fillToInput: function (element) {
                 $("div#Table").hide();
                 $("input[name=Id]").val($(element).attr("data-Id"));
-                $("input[name=Code]").val($(element).parent().parent().find("td").eq(0).text());
+                $("input[name=CodePatient]").val($(element).parent().parent().find("td").eq(0).text());
                 $("input[name=FullName]").val($(element).parent().parent().find("td").eq(1).text());
-                $("input[name=Sex]").val($(element).parent().parent().find("td").eq(2).text());
-                $("input[name=Birthday]").val($(element).parent().parent().find("td").eq(3).text());
-                diagnosticView.SearchTreatmentPackages($(element).attr("data-Id"));
+                $("input[name=CodeRegimen]").val($(element).parent().parent().find("td").eq(2).text());
+                $("input[name=CreatedDate]").val($(element).parent().parent().find("td").eq(3).text());
+                regimensView.SearchTreatmentPackages($(element).attr("data-Id"));
             },
             SearchTreatmentPackages: function (element) {
                 $.post(url + "admin/SearchTreatmentPackages", {
@@ -326,7 +328,7 @@
                     IdPatient: element
 
                 }, function (data) {
-                    diagnosticView.fillTbody(data)
+                    regimensView.fillTbody(data)
                 })
             },
             fillUpdateToTable: function (element,result) {
@@ -340,17 +342,17 @@
                 if($(element).attr("data-date") < strDate || $(element).attr("data-active")==="0"){
                 }
                 if(result!=="") {
-                    diagnosticView.idTreatmentPackage =result;
+                    regimensView.idTreatmentPackage =result;
 
                 }else {
-                    diagnosticView.idTreatmentPackage = $(element).attr("data-Id");
+                    regimensView.idTreatmentPackage = $(element).attr("data-Id");
                 }
                 $.post(url + "admin/searchProfessional", {
                     _token: _token,
-                    idPackageTreatment: diagnosticView.idTreatmentPackage
+                    idPackageTreatment: regimensView.idTreatmentPackage
                 }, function (data) {
                     if(data!==null) {
-                        diagnosticView.data = data
+                        regimensView.data = data;
                         $("tbody#PackagesTable").children().children().css("background-color", "white").css('color', '#555555');
                         $("tbody#PackagesTable").children().children().find("input").removeAttr("checked");
                         for (var i = 0; i < data.length; i++) {
@@ -372,53 +374,13 @@
                 $("div#menuPackageTreatment").hide();
 
             },
-//            cancelTreatment:function () {
-//                if($("button[name=cancelTreatment]").text()==="Trở về"){
-//                    $("div#TablePackages").hide();
-//                    $("div#menuPackageTreatment").show();
-//                }else {
-//                    $("tbody#PackagesTable").children().children().css("background-color", "white").css('color', '#555555');
-//                    $("tbody#PackagesTable").children().children().find("input").removeAttr("checked");
-//                    for (var i = 0; i < diagnosticView.data.length; i++) {
-//                        if ($("tbody#PackagesTable").children().find("td[name=" + diagnosticView.data[i]["professionalId"] + "]")) {
-//                            $("td[name=" + diagnosticView.data[i]["professionalId"] + "]").css("background-color", "#00a859").css('color', '#ffffff');
-//                            $("td[name=" + diagnosticView.data[i]["professionalId"] + "]").find("input").prop("checked", true);
-//                        }
-//                    }
-//                }
-//            },
-//            CompleteTreatmentPackage:function () {
-//                var array = [];
-//                var findtdchecked = $("tbody#PackagesTable").children().children();
-//                for (var i = 1; i <= findtdchecked.children().length; i++) {
-//                    if (findtdchecked.find("input[id=" + i + "]").prop("checked") === true) {
-//                        array.push(findtdchecked.find("input[id=" + i + "]").attr("id"));
-//                    }
-//                }
-//                $.post(url + "admin/updateDetailTreatment", {
-//                    _token: _token,
-//                    idTreatmentPackage: diagnosticView.idTreatmentPackage,
-//                    data: array,
-//                    idPatient: $("input[name=Id]").val()
-//                }, function (data) {
-//                    if (data === "1") {
-//                        diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage);
-//                        $("div#modalConfirm").modal("show");
-//                        $("div#modalContent").empty().append("Lưu thành công");
-//                        $("button[name=modalAgree]").hide();
-//                        $("div#TablePackages").hide();
-//                        $("div#menuPackageTreatment").show();
-//                    }
-//                });
-//
-//            },
             survey:function (element) {
                 var professionalId = $(element).attr("name");
                 $.post(url+"admin/checkAilOrNotAil",{
                     _token:_token,
                     professionalId:  professionalId
                 },function (data) {
-                    diagnosticView.AilOrNotAilId = data["id"];
+                    regimensView.AilOrNotAilId = data["id"];
                     if(data["ail"]=== 0){
                         $("button[name=notAil]").css("background-color", "#00a859").css("border-color", "#00a859").css('color', '#ffffff');
                         $("button[name=ail]").css("background-color", "#eeeeee").css("border-color", "#e2e2e2").css('color', '#555555');
@@ -437,7 +399,7 @@
             Ail:function () {
                 $.post(url+"admin/updateAil",{
                     _token:_token,
-                    id: diagnosticView.AilOrNotAilId
+                    id: regimensView.AilOrNotAilId
                 },function (data) {
                     $("div#modalConfirm").modal("hide");
                 })
@@ -445,7 +407,7 @@
             notAil:function () {
                 $.post(url+"admin/updateNotAil",{
                     _token:_token,
-                    id: diagnosticView.AilOrNotAilId
+                    id: regimensView.AilOrNotAilId
                 },function (data) {
                     $("div#modalConfirm").modal("hide");
                 })

@@ -9,14 +9,6 @@
         <a href="." ><img src="{{asset('img/logo.jpg')}}" style="margin-left: 15px;" width="150" alt="CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC"></a>
     </div>
     <!-- /.navbar-header -->
-    <div class="col-xs-12 col-sm-4 col-md-5" style="margin-left: 200px;margin-top: 15px;">
-        <div class="widget no-border m-0">
-            <div class="scroll-left">
-                <marquee id="marquee" direction="left" scrollamount="3" loop="true" scrolldelay="6" style="color: #00a859;" onmouseover="this.stop()"  onmouseout="this.start();">
-                    CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC
-                </marquee></div>
-        </div>
-    </div>
 
     <ul class="nav navbar-top-links navbar-right">
         {{--<li class="dropdown">--}}
@@ -277,7 +269,21 @@
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Khảo sát<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="javascript:;">Tiến triển bệnh</a>
+                            <a href="javascript:;"> <i class="fa fa-wrench fa-fw"></i>Tiến triển bệnh<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="javascript:;">Điều trị chuyên môn</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">Phác đồ điều trị</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">Thống kê</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">Thống kê</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="javascript:;">Ý kiến bệnh nhân</a>

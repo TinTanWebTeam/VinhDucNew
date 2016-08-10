@@ -35,7 +35,7 @@
                     {{--</button>--}}
                     {{--</div>--}}
                 </div>
-                <div>
+                <div class="table-responsive">
                     <table class="table table-bordered table-hover order-column" id="tablePositionViewList"
                            style="margin-bottom: 0px;">
                         <thead>
@@ -97,7 +97,7 @@
                                 <div class="form-actions noborder">
                                     <div class="form-group" style="padding-left: 15px;">
                                         <button type="button" class="btn blue"
-                                                onclick="patientView.addNewAndUpdatePatient()">
+                                                onclick="positionView.addNewAndUpdatePosition()">
                                             Hoàn tất
                                         </button>
                                         <button type="button" class="btn default">Huỷ</button>

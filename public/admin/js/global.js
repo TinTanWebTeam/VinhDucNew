@@ -37,10 +37,15 @@ Diagnostic.click(function () {
         })
     }
 });
-var SurveyProgression = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li > ul.nav.nav-second-level >li");
+var SurveyProgression = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li > ul.nav.nav-second-level >li>ul.nav.nav-third-level>li");
 SurveyProgression.click(function () {
-    if($(this).find("a").text().trim()==="Tiến triển bệnh"){
-        $.get(url + "admin/SurveyProgression",function (data) {
+    if($(this).find("a").text().trim()==="Điều trị chuyên môn"){
+        $.get(url + "admin/getViewProfessional",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+    if($(this).find("a").text().trim()==="Phác đồ điều trị"){
+        $.get(url + "admin/getRegimens",function (data) {
             $("div.page-container").empty().append(data);
         })
     }
