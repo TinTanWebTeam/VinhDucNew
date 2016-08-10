@@ -13,6 +13,7 @@ use App\ProfessionalTreatment;
 use App\Provinces;
 use App\Role;
 use App\TreatmentPackage;
+use App\TreatmentRegimen;
 use App\User;
 use Auth;
 use DateTime;
@@ -855,7 +856,7 @@ class AdminController extends Controller
         try {
             $SQL = "SELECT pm.`code` as 'maBN',pm.fullName, tr.`code` as 'maPD',tr.createdDate FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.id = tr.patientId WHERE pm.active = 1";
             if ($request->get('Patient')['CodePatient'] != "") {
-                $SQL .= " AND pm.`code` LIKE '" . '%' . $request->get('Patient')['Code'] . '%' . "'";
+                $SQL .= " AND pm.`code` LIKE '" . '%' . $request->get('Patient')['CodePatient'] . '%' . "'";
             }
             if ($request->get('Patient')['FullName'] != "") {
                 $SQL .= " AND pm.fullName LIKE '" . '%' . $request->get('Patient')['FullName'] . '%' . "'";
@@ -890,6 +891,8 @@ class AdminController extends Controller
             ->select(
                 'detail.id as detailId',
                 'detail.name as detailName',
+                'detail.therapistId as detailTherapist',
+                'detail.ail as detailAil',
                 'location.id as locationId',
                 'location.name as locationName',
                 'pro.id as professionalId',
@@ -898,6 +901,29 @@ class AdminController extends Controller
             ->get();
         $Therapist=ManagementTherapist::where('active',1)->get();
         return view('admin.tbody')->with('detailedTreatments',$detailedTreatment)->with('therapists',$Therapist);
+    }
+
+    public function SearchTreatmentRegimens(Request $request)
+    {
+        try{
+            $arraylistTreatment = [];
+            $TreatmentPackage = TreatmentRegimen::where('active',1)->where('code',$request->get('IdTreatmentRegimen'))->get();
+            foreach ($TreatmentPackage as $item) {
+                $array = [
+                    'id' => $item->id,
+                    'active' => $item->active,
+                    'code' => $item->code,
+                    'status' => $item->status,
+                    'note' => $item->note,
+                    'createdDate' => $item->createdDate,
+                ];
+                array_push($arraylistTreatment, $array);
+            }
+            return $arraylistTreatment;
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
     }
     
     
@@ -1106,6 +1132,7 @@ class AdminController extends Controller
             return $ex;
         }
     }
+
     public function getViewLocation(){
 
         try {
@@ -1116,6 +1143,7 @@ class AdminController extends Controller
 
         }
     }
+
     public function postViewLocation(Request $request)
     {
         try {

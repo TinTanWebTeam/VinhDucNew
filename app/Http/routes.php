@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::post('updateNotAil','AdminController@updateNotAil');
     Route::post('searchRegimens','AdminController@searchRegimens');
     Route::post('fillToTbody','AdminController@fillToTbody');
+    Route::post('SearchTreatmentRegimens','AdminController@SearchTreatmentRegimens');
     //AnhTam
     Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
     Route::post('addNewAndUpdatePackage','AdminController@addNewAndUpdatePackage');

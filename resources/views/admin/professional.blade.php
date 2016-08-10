@@ -150,15 +150,15 @@
                             </table>
 
                         </div>
-                        <div class="form-group pull-bottom" style="margin-top: 10%; text-align: center; ">
-                            <button type="button" name="CompleteTreatmentPackage" class="btn blue"
-                                    onclick="professionalView.CompleteTreatmentPackage(this)">
-                                Hoàn tất
-                            </button>
-                            <button type="button" name="cancelTreatment" onclick="professionalView.cancelTreatment(this)"
-                                    class="btn default">Huỷ
-                            </button>
-                        </div>
+                        {{--<div class="form-group pull-bottom" style="margin-top: 10%; text-align: center; ">--}}
+                            {{--<button type="button" name="CompleteTreatmentPackage" class="btn blue"--}}
+                                    {{--onclick="professionalView.CompleteTreatmentPackage(this)">--}}
+                                {{--Hoàn tất--}}
+                            {{--</button>--}}
+                            {{--<button type="button" name="cancelTreatment" onclick="professionalView.cancelTreatment(this)"--}}
+                                    {{--class="btn default">Huỷ--}}
+                            {{--</button>--}}
+                        {{--</div>--}}
                     </div>
                 </div>
 
@@ -321,8 +321,6 @@
                 if (date < 10) date = "0" + date;
                 var strDate = year + "-" + month + "-" + date;
                 if ($(element).attr("data-date") < strDate || $(element).attr("data-active") === "0") {
-                    $("button[name=CompleteTreatmentPackage]").hide();
-                    $("button[name=cancelTreatment]").text("Trở về");
                 } else if (result !== "") {
                     professionalView.idTreatmentPackage = result;
 
@@ -400,7 +398,6 @@
                     idPatient: $("input[name=Id]").val()
                 }, function (data) {
                     if (data === "1") {
-                        console.log(professionalView.idTreatmentPackage);
                         professionalView.fillUpdateToTable('', professionalView.idTreatmentPackage);
                         $("div#modalConfirm").modal("show");
                         $("div#modalContent").empty().append("Lưu thành công");
@@ -455,7 +452,7 @@
                     _token: _token,
                     therapistId: $(element).parent().parent().find("td").eq(2).find("select").val(),
                     ail: $(element).parent().parent().find("td").eq(3).find("select").val(),
-                    professionalId: $(element).parent().parent().find("td").eq(1).attr("name"),
+                    professionalId: $(element).attr("id"),
                     patientId:$("input[name=Id]").val(),
                     treatmentPackageId:professionalView.idTreatmentPackage
                 }, function (data) {
