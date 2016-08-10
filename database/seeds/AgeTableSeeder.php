@@ -15,7 +15,8 @@ class AgeTableSeeder extends Seeder
     {
         $faker = Factory::create();
         $age = [
-            '1-10',
+            ' < 1 ',
+            '1-10 ',
             '11-20',
             '21-30',
             '31-40',
@@ -26,9 +27,9 @@ class AgeTableSeeder extends Seeder
             '81-90',
             '91-100'
         ];
-        foreach (range(1, 5) as $index) {
+        foreach (range(1, 10) as $index) {
             Age::create([
-                'age' => $age[$index]
+                'age' => $age[$index-1]
             ]);
         }
     }

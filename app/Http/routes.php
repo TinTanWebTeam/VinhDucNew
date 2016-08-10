@@ -31,7 +31,13 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::get('getSurveyProgression','AdminController@getSurveyProgression');
     Route::get('getRegimens','AdminController@getRegimens');
     Route::get('getViewProfessional','AdminController@getViewProfessional');
-    //Post
+    //Anh Tam
+    Route::get('getViewProTreatment','AdminController@getViewProTreatment');
+    Route::get('getViewDetailPatient','AdminController@getViewDetailPatient');
+    Route::get('getViewLocation','AdminController@getViewLocation');
+    Route::get('getViewProvinces','AdminController@getViewProvinces');
+    Route::get('getViewAge','AdminController@getViewAge');
+    //Post------------------------------------------
     Route::post('postViewUser','AdminController@postViewUser');
     Route::post('deleteUser','AdminController@deleteUser');
     Route::post('addNewAndUpdateUser','AdminController@addNewAndUpdateUser');
@@ -54,6 +60,26 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::post('updateNotAil','AdminController@updateNotAil');
     Route::post('searchRegimens','AdminController@searchRegimens');
     Route::post('fillToTbody','AdminController@fillToTbody');
+    //AnhTam
+    Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
+    Route::post('addNewAndUpdatePackage','AdminController@addNewAndUpdatePackage');
+    Route::post('deletePackage','AdminController@deletePackage');
+    Route::post('postViewPackage','AdminController@postViewPackage');
+    Route::post('postViewTmPackage','AdminController@postViewTmPackage');
+    Route::post('deleteTmPackage','AdminController@deleteTmPackage');
+    Route::post('addNewAndUpdateTmPackage','AdminController@addNewAndUpdateTmPackage');
+    Route::post('postViewProTm','AdminController@postViewProTm');
+    Route::post('deleteProTreatment','AdminController@deleteProTreatment');
+    Route::post('addNewAndUpdateProTreatment','AdminController@addNewAndUpdateProTreatment');
+    Route::post('postViewLocation','AdminController@postViewLocation');
+    Route::post('deleteLocation','AdminController@deleteLocation');
+    Route::post('addNewAndUpdateLocation','AdminController@addNewAndUpdateLocation');
+    Route::post('postViewProvince','AdminController@postViewProvince');
+    Route::post('deleteProvince','AdminController@deleteProvince');
+    Route::post('addNewAndUpdateProvince','AdminController@addNewAndUpdateProvince');
+    Route::post('addNewAndUpdateAge','AdminController@addNewAndUpdateAge');
+    Route::post('deleteAge','AdminController@deleteAge');
+    Route::post('postViewAge','AdminController@postViewAge');
 });
 
 /*

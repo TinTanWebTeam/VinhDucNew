@@ -507,8 +507,8 @@ class AdminController extends Controller
             foreach ($TreatmentPackage as $item) {
                 $array = [
                     'id' => $item->id,
-                    'active'=>$item->active,
-                    'code'=>$item->code,
+                    'active' => $item->active,
+                    'code' => $item->code,
                     'namePackage' => $item->Package()->name,
                     'note' => $item->note,
                     'createdDate' => $item->createdDate,
@@ -524,14 +524,14 @@ class AdminController extends Controller
     public function addNewTreatment(Request $request)
     {
         $date = date('Y/m/d H:i:s');
-        try{
+        try {
             if ($this->validator($request->all(), "validatorTreatmentPackages")->fails()) {
                 return $this->validator($request->all(), "validatorTreatmentPackages")->errors();
             } else {
-                if($request->get('data')['AddNewId'] == ""){
-                    $treatment= new TreatmentPackage();
+                if ($request->get('data')['AddNewId'] == "") {
+                    $treatment = new TreatmentPackage();
                     $treatment->code = $request->get('data')['TreatmentPackageCode'];
-                    $treatment->name ="";
+                    $treatment->name = "";
                     $treatment->note = $request->get('data')['Note'];
                     $treatment->packageId = $request->get('data')['PackagesId'];
                     $treatment->patientId = $request->get('data')['PatientId'];
@@ -541,29 +541,27 @@ class AdminController extends Controller
                     $treatment->upDatedBy = Auth::user()->id;
                     $treatment->save();
                     return 1;
-                }else{
+                } else {
                     return 2;
                 }
             }
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
             return $ex;
         }
     }
 
     public function deleteTreatmentPackage(Request $request)
     {
-        try{
-            $delete = TreatmentPackage::where('active',1)->where('id',$request->get('id'))->first();
-            if($delete){
+        try {
+            $delete = TreatmentPackage::where('active', 1)->where('id', $request->get('id'))->first();
+            if ($delete) {
                 $delete->active = 0;
                 $delete->save();
                 return 1;
-            }else{
+            } else {
                 return 0;
             }
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
             return $ex;
         }
     }
@@ -581,10 +579,10 @@ class AdminController extends Controller
 
     public function getViewDiagnostic()
     {
-        $package = Package::where('active',1)->get();
-        $patient = PatientManagement::where('active',1)->get();
+        $package = Package::where('active', 1)->get();
+        $patient = PatientManagement::where('active', 1)->get();
         return view('admin.diagnostic')->with('professionals', $this->getDiagnostic())
-                                        ->with('packages',$package)->with('patients',$patient);
+            ->with('packages', $package)->with('patients', $patient);
     }
 
     public function deleteRowDetail(Request $request)
@@ -622,8 +620,7 @@ class AdminController extends Controller
                         $updateDetail->upDatedBy = Auth::user()->id;
                         $updateDetail->save();
                     }
-                }
-                catch (Exception $ex){
+                } catch (Exception $ex) {
                     DB::rollback();
                     return $ex;
                 }
@@ -653,8 +650,8 @@ class AdminController extends Controller
                     'pro.name as professionalName'
                 )
                 ->get();
-            $detail = DetailedTreatment::where('active',1)->where('treatmentPackageId',$request->get('idPackageTreatment'))->get();
-            return array($Professional,$detail);
+            $detail = DetailedTreatment::where('active', 1)->where('treatmentPackageId', $request->get('idPackageTreatment'))->get();
+            return array($Professional, $detail);
         } catch (Exception $ex) {
             return $ex;
         }
@@ -738,7 +735,7 @@ class AdminController extends Controller
                 'Address.required' => 'Địa chỉ bệnh nhân không được rỗng',
                 'Phone.required' => 'Số điện thoại bệnh nhân không được rỗng'
             ];
-        } else if($variable == "validatorTreatmentPackages"){
+        } else if ($variable == "validatorTreatmentPackages") {
             $datas = [
                 'TreatmentPackageCode' => $data['data']['TreatmentPackageCode'],
             ];
@@ -754,49 +751,46 @@ class AdminController extends Controller
 
     public function checkAilOrNotAil(Request $request)
     {
-        try{
-            $detail = DetailedTreatment::where('active',1)
-                                        ->where('professionalTreatmentId',$request->get('professionalId'))->first();
+        try {
+            $detail = DetailedTreatment::where('active', 1)
+                ->where('professionalTreatmentId', $request->get('professionalId'))->first();
             return $detail;
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
             return $ex;
         }
     }
 
     public function updateAil(Request $request)
     {
-        try{
-            $detail = DetailedTreatment::where('active',1)->where('treatmentPackageId',$request->get('treatmentPackageId'))
-                                        ->where('patientId',$request->get('patientId'))->where('professionalTreatmentId',$request->get('professionalId'))->first();
-            if($detail){
+        try {
+            $detail = DetailedTreatment::where('active', 1)->where('treatmentPackageId', $request->get('treatmentPackageId'))
+                ->where('patientId', $request->get('patientId'))->where('professionalTreatmentId', $request->get('professionalId'))->first();
+            if ($detail) {
                 $detail->ail = $request->get('ail');
                 $detail->therapistId = $request->get('therapistId');
                 $detail->save();
                 return 1;
-            }else{
+            } else {
                 return 2;
             }
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
             return $ex;
         }
     }
 
     public function updateNotAil(Request $request)
     {
-        try{
-            $detail = DetailedTreatment::where('active',1)->where('id',$request->get('id'))->first();
-            if($detail){
+        try {
+            $detail = DetailedTreatment::where('active', 1)->where('id', $request->get('id'))->first();
+            if ($detail) {
                 $detail->ail = 0;
                 $detail->therapistId = Auth::user()->id;
                 $detail->save();
                 return 1;
-            }else{
+            } else {
                 return 2;
             }
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
             return $ex;
         }
     }
@@ -808,7 +802,7 @@ class AdminController extends Controller
 
     public function searchRegimens(Request $request)
     {
-        try{
+        try {
             $SQL = "SELECT pm.`code` as 'maBN',pm.fullName, tr.`code` as 'maPD',tr.createdDate FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.id = tr.patientId WHERE pm.active = 1";
             if ($request->get('Patient')['CodePatient'] != "") {
                 $SQL .= " AND pm.`code` LIKE '" . '%' . $request->get('Patient')['Code'] . '%' . "'";
@@ -824,17 +818,16 @@ class AdminController extends Controller
             }
             $patient = DB::select($SQL);
             return $patient;
-        }
-        catch (Exception $ex){
+        } catch (Exception $ex) {
             return $ex;
         }
     }
 
     public function getViewProfessional()
     {
-        $therapist = ManagementTherapist::where('active',1)->get();
+        $therapist = ManagementTherapist::where('active', 1)->get();
         return view('admin.professional')->with('professionals', $this->getDiagnostic())
-                                        ->with('therapists',$therapist);
+            ->with('therapists', $therapist);
     }
 
     public function fillToTbody(Request $request)
@@ -853,6 +846,479 @@ class AdminController extends Controller
                 'pro.name as professionalName'
             )
             ->get();
-        return view('admin.tbody')->with('professional',$Professional);
+        return view('admin.tbody')->with('professional', $Professional);
+    }
+
+    // Anh Tam
+    public function getViewPackage()
+    {
+        try {
+            $Package = Package::where('active', 1)->get();
+            return view('admin.Package')->with('Packages', $Package);
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function postViewPackage(Request $request)
+    {
+        try {
+            $package = Package::where('active', 1)->where('id', $request->get('idPackage'))->first();
+            if ($package) {
+                return $package;
+            } else {
+                return null;
+            }
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function deletePackage(Request $request)
+    {
+        try {
+            $package = Package::where('active', 1)->where('id', $request->get('idPackage'))->first();
+            if ($package) {
+                $package->active = 0;
+                $package->updatedBy = Auth::user()->id;
+                $package->save();
+            }
+            return array(1, 'listPackage' => $this->getPackage());
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getPackage()
+    {
+        $arrayListPackage = [];
+        $listPackages = Package::where('active', 1)->get();
+        foreach ($listPackages as $listPackage) {
+            $array = [
+                'id' => $listPackage->id,
+                'name' => $listPackage->name,
+                'price' => $listPackage->price,
+                'note' => $listPackage->note,
+            ];
+            array_push($arrayListPackage, $array);
+        }
+        return $arrayListPackage;
+    }
+
+    public function addNewAndUpdatePackage(Request $request)
+    {
+        try {
+            $result = null;
+            if ($this->validator($request->all(), "validatorPackage")->fails()) {
+                return $this->validator($request->all(), "validatorPackage")->errors();
+            } else {
+                if ($request->get('addNewOrUpdateId') == "") {
+                    try {
+                        $package = new Package();
+                        $package->name = $request->get('dataPackage')['Name'];
+                        $package->price = $request->get('dataPackage')['Price'];
+                        $package->note = $request->get('dataPackage')['Note'];
+                        $package->createdBy = Auth::user()->id;
+                        $package->upDatedBy = Auth::user()->id;
+                        $package->save();
+                        $result = array(1, 'listPackage' => $this->getPackage());
+                    } catch (Exception $ex) {
+                        return $ex;
+                    }
+                } else {
+                    $package = Package::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
+                    if ($package) {
+                        try {
+                            $package->name = $request->get('dataPackage')['Name'];
+                            $package->price = $request->get('dataPackage')['Price'];
+                            $package->note = $request->get('dataPackage')['Note'];
+                            $package->createdBy = Auth::user()->id;
+                            $package->upDatedBy = Auth::user()->id;
+                            $package->save();
+                            $result = array(2, 'listPackage' => $this->getPackage());
+                        } catch (Exception $ex) {
+                            return $ex;
+                        }
+                    } else {
+                        $result = array(0, 'listPackage' => null);
+                    }
+                }
+            }
+            return $result;
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getViewProTreatment()
+    {
+        try {
+            $location = LocationTreatment::where('active', 1)->get();
+            $proTm = ProfessionalTreatment::where('active', 1)->get();
+            return view('admin.protreatment')->with('proTms', $proTm)->with('Locations', $location);
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function postViewProTm(Request $request)
+    {
+        try {
+            $proTm = ProfessionalTreatment::where('active', 1)->where('id', $request->get('idProTreatment'))->first();
+            if ($proTm) {
+                return $proTm;
+            } else {
+                return null;
+            }
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function deleteProTreatment(Request $request)
+    {
+        try {
+            $proTm = ProfessionalTreatment::where('active', 1)->where('id', $request->get('idProTreatment'))->first();
+            if ($proTm) {
+                $proTm->active = 0;
+                $proTm->updatedBy = Auth::user()->id;
+                $proTm->save();
+            }
+            return array(1, 'listProTreatment' => $this->getProTreatment());
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getProTreatment()
+    {
+        $arrayListProTreatment = [];
+        $listProTreatment = ProfessionalTreatment::where('active', 1)->get();
+        foreach ($listProTreatment as $item) {
+            $array = [
+                'Id' => $item->id,
+                'Name' => $item->name,
+                'LocationTreatmentId' => $item->localTreatment()->name,
+                'Note' => $item->note,
+            ];
+            array_push($arrayListProTreatment, $array);
+        }
+        return $arrayListProTreatment;
+    }
+
+    public function addNewAndUpdateProTreatment(Request $request)
+    {
+        try {
+            $result = null;
+            if ($this->validator($request->all(), "validatorProTm")->fails()) {
+                return $this->validator($request->all(), "validatorProTm")->errors();
+            } else {
+                if ($request->get('addNewOrUpdateId') == "") {
+                    try {
+                        $ProTm = new ProfessionalTreatment();
+                        $ProTm->name = $request->get('dataProTreatment')['Name'];
+                        $ProTm->locationTreatmentId = $request->get('dataProTreatment')['LocationTreatmentId'];
+                        $ProTm->note = $request->get('dataProTreatment')['Note'];
+                        $ProTm->upDatedBy = Auth::user()->id;
+                        $ProTm->save();
+                        $result = array(1, 'listProTreatment' => $this->getProTreatment());
+                    } catch (Exception $ex) {
+                        return $ex;
+                    }
+                } else {
+                    //$Location = locationTreatment::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
+                    $ProTm = ProfessionalTreatment::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
+                    if ($ProTm) {
+                        try {
+                            $ProTm->name = $request->get('dataProTreatment')['Name'];
+                            $ProTm->locationTreatmentId = $request->get('dataProTreatment')['LocationTreatmentId'];
+                            //$ProTm->locationTreatmentId = LocationTreatment::where('name',$request->get('dataProTreatment')['NameTreatment'])->first()->id;
+                            $ProTm->note = $request->get('dataProTreatment')['Note'];
+                            $ProTm->upDatedBy = Auth::user()->id;
+                            $ProTm->save();
+                            $result = array(2, 'listProTreatment' => $this->getProTreatment());
+                        } catch (Exception $ex) {
+                            return $ex;
+                        }
+                    } else {
+                        $result = array(0, 'listProTreatment' => null);
+                    }
+                }
+            }
+            return $result;
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function postViewLocation(Request $request)
+    {
+        try {
+            $location = LocationTreatment::where('active', 1)->where('id', $request->get('idLocation'))->first();
+            if ($location) {
+                return $location;
+            } else {
+                return null;
+            }
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function deleteLocation(Request $request)
+    {
+        try {
+            $location = LocationTreatment::where('active', 1)->where('id', $request->get('idLocation'))->first();
+            if ($location) {
+                $location->active = 0;
+                $location->updatedBy = Auth::user()->id;
+                $location->save();
+            }
+            return array(1, 'listLocation' => $this->getLocation());
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getLocation()
+    {
+        $arrayListLocation = [];
+        $listLocation = LocationTreatment::where('active', 1)->get();
+        foreach ($listLocation as $listLocation) {
+            $array = [
+                'id' => $listLocation->id,
+                'Name' => $listLocation->name,
+                'Note' => $listLocation->note,
+            ];
+            array_push($arrayListLocation, $array);
+        }
+        return $arrayListLocation;
+    }
+
+    public function addNewAndUpdateLocation(Request $request)
+    {
+        try {
+            $result = null;
+            if ($this->validator($request->all(), "validatorLocation")->fails()) {
+                return $this->validator($request->all(), "validatorLocation")->errors();
+            } else {
+                if ($request->get('addNewOrUpdateId') == "") {
+                    try {
+                        $location = new LocationTreatment();
+                        $location->name = $request->get('dataLocation')['Name'];
+                        $location->note = $request->get('dataLocation')['Note'];
+                        $location->upDatedBy = Auth::user()->id;
+                        $location->save();
+                        $result = array(1, 'listLocation' => $this->getLocation());
+                    } catch (Exception $ex) {
+                        return $ex;
+                    }
+                } else {
+                    $location = LocationTreatment::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
+                    if ($location) {
+                        try {
+                            $location->name = $request->get('dataLocation')['Name'];
+                            $location->note = $request->get('dataLocation')['Note'];
+                            $location->upDatedBy = Auth::user()->id;
+                            $location->save();
+                            $result = array(2, 'listLocation' => $this->getLocation());
+                        } catch (Exception $ex) {
+                            return $ex;
+                        }
+                    } else {
+                        $result = array(0, 'listLocation' => null);
+                    }
+                }
+            }
+            return $result;
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getViewProvinces()
+    {
+        try {
+            $province = Provinces::where('active', 1)->get();
+            return view("admin.Provinces")->with('Provinces', $province);
+        } Catch (Exception $ex) {
+            return $ex;
+
+        }
+    }
+
+    public function postViewProvince(Request $request)
+    {
+        try {
+            $province = Provinces::where('active', 1)->where('id', $request->get('idProvince'))->first();
+            if ($province) {
+                return $province;
+            } else {
+                return null;
+            }
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function deleteProvince(Request $request)
+    {
+        try {
+            $province = Provinces::where('active', 1)->where('id', $request->get('idProvince'))->first();
+            if ($province) {
+                $province->active = 0;
+                $province->updatedBy = Auth::user()->id;
+                $province->save();
+            }
+            return array(1, 'listProvince' => $this->getProvince());
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getProvince()
+    {
+        $arrayListProvince = [];
+        $listProvince = Provinces::where('active', 1)->get();
+        foreach ($listProvince as $listProvince) {
+            $array = [
+                'id' => $listProvince->id,
+                'Name' => $listProvince->name,
+            ];
+            array_push($arrayListProvince, $array);
+        }
+        return $arrayListProvince;
+    }
+
+    public function addNewAndUpdateProvince(Request $request)
+    {
+        try {
+            $result = null;
+            if ($this->validator($request->all(), "validatorProvince")->fails()) {
+                return $this->validator($request->all(), "validatorProvince")->errors();
+            } else {
+                if ($request->get('addNewOrUpdateId') == "") {
+                    try {
+                        $province = new Provinces();
+                        $province->name = $request->get('dataProvince')['Name'];
+                        $province->upDatedBy = Auth::user()->id;
+                        $province->save();
+                        $result = array(1, 'listProvince' => $this->getProvince());
+                    } catch (Exception $ex) {
+                        return $ex;
+                    }
+                } else {
+                    $province = Provinces::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
+                    if ($province) {
+                        try {
+                            $province->name = $request->get('dataProvince')['Name'];
+                            $province->upDatedBy = Auth::user()->id;
+                            $province->save();
+                            $result = array(2, 'listProvince' => $this->getProvince());
+                        } catch (Exception $ex) {
+                            return $ex;
+                        }
+                    } else {
+                        $result = array(0, 'listProvince' => null);
+                    }
+                }
+            }
+            return $result;
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getViewAge()
+    {
+        try {
+            $age = Age::where('active', 1)->get();
+            return view("admin.Age")->with('Ages', $age);
+        } Catch (Exception $ex) {
+            return $ex;
+
+        }
+    }
+
+    public function postViewAge(Request $request)
+    {
+        try {
+            $age = Age::where('active', 1)->where('id', $request->get('idAge'))->first();
+            if ($age) {
+                return $age;
+            } else {
+                return null;
+            }
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function deleteAge(Request $request)
+    {
+        try {
+            $age = Age::where('active', 1)->where('id', $request->get('idAge'))->first();
+            if ($age) {
+                $age->active = 0;
+                $age->updatedBy = Auth::user()->id;
+                $age->save();
+            }
+            return array(1, 'listAge' => $this->getAge());
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getAge()
+    {
+        $arrayListAge = [];
+        $listAge = Age::where('active', 1)->get();
+        foreach ($listAge as $listAge) {
+            $array = [
+                'id' => $listAge->id,
+                'Age' => $listAge->age,
+            ];
+            array_push($arrayListAge, $array);
+        }
+        return $arrayListAge;
+    }
+
+    public function addNewAndUpdateAge(Request $request)
+    {
+        try {
+            $result = null;
+            if ($this->validator($request->all(), "validatorAge")->fails()) {
+                return $this->validator($request->all(), "validatorAge")->errors();
+            } else {
+                if ($request->get('addNewOrUpdateId') == "") {
+                    try {
+                        $age = new Age();
+                        $age->age = $request->get('dataAge')['Age'];
+                        $age->upDatedBy = Auth::user()->id;
+                        $age->save();
+                        $result = array(1, 'listAge' => $this->getAge());
+                    } catch (Exception $ex) {
+                        return $ex;
+                    }
+                } else {
+                    $age = Age::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
+                    if ($age) {
+                        try {
+                            $age->age = $request->get('dataAge')['Age'];
+                            $age->upDatedBy = Auth::user()->id;
+                            $age->save();
+                            $result = array(2, 'listAge' => $this->getAge());
+                        } catch (Exception $ex) {
+                            return $ex;
+                        }
+                    } else {
+                        $result = array(0, 'listAge' => null);
+                    }
+                }
+            }
+            return $result;
+        } catch (Exception $ex) {
+            return $ex;
+        }
     }
 }
