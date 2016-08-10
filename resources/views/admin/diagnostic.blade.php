@@ -66,7 +66,7 @@
                                         <tr>
                                             <td colspan="1">{{ \App\locationTreatment::where('id',$professional->first()->locationTreatmentId)->first()->name }}</td>
                                         </tr>
-                                        @foreach(array_chunk($professional->all(),4)as $rows)
+                                        @foreach(array_chunk($professional->all(),3)as $rows)
                                             <tr>
                                                 <td style="width: 3%;"></td>
                                                 @foreach($rows as $item)
@@ -407,14 +407,15 @@
                     _token: _token,
                     idPackageTreatment: diagnosticView.idTreatmentPackage
                 }, function (data) {
-                    if(data[0]!==null) {
+                    console.log(data);
+                    if(data!==null) {
                         diagnosticView.data = data[0],
                         $("tbody#PackagesTable").children().children().css("background-color", "white").css('color', '#555555');
                         $("tbody#PackagesTable").children().children().find("input").removeAttr("checked");
                         for (var i = 0; i < data.length; i++) {
-                            if ($("tbody#PackagesTable").children().find("td[name=" + data[0][i]["professionalId"] + "]")) {
-                                $("td[name=" + data[0][i]["professionalId"] + "]").css("background-color", "#00a859").css('color', '#ffffff');
-                                $("td[name=" + data[0][i]["professionalId"] + "]").find("input").prop("checked", true);
+                            if ($("tbody#PackagesTable").children().find("td[name=" + data[i]["professionalId"] + "]")) {
+                                $("td[name=" + data[i]["professionalId"] + "]").css("background-color", "#00a859").css('color', '#ffffff');
+                                $("td[name=" + data[i]["professionalId"] + "]").find("input").prop("checked", true);
                             }
                         }
                     }

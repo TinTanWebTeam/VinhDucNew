@@ -650,8 +650,7 @@ class AdminController extends Controller
                     'pro.name as professionalName'
                 )
                 ->get();
-            $detail = DetailedTreatment::where('active', 1)->where('treatmentPackageId', $request->get('idPackageTreatment'))->get();
-            return array($Professional, $detail);
+            return $Professional;
         } catch (Exception $ex) {
             return $ex;
         }
@@ -832,7 +831,7 @@ class AdminController extends Controller
 
     public function fillToTbody(Request $request)
     {
-        $Professional = DB::table('detailed_treatments as detail')
+        $detailedTreatment = DB::table('detailed_treatments as detail')
             ->join('professional_treatments as pro', 'detail.professionalTreatmentId', '=', 'pro.id')
             ->join('location_treatments as location', 'pro.locationTreatmentId', '=', 'location.id')
             ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
@@ -846,10 +845,16 @@ class AdminController extends Controller
                 'pro.name as professionalName'
             )
             ->get();
-        return view('admin.tbody')->with('professional', $Professional);
+        $Therapist=ManagementTherapist::where('active',1)->get();
+        return view('admin.tbody')->with('detailedTreatments',$detailedTreatment)->with('therapists',$Therapist);
     }
+    
+    
 
     // Anh Tam
+    
+    
+    
     public function getViewPackage()
     {
         try {

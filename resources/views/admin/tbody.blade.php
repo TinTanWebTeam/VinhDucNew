@@ -1,21 +1,22 @@
-@if($professional)
-    @foreach($professional as $pro)
-        <tr>
-            <td colspan="1">{{ \App\locationTreatment::where('id',$pro->locationId)->first()->name }}</td>
-        </tr>
-        @foreach(array_chunk($pro->toArray,2)as $rows)
+@if($detailedTreatments)
+    @foreach($detailedTreatments as $detail)
+        {{--<tr>--}}
+            {{--<td colspan="1"></td>--}}
+        {{--</tr>--}}
+        {{--@foreach($detail as $rows)--}}
+        {{--@for($i = 0;$i<count($detail);$i++)--}}
             <tr>
-                <td style="width: 3%;"></td>
-                @foreach($rows as $item)
-                    <td id="check" name="{{$item->id}}">{{$item->name}}</td>
+                <td style="width: 3%;">{{ \App\locationTreatment::where('id',$detail->locationId)->first()->name }}</td>
+                {{--@foreach($rows as $item)--}}
+                    <td id="check" name="">{{$detail->professionalName}}</td>
                     <td>
                         <select class="form-control" name="TherapistId">
                             <option value="0">Chuyên viên</option>
-                            {{--@if($therapists)--}}
-                                {{--@foreach($therapists as $item)--}}
-                                    {{--<option value="{{$item->id}}">{{$item->name}}</option>--}}
-                                {{--@endforeach--}}
-                            {{--@endif--}}
+                            @if($therapists)
+                                @foreach($therapists as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </td>
                     <td>
@@ -31,8 +32,9 @@
                             Lưu
                         </button>
                     </td>
-                @endforeach
+                {{--@endforeach--}}
             </tr>
-        @endforeach
+        {{--@endforeach--}}
+            {{--@endfor--}}
     @endforeach
 @endif
