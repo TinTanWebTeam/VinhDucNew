@@ -14,7 +14,7 @@ class CreateLocationTreatmentsTable extends Migration
     {
         Schema::create('location_treatments', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('note');
             $table->boolean('active')->default(1);
             $table->string('createdBy');

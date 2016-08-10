@@ -38,13 +38,14 @@
                         </button>
                     </div>
                 </div>
-                <div>
+                <div style="height: 380px;overflow: scroll;">
                     <table class="table table-bordered table-hover order-column" id="tableProTreatmentList"
                            style="margin-bottom: 0px;">
                         <thead>
                         <tr>
                             <th>Phương pháp điều trị</th>
                             <th>Vị trí điều trị</th>
+                            <th>Ghi Chú</th>
                         </tr>
                         </thead>
                         <tbody id="tbodyProTreatmentList">
@@ -53,6 +54,7 @@
                                 style="cursor: pointer">
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->localTreatment()->name}}</td>
+                                <td>{{$item->note}}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -182,7 +184,7 @@
                     proTreatmentView.idProTreatment = $(element).attr("id");
                     $("tbody#tbodyProTreatmentList").find("tr").removeClass("active");
                     $(element).addClass("active");
-                    $.post(url + "admin/postViewProvince", {
+                    $.post(url + "admin/postViewProTm", {
                         _token: _token,
                         idProTreatment: proTreatmentView.idProTreatment
                     }, function (data) {
@@ -202,6 +204,7 @@
                         tr += "<tr id=" + data["listProTreatment"][i]["Id"] + " onclick='proTreatmentView.viewListProTm(this)' style='cursor: pointer'>";
                         tr += "<td>" + data["listProTreatment"][i]["Name"] + "</td>";
                         tr += "<td>" + data["listProTreatment"][i]["LocationTreatmentId"] + "</td>";
+                        tr += "<td>" + data["listProTreatment"][i]["Note"] + "</td>";
                         row += tr;
                     }
                     $("tbody#tbodyProTreatmentList").append(row);

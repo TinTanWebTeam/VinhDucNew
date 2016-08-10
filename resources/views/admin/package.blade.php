@@ -36,7 +36,7 @@
                         </button>
                     </div>
                 </div>
-                <div>
+                <div style="height: 380px;overflow: scroll;">
                     <table class="table table-bordered table-hover order-column" id="tablePackageList"
                            style="margin-bottom: 0px;">
                         <thead>
@@ -199,7 +199,6 @@
                         tr += "<tr id=" + data["listPackage"][i]["id"] + " onclick='packageView.viewListPackage(this)' style='cursor: pointer'>";
                         tr += "<td>" + data["listPackage"][i]["name"] + "</td>";
                         tr += "<td>" + data["listPackage"][i]["price"] + "</td>";
-                        tr += "<td>" + "</td>";
                         row += tr;
                     }
                     $("tbody#tbodyPackageList").append(row);

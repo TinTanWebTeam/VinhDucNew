@@ -68,7 +68,7 @@
                         <form role="form" id="formAge">
                             <div class="form-body">
                                 <div class="col-md-12">
-                                    <div class="form-group form-md-line-input" style="display:block">
+                                    <div class="form-group form-md-line-input" style="display:none">
                                         <input type="text" class="form-control" name="Id" id="Id" value="">
                                     </div>
                                     <div class="form-group form-md-line-input"></div>

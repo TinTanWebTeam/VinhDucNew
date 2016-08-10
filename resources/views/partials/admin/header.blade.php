@@ -249,7 +249,10 @@
                     <a href="javascript:;"><i class="fa fa-table fa-fw"></i> Danh mục<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="javascript:;">Gói điều trị</a>
+                            <a href="javascript:;">Gói</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">Vị trí điều trị</a>
                         </li>
                         <li>
                             <a href="javascript:;">Điều trị chuyên môn</a>

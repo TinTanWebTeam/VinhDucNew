@@ -14,15 +14,13 @@ class CreatePackagesTable extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('note');
             $table->decimal('price');
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->string('upDatedBy');
             $table->timestamps();
-
-            
         });
     }
 

@@ -16,7 +16,7 @@ class Package extends Model
         'upDatedBy',
         'active'
     ];
-
+    
     public function TreatmentPackage()
     {
         return $this->hasMany('App\TreatmentPackage','packageId','id')->get();

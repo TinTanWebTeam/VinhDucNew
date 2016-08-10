@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class locationTreatment extends Model
+class LocationTreatment extends Model
 {
     protected $table = 'location_treatments';
     protected $fillable = [
@@ -14,4 +14,8 @@ class locationTreatment extends Model
         'createdBy',
         'upDatedBy'
     ];
+    public function ProTreatment(){
+        return $this->hasMany('App\ProfessionalTreatment','locationTreatmentId','id')->get();
+
+    }
 }

@@ -27,7 +27,6 @@ class CreateDetailedTreatmentsTable extends Migration
             $table->string('createdBy');
             $table->string('upDatedBy');
             $table->timestamps();
-            
         });
     }
 

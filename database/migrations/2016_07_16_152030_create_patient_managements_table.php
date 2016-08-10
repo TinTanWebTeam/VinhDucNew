@@ -35,6 +35,8 @@ class CreatePatientManagementsTable extends Migration
 
             $table->foreign('provincialId')->references('id')->on('provinces')->onDelete('no action');
             $table->foreign('ageId')->references('id')->on('ages')->onDelete('no action');
+           
+
 
         });
     }

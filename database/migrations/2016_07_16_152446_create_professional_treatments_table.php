@@ -21,6 +21,8 @@ class CreateProfessionalTreatmentsTable extends Migration
             $table->string('createdBy');
             $table->string('upDatedBy');
             $table->timestamps();
+
+            $table->foreign('locationTreatmentId')->references('id')->on('location_treatments')->onDelete('no action');
         });
     }
 

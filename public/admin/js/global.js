@@ -27,6 +27,30 @@ user.click(function () {
         $.get(url + "admin/getViewTherapist",function (data) {
             $("div.page-container").empty().append(data);
         })
+    } if($(this).find("a").text().trim()==="Gói"){
+        $.get(url + "admin/getViewPackage",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+    if($(this).find("a").text().trim()==="Vị trí điều trị"){
+        $.get(url + "admin/getViewLocation",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+    if($(this).find("a").text().trim()==="Tỉnh thành"){
+        $.get(url + "admin/getViewProvinces",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+    if($(this).find("a").text().trim()==="Độ tuổi"){
+        $.get(url + "admin/getViewAge",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+    if($(this).find("a").text().trim() === "Điều trị chuyên môn"){
+        $.get(url + "admin/getViewProTreatment", function(data){
+            $("div.page-container").empty().append(data);
+        })
     }
 });
 var Diagnostic = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li");

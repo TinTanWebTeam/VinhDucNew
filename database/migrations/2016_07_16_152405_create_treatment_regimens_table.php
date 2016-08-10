@@ -18,15 +18,9 @@ class CreateTreatmentRegimensTable extends Migration
             $table->integer('patientId')->unsigned();
             $table->integer('treatmentPackageId')->unsigned();
             $table->boolean('active')->default(1);
-            $table->date('createdDate');
-            $table->date('updateDate');
-            $table->string('note');
-            $table->boolean('status')->defailt(0);
             $table->string('createdBy');
             $table->string('updatedBy');
             $table->timestamps();
-
-            $table->foreign('treatmentPackageId')->references('id')->on('treatment_packages')->onDelete('no action');
         });
     }
 

@@ -22,8 +22,7 @@ class TreatmentPackage extends Model
     public function Package(){
         return $this->belongsTo('App\Package','packageId','id')->first();
     }
-    public function TreatmentRegimen()
-    {
-        return $this->hasMany('App\TreatmentRegimen','treatmentPackageId','id')->get();
+    public function Patient(){
+        return $this->belongsTo('App\PatientManagement','patientId','id')->first();
     }
 }

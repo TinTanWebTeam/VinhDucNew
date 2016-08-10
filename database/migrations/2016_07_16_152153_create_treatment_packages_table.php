@@ -27,6 +27,7 @@ class CreateTreatmentPackagesTable extends Migration
             $table->timestamps();
 
             $table->foreign('packageId')->references('id')->on('packages')->onDelete('no action');
+            $table->foreign('patientId')->references('id')->on('patient_managements')->onDelete('no action');
         });
     }
 

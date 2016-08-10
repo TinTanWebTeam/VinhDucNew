@@ -31,4 +31,8 @@ class PatientManagement extends Model
     public function Provinces(){
         return $this->belongsTo('App\Provinces','provincialId','id')->first();
     }
+    public function TreatmentPackage(){
+        return $this->hasMany('App\TreatmentPackage','patientId','id')->get();
+    }
+    
 }

@@ -734,15 +734,66 @@ class AdminController extends Controller
                 'Address.required' => 'Địa chỉ bệnh nhân không được rỗng',
                 'Phone.required' => 'Số điện thoại bệnh nhân không được rỗng'
             ];
-        } else if ($variable == "validatorTreatmentPackages") {
+        } else if ($variable == "validatorPackage") {
             $datas = [
-                'TreatmentPackageCode' => $data['data']['TreatmentPackageCode'],
+                'Name' => $data['dataPackage']['Name'],
             ];
             $rules = [
-                'TreatmentPackageCode' => 'required',
+                'Name' => 'required',
             ];
             [
-                'TreatmentPackageCode.required' => 'Mã phiếu không được rỗng',
+                'Name.required' => 'Tên gói không được rỗng',
+            ];
+        } else if ($variable == "validatorTmPackage") {
+            $datas = [
+                'Name' => $data['dataTmPackage']['Name'],
+            ];
+            $rules = [
+                'Name' => 'required',
+            ];
+            [
+                'Name.required' => 'Tên gói không được rỗng',
+            ];
+        } else if ($variable == "validatorProTm") {
+            $datas = [
+                'Name' => $data['dataProTreatment']['Name'],
+            ];
+            $rules = [
+                'Name' => 'required',
+            ];
+            [
+                'Name.required' => 'Phương pháp điều trị không được rỗng',
+            ];
+        }else if ($variable == "validatorLocation") {
+            $datas = [
+                'Name' => $data['dataLocation']['Name'],
+            ];
+            $rules = [
+                'Name' => 'required',
+            ];
+            [
+                'Name.required' => 'Vị trí điều trị không được rỗng',
+            ];
+        }
+        else if ($variable == "validatorProvince") {
+            $datas = [
+                'Name' => $data['dataProvince']['Name'],
+            ];
+            $rules = [
+                'Name' => 'required',
+            ];
+            [
+                'Name.required' => 'Tên tỉnh thành không được rỗng',
+            ];
+        }else if ($variable == "validatorAge") {
+            $datas = [
+                'Age' => $data['dataAge']['Age'],
+            ];
+            $rules = [
+                'Age' => 'required',
+            ];
+            [
+                'Age.required' => 'Tuổi không được rỗng',
             ];
         }
         return Validator::make($datas, $rules);
@@ -960,7 +1011,7 @@ class AdminController extends Controller
         try {
             $location = LocationTreatment::where('active', 1)->get();
             $proTm = ProfessionalTreatment::where('active', 1)->get();
-            return view('admin.protreatment')->with('proTms', $proTm)->with('Locations', $location);
+            return view('admin.ProTreatment')->with('proTms', $proTm)->with('Locations', $location);
         } catch (Exception $ex) {
             return $ex;
         }
@@ -1055,7 +1106,16 @@ class AdminController extends Controller
             return $ex;
         }
     }
+    public function getViewLocation(){
 
+        try {
+            $locaTion = LocationTreatment::where('active', 1)->get();
+            return view("admin.location")->with('locaTions',$locaTion);
+        }catch(Exception $ex){
+            return $ex;
+
+        }
+    }
     public function postViewLocation(Request $request)
     {
         try {

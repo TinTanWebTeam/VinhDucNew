@@ -32,6 +32,9 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::get('getRegimens','AdminController@getRegimens');
     Route::get('getViewProfessional','AdminController@getViewProfessional');
     //Anh Tam
+
+    Route::get('getViewPackage','AdminController@getViewPackage');
+    Route::get('SurveyProgression','AdminController@SurveyProgression');
     Route::get('getViewProTreatment','AdminController@getViewProTreatment');
     Route::get('getViewDetailPatient','AdminController@getViewDetailPatient');
     Route::get('getViewLocation','AdminController@getViewLocation');
@@ -80,6 +83,7 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::post('addNewAndUpdateAge','AdminController@addNewAndUpdateAge');
     Route::post('deleteAge','AdminController@deleteAge');
     Route::post('postViewAge','AdminController@postViewAge');
+
 });
 
 /*

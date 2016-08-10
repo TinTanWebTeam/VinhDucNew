@@ -38,12 +38,13 @@
                         </button>
                     </div>
                 </div>
-                <div>
+                <div style="height: 300px;overflow: scroll;">
                     <table class="table table-bordered table-hover order-column" id="tableProTreatmentList"
                            style="margin-bottom: 0px;">
                         <thead>
                         <tr>
                             <th>Vị trí điều trị</th>
+                            <th>Ghi chú</th>
                         </tr>
                         </thead>
                         <tbody id="tbodyLocationList">
@@ -51,6 +52,7 @@
                             <tr id="{{$item->id}}" onclick="locationView.viewListLocation(this)"
                                 style="cursor: pointer">
                                 <td>{{$item->name}}</td>
+                                <td>{{$item->note}}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -184,6 +186,7 @@
                         var tr = "";
                         tr += "<tr id=" + data["listLocation"][i]["id"] + " onclick='locationView.viewListLocation(this)' style='cursor: pointer'>";
                         tr += "<td>" + data["listLocation"][i]["Name"] + "</td>";
+                        tr += "<td>" + data["listLocation"][i]["Note"] + "</td>";
                         row += tr;
                     }
                     $("tbody#tbodyLocationList").append(row);
