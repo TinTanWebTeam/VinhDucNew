@@ -25,7 +25,7 @@
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-md-6 col-sm-6">
+        <div class="col-md-6 col-sm-6" style="height: 660px; overflow: scroll">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách bệnh nhân
@@ -195,7 +195,7 @@
                                             <label for="AgeId"><b>Độ tuổi</b></label>
                                             <select class="form-control" id="AgeId">
                                                 @if($ages)
-                                                    <option value="0">-- Chọn Tuoi --</option>
+                                                    <option value="0">-- Chọn Tuổi --</option>
                                                     @foreach($ages as $item)
                                                         <option value="{{$item->id}}">{{$item->age}}</option>
                                                     @endforeach

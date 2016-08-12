@@ -73,4 +73,14 @@ SurveyProgression.click(function () {
             $("div.page-container").empty().append(data);
         })
     }
+    if($(this).find("a").text().trim()==="Thống kê bệnh nhân"){
+        $.get(url + "admin/getStatisticsPatients",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+    if($(this).find("a").text().trim()==="Thống kê chuyên viên"){
+        $.get(url + "admin/getStatisticsTherapist",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
 });

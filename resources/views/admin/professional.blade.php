@@ -18,7 +18,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 style="color: #00a859">Chẩn đoán</h4>
+            <h4 style="color: #00a859">Khảo sát > Tiến triển bệnh > Điều trị chuyên môn</h4>
             <hr style="margin-top: 0px;">
         </div>
         <!-- /.col-lg-12 -->
@@ -312,7 +312,7 @@
                 })
             },
             fillUpdateToTable: function (element, result) {
-                $("div[name=title]").text("Chi tiết điều trị của mã phiếu: " + $(element).attr("data-code") + "")
+                $("div[name=title]").text("Chi tiết điều trị của mã phiếu: " + $(element).attr("data-code") + "");
                 var d = new Date();
                 var year = d.getFullYear();
                 var month = d.getMonth() + 1;

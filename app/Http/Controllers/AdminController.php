@@ -513,6 +513,7 @@ class AdminController extends Controller
                     'namePackage' => $item->Package()->name,
                     'note' => $item->note,
                     'createdDate' => $item->createdDate,
+                    'packageId'=>$item->packageId
                 ];
                 array_push($arraylistTreatment, $array);
             }
@@ -522,31 +523,111 @@ class AdminController extends Controller
         }
     }
 
-    public function addNewTreatment(Request $request)
+    public function Treatment(Request $request)
     {
-        $date = date('Y/m/d H:i:s');
+        $date = date('Y-m-d');
         try {
             if ($this->validator($request->all(), "validatorTreatmentPackages")->fails()) {
                 return $this->validator($request->all(), "validatorTreatmentPackages")->errors();
             } else {
                 if ($request->get('data')['AddNewId'] == "") {
-                    $treatment = new TreatmentPackage();
-                    $treatment->code = $request->get('data')['TreatmentPackageCode'];
-                    $treatment->name = "";
-                    $treatment->note = $request->get('data')['Note'];
-                    $treatment->packageId = $request->get('data')['PackagesId'];
-                    $treatment->patientId = $request->get('data')['PatientId'];
-                    $treatment->createdDate = $date;
-                    $treatment->updateDate = $date;
-                    $treatment->createdBy = Auth::user()->id;
-                    $treatment->upDatedBy = Auth::user()->id;
-                    $treatment->save();
+                    try {
+                        $treatment = new TreatmentPackage();
+                        $treatment->code = $request->get('data')['TreatmentPackageCode'];
+                        $treatment->name = "";
+                        $treatment->note = $request->get('data')['Note'];
+                        $treatment->packageId = $request->get('data')['PackagesId'];
+                        $treatment->patientId = $request->get('data')['PatientId'];
+                        $treatment->createdDate = $date;
+                        $treatment->updateDate = $date;
+                        $treatment->createdBy = Auth::user()->id;
+                        $treatment->upDatedBy = Auth::user()->id;
+                        $treatment->save();
+                    }
+                    catch (Exception $ex){
+                        return $ex;
+                    }
                     return 1;
                 } else {
+                    try{
+                        $treatment = TreatmentPackage::where('active',1)->where('id',$request->get('data')['AddNewId'])->first();
+                        if($treatment){
+                            $treatment->code = $request->get('data')['TreatmentPackageCode'];
+                            $treatment->name = "";
+                            $treatment->note = $request->get('data')['Note'];
+                            $treatment->packageId = (integer)$request->get('data')['PackagesId'];
+                            $treatment->patientId = (integer)$request->get('data')['PatientId'];
+                            $treatment->updateDate = $date;
+                            $treatment->upDatedBy = (string)Auth::user()->id;
+                            $treatment->save();
+                        }
+                    }
+                    catch (Exception $ex){
+                        return $ex;
+                    }
                     return 2;
                 }
             }
         } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function addNewTreatment(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $date = date('Y-m-d');
+            $result = $this->Treatment($request);
+            if ($result==1) {
+                    $packageId = TreatmentPackage::where('id', DB::table('treatment_packages')->max('id'))->first();
+                    try {
+                        $regimen = new TreatmentRegimen();
+                        $regimen->code = $packageId->code;
+                        $regimen->patientId = $request->get('data')['PatientId'];
+                        $regimen->treatmentPackageId = $packageId->id;
+                        $regimen->status = "";
+                        $regimen->note = "";
+                        $regimen->createdDate = $date;
+                        $regimen->updatedDate = $date;
+                        $regimen->createdBy = (string)Auth::user()->id;
+                        $regimen->updatedBy = (string)Auth::user()->id;
+                        $regimen->save();
+
+                    } catch (Exception $ex) {
+                        DB::rollBack();
+                        return $ex;
+                    }
+                    DB::commit();
+                    return 1;
+            }else{
+                try {
+                    $packageId = TreatmentPackage::where('active', 1)->where('id', $request->get('data')['AddNewId'])->first();
+                    $regimen = TreatmentRegimen::where('active', 1)->where('code', $packageId->code)->first();
+                    if ($regimen) {
+                        $regimen->code = $packageId->code;
+                        $regimen->patientId = $request->get('data')['PatientId'];
+                        $regimen->treatmentPackageId = $packageId->id;
+                        $regimen->status = "";
+                        $regimen->note = "";
+                        $regimen->updatedDate = $date;
+                        $regimen->updatedBy = (string)Auth::user()->id;
+                        $regimen->save();
+                    } else {
+                        DB::rollBack();
+                        return 0;
+                    }
+                    DB::commit();
+                    return 2;
+                }
+                catch (Exception $ex){
+                    DB::rollBack();
+                    return $ex;
+                }
+            }
+        }
+        catch (Exception $ex){
+            DB::rollBack();
             return $ex;
         }
     }
@@ -796,6 +877,18 @@ class AdminController extends Controller
             [
                 'Age.required' => 'Tuổi không được rỗng',
             ];
+        }else if($variable =="validatorRegimen"){
+
+        }else if($variable =="validatorTreatmentPackages"){
+            $datas = [
+                'TreatmentPackageCode' => $data['data']['TreatmentPackageCode'],
+            ];
+            $rules = [
+                'TreatmentPackageCode' => 'required',
+            ];
+            [
+                'TreatmentPackageCode.required' => 'Mã phiếu không được rỗng',
+            ];
         }
         return Validator::make($datas, $rules);
     }
@@ -915,7 +1008,9 @@ class AdminController extends Controller
                     'code' => $item->code,
                     'status' => $item->status,
                     'note' => $item->note,
+                    'treatmentPackageId' => $item->treatmentPackageId,
                     'createdDate' => $item->createdDate,
+                    'updatedDate' => $item->updatedDate,
                 ];
                 array_push($arraylistTreatment, $array);
             }
@@ -925,7 +1020,120 @@ class AdminController extends Controller
             return $ex;
         }
     }
-    
+
+    public function tbodyRegimen(Request $request)
+    {
+        try{
+            $detailedTreatment = DB::table('detailed_treatments as detail')
+                ->join('professional_treatments as pro', 'detail.professionalTreatmentId', '=', 'pro.id')
+                ->join('location_treatments as location', 'pro.locationTreatmentId', '=', 'location.id')
+                ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
+                ->where('treatment.id', '=', $request->get('idPackageTreatment'))
+                ->select(
+                    'detail.id as detailId',
+                    'detail.name as detailName',
+                    'detail.therapistId as detailTherapist',
+                    'detail.ail as detailAil',
+                    'location.id as locationId',
+                    'location.name as locationName',
+                    'pro.id as professionalId',
+                    'pro.name as professionalName'
+                )
+                ->get();
+            $Therapist=ManagementTherapist::where('active',1)->get();
+            return view('admin.tbodyregimen')->with('detailedTreatments',$detailedTreatment)->with('therapists',$Therapist);
+        }
+        catch (Exception $ex){
+            
+        }
+    }
+
+    public function updateRegimen(Request $request)
+    {
+        try{
+            if($request->get('data')['AddNewId']!=null){
+                $regimen=TreatmentRegimen::where('active',1)->where('code',$request->get('data')['AddNewId'])->first();
+                if($regimen){
+                    $regimen->status = $request->get('data')['Status'];
+                    $regimen->note = $request->get('data')['Note'];
+                    $regimen->save();
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }else{
+                return 0;
+            }
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+
+    public function getStatisticsPatients()
+    {
+        return view('admin.statisticsPatients');
+    }
+
+    public function searchStatusPatient(Request $request)
+    {
+        try{
+            $status = DB::table('treatment_regimens')
+                ->join('patient_managements','treatment_regimens.patientId','=','patient_managements.id')
+                ->whereBetween('createdDate',[$request->get('data')['FromDate'],$request->get('data')['ToDate']])
+                ->select(
+                    'treatment_regimens.id',
+                    'treatment_regimens.status',
+                    'patient_managements.fullName',
+                    'treatment_regimens.note'
+                );
+            if($request->get('data')['Status']==0){
+
+            }else if($request->get('data')['Status']==1){
+                $status->where('treatment_regimens.status',1);
+            }else if($request->get('data')['Status']==2){
+                $status->where('treatment_regimens.status',2);
+            }else if($request->get('data')['Status']==3){
+                $status->where('treatment_regimens.status',3);
+            }
+            $regiment = $status->get();
+            return $regiment;
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+
+    public function getStatisticsTherapist()
+    {
+        $therapist = ManagementTherapist::where('active', 1)->get();
+        return view('admin.statisticsTherapist')->with('therapists',$therapist);
+    }
+
+    public function searchProfessionalTherapist(Request $request)
+    {
+        try{
+            $searchProfessionalTherapist = DB::table('detailed_treatments')
+                ->join('management_therapists','detailed_treatments.therapistId','=','management_therapists.id')
+                ->join('patient_managements','detailed_treatments.patientId','=','patient_managements.id')
+                ->join('professional_treatments','detailed_treatments.professionalTreatmentId','=','professional_treatments.id')
+                ->whereBetween('createdDate',[$request->get('data')['FromDate'],$request->get('data')['ToDate']])
+                ->where('detailed_treatments.therapistId',$request->get('data')['TherapistId'])
+                ->select(
+                    'detailed_treatments.id',
+                    'professional_treatments.name',
+                    'detailed_treatments.createdDate',
+                    'patient_managements.code',
+                    'detailed_treatments.ail'
+                )
+                ->get();
+            return $searchProfessionalTherapist;
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
     
 
     // Anh Tam

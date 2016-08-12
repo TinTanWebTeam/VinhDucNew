@@ -24,18 +24,13 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
-    <div class="row">
+    <div class="row" >
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách chức vụ</div>
-                    {{--<div style="position: absolute;margin: -25px 0px 0px 450px;">--}}
-                    {{--<button type="button" class="btn btn-danger btn-circle" onclick="positionView.deleteUser()"><i--}}
-                    {{--class="fa fa-times"></i>--}}
-                    {{--</button>--}}
-                    {{--</div>--}}
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive" style="height: 208px; overflow: scroll">
                     <table class="table table-bordered table-hover order-column" id="tablePositionViewList"
                            style="margin-bottom: 0px;">
                         <thead>
@@ -92,8 +87,6 @@
                                                placeholder="Trực tiếp điều trị cho bệnh nhân">
                                     </div>
                                 </div>
-
-
                                 <div class="form-actions noborder">
                                     <div class="form-group" style="padding-left: 15px;">
                                         <button type="button" class="btn blue"

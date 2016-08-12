@@ -31,6 +31,9 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::get('getSurveyProgression','AdminController@getSurveyProgression');
     Route::get('getRegimens','AdminController@getRegimens');
     Route::get('getViewProfessional','AdminController@getViewProfessional');
+    Route::get('getStatisticsPatients','AdminController@getStatisticsPatients');
+    Route::get('getStatisticsTherapist','AdminController@getStatisticsTherapist');
+
     //Anh Tam
 
     Route::get('getViewPackage','AdminController@getViewPackage');
@@ -64,6 +67,11 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::post('searchRegimens','AdminController@searchRegimens');
     Route::post('fillToTbody','AdminController@fillToTbody');
     Route::post('SearchTreatmentRegimens','AdminController@SearchTreatmentRegimens');
+    Route::post('tbodyRegimen','AdminController@tbodyRegimen');
+    Route::post('updateRegimen','AdminController@updateRegimen');
+    Route::post('searchStatusPatient','AdminController@searchStatusPatient');
+    Route::post('searchProfessionalTherapist','AdminController@searchProfessionalTherapist');
+
     //AnhTam
     Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
     Route::post('addNewAndUpdatePackage','AdminController@addNewAndUpdatePackage');
