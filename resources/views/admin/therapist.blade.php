@@ -75,7 +75,7 @@
                     </div>
 
                 </div>
-                <div>
+
                     <div class="portlet-body form">
                         <form role="form" id="formTherapist">
                             <div class="form-body">
@@ -105,7 +105,6 @@
                                                placeholder="Nam">
                                     </div>
                                 </div>
-
 
                                 <div class="form-group form-md-line-input col-md-12">
                                     <label for="Address"><b>Địa chỉ</b></label>
@@ -151,17 +150,17 @@
                                 <div class="form-actions noborder">
                                     <div class="form-group" style="padding-left: 15px;">
                                         <button type="button" class="btn blue"
-                                                onclick="patientView.addNewAndUpdatePatient()">
+                                                onclick="therapistView.addNewAndUpdateTherapist()">
                                             Hoàn tất
                                         </button>
-                                        <button type="button" class="btn default">Huỷ</button>
+                                        <button type="button" class="btn default"   onclick="therapistView.Cancel()">Huỷ</button>
                                     </div>
                                 </div>
 
                             </div>
                         </form>
                     </div>
-                </div>
+
             </div>
         </div>
     </div>

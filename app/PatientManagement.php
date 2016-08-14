@@ -34,5 +34,8 @@ class PatientManagement extends Model
     public function TreatmentPackage(){
         return $this->hasMany('App\TreatmentPackage','patientId','id')->get();
     }
+    public function InformationPatient(){
+        return $this->hasMany('App\InformationSurveys','patient_Id','id')->get();
+    }
     
 }

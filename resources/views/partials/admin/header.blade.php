@@ -97,10 +97,22 @@
                                     <a href="javascript:;">Thống kê chuyên viên</a>
                                 </li>
                             </ul>
-                        </li>
                         <li>
-                            <a href="javascript:;">Ý kiến bệnh nhân</a>
+                            <a href="javascript:;"><i class="fa fa-edit fa-fw"></i> Ý kiến bệnh nhân<span class="fa arrow"></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="javascript:;">Tìm kiếm phác đồ</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">Thông tin khảo sát ý kiến bệnh nhân</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">Thống kê và xem danh sách khảo sát</a>
+                                </li>
+                            </ul>
                         </li>
+                        </li>
+
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>

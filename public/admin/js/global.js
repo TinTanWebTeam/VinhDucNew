@@ -83,4 +83,20 @@ SurveyProgression.click(function () {
             $("div.page-container").empty().append(data);
         })
     }
+    if($(this).find("a").text().trim()==="Tìm kiếm phác đồ"){
+        $.get(url + "admin/getViewSearch",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+    if($(this).find("a").text().trim()==="Thông tin khảo sát ý kiến bệnh nhân"){
+        $.get(url + "admin/getViewInformationSurveys",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+    if($(this).find("a").text().trim()==="Thống kê và xem danh sách khảo sát"){
+        $.get(url + "admin/getViewStatistics",function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+
 });

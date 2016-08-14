@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Age;
 use App\DetailedTreatment;
+use App\InformationSurveys;
 use App\locationTreatment;
 use App\ManagementTherapist;
 use App\Package;
@@ -889,6 +890,57 @@ class AdminController extends Controller
             [
                 'TreatmentPackageCode.required' => 'Mã phiếu không được rỗng',
             ];
+        } else if ($variable == "validatorProTm") {
+            $datas = [
+                'Name' => $data['dataProTreatment']['Name'],
+            ];
+            $rules = [
+                'Name' => 'required',
+            ];
+            [
+                'Name.required' => 'Phương pháp điều trị không được rỗng',
+            ];
+        }else if ($variable == "validatorLocation") {
+            $datas = [
+                'Name' => $data['dataLocation']['Name'],
+            ];
+            $rules = [
+                'Name' => 'required',
+            ];
+            [
+                'Name.required' => 'Vị trí điều trị không được rỗng',
+            ];
+        }
+        else if ($variable == "validatorProvince") {
+            $datas = [
+                'Name' => $data['dataProvince']['Name'],
+            ];
+            $rules = [
+                'Name' => 'required',
+            ];
+            [
+                'Name.required' => 'Tên tỉnh thành không được rỗng',
+            ];
+        }else if ($variable == "validatorAge") {
+            $datas = [
+                'Age' => $data['dataAge']['Age'],
+            ];
+            $rules = [
+                'Age' => 'required',
+            ];
+            [
+                'Age.required' => 'Tuổi không được rỗng',
+            ];
+        }else if ($variable == 'validatorInformation') {
+            $datas = [
+                'Question' => $data['dataInformation']['Question'],
+            ];
+            $rules = [
+                'Question' => 'required',
+            ];
+            [
+                'Question.required' => 'Câu hỏi không được rỗng',
+            ];
         }
         return Validator::make($datas, $rules);
     }
@@ -1044,7 +1096,7 @@ class AdminController extends Controller
             return view('admin.tbodyregimen')->with('detailedTreatments',$detailedTreatment)->with('therapists',$Therapist);
         }
         catch (Exception $ex){
-            
+
         }
     }
 
@@ -1134,12 +1186,12 @@ class AdminController extends Controller
             return $ex;
         }
     }
-    
+
 
     // Anh Tam
-    
-    
-    
+
+
+
     public function getViewPackage()
     {
         try {
@@ -1622,4 +1674,181 @@ class AdminController extends Controller
             return $ex;
         }
     }
+    public function getViewSearch()
+    {
+        try {
+            return view("admin.SearchRegimen");
+        } Catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function searchPatientTest(Request $request)
+    {
+        try {
+            $SQL = "SELECT pm.`code` as 'maBN', pm.`fullName`, tr.`code` as 'maPD',tr.createdDate,tr.status, tr.note FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.id = tr.patientId WHERE pm.active = 1";
+            if ($request->get('Regimens')['CodePatient'] != "") {
+                $SQL .= " AND pm.`code` LIKE '" . '%' . $request->get('Regimens')['CodePatient'] . '%' . "'";
+            }
+            if ($request->get('Regimens')['FullName'] != "") {
+                $SQL .= " AND pm.`fullName` LIKE '" . '%' . $request->get('Regimens')['FullName'] . '%' . "'";
+            }
+            if ($request->get('Regimens')['CodeRegimen'] != "") {
+                $SQL .= " AND tr.`code` LIKE '" . '%' . $request->get('Regimens')['CodeRegimen'] . '%' . "'";
+            }
+            if ($request->get('Regimens')['CreatedDate'] != "") {
+                $SQL .= " AND tr.createdDate LIKE '" . '%' . $request->get('Regimens')['CreatedDate'] . '%' . "'";
+            }
+            $patient = DB::select($SQL);
+            return $patient;
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getViewInformationSurveys()
+    {
+        try {
+            $patient = PatientManagement::where('active', 1)->get();
+            $therapist = ManagementTherapist::where('active', 1)->get();
+            $information = InformationSurveys::where('active', 1)->ORDERBY ('createdDate', 'ASC') ->get();
+            return view("admin.InformationSurveys")->with('Informations', $information)->with('patients', $patient)->with('therapists', $therapist);
+        } Catch (Exception $ex) {
+            return $ex;
+        }
+    }
+    public function postViewInformation(Request $request)
+    {
+        try {
+            $information = InformationSurveys::where('active', 1)->where('id', $request->get('idInformation'))->first();
+            if ($information) {
+                return $information;
+            } else {
+                return null;
+            }
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+    public function deleteInformation(Request $request)
+    {
+        try {
+            $information = InformationSurveys::where('active', 1)->where('id', $request->get('idInformation'))->first();
+            if ($information) {
+                $information->active = 0;
+                $information->updatedBy = Auth::user()->id;
+                $information->save();
+            }
+            return array(1, 'listInformation' => $this->getInformation());
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+    public function getInformation()
+    {
+        $arrayListInformation = [];
+        $listInformation = InformationSurveys::where('active', 1)->get();
+        foreach ($listInformation as $listInformation) {
+            $array = [
+                'Id' =>$listInformation->id,
+                'Question'=>$listInformation->question,
+                'PatientReviews' =>$listInformation->patientReviews,
+                'Handling' =>$listInformation->handling,
+                'CreatedDate'=>$listInformation->createdDate,
+            ];
+            array_push($arrayListInformation, $array);
+        }
+        return $arrayListInformation;
+    }
+    public function addNewAndUpdateInformation(Request $request)
+    {
+        try {
+            $result = null;
+            if ($this->validator($request->all(), "validatorInformation")->fails()) {
+                return $this->validator($request->all(), "validatorInformation")->errors();
+            } else {
+                if ($request->get('addNewOrUpdateId') == "") {
+                    try {
+                        $information = new InformationSurveys();
+                        $information->createdDate = $request->get('dataInformation')['CreatedDate'];
+                        $information->patientReviews = $request->get('dataInformation')['PatientReviews'];
+                        $information->question = $request->get('dataInformation')['Question'];
+                        if($request->get('dataInformation')['Handling'] === "")
+                        {
+                            $information->handling = '2';
+                        }else {
+                            $information->handling = $request->get('dataInformation')['Handling'];
+                        }
+                        $information->patient_id = $request->get('dataInformation')['Patient_id'];
+                        $information->therapist_id = $request->get('dataInformation')['Therapist_id'];
+                        $information->upDatedBy = Auth::user()->id;
+                        $information->save();
+                        $result = array(1, 'listInformation' => $this->getInformation());
+                    } catch (Exception $ex) {
+                        return $ex;
+                    }
+                } else {
+                    $information = InformationSurveys::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
+                    if ($information) {
+                        try {
+                            $information->createdDate = $request->get('dataInformation')['CreatedDate'];
+                            $information->patientReviews = $request->get('dataInformation')['PatientReviews'];
+                            $information->question = $request->get('dataInformation')['Question'];
+                            if($request->get('dataInformation')['Handling'] === "")
+                            {
+                                $information->handling = '2';
+                            }else {
+                                $information->handling = $request->get('dataInformation')['Handling'];
+                            }
+                            $information->patient_id = $request->get('dataInformation')['Patient_id'];
+                            $information->therapist_id = $request->get('dataInformation')['Therapist_id'];
+                            $information->upDatedBy = Auth::user()->id;
+                            $information->save();
+                            $result = array(2, 'listInformation' => $this->getInformation());
+                        } catch (Exception $ex) {
+                            return $ex;
+                        }
+                    } else {
+                        $result = array(0, 'listInformation' => null);
+                    }
+                }
+            }
+            return $result;
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+    public function getViewStatistics()
+    {
+        try {
+            //  $information = InformationSurvey::where('active', 1)->get();
+            return view("admin.statistical");
+        } Catch (Exception $ex) {
+            return $ex;
+        }
+    }
+    public function searchStatistical(Request $request)
+    {
+          try{
+              $SQL = "SELECT info.createdDate, info.question, info.handling, pm.fullName
+                      FROM information_surveys info 
+                      INNER JOIN  management_therapists mt  ON mt.id = info.therapist_id 
+                      INNER JOIN  patient_managements pm  ON pm.id = info.patient_id";
+              if ($request->get('data')['Handling'] == "0") {
+                  $SQL .= " Where info.`createdDate` BETWEEN '" .$request->get('data')['ToDate']."'" . 'AND' ."'". $request->get('data')['FromDate']."'";
+              }
+              if ($request->get('data')['Handling'] != "0") {
+                  $SQL .= " Where info.`createdDate` BETWEEN '" .$request->get('data')['ToDate']."'" .
+                            'AND' ."'". $request->get('data')['FromDate']."'".
+                            'AND info.`handling` ='."'". $request->get('data')['Handling']."'";
+              }
+                $SQL.="AND info.active = 1 ORDER BY createdDate ASC";
+                $data = DB::select($SQL);
+              return $data;
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+
 }

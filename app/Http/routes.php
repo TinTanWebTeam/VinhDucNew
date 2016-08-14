@@ -43,6 +43,9 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::get('getViewLocation','AdminController@getViewLocation');
     Route::get('getViewProvinces','AdminController@getViewProvinces');
     Route::get('getViewAge','AdminController@getViewAge');
+    Route::get('getViewSearch','AdminController@getViewSearch');
+    Route::get('getViewInformationSurveys','AdminController@getViewInformationSurveys');
+    Route::get('getViewStatistics','AdminController@getViewStatistics');
     //Post------------------------------------------
     Route::post('postViewUser','AdminController@postViewUser');
     Route::post('deleteUser','AdminController@deleteUser');
@@ -92,6 +95,11 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::post('addNewAndUpdateAge','AdminController@addNewAndUpdateAge');
     Route::post('deleteAge','AdminController@deleteAge');
     Route::post('postViewAge','AdminController@postViewAge');
+    Route::post('searchPatientTest','AdminController@searchPatientTest');
+    Route::post('postViewInformation','AdminController@postViewInformation');
+    Route::post('deleteInformation','AdminController@deleteInformation');
+    Route::post('addNewAndUpdateInformation','AdminController@addNewAndUpdateInformation');
+    Route::post('searchStatistical','AdminController@searchStatistical');
 
 });
 
