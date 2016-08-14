@@ -147,8 +147,13 @@
                         _token:_token,
                         data:statisticalView.StatisticalObject
                     },function (data) {
-
+                        if (data == "") {
+                            $("div#modalConfirm").modal("show");
+                            $("div#modalContent").empty().append("Dữ liệu không có.Vui lòng chọn lại");
+                            $("button[name=modalAgree]").hide();
+                        } else {
                         statisticalView.fillTbody(data);
+                    }
                     })
                 },
                 fillTbody: function (data) {
