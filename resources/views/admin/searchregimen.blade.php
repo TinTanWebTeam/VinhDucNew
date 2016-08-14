@@ -193,7 +193,7 @@
                     if (data.length == 0)
                          {
                             $("div#modalConfirm").modal("show");
-                            $("div#modalContent").empty().append("Dữ liệu không đúng. Vui lòng nhập lại!");
+                            $("div#modalContent").empty().append("Dữ liệu không có.Vui lòng chọn lại");
                             $("button[name=modalAgree]").hide();
                             regimensView.fillTbody(data, '');
                         }
