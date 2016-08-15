@@ -1,6 +1,6 @@
 @extends('layouts.admin.adminLayout')
 @section('content')
-    <div id="page-wrapper">
+    <div id="page-wrapper" style="display: none;">
         <div class="row">
             <div class="col-lg-12">
                 <h4 >Trang chủ</h4>

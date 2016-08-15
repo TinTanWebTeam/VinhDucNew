@@ -1,4 +1,5 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; background-color: #fcfcfc;">
+<nav class="navbar navbar-default navbar-static-top" role="navigation"
+     style="margin-bottom: 0; background-color: #fcfcfc;">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -6,15 +7,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a href="." ><img src="{{asset('img/logo.jpg')}}" style="margin-left: 15px;" width="150" alt="CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC"></a>
+        <a href="."><img src="{{asset('img/logo.jpg')}}" style="margin-left: 15px;" width="150"
+                         alt="CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC"></a>
+        <div class="scroll-left" style="display: inline-block;margin-left: 300px;color: #00a859;">
+            <marquee id="marquee" direction="left" scrollamount="3" loop="true" scrolldelay="6">
+                CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC
+            </marquee>
+        </div>
     </div>
     <!-- /.navbar-header -->
 
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
             <a href="{{ asset('auth/logout') }}">
+                Đăng xuất
                 <i class="fa fa-user fa-fw"></i>
-                <i class="fa fa-caret-down"></i>
             </a>
             <!-- /.dropdown-user -->
         </li>
@@ -77,7 +84,8 @@
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Khảo sát<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="javascript:;"> <i class="fa fa-wrench fa-fw"></i>Tiến triển bệnh<span class="fa arrow"></span></a>
+                            <a href="javascript:;"> <i class="fa fa-wrench fa-fw"></i>Tiến triển bệnh<span
+                                        class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 @if(Auth::user()->roleId == 3)
                                     <li>
@@ -101,7 +109,8 @@
                                 </li>
                             </ul>
                         <li>
-                            <a href="javascript:;"><i class="fa fa-edit fa-fw"></i> Ý kiến bệnh nhân<span class="fa arrow"></a>
+                            <a href="javascript:;"><i class="fa fa-edit fa-fw"></i> Ý kiến bệnh nhân<span
+                                        class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li>
                                     <a href="javascript:;">Tìm kiếm phác đồ</a>
@@ -125,3 +134,10 @@
     </div>
     <!-- /.navbar-static-side -->
 </nav>
+<style>
+    @media (max-width: 768px) {
+        #marquee {
+            display: none;
+        }
+    }
+</style>
