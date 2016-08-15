@@ -459,6 +459,9 @@
                     if(data==="1"){
                         $(element).css("background-color", "#00a859").css('color', '#ffffff');
                         $(element).text("Sửa")
+                        $("div#modalConfirm").modal("show");
+                        $("div#modalContent").empty().append("Lưu thay đổi thành công");
+                        $("button[name=modalAgree]").hide();
                     }else if(data==="2"){
 
                     }

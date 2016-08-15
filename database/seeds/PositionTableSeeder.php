@@ -1,6 +1,6 @@
 <?php
 
-use App\position;
+use App\Position;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 

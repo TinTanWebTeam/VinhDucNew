@@ -1196,7 +1196,7 @@ class AdminController extends Controller
     {
         try {
             $Package = Package::where('active', 1)->get();
-            return view('admin.Package')->with('Packages', $Package);
+            return view('admin.package')->with('Packages', $Package);
         } catch (Exception $ex) {
             return $ex;
         }
@@ -1297,7 +1297,7 @@ class AdminController extends Controller
         try {
             $location = LocationTreatment::where('active', 1)->get();
             $proTm = ProfessionalTreatment::where('active', 1)->get();
-            return view('admin.ProTreatment')->with('proTms', $proTm)->with('Locations', $location);
+            return view('admin.protreatment')->with('proTms', $proTm)->with('Locations', $location);
         } catch (Exception $ex) {
             return $ex;
         }
@@ -1493,7 +1493,7 @@ class AdminController extends Controller
     {
         try {
             $province = Provinces::where('active', 1)->get();
-            return view("admin.Provinces")->with('Provinces', $province);
+            return view("admin.provinces")->with('Provinces', $province);
         } Catch (Exception $ex) {
             return $ex;
 
@@ -1586,7 +1586,7 @@ class AdminController extends Controller
     {
         try {
             $age = Age::where('active', 1)->get();
-            return view("admin.Age")->with('Ages', $age);
+            return view("admin.age")->with('Ages', $age);
         } Catch (Exception $ex) {
             return $ex;
 
@@ -1677,7 +1677,7 @@ class AdminController extends Controller
     public function getViewSearch()
     {
         try {
-            return view("admin.SearchRegimen");
+            return view("admin.searchregimen");
         } Catch (Exception $ex) {
             return $ex;
         }
@@ -1712,7 +1712,7 @@ class AdminController extends Controller
             $patient = PatientManagement::where('active', 1)->get();
             $therapist = ManagementTherapist::where('active', 1)->get();
             $information = InformationSurveys::where('active', 1)->ORDERBY ('createdDate', 'ASC') ->get();
-            return view("admin.InformationSurveys")->with('Informations', $information)->with('patients', $patient)->with('therapists', $therapist);
+            return view("admin.informationsurveys")->with('Informations', $information)->with('patients', $patient)->with('therapists', $therapist);
         } Catch (Exception $ex) {
             return $ex;
         }
