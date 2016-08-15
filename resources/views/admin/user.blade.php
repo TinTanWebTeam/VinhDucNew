@@ -29,7 +29,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách người dùng
-                        <button type="button" class="btn btn-danger btn-circle pull-right" onclick="userView.deleteUser()"><i
+                        <button type="button" class="btn btn-danger btn-circle pull-right"
+                                onclick="userView.deleteUser()"><i
                                     class="fa fa-times"></i>
                         </button>
                     </div>
@@ -69,86 +70,85 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa
-                        <button type="button" class="btn btn-info btn-circle pull-right" onclick="userView.addNewUser('')"><i
+                        <button type="button" class="btn btn-info btn-circle pull-right"
+                                onclick="userView.addNewUser('')"><i
                                     class="fa fa-plus"></i>
                         </button>
                     </div>
                 </div>
-                <div>
-                    <div class="portlet-body form">
-                        <form role="form" id="formUser">
-                            <div class="form-body">
-                                <div class="col-md-12">
-                                    <div class="form-group form-md-line-input" style="display:none">
-                                        <input type="text" class="form-control" name="Id" id="Id">
-                                    </div>
-                                    <div class="form-group form-md-line-input">
-                                        <label for="RoleId"><b>Quyền</b></label>
-                                        <select class="form-control" id="RoleId">
-                                            @foreach($roles as $item)
-                                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group form-md-line-input">
-                                        <label for="PositionId"><b>Chức vụ</b></label>
-                                        <select class="form-control" id="PositionId">
-                                            @foreach($positions as $item)
-                                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group form-md-line-input">
-                                        <label for="Name"><b>Tên đăng nhập</b></label>
-                                        <input type="text" class="form-control"
-                                               id="Name"
-                                               name="Name"
-                                               placeholder="Tên đăng nhập">
-                                    </div>
-                                    <div class="form-group form-md-line-input">
-                                        <label for="Password"><b>Mật khẩu</b></label>
-                                        <input type="password" class="form-control"
-                                               id="Password"
-                                               name="Password"
-                                               placeholder="Nhập mật khẩu">
-                                    </div>
-                                    <div class="form-group form-md-line-input ">
-                                        <label for="PasswordConfirm"><b>Nhập lại mật khẩu</b></label>
-                                        <input type="Password" class="form-control"
-                                               id="PasswordConfirm"
-                                               name="PasswordConfirm"
-                                               placeholder="Nhập lại mật khẩu">
-                                    </div>
-                                    <div class="form-group form-md-line-input">
-                                        <label for="FullName"><b>Họ và tên</b></label>
-                                        <input type="text" class="form-control"
-                                               id="FullName"
-                                               name="FullName"
-                                               placeholder="Nhập họ tên">
-                                    </div>
-                                    <div class="form-group form-md-line-input">
-                                        <label for="Email"><b>Email</b></label>
-                                        <input type="text" class="form-control"
-                                               id="Email"
-                                               name="Email"
-                                               onclick="userView.checkEmail()"
-                                               onchange="userView.checkEmail()"
-                                               placeholder="Nhập email">
-                                        <label id="Email" style="display: none">Email đã tồn tại</label>
-                                    </div>
+                <div class="portlet-body form">
+                    <form role="form" id="formUser">
+                        <div class="form-body">
+                            <div class="col-md-12">
+                                <div class="form-group form-md-line-input" style="display:none">
+                                    <input type="text" class="form-control" name="Id" id="Id">
                                 </div>
-                                <div class="form-actions noborder">
-                                    <div class="form-group" style="padding-left: 15px;">
-                                        <button type="button" class="btn blue"
-                                                onclick="patientView.addNewAndUpdatePatient()">
-                                            Hoàn tất
-                                        </button>
-                                        <button type="button" class="btn default">Huỷ</button>
-                                    </div>
+                                <div class="form-group form-md-line-input">
+                                    <label for="RoleId"><b>Quyền</b></label>
+                                    <select class="form-control" id="RoleId">
+                                        @foreach($roles as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group form-md-line-input">
+                                    <label for="PositionId"><b>Chức vụ</b></label>
+                                    <select class="form-control" id="PositionId">
+                                        @foreach($positions as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group form-md-line-input">
+                                    <label for="Name"><b>Tên đăng nhập</b></label>
+                                    <input type="text" class="form-control"
+                                           id="Name"
+                                           name="Name"
+                                           placeholder="Tên đăng nhập">
+                                </div>
+                                <div class="form-group form-md-line-input">
+                                    <label for="Password"><b>Mật khẩu</b></label>
+                                    <input type="password" class="form-control"
+                                           id="Password"
+                                           name="Password"
+                                           placeholder="Nhập mật khẩu">
+                                </div>
+                                <div class="form-group form-md-line-input ">
+                                    <label for="PasswordConfirm"><b>Nhập lại mật khẩu</b></label>
+                                    <input type="Password" class="form-control"
+                                           id="PasswordConfirm"
+                                           name="PasswordConfirm"
+                                           placeholder="Nhập lại mật khẩu">
+                                </div>
+                                <div class="form-group form-md-line-input">
+                                    <label for="FullName"><b>Họ và tên</b></label>
+                                    <input type="text" class="form-control"
+                                           id="FullName"
+                                           name="FullName"
+                                           placeholder="Nhập họ tên">
+                                </div>
+                                <div class="form-group form-md-line-input">
+                                    <label for="Email"><b>Email</b></label>
+                                    <input type="text" class="form-control"
+                                           id="Email"
+                                           name="Email"
+                                           onclick="userView.checkEmail()"
+                                           onchange="userView.checkEmail()"
+                                           placeholder="Nhập email">
+                                    <label id="Email" style="display: none">Email đã tồn tại</label>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                            <div class="form-actions noborder">
+                                <div class="form-group" style="padding-left: 15px;">
+                                    <button type="button" class="btn blue"
+                                            onclick="userView.addNewAndUpdateUser()">
+                                        Hoàn tất
+                                    </button>
+                                    <button type="button" class="btn default">Huỷ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -156,10 +156,10 @@
 </div>
 <script>
     $(function () {
-        idUser=null;
+        idUser = null;
         if (typeof (userView) === 'undefined') {
             userView = {
-                goBack:null,
+                goBack: null,
                 idUser: null,
                 UserObject: {
                     Id: null,
@@ -168,7 +168,7 @@
                     FullName: null,
                     Password: null,
                     RoleId: null,
-                    PositionId:null
+                    PositionId: null
                 },
                 resetUserObject: function () {
                     for (var propertyName in userView.UserObject) {
@@ -184,16 +184,16 @@
                     if ($("input[name=Id]").val() === "") {
                         var allinput = $("input");
                         $("div[class=form-body]").find(allinput).val("");
-                    }else{
+                    } else {
                         userView.viewListUser(userView.goBack);
                     }
                 },
-                Cancel:function () {
+                Cancel: function () {
                     userView.resetForm();
                 },
                 viewListUser: function (element) {
                     userView.goBack = element;
-                    idUser= $(element).attr("id");
+                    idUser = $(element).attr("id");
                     userView.idUser = $(element).attr("id");
                     $("tbody#tbodyUserList").find("tr").removeClass("active");
                     $(element).addClass("active");
@@ -208,7 +208,7 @@
                         }
                     })
                 },
-                fillTbody: function (data,result) {
+                fillTbody: function (data, result) {
                     $("tbody#tbodyUserList").empty();
                     var row = "";
                     for (var i = 0; i < data["listUser"].length; i++) {
@@ -228,14 +228,14 @@
                 deleteUser: function () {
                     $("div#modalConfirm").modal("show");
                 },
-                modalAgree:function () {
+                modalAgree: function () {
                     if (idUser !== null) {
                         $.post(url + "admin/deleteUser", {
                             _token: _token,
                             idUser: idUser
                         }, function (data) {
                             if (data[0] === 1) {
-                                userView.fillTbody(data,'delete');
+                                userView.fillTbody(data, 'delete');
                             }
                         });
                     }
@@ -246,11 +246,11 @@
                     }
                 },
                 addNewUser: function (result) {
-                    if(result===""){
+                    if (result === "") {
                         //$("div#modalConfirm").modal("hide");
                         $("input[name=Id]").val("");
                         userView.resetForm();
-                    }else if(result==="delete"){
+                    } else if (result === "delete") {
                         $("div#modalContent").empty().append("Xoá thành công");
                         $("button[name=modalAgree]").hide();
                         $("input[name=Id]").val("");
@@ -352,12 +352,12 @@
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Thêm mới thành công");
                                     $("button[name=modalAgree]").hide();
-                                    userView.fillTbody(data,'');
+                                    userView.fillTbody(data, '');
                                 } else if (data[0] === 2) {
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Chỉnh sửa thành công");
                                     $("button[name=modalAgree]").hide();
-                                    userView.fillTbody(data,'');
+                                    userView.fillTbody(data, '');
                                 } else if (data[0] === 0) {
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Chỉnh sửa KHÔNG thành công");

@@ -69,44 +69,44 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa
-                        <button type="button" class="btn btn-info btn-circle pull-right" onclick="therapistView.addNewTherapist('')">
+                        <button type="button" class="btn btn-info btn-circle pull-right"
+                                onclick="therapistView.addNewTherapist('')">
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>
-
                 </div>
-
-                    <div class="portlet-body form">
-                        <form role="form" id="formTherapist">
-                            <div class="form-body">
+                <div class="portlet-body form">
+                    <form role="form" id="formTherapist">
+                        <div class="form-body">
+                            <div class="col-md-12">
                                 <div class="form-group form-md-line-input" style="display:none">
                                     <input type="text" class="form-control" name="Id" id="Id">
                                 </div>
-                                <div class="form-group form-md-line-input col-md-12">
+                                <div class="form-group form-md-line-input ">
                                     <label for="Code"><b>Mã</b></label>
                                     <input type="text" class="form-control"
                                            id="Code"
                                            name="Code"
                                            placeholder="DTV001">
                                 </div>
-                                <div>
-                                    <div class="form-group form-md-line-input col-md-6">
-                                        <label for="Name"><b>Họ và tên</b></label>
-                                        <input type="text" class="form-control"
-                                               id="Name"
-                                               name="Name"
-                                               placeholder="Nguyễn Văn A">
-                                    </div>
-                                    <div class="form-group form-md-line-input col-md-6">
-                                        <label for="Sex"><b>Giới tính</b></label>
-                                        <input type="text" class="form-control"
-                                               id="Sex"
-                                               name="Sex"
-                                               placeholder="Nam">
-                                    </div>
+
+                                <div class="form-group form-md-line-input ">
+                                    <label for="Name"><b>Họ và tên</b></label>
+                                    <input type="text" class="form-control"
+                                           id="Name"
+                                           name="Name"
+                                           placeholder="Nguyễn Văn A">
+                                </div>
+                                <div class="form-group form-md-line-input ">
+                                    <label for="Sex"><b>Giới tính</b></label>
+                                    <input type="text" class="form-control"
+                                           id="Sex"
+                                           name="Sex"
+                                           placeholder="Nam">
                                 </div>
 
-                                <div class="form-group form-md-line-input col-md-12">
+
+                                <div class="form-group form-md-line-input ">
                                     <label for="Address"><b>Địa chỉ</b></label>
                                     <input type="text" class="form-control"
                                            id="Address"
@@ -116,72 +116,72 @@
                                            placeholder="562/2A Lê Quang Định Gò Vấp">
                                     <label id="Email" style="display: none">Email đã tồn tại</label>
                                 </div>
-                                <div>
-                                    <div class="form-group form-md-line-input col-md-6">
-                                        <label for="ProvincialId"><b>Thành phố/ Tỉnh</b></label>
-                                        <select class="form-control" id="ProvincialId">
-                                            @if($provinces)
-                                                @foreach($provinces as $item)
-                                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-                                    <div class="form-group form-md-line-input col-md-6">
-                                        <label for="AgeId"><b>Độ tuổi</b></label>
-                                        <select class="form-control" id="AgeId">
-                                            @if($ages)
-                                                @foreach($ages as $item)
-                                                    <option value="{{$item->id}}">{{$item->age}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-                                    <div class="form-group form-md-line-input col-md-12">
-                                        <label for="Phone"><b>Số điện thoại</b></label>
-                                        <input type="text" class="form-control"
-                                               id="Phone"
-                                               name="Phone"
-                                               onclick=""
-                                               onchange=""
-                                               placeholder="093266xxx">
-                                    </div>
+
+                                <div class="form-group form-md-line-input col-md-6">
+                                    <label for="ProvincialId"><b>Thành phố/ Tỉnh</b></label>
+                                    <select class="form-control" id="ProvincialId">
+                                        @if($provinces)
+                                            @foreach($provinces as $item)
+                                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                 </div>
-                                <div class="form-actions noborder">
-                                    <div class="form-group" style="padding-left: 15px;">
-                                        <button type="button" class="btn blue"
-                                                onclick="therapistView.addNewAndUpdateTherapist()">
-                                            Hoàn tất
-                                        </button>
-                                        <button type="button" class="btn default"   onclick="therapistView.Cancel()">Huỷ</button>
-                                    </div>
+                                <div class="form-group form-md-line-input col-md-6">
+                                    <label for="AgeId"><b>Độ tuổi</b></label>
+                                    <select class="form-control" id="AgeId">
+                                        @if($ages)
+                                            @foreach($ages as $item)
+                                                <option value="{{$item->id}}">{{$item->age}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="form-group form-md-line-input ">
+                                    <label for="Phone"><b>Số điện thoại</b></label>
+                                    <input type="text" class="form-control"
+                                           id="Phone"
+                                           name="Phone"
+                                           onclick=""
+                                           onchange=""
+                                           placeholder="093266xxx">
                                 </div>
 
                             </div>
-                        </form>
-                    </div>
-
+                            <div class="form-actions noborder">
+                                <div class="form-group" style="padding-left: 15px;">
+                                    <button type="button" class="btn blue"
+                                            onclick="therapistView.addNewAndUpdateTherapist()">
+                                        Hoàn tất
+                                    </button>
+                                    <button type="button" class="btn default" onclick="therapistView.Cancel()">Huỷ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
     $(function () {
-        Therapist=null;
+        Therapist = null;
         if (typeof (therapistView) === 'undefined') {
             therapistView = {
-                checkDelete:false,
-                goBack:null,
+                checkDelete: false,
+                goBack: null,
                 idTherapist: null,
                 TherapistObject: {
                     Id: null,
                     Code: null,
                     Name: null,
-                    Address:null,
-                    Phone:null,
-                    Sex:null,
-                    AgeId:null,
-                    ProvincialId:null,
+                    Address: null,
+                    Phone: null,
+                    Sex: null,
+                    AgeId: null,
+                    ProvincialId: null,
                 },
                 resetTherapistObject: function () {
                     for (var propertyName in therapistView.resetTherapistObject) {
@@ -191,17 +191,17 @@
                     }
                 },
                 addNewTherapist: function (result) {
-                    if(result===""){
+                    if (result === "") {
                         $("input[name=Id]").val("");
                         therapistView.resetForm();
-                    }else if(result==="delete"){
+                    } else if (result === "delete") {
                         $("div#modalContent").empty().append("Xoá thành công");
                         $("button[name=modalAgree]").hide();
                         $("input[name=Id]").val("");
                         therapistView.resetForm();
                     }
                 },
-                Cancel:function () {
+                Cancel: function () {
                     therapistView.resetForm();
                 },
                 firstToUpperCase: function (str) {
@@ -212,11 +212,11 @@
                         var allinput = $("input");
                         $("div[class=form-body]").find(allinput).val("");
                         $("div[class=form-body]").find("select").val(1);
-                    }else{
+                    } else {
                         therapistView.viewListTherapist(therapistView.goBack);
                     }
                 },
-                fillTbody: function (data,result) {
+                fillTbody: function (data, result) {
                     $("tbody#tbodyTherapistList").empty();
                     var row = "";
                     for (var i = 0; i < data["listTherapist"].length; i++) {
@@ -232,12 +232,12 @@
                     therapistView.idTherapist = null;
                     therapistView.addNewTherapist(result);
                 },
-                deleteTherapist:function () {
+                deleteTherapist: function () {
                     $("div#modalConfirm").modal("show");
                 },
                 viewListTherapist: function (element) {
                     therapistView.goBack = element;
-                    Therapist=$(element).attr("id");
+                    Therapist = $(element).attr("id");
                     therapistView.idTherapist = $(element).attr("id");
                     $("tbody#tbodyTherapistList").find("tr").removeClass("active");
                     $(element).addClass("active");
@@ -252,14 +252,14 @@
                         }
                     })
                 },
-                modalAgree:function () {
+                modalAgree: function () {
                     if (Therapist !== null) {
                         $.post(url + "admin/deleteTherapist", {
                             _token: _token,
                             idTherapist: Therapist
                         }, function (data) {
                             if (data[0] === 1) {
-                                therapistView.fillTbody(data,'delete');
+                                therapistView.fillTbody(data, 'delete');
                             }
                         });
                     }
@@ -269,41 +269,41 @@
                         $("button[name=modalAgree]").hide();
                     }
                 },
-                addNewAndUpdateTherapist:function () {
+                addNewAndUpdateTherapist: function () {
                     therapistView.resetTherapistObject();
                     for (var i = 0; i < Object.keys(therapistView.TherapistObject).length; i++) {
                         therapistView.TherapistObject[Object.keys(therapistView.TherapistObject)[i]] = $("#" + Object.keys(therapistView.TherapistObject)[i]).val();
                     }
                     $("#formTherapist").validate({
-                        rules:{
-                            Code:"required",
-                            Name:"required",
-                            Address:"required",
-                            Phone:"required"
+                        rules: {
+                            Code: "required",
+                            Name: "required",
+                            Address: "required",
+                            Phone: "required"
                         },
-                        messages:{
-                            Code:"Mã chuyên viên không được rỗng",
-                            Name:"Tên chuyên viên không được rỗng",
-                            Address:"Địa chỉ nhân viên không được rỗng",
-                            Phone:"Số điện thoại chuyên viên không được rỗng"
+                        messages: {
+                            Code: "Mã chuyên viên không được rỗng",
+                            Name: "Tên chuyên viên không được rỗng",
+                            Address: "Địa chỉ nhân viên không được rỗng",
+                            Phone: "Số điện thoại chuyên viên không được rỗng"
                         }
                     });
-                    if($("#formTherapist").valid()){
-                        $.post(url+"admin/addNewAndUpdateTherapist",{
-                            _token:_token,
+                    if ($("#formTherapist").valid()) {
+                        $.post(url + "admin/addNewAndUpdateTherapist", {
+                            _token: _token,
                             addNewOrUpdateId: $("input[name=Id]").val(),
                             dataTherapist: therapistView.TherapistObject
-                        },function (data) {
+                        }, function (data) {
                             if (data[0] === 1) {
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Thêm mới thành công");
                                 $("button[name=modalAgree]").hide();
-                                therapistView.fillTbody(data,'');
+                                therapistView.fillTbody(data, '');
                             } else if (data[0] === 2) {
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Chỉnh sửa thành công");
                                 $("button[name=modalAgree]").hide();
-                                therapistView.fillTbody(data,'');
+                                therapistView.fillTbody(data, '');
                             } else if (data[0] === 0) {
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Chỉnh sửa KHÔNG thành công");
