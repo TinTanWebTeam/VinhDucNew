@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Age;
 use App\DetailedTreatment;
 use App\InformationSurveys;
-use App\locationTreatment;
+use App\LocationTreatment;
 use App\ManagementTherapist;
 use App\Package;
 use App\PatientManagement;

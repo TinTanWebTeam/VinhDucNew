@@ -30,11 +30,6 @@
             <div class="panel panel-default" >
                 <div class="panel-heading"  >
                     <div style="color: #00a859;font-size: 17px;">Tỉnh Thành</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        {{--<button type="button" class="btn btn-danger btn-circle" onclick="provinceView.deleteProvince()"><i--}}
-                                    {{--class="fa fa-times"></i>--}}
-                        {{--</button>--}}
-                    </div>
                 </div>
                 <div style="height: 300px;overflow: scroll;">
                     <table class="table table-bordered table-hover order-column" id="tableProvinceList"
@@ -58,9 +53,8 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-info btn-circle" onclick="provinceView.addNewProvince('')"><i
+                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa
+                        <button type="button" class="btn btn-info btn-circle pull-right" onclick="provinceView.addNewProvince('')"><i
                                     class="fa fa-plus"></i>
                         </button>
                     </div>

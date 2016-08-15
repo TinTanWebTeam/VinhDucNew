@@ -30,13 +30,13 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Vị trí Điều Trị</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-danger btn-circle"
+                    <div style="color: #00a859;font-size: 17px;">Vị trí Điều Trị
+                        <button type="button" class="btn btn-danger btn-circle pull-right"
                                 onclick="locationView.deleteLocation()"><i
                                     class="fa fa-times"></i>
                         </button>
                     </div>
+
                 </div>
                 <div style="height: 300px;overflow: scroll;">
                     <table class="table table-bordered table-hover order-column" id="tableProTreatmentList"
@@ -64,14 +64,12 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa</div>
-                    <div style="position: absolute;margin: -25px 0px 0px 450px;">
-                        <button type="button" class="btn btn-info btn-circle"
+                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa
+                        <button type="button" class="btn btn-info btn-circle pull-right"
                                 onclick="locationView.addNewLocation('')"><i
                                     class="fa fa-plus"></i>
                         </button>
                     </div>
-
                 </div>
                 <div>
                     <div class="portlet-body form">
