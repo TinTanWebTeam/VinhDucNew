@@ -283,7 +283,7 @@
                         },
                         messages:{
                             Code:"Mã chuyên viên không được rỗng",
-                            Name:"Tên chuyên viên khoog được rỗng",
+                            Name:"Tên chuyên viên không được rỗng",
                             Address:"Địa chỉ nhân viên không được rỗng",
                             Phone:"Số điện thoại chuyên viên không được rỗng"
                         }
