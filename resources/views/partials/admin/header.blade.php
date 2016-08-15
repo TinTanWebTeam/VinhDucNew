@@ -72,7 +72,7 @@
                     </li>
                 @else
 
-                @endif           
+                @endif
                 <li>
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Khảo sát<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
