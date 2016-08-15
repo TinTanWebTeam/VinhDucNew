@@ -79,9 +79,13 @@
                         <li>
                             <a href="javascript:;"> <i class="fa fa-wrench fa-fw"></i>Tiến triển bệnh<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="javascript:;">Điều trị chuyên môn</a>
-                                </li>
+                                @if(Auth::user()->roleId == 3)
+                                    <li>
+                                        <a href="javascript:;">Điều trị chuyên môn</a>
+                                    </li>
+                                @else
+
+                                @endif
                                 @if(Auth::user()->roleId == 1 || Auth::user()->roleId == 2)
                                     <li>
                                         <a href="javascript:;">Phác đồ điều trị</a>

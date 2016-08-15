@@ -64,7 +64,7 @@
                                 @if($professionals)
                                     @foreach($professionals as $professional)
                                         <tr>
-                                            <td colspan="1">{{ \App\locationTreatment::where('id',$professional->first()->locationTreatmentId)->first()->name }}</td>
+                                            <td colspan="1">{{ \App\LocationTreatment::where('id',$professional->first()->locationTreatmentId)->first()->name }}</td>
                                         </tr>
                                         @foreach(array_chunk($professional->all(),3)as $rows)
                                             <tr>

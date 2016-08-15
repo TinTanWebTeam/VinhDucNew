@@ -248,7 +248,7 @@
                     tr += "<td>" + data[i]["note"] + "</td>";
                     tr += "<td>" + data[i]["createdDate"] + "</td>";
                     tr += "<td>" + data[i]["namePackage"] + "</td>";
-                    tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[i]["active"] + "' data-code='" + data[i]["code"] + "' data-date='" + data[i]["createdDate"] + "' data-Id='" + data[i]["id"] + "' onclick='professionalView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button><button type='button' style='margin-left: 5%;border-color: rgb(212, 0, 0);background-color: rgb(212, 0, 0);' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='professionalView.deleteTreatmentPackages(this)'><i class='fa fa-times' ></i></button></td>";
+                    tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[i]["active"] + "' data-code='" + data[i]["code"] + "' data-date='" + data[i]["createdDate"] + "' data-Id='" + data[i]["id"] + "' onclick='professionalView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";
                     row += tr;
                 }
                 $("tbody#tbodyProfessionalList").append(row);
