@@ -4,9 +4,7 @@
  * */
 Route::get('/',function(){
    if(Auth::check()){
-       if(Auth::user()->roleId == 1)
-           return redirect('admin/dashboard');
-       return redirect('user/dashboard');
+        return redirect('admin/dashboard');
    }
    return redirect('auth/login');
 });
@@ -19,7 +17,7 @@ Route::group(['middleware' => ['guest']],function (){
 /*
  * Admin Route
  * */
-Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
+Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     //Get
     Route::get('dashboard','AdminController@dashboard');
     Route::get('getViewUser','AdminController@getViewUser');
@@ -101,11 +99,4 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'],function (){
     Route::post('addNewAndUpdateInformation','AdminController@addNewAndUpdateInformation');
     Route::post('searchStatistical','AdminController@searchStatistical');
 
-});
-
-/*
- * User Route
- * */
-Route::group(['middleware' => ['auth','user'],'prefix' => 'user'],function (){
-    Route::get('dashboard','UserController@dashboard');
 });

@@ -88,14 +88,17 @@ class AuthController extends Controller
     public function postLogin(Request $request)
     {
         try{
-            $user = User::where('name',$request->get('username'))
-                ->where('password',crypt(Config::get('app.key'),$request->get('password')))
-                ->first();
+            $user = User::where('name', $request->get('username'))->first();
             if($user){
-                Auth::login($user);
-                return redirect('/');
-            }
-            else{
+                $password = decrypt($user->password,Config::get('app.key'));
+                if ($password == $request->get('password')) {
+                    Auth::login($user);
+                    return redirect('/'); 
+                }else{
+                    flash()->overlay('Mật khẩu đăng nhập sai, vui lòng đăng nhập lại!', 'Thông báo');
+                    return redirect('auth/login');
+                }
+            }else{
                 flash()->overlay('Không tìm thấy tài khoản, vui lòng đăng nhập lại!', 'Thông báo');
                 return redirect('auth/login');
             }

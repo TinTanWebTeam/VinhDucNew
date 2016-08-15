@@ -12,19 +12,10 @@
 
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+            <a href="{{ asset('auth/logout') }}">
                 <i class="fa fa-user fa-fw"></i>
                 <i class="fa fa-caret-down"></i>
             </a>
-            <ul class="dropdown-menu dropdown-user">
-                <li><a href="#"><i class="fa fa-user fa-fw"></i> Thông tin người dùng</a>
-                </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Cài đặt</a>
-                </li>
-                <li class="divider"></li>
-                <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Thoát</a>
-                </li>
-            </ul>
             <!-- /.dropdown-user -->
         </li>
         <!-- /.dropdown -->
@@ -75,9 +66,13 @@
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="javascript:;"><i class="fa fa-edit fa-fw"></i> Chẩn đoán</a>
-                </li>
+                @if(Auth::user()->roleId == 1 || Auth::user()->roleId == 2)
+                    <li>
+                        <a href="javascript:;"><i class="fa fa-edit fa-fw"></i> Chẩn đoán</a>
+                    </li>
+                @else
+
+                @endif           
                 <li>
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Khảo sát<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -87,9 +82,13 @@
                                 <li>
                                     <a href="javascript:;">Điều trị chuyên môn</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:;">Phác đồ điều trị</a>
-                                </li>
+                                @if(Auth::user()->roleId == 1 || Auth::user()->roleId == 2)
+                                    <li>
+                                        <a href="javascript:;">Phác đồ điều trị</a>
+                                    </li>
+                                @else
+
+                                @endif
                                 <li>
                                     <a href="javascript:;">Thống kê bệnh nhân</a>
                                 </li>
