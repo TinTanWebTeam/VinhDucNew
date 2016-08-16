@@ -144,7 +144,7 @@
                                             onclick="userView.addNewAndUpdateUser()">
                                         Hoàn tất
                                     </button>
-                                    <button type="button" class="btn default">Huỷ</button>
+                                    <button type="button" class="btn default" onclick="userView.Cancel()">Huỷ</button>
                                 </div>
                             </div>
                         </div>

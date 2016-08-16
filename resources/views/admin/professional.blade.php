@@ -294,12 +294,13 @@
                 });
             },
             fillToInput: function (element) {
+                var a = $("tbody[id=AutoCompleteTableBody]").find("tr[id="+$(element).attr("data-Id")+"]");
                 $("div#Table").hide();
                 $("input[name=Id]").val($(element).attr("data-Id"));
-                $("input[name=Code]").val($(element).parent().parent().find("td").eq(0).text());
-                $("input[name=FullName]").val($(element).parent().parent().find("td").eq(1).text());
-                $("input[name=Sex]").val($(element).parent().parent().find("td").eq(2).text());
-                $("input[name=Birthday]").val($(element).parent().parent().find("td").eq(3).text());
+                $("input[name=Code]").val(a.find("td").eq(0).text());
+                $("input[name=FullName]").val(a.find("td").eq(1).text());
+                $("input[name=Sex]").val(a.find("td").eq(2).text());
+                $("input[name=Birthday]").val(a.find("td").eq(3).text());
                 professionalView.SearchTreatmentPackages($(element).attr("data-Id"));
             },
             SearchTreatmentPackages: function (element) {

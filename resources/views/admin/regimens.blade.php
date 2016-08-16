@@ -333,7 +333,6 @@
                 //regimensView.addNewregimens(result);
             },
             updateTreatmentRegiment: function (element) {
-                console.log($(element).attr("data-note"));
                 $("div[name=searchRegimen]").hide();
                 $("div[name=formRegimens]").show();
                 $("div[name=SearchPatient]").hide();
@@ -382,12 +381,14 @@
                 });
             },
             fillToInput: function (element) {
+                var a = $("tbody[id=AutoCompleteTableBody]").find("tr[id="+$(element).attr("data-Id")+"]");
+
                 $("div#Table").hide();
                 $("input[name=Id]").val($(element).attr("data-Id"));
-                $("input[name=CodePatient]").val($(element).parent().parent().find("td").eq(0).text());
-                $("input[name=FullName]").val($(element).parent().parent().find("td").eq(1).text());
-                $("input[name=CodeRegimen]").val($(element).attr("data-code"));
-                $("input[name=CreatedDate]").val($(element).parent().parent().find("td").eq(3).text());
+                $("input[name=CodePatient]").val(a.find("td").eq(0).text());
+                $("input[name=FullName]").val(a.find("td").eq(1).text());
+                $("input[name=CodeRegimen]").val(a.find("td").eq(2).text());
+                $("input[name=CreatedDate]").val(a.find("td").eq(3).text());
                 regimensView.SearchTreatmentRegimens($(element).attr("data-code"));
             },
             SearchTreatmentRegimens: function (element) {
