@@ -138,7 +138,7 @@
                                                 <th>Họ và tên</th>
                                                 <th>Giới tính</th>
                                                 <th>Số điện thoại</th>
-                                                <th>Choose</th>
+                                                <th>Chọn</th>
                                             </tr>
                                             </thead>
                                             <tbody id="AutoCompleteTableBody">
@@ -178,7 +178,7 @@
                                     </div>
                                 </div>
                                 <div name="tableAddNewTreatmentPackages" style="display: none">
-                                    <div class="form-group form-md-line-input" style="display()none">
+                                    <div class="form-group form-md-line-input" style="display:none">
                                         <input type="text" class="form-control" name="AddNewId" id="AddNewId">
                                     </div>
                                     <div class="form-group form-md-line-input col-md-6">
@@ -225,7 +225,6 @@
                                             onclick="diagnosticView.searchPatient(this)">
                                         Tìm kiếm
                                     </button>
-                                    <button type="button" class="btn default">Huỷ</button>
                                 </div>
                             </div>
                             <div class="form-actions noborder" name="buttonAddNewTreatmentPackages"
@@ -233,7 +232,7 @@
                                 <div class="form-group" style="padding-left: 15px;">
                                     <button type="button" class="btn blue"
                                             onclick="diagnosticView.addNew(this)">
-                                        Thêm mới
+                                        Lưu
                                     </button>
                                     <button type="button" class="btn default" onclick="diagnosticView.Cancel(this)">
                                         Huỷ
@@ -292,6 +291,12 @@
                 $("div[name=buttonAddNewTreatmentPackages]").hide();
                 $("div[name=searchPatient]").show();
                 $("div[name=addNewTreatment]").hide();
+
+                $("input[name=Code]").val("");
+                $("input[name=FullName]").val("");
+                $("input[name=Id]").val("");
+                $("input[name=Sex]").val("");
+                $("input[name=Birthday]").val("");
             },
             firstToUpperCase: function (str) {
                 return str.substr(0, 1).toUpperCase() + str.substr(1);

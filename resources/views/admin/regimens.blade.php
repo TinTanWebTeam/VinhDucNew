@@ -176,7 +176,8 @@
                                             onclick="regimensView.addRegimen(this)">
                                         Hoàn tất
                                     </button>
-                                <button type="button" class="btn default" onclick="regimensView.goBack(this)">Quay lại
+                                    <button type="button" class="btn default" onclick="regimensView.goBack(this)">Quay
+                                        lại
                                     </button>
                                 </div>
 
@@ -262,7 +263,7 @@
                 FullName: null,
                 CodeRegimen: null,
                 CreatedDate: null,
-                AddNewId:null,
+                AddNewId: null,
                 Status: null,
                 Note: null
             },
@@ -306,21 +307,21 @@
                 var row = "";
                 for (var i = 0; i < data.length; i++) {
                     var tr = "";
-                    if (data[i]["active"] === 0) {
-                        tr += "<tr id=" + data[i]["id"] + " data-code=" + data[i]["code"] + " data-note=" + data[i]["note"] + " data-status=" + data[i]["status"] + " onclick='regimensView.updateTreatmentRegiment(this)' style='cursor: pointer;background-color: #e6e4e4'>";
-                    } else {
-                        tr += "<tr id=" + data[i]["id"] + " data-code=" + data[i]["code"] + " data-note=" + data[i]["note"] + " data-status=" + data[i]["status"] + " onclick='regimensView.updateTreatmentRegiment(this)' style='cursor: pointer'>";
-                    }
+//                    if (data[i]["active"] === 0) {
+//                        tr += "<tr id=" + data[i]["id"] + " data-code=" + data[i]["code"] + " data-note=" + data[i]["note"] + "  ondblclick='regimensView.updateTreatmentRegiment(this)' style='cursor: pointer;background-color: #e6e4e4'>";
+//                    } else {
+                    tr += "<tr id=" + data[i]["id"] + " data-code=" + data[i]["code"] + " data-status=" + data[i]["status"] + " ondblclick='regimensView.updateTreatmentRegiment(this)' style='cursor: pointer' data-note=" + data[i]["note"] + ">";
+//                    }
                     tr += "<td>" + data[i]["code"] + "</td>";
                     tr += "<td>" + data[i]["createdDate"] + "</td>";
                     tr += "<td>" + data[i]["updatedDate"] + "</td>";
-                    if(data[i]["status"]===0){
+                    if (data[i]["status"] === 0) {
                         tr += "<td></td>";
-                    }else if(data[i]["status"]===1){
+                    } else if (data[i]["status"] === 1) {
                         tr += "<td>Giảm</td>";
-                    }else if(data[i]["status"]===2){
+                    } else if (data[i]["status"] === 2) {
                         tr += "<td>Không giảm</td>";
-                    }else if(data[i]["status"]===3){
+                    } else if (data[i]["status"] === 3) {
                         tr += "<td>Đau hơn</td>";
                     }
                     tr += "<td>" + data[i]["note"] + "</td>";
@@ -332,6 +333,7 @@
                 //regimensView.addNewregimens(result);
             },
             updateTreatmentRegiment: function (element) {
+                console.log($(element).attr("data-note"));
                 $("div[name=searchRegimen]").hide();
                 $("div[name=formRegimens]").show();
                 $("div[name=SearchPatient]").hide();
@@ -485,13 +487,13 @@
                 $("div[name=formRegimens]").show();
 
             },
-            addRegimen:function () {
+            addRegimen: function () {
                 regimensView.setValueObject();
-                $.post(url+"admin/updateRegimen",{
-                    _token:_token,
-                    data:regimensView.regimensObject
-                },function (data) {
-                    if(data==="1"){
+                $.post(url + "admin/updateRegimen", {
+                    _token: _token,
+                    data: regimensView.regimensObject
+                }, function (data) {
+                    if (data === "1") {
                         $("div#modalContent").empty().append("Lưu thành công");
                         $("div#modalConfirm").modal("show");
                         regimensView.SearchTreatmentRegimens($("input[name=AddNewId]").val());
@@ -499,7 +501,7 @@
                         $("div[name=SearchPatient]").show();
 
                         regimensView.resetForm();
-                    }else{
+                    } else {
                         $("div#modalContent").empty().append("Lưu KHÔNG thành công");
                         $("div#modalConfirm").modal("show");
                         $("button[name=modalAgree]").hide();

@@ -6,7 +6,7 @@
         {{--@foreach($detail as $rows)--}}
         {{--@for($i = 0;$i<count($detail);$i++)--}}
         <tr>
-            <td style="width: 3%;">{{ \App\locationTreatment::where('id',$detail->locationId)->first()->name }}</td>
+            <td style="width: 3%;">{{ \App\LocationTreatment::where('id',$detail->locationId)->first()->name }}</td>
             {{--@foreach($rows as $item)--}}
             <td name="">{{$detail->professionalName}}</td>
             <td>
