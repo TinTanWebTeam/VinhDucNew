@@ -55,7 +55,7 @@
                                                 <th>Họ và tên</th>
                                                 <th>Giới tính</th>
                                                 <th>Số điện thoại</th>
-                                                <th>Choose</th>
+                                                <th>Chọn</th>
                                             </tr>
                                             </thead>
                                             <tbody id="AutoCompleteTableBody">
@@ -80,10 +80,10 @@
                                     <div class="">
                                         <div class="form-group form-md-line-input col-md-6">
                                             <label for="Sex"><b>Giới tính</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Sex"
-                                                   name="Sex"
-                                                   placeholder="nam">
+                                            <select class="form-control" name="Sex" id="Sex">
+                                                <option value="1">Nam</option>
+                                                <option value="2">Nữ</option>
+                                            </select>
                                         </div>
                                         <div class="form-group form-md-line-input col-md-6">
                                             <label for="Birthday"><b>Năm sinh</b></label>

@@ -142,7 +142,7 @@
                                                 <th>Họ và tên</th>
                                                 <th>Giới tính</th>
                                                 <th>Số điện thoại</th>
-                                                <th>Choose</th>
+                                                <th>Chọn</th>
                                             </tr>
                                             </thead>
                                             <tbody id="AutoCompleteTableBody">

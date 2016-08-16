@@ -18,7 +18,7 @@ class CreateManagementTherapistsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('phone');
-            $table->string('sex');
+            $table->boolean('sex');
             $table->integer('ageId')->unsigned();
             $table->integer('provincialId')->unsigned();
             $table->boolean('active')->default(1);

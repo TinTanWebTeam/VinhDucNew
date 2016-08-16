@@ -2,7 +2,7 @@
 <div class="modal fade" id="modalConfirm" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body" id="modalContent">Chắt chắn xoá ?</div>
+            <div class="modal-body" id="modalContent">Chắc chắn xoá ?</div>
             <div class="modal-footer">
                 <button type="button" class="btn dark btn-outline" data-dismiss="modal" name="modalClose">Đóng</button>
                 <button type="button" class="btn green" name="modalAgree"
@@ -29,10 +29,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách điều trị viên
-                        <button type="button" class="btn btn-danger btn-circle pull-right"
-                                onclick="therapistView.deleteTherapist()"><i
-                                    class="fa fa-times"></i>
-                        </button>
+                        {{--<button type="button" class="btn btn-danger btn-circle pull-right"--}}
+                                {{--onclick="therapistView.deleteTherapist()"><i--}}
+                                    {{--class="fa fa-times"></i>--}}
+                        {{--</button>--}}
                     </div>
 
                 </div>
@@ -54,7 +54,11 @@
                                     style="cursor: pointer">
                                     <td>{{$item->code}}</td>
                                     <td>{{$item->name}}</td>
-                                    <td>{{$item->sex}}</td>
+                                    @if($item->sex===1)
+                                        <td>Nam</td>
+                                    @else
+                                        <td>Nữ</td>
+                                    @endif
                                     <td>{{$item->phone}}</td>
                                 </tr>
                             @endforeach
@@ -97,12 +101,12 @@
                                            name="Name"
                                            placeholder="Nguyễn Văn A">
                                 </div>
-                                <div class="form-group form-md-line-input ">
+                                <div class="form-group form-md-line-input">
                                     <label for="Sex"><b>Giới tính</b></label>
-                                    <input type="text" class="form-control"
-                                           id="Sex"
-                                           name="Sex"
-                                           placeholder="Nam">
+                                    <select class="form-control" name="Sex" id="Sex">
+                                        <option value="1">Nam</option>
+                                        <option value="2">Nữ</option>
+                                    </select>
                                 </div>
 
 
@@ -116,26 +120,27 @@
                                            placeholder="562/2A Lê Quang Định Gò Vấp">
                                     <label id="Email" style="display: none">Email đã tồn tại</label>
                                 </div>
-
-                                <div class="form-group form-md-line-input col-md-6">
-                                    <label for="ProvincialId"><b>Thành phố/ Tỉnh</b></label>
-                                    <select class="form-control" id="ProvincialId">
-                                        @if($provinces)
-                                            @foreach($provinces as $item)
-                                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                                <div class="form-group form-md-line-input col-md-6">
-                                    <label for="AgeId"><b>Độ tuổi</b></label>
-                                    <select class="form-control" id="AgeId">
-                                        @if($ages)
-                                            @foreach($ages as $item)
-                                                <option value="{{$item->id}}">{{$item->age}}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
+                                <div class="row">
+                                    <div class="form-group form-md-line-input col-md-6">
+                                        <label for="ProvincialId"><b>Thành phố/ Tỉnh</b></label>
+                                        <select class="form-control" id="ProvincialId">
+                                            @if($provinces)
+                                                @foreach($provinces as $item)
+                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                    <div class="form-group form-md-line-input col-md-6">
+                                        <label for="AgeId"><b>Độ tuổi</b></label>
+                                        <select class="form-control" id="AgeId">
+                                            @if($ages)
+                                                @foreach($ages as $item)
+                                                    <option value="{{$item->id}}">{{$item->age}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group form-md-line-input ">
                                     <label for="Phone"><b>Số điện thoại</b></label>
@@ -191,6 +196,7 @@
                     }
                 },
                 addNewTherapist: function (result) {
+                    $("input[name=Code]").prop("readOnly", false);
                     if (result === "") {
                         $("input[name=Id]").val("");
                         therapistView.resetForm();
@@ -224,7 +230,11 @@
                         tr += "<tr id=" + data["listTherapist"][i]["id"] + " onclick='therapistView.viewListTherapist(this)' style='cursor: pointer'>";
                         tr += "<td>" + data["listTherapist"][i]["code"] + "</td>";
                         tr += "<td>" + data["listTherapist"][i]["name"] + "</td>";
-                        tr += "<td>" + data["listTherapist"][i]["sex"] + "</td>";
+                        if (data["listTherapist"][i]["sex"] === 1) {
+                            tr += "<td>Nam</td>";
+                        } else if (data["listTherapist"][i]["sex"] === 2) {
+                            tr += "<td>Nữ</td>";
+                        }
                         tr += "<td>" + data["listTherapist"][i]["phone"] + "</td>";
                         row += tr;
                     }
@@ -233,9 +243,19 @@
                     therapistView.addNewTherapist(result);
                 },
                 deleteTherapist: function () {
-                    $("div#modalConfirm").modal("show");
+                    if (Therapist === null) {
+                        $("div#modalContent").empty().append("Vui lòng chọn nhân viên để xoá");
+                        $("button[name=modalAgree]").hide();
+                        $("div#modalConfirm").modal("show");
+                    } else {
+                        $("div#modalContent").empty().append("Chắc chắn xoá");
+                        $("button[name=modalAgree]").show();
+                        $("div#modalConfirm").modal("show");
+                    }
+
                 },
                 viewListTherapist: function (element) {
+                    $("input[name=Code]").prop("readOnly", true);
                     therapistView.goBack = element;
                     Therapist = $(element).attr("id");
                     therapistView.idTherapist = $(element).attr("id");
@@ -259,6 +279,7 @@
                             idTherapist: Therapist
                         }, function (data) {
                             if (data[0] === 1) {
+                                Therapist = null;
                                 therapistView.fillTbody(data, 'delete');
                             }
                         });
@@ -295,11 +316,13 @@
                             dataTherapist: therapistView.TherapistObject
                         }, function (data) {
                             if (data[0] === 1) {
+                                Therapist = null;
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Thêm mới thành công");
                                 $("button[name=modalAgree]").hide();
                                 therapistView.fillTbody(data, '');
                             } else if (data[0] === 2) {
+                                Therapist = null;
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Chỉnh sửa thành công");
                                 $("button[name=modalAgree]").hide();

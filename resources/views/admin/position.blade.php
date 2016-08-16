@@ -2,7 +2,7 @@
 <div class="modal fade" id="modalConfirm" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body" id="modalContent">Chắt chắn xoá ?</div>
+            <div class="modal-body" id="modalContent">Chắc chắn xoá ?</div>
             <div class="modal-footer">
                 <button type="button" class="btn dark btn-outline" data-dismiss="modal" name="modalClose">Đóng</button>
                 <button type="button" class="btn green" name="modalAgree"

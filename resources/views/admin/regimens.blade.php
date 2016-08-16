@@ -86,7 +86,7 @@
                                                 <th>Họ và tên</th>
                                                 <th>Mã phác đồ</th>
                                                 <th>Ngày tạo</th>
-                                                <th>Choose</th>
+                                                <th>Chọn</th>
                                             </tr>
                                             </thead>
                                             <tbody id="AutoCompleteTableBody">

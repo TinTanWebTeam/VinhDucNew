@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::get('getViewProfessional','AdminController@getViewProfessional');
     Route::get('getStatisticsPatients','AdminController@getStatisticsPatients');
     Route::get('getStatisticsTherapist','AdminController@getStatisticsTherapist');
-
+    Route::get('getdate','AdminController@getdate');
     //Anh Tam
 
     Route::get('getViewPackage','AdminController@getViewPackage');

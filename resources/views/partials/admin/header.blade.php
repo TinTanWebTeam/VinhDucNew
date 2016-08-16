@@ -73,7 +73,7 @@
                         </li>
                     </ul>
                 </li>
-                @if(Auth::user()->roleId == 1 || Auth::user()->roleId == 2)
+                @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 2)
                     <li>
                         <a href="javascript:;"><i class="fa fa-edit fa-fw"></i> Chẩn đoán</a>
                     </li>
@@ -87,14 +87,14 @@
                             <a href="javascript:;"> <i class="fa fa-wrench fa-fw"></i>Tiến triển bệnh<span
                                         class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                @if(Auth::user()->roleId == 3)
+                                @if(Auth::user()->roleId == 3 || Auth::user()->positionId == 3 )
                                     <li>
                                         <a href="javascript:;">Điều trị chuyên môn</a>
                                     </li>
                                 @else
 
                                 @endif
-                                @if(Auth::user()->roleId == 1 || Auth::user()->roleId == 2)
+                                @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 2)
                                     <li>
                                         <a href="javascript:;">Phác đồ điều trị</a>
                                     </li>

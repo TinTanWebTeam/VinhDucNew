@@ -16,14 +16,14 @@ class CreatePatientManagementsTable extends Migration
             $table->increments('id');
             $table->string('code')->unique();
             $table->string('fullName');
-            $table->string('birthday');
-            $table->string('sex');
+            $table->date('birthday');
+            $table->boolean('sex');
             $table->float('weight');
             $table->float('height');
             $table->string('bloodPressure');
             $table->string('pulse');
             $table->string('job');
-            $table->integer('phone');
+            $table->string('phone');
             $table->string('address');
             $table->integer('provincialId')->unsigned();
             $table->integer('ageId')->unsigned();

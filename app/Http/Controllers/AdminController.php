@@ -26,6 +26,12 @@ use Validator;
 
 class AdminController extends Controller
 {
+    public function getdate()
+    {
+        $date = DB::select("SELECT NOW()");
+        return $date;
+    }
+
     public function dashboard()
     {
         return view('admin.dashboard');
@@ -492,7 +498,7 @@ class AdminController extends Controller
                 $SQL .= " AND birthday LIKE '" . '%' . $request->get('Patient')['Birthday'] . '%' . "'";
             }
             if ($request->get('Patient')['Sex'] != "") {
-                $SQL .= " AND sex LIKE '" . '%' . $request->get('Patient')['Sex'] . '%' . "'";
+                $SQL .= " AND sex = '"  . $request->get('Patient')['Sex'] . "'";
             }
             $patient = DB::select($SQL);
             return $patient;

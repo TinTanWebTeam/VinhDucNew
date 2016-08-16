@@ -29,10 +29,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách người dùng
-                        <button type="button" class="btn btn-danger btn-circle pull-right"
-                                onclick="userView.deleteUser()"><i
-                                    class="fa fa-times"></i>
-                        </button>
+                        {{--<button type="button" class="btn btn-danger btn-circle pull-right"--}}
+                                {{--onclick="userView.deleteUser()"><i--}}
+                                    {{--class="fa fa-times"></i>--}}
+                        {{--</button>--}}
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -156,7 +156,7 @@
 </div>
 <script>
     $(function () {
-        idUser = null;
+        idUsers = null;
         if (typeof (userView) === 'undefined') {
             userView = {
                 goBack: null,
@@ -226,7 +226,15 @@
                     userView.addNewUser(result);
                 },
                 deleteUser: function () {
-                    $("div#modalConfirm").modal("show");
+                    if(idUsers==null) {
+                        $("div#modalContent").empty().append("Vui lòng chọn người dùng để xoá");
+                        $("button[name=modalAgree]").hide();
+                        $("div#modalConfirm").modal("show");
+                    }else{
+                        $("div#modalContent").empty().append("Chắc chắn xoá ?");
+                        $("button[name=modalAgree]").show();
+                        $("div#modalConfirm").modal("show");
+                    }
                 },
                 modalAgree: function () {
                     if (idUser !== null) {
@@ -235,6 +243,7 @@
                             idUser: idUser
                         }, function (data) {
                             if (data[0] === 1) {
+                                idUsers==null,
                                 userView.fillTbody(data, 'delete');
                             }
                         });
@@ -349,11 +358,13 @@
                         }, function (data) {
                             if (data[0] !== 3) {
                                 if (data[0] === 1) {
+                                    idUsers=null;
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Thêm mới thành công");
                                     $("button[name=modalAgree]").hide();
                                     userView.fillTbody(data, '');
                                 } else if (data[0] === 2) {
+                                    idUsers=null;
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Chỉnh sửa thành công");
                                     $("button[name=modalAgree]").hide();

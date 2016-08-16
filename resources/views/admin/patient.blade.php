@@ -2,7 +2,7 @@
 <div class="modal fade" id="modalConfirm" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body" id="modalContent">Chắt chắn xoá ?</div>
+            <div class="modal-body" id="modalContent">Chắc chắn xoá ?</div>
             <div class="modal-footer">
                 <button type="button" class="btn dark btn-outline" data-dismiss="modal" name="modalClose">Đóng</button>
                 <button type="button" class="btn green" name="modalAgree"
@@ -29,10 +29,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách bệnh nhân
-                        <button type="button" class="btn btn-danger btn-circle pull-right"
-                                onclick="patientView.deletePatient()"><i
-                                    class="fa fa-times"></i>
-                        </button>
+                        {{--<button type="button" class="btn btn-danger btn-circle pull-right"--}}
+                                {{--onclick="patientView.deletePatient()"><i--}}
+                                    {{--class="fa fa-times"></i>--}}
+                        {{--</button>--}}
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -53,7 +53,12 @@
                                     style="cursor: pointer">
                                     <td>{{$item->code}}</td>
                                     <td>{{$item->fullName}}</td>
-                                    <td>{{$item->sex}}</td>
+                                    @if($item->sex===1)
+                                        <td>Nam</td>
+                                    @else
+                                        <td>Nữ</td>
+                                    @endif
+
                                     <td>{{$item->phone}}</td>
                                 </tr>
                             @endforeach
@@ -68,7 +73,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa
-                        <button type="button" class="btn btn-info btn-circle pull-right" onclick="patientView.addNewPatient('')"><i
+                        <button type="button" class="btn btn-info btn-circle pull-right"
+                                onclick="patientView.addNewPatient('')"><i
                                     class="fa fa-plus"></i>
                         </button>
                     </div>
@@ -98,18 +104,18 @@
                                     <div class="">
                                         <div class="form-group form-md-line-input col-md-6">
                                             <label for="Sex"><b>Giới tính</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Sex"
-                                                   name="Sex"
-                                                   placeholder="nam">
+                                            <select class="form-control" name="Sex" id="Sex">
+                                                <option value="1">Nam</option>
+                                                <option value="2">Nữ</option>
+                                            </select>
                                         </div>
                                         <div class="form-group form-md-line-input col-md-6">
                                             <label for="Birthday"><b>Ngày sinh</b></label>
-                                            <input type="text" class="form-control"
+                                            <input type="date" class="form-control"
                                                    id="Birthday"
+                                                   onchange="patientView.birthday()"
                                                    name="Birthday"
-                                                   value={{date('d/m/Y')}}>
-
+                                                   value={{date('Y-m-d')}}>
                                         </div>
                                     </div>
                                     <div class="">
@@ -118,8 +124,6 @@
                                             <input type="text" class="form-control"
                                                    id="Height"
                                                    name="Height"
-                                                   onclick=""
-                                                   onchange=""
                                                    placeholder="170">
                                         </div>
                                         <div class="form-group form-md-line-input col-md-3">
@@ -127,8 +131,6 @@
                                             <input type="text" class="form-control"
                                                    id="Weight"
                                                    name="Weight"
-                                                   onclick=""
-                                                   onchange=""
                                                    placeholder="70">
                                         </div>
                                         <div class="form-group form-md-line-input col-md-3">
@@ -136,8 +138,6 @@
                                             <input type="text" class="form-control"
                                                    id="BloodPressure"
                                                    name="BloodPressure"
-                                                   onclick=""
-                                                   onchange=""
                                                    placeholder="130">
                                         </div>
                                         <div class="form-group form-md-line-input col-md-3">
@@ -145,8 +145,6 @@
                                             <input type="text" class="form-control"
                                                    id="Pulse"
                                                    name="Pulse"
-                                                   onclick=""
-                                                   onchange=""
                                                    placeholder="160">
                                         </div>
                                     </div>
@@ -183,7 +181,7 @@
                                     <div>
                                         <div class="form-group form-md-line-input col-md-6">
                                             <label for="ProvincialId"><b>Thành phố/ Tỉnh</b></label>
-                                            <select class="form-control" id="ProvincialId">
+                                            <select class="form-control" id="ProvincialId" name="ProvincialId">
                                                 @if($provinces)
                                                     @foreach($provinces as $item)
                                                         <option value="{{$item->id}}">{{$item->name}}</option>
@@ -193,9 +191,8 @@
                                         </div>
                                         <div class="form-group form-md-line-input col-md-6">
                                             <label for="AgeId"><b>Độ tuổi</b></label>
-                                            <select class="form-control" id="AgeId">
+                                            <select class="form-control" id="AgeId" name="AgeId">
                                                 @if($ages)
-                                                    <option value="0">-- Chọn Tuổi --</option>
                                                     @foreach($ages as $item)
                                                         <option value="{{$item->id}}">{{$item->age}}</option>
                                                     @endforeach
@@ -206,13 +203,13 @@
                                 </div>
                                 <div class="form-actions noborder">
                                     <div class="form-group" style="padding-left: 15px;">
-                                    <button type="button" class="btn blue"
-                                            onclick="patientView.addNewAndUpdatePatient()">
-                                        Hoàn tất
-                                    </button>
-                                    <button type="button" class="btn default">Huỷ</button>
-                                </div>
+                                        <button type="button" class="btn blue"
+                                                onclick="patientView.addNewAndUpdatePatient()">
+                                            Hoàn tất
+                                        </button>
+                                        <button type="button" class="btn default">Huỷ</button>
                                     </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -223,26 +220,26 @@
 </div>
 <script>
     $(function () {
-        idPatient=null;
+        idPatient = null;
         if (typeof (patientView) === 'undefined') {
             patientView = {
-                goBack:null,
+                goBack: null,
                 idPatient: null,
                 PatientObject: {
                     Id: null,
                     Code: null,
                     FullName: null,
-                    Birthday:null,
-                    Sex:null,
-                    Weight:null,
-                    Height:null,
-                    BloodPressure:null,
-                    Pulse:null,
-                    Job:null,
-                    Phone:null,
-                    Address:null,
-                    ProvincialId:null,
-                    AgeId:null,
+                    Birthday: null,
+                    Sex: null,
+                    Weight: null,
+                    Height: null,
+                    BloodPressure: null,
+                    Pulse: null,
+                    Job: null,
+                    Phone: null,
+                    Address: null,
+                    ProvincialId: null,
+                    AgeId: null,
                 },
                 resetPatientObject: function () {
                     for (var propertyName in patientView.PatientObject) {
@@ -251,25 +248,25 @@
                         }
                     }
                 },
-                convertStringToDate:function(date) {
+                convertStringToDate: function (date) {
                     var currentDate = new Date(date);
-                    var datetime = currentDate.getFullYear() +"-"
-                            + ("0" + (currentDate.getMonth() + 1)).slice(-2)  +"-"
+                    var datetime = currentDate.getFullYear() + "-"
+                            + ("0" + (currentDate.getMonth() + 1)).slice(-2) + "-"
                             + ("0" + currentDate.getDate()).slice(-2);
                     return datetime;
                 },
                 addNewPatient: function (result) {
-                    if(result===""){
+                    if (result === "") {
                         $("input[name=Id]").val("");
                         patientView.resetForm();
-                    }else if(result==="delete"){
+                    } else if (result === "delete") {
                         $("div#modalContent").empty().append("Xoá thành công");
                         $("button[name=modalAgree]").hide();
                         $("input[name=Id]").val("");
                         patientView.resetForm();
                     }
                 },
-                Cancel:function () {
+                Cancel: function () {
                     patientView.resetForm();
                 },
                 firstToUpperCase: function (str) {
@@ -278,21 +275,22 @@
                 resetForm: function () {
                     if ($("input[name=Id]").val() === "") {
                         var allinput = $("input");
+                        $("input[name=Code]").prop("readOnly", false);
                         $("div[class=form-body]").find(allinput).val("");
-                        $("div[class=form-body]").find("select").val("0");
+                        $("div[class=form-body]").find("select").val(1);
                         var date = new Date();
                         var day = date.getDate();
                         var month = date.getMonth() + 1;
                         var year = date.getFullYear();
                         if (month < 10) month = "0" + month;
                         if (day < 10) day = "0" + day;
-                        var  today= day + "-" + month + "-" + year;
+                        var today = day + "-" + month + "-" + year;
                         $("input[id=Birthday]").val(today);
-                    }else{
+                    } else {
                         patientView.viewListPatient(patientView.goBack);
                     }
                 },
-                fillTbody: function (data,result) {
+                fillTbody: function (data, result) {
                     $("tbody#tbodyPatientList").empty();
                     var row = "";
                     for (var i = 0; i < data["listPatient"].length; i++) {
@@ -300,7 +298,11 @@
                         tr += "<tr id=" + data["listPatient"][i]["id"] + " onclick='patientView.viewListPatient(this)' style='cursor: pointer'>";
                         tr += "<td>" + data["listPatient"][i]["code"] + "</td>";
                         tr += "<td>" + data["listPatient"][i]["fullName"] + "</td>";
-                        tr += "<td>" + data["listPatient"][i]["sex"] + "</td>";
+                        if (data["listPatient"][i]["sex"] === 1) {
+                            tr += "<td>Nam</td>";
+                        } else if (data["listPatient"][i]["sex"] === 2) {
+                            tr += "<td>Nữ</td>";
+                        }
                         tr += "<td>" + data["listPatient"][i]["phone"] + "</td>";
                         row += tr;
                     }
@@ -308,10 +310,19 @@
                     patientView.idPatient = null;
                     patientView.addNewPatient(result);
                 },
-                deletePatient:function () {
-                    $("div#modalConfirm").modal("show");
+                deletePatient: function () {
+                    if(idPatient==null) {
+                        $("div#modalContent").empty().append("Vui lòng chọn bệnh nhân để xoá");
+                        $("button[name=modalAgree]").hide();
+                        $("div#modalConfirm").modal("show");
+                    }else{
+                        $("div#modalContent").empty().append("Chắc chắn xoá ?");
+                        $("button[name=modalAgree]").show();
+                        $("div#modalConfirm").modal("show");
+                    }
                 },
                 viewListPatient: function (element) {
+                    $("input[name=Code]").prop("readOnly", true);
                     patientView.goBack = element;
                     idPatient = $(element).attr("id");
                     patientView.idPatient = $(element).attr("id");
@@ -323,19 +334,21 @@
                     }, function (data) {
                         $("input[name=Id]").empty().val(patientView.idPatient)
                         for (var propertyName in data) {
+
                             $("select[id=" + patientView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                             $("input[id=" + patientView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                         }
                     })
                 },
-                modalAgree:function () {
+                modalAgree: function () {
                     if (idPatient !== null) {
                         $.post(url + "admin/deletePatient", {
                             _token: _token,
                             idPatient: idPatient
                         }, function (data) {
                             if (data[0] === 1) {
-                                patientView.fillTbody(data,'delete');
+                                idPatient=null;
+                                patientView.fillTbody(data, 'delete');
                             }
                         });
                     }
@@ -345,42 +358,97 @@
                         $("button[name=modalAgree]").hide();
                     }
                 },
-                addNewAndUpdatePatient:function () {
+                birthday: function () {
+                    $.get(url + "admin/getdate", {
+                        _token: _token,
+                    }, function (data) {
+                        var datenow = data[0]["NOW()"].slice(0, 4);
+                        var date = $("input[name=Birthday]").val().slice(0, 4);
+
+                        var now = datenow - date;
+                        console.log(now);
+                        if (now < 1) {
+                            $("select[name=AgeId]").val(1);
+                        } else if (now >= 1 && now <= 6) {
+                            $("select[name=AgeId]").val(2);
+                        } else if (now >= 6 && now <= 11) {
+                            $("select[name=AgeId]").val(3);
+                        } else if (now >= 11 && now <= 16) {
+                            $("select[name=AgeId]").val(4);
+                        } else if (now >= 16 && now <= 21) {
+                            $("select[name=AgeId]").val(5);
+                        } else if (now >= 21 && now <= 26) {
+                            $("select[name=AgeId]").val(6);
+                        } else if (now >= 26 && now <= 31) {
+                            $("select[name=AgeId]").val(7);
+                        } else if (now >= 31 && now <= 36) {
+                            $("select[name=AgeId]").val(8);
+                        } else if (now >= 36 && now <= 41) {
+                            $("select[name=AgeId]").val(9);
+                        } else if (now >= 41 && now <= 46) {
+                            $("select[name=AgeId]").val(10);
+                        } else if (now >= 46 && now <= 51) {
+                            $("select[name=AgeId]").val(11);
+                        } else if (now >= 51 && now <= 56) {
+                            $("select[name=AgeId]").val(12);
+                        } else if (now >= 56 && now <= 61) {
+                            $("select[name=AgeId]").val(13);
+                        } else if (now >= 61 && now <= 66) {
+                            $("select[name=AgeId]").val(14);
+                        } else if (now >= 66 && now <= 71) {
+                            $("select[name=AgeId]").val(15);
+                        } else if (now >= 71 && now <= 76) {
+                            $("select[name=AgeId]").val(16);
+                        } else if (now >= 76 && now <= 81) {
+                            $("select[name=AgeId]").val(17);
+                        } else if (now >= 81 && now <= 86) {
+                            $("select[name=AgeId]").val(18);
+                        } else if (now >= 86 && now <= 91) {
+                            $("select[name=AgeId]").val(19);
+                        } else if (now >= 91 && now <= 96) {
+                            $("select[name=AgeId]").val(20);
+                        } else if (now >= 96 && now <= 100) {
+                            $("select[name=AgeId]").val(21);
+                        }
+                    });
+                },
+                addNewAndUpdatePatient: function () {
                     patientView.resetPatientObject();
                     for (var i = 0; i < Object.keys(patientView.PatientObject).length; i++) {
                         patientView.PatientObject[Object.keys(patientView.PatientObject)[i]] = $("#" + Object.keys(patientView.PatientObject)[i]).val();
                     }
                     $("#formPatient").validate({
-                        rules:{
-                            Code:"required",
-                            Name:"required",
-                            Address:"required",
-                            Phone:"required"
+                        rules: {
+                            Code: "required",
+                            FullName: "required",
+                            Address: "required",
+                            Phone: "required"
                         },
-                        messages:{
-                            Code:"Mã bệnh nhân không được rỗng",
-                            Name:"Tên bệnh nhân khoog được rỗng",
-                            Address:"Địa chỉ bệnh nhân không được rỗng",
-                            Phone:"Số điện thoại bệnh nhân không được rỗng"
+                        messages: {
+                            Code: "Mã bệnh nhân không được rỗng",
+                            FullName: "Tên bệnh nhân không được rỗng",
+                            Address: "Địa chỉ bệnh nhân không được rỗng",
+                            Phone: "Số điện thoại bệnh nhân không được rỗng"
                         }
                     });
-                    if($("#formPatient").valid()){
-                        $.post(url+"admin/addNewAndUpdatePatient",{
-                            _token:_token,
+                    if ($("#formPatient").valid()) {
+                        $.post(url + "admin/addNewAndUpdatePatient", {
+                            _token: _token,
                             addNewOrUpdateId: $("input[name=Id]").val(),
                             dataPatient: patientView.PatientObject
-                        },function (data) {
-                            console.log(data);
+                        }, function (data) {
                             if (data[0] === 1) {
+                                idPatient = null;
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Thêm mới thành công");
                                 $("button[name=modalAgree]").hide();
-                                patientView.fillTbody(data,'');
+                                patientView.fillTbody(data, '');
                             } else if (data[0] === 2) {
+                                idPatient = null;
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Chỉnh sửa thành công");
                                 $("button[name=modalAgree]").hide();
-                                patientView.fillTbody(data,'');
+                                patientView.fillTbody(data, '');
                             } else if (data[0] === 0) {
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Chỉnh sửa KHÔNG thành công");
@@ -393,6 +461,7 @@
                             }
                         })
                     }
+
                 }
             }
         }
