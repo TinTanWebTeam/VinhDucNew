@@ -374,7 +374,11 @@
                             tr += "<tr id=" + data[i]["id"] + ">";
                             tr += "<td>" + data[i]["code"] + "</td>";
                             tr += "<td>" + data[i]["fullName"] + "</td>";
-                            tr += "<td>" + data[i]["sex"] + "</td>";
+                            if(data[i]["sex"]===1){
+                                tr += "<td>Nam</td>";
+                            }else{
+                                tr += "<td>Nữ</td>";
+                            }
                             tr += "<td>" + data[i]["birthday"] + "</td>";
                             tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
                             tr += "</tr>";

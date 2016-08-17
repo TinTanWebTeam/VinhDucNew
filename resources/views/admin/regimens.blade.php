@@ -129,7 +129,7 @@
                             <div class="form-actions noborder">
                                 <div class="form-group" style="padding-left: 15px;">
                                     <button type="button" class="btn blue"
-                                            onclick="regimensView.searchRegimens(this)">
+                                            onclick="regimensView.searchRegimens()">
                                         Tìm kiếm
                                     </button>
                                     <button type="button" class="btn default">Huỷ</button>
@@ -348,7 +348,7 @@
                     regimensView.regimensObject[Object.keys(regimensView.regimensObject)[i]] = $("#" + Object.keys(regimensView.regimensObject)[i]).val();
                 }
             },
-            searchRegimens: function (element) {
+            searchRegimens: function () {
                 regimensView.setValueObject();
                 var dataArray = [];
                 for (var i = 0; i < Object.keys(regimensView.regimensObject).length; i++) {

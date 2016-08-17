@@ -51,7 +51,7 @@
                         </thead>
                         <tbody id="tbodyInformationList">
                         @foreach($Informations as $item)
-                            <tr id="{{$item->id}}" onclick="informationView.viewListInformation(this)" style="cursor: pointer">
+                            <tr id="{{$item->id}}" data-status = "{{$item->handling}}" onclick="informationView.viewListInformation(this)" style="cursor: pointer">
                                 <td>{{$item->createdDate}}</td>
                                 <td>{{$item->question}}</td>
                                 <td>{{$item->patientReviews}}</td>
@@ -145,6 +145,7 @@
                                 <div class="form-actions noborder">
                                     <div class="form-group" style="padding-left: 15px;">
                                         <button type="button" class="btn blue"
+                                                name="complete"
                                                 onclick="informationView.addNewAndUpdateInformation()">
                                             Hoàn tất
                                         </button>
@@ -216,22 +217,27 @@
                     }
                 },
                 viewListInformation: function (element) {
-                    informationView.goBack = element;
-                    idInformation = $(element).attr("id");
-                    informationView.idInformation = $(element).attr("id");
-                    $("tbody#tbodyInformationList").find("tr").removeClass("active");
-                    $(element).addClass("active");
-                    $.post(url + "admin/postViewInformation", {
-                        _token: _token,
-                        idInformation: informationView.idInformation
-                    }, function (data) {
-                        $("input[name=Id]").empty().val(informationView.idInformation);
-                        for (var propertyName in data) {
-                            $("select[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
-                            $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
-                            $("textarea[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
-                        }
-                    })
+                    if($(element).attr("data-status") === "1"){
+                        $("button[name=complete]").hide();
+                    }else {
+                        $("button[name=complete]").show();
+                        informationView.goBack = element;
+                        idInformation = $(element).attr("id");
+                        informationView.idInformation = $(element).attr("id");
+                        $("tbody#tbodyInformationList").find("tr").removeClass("active");
+                        $(element).addClass("active");
+                        $.post(url + "admin/postViewInformation", {
+                            _token: _token,
+                            idInformation: informationView.idInformation
+                        }, function (data) {
+                            $("input[name=Id]").empty().val(informationView.idInformation);
+                            for (var propertyName in data) {
+                                $("select[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
+                                $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
+                                $("textarea[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
+                            }
+                        })
+                    }
                 },
                 deleteInformation: function () {
                     if ($("input[name=Id]").val() === "") {
@@ -261,7 +267,7 @@
                     var row = "";
                     for (var i = 0; i < data["listInformation"].length; i++) {
                         var tr = "";
-                        tr += "<tr id=" + data["listInformation"][i]["Id"] + " onclick='informationView.viewListInformation(this)' style='cursor: pointer'>";
+                        tr += "<tr id=" + data["listInformation"][i]["Id"] + " data-status="+data["listInformation"][i]["Handling"]+"  onclick='informationView.viewListInformation(this)' style='cursor: pointer'>";
                         tr += "<td>" + data["listInformation"][i]["CreatedDate"] + "</td>";
                         tr += "<td>" + data["listInformation"][i]["Question"] + "</td>";
                         tr += "<td>" + data["listInformation"][i]["PatientReviews"] + "</td>";

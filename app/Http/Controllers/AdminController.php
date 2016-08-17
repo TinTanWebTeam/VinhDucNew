@@ -17,6 +17,7 @@ use App\TreatmentPackage;
 use App\TreatmentRegimen;
 use App\User;
 use Auth;
+use Config;
 use DateTime;
 use DB;
 use Exception;
@@ -434,7 +435,7 @@ class AdminController extends Controller
                         try {
                             $user = new User();
                             $user->name = $request->get('dataUser')['Name'];
-                            $user->password = crypt($request->get('dataUser')['Password'], 'tintansoft');
+                            $user->password = encrypt($request->get('dataUser')['Password'], Config::get('app.key'));
                             $user->fullName = $request->get('dataUser')['FullName'];
                             $user->roleId = $request->get('dataUser')['RoleId'];
                             $user->email = $request->get('dataUser')['Email'];
@@ -458,7 +459,7 @@ class AdminController extends Controller
                             $user = User::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
                             if ($user) {
                                 $user->name = $request->get('dataUser')['Name'];
-                                $user->password = crypt($request->get('dataUser')['Password'], 'tintansoft');
+                                $user->password = encrypt($request->get('dataUser')['Password'], Config::get('app.key'));
                                 $user->fullName = $request->get('dataUser')['FullName'];
                                 $user->roleId = $request->get('dataUser')['RoleId'];
                                 $user->email = $request->get('dataUser')['Email'];

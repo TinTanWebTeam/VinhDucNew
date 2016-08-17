@@ -85,7 +85,7 @@
                                     </div>
                                     <div class="form-group form-md-line-input">
                                         <label for="price">Giá tiền</label>
-                                        <input type="text" class="form-control"
+                                        <input type="number" class="form-control"
                                                id="Price"
                                                name="Price"
                                                placeholder="Giá tiền">

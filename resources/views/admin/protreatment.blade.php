@@ -269,7 +269,7 @@
                             }
                             else {
                                 $("div#modalConfirm").modal("show");
-                                $("div#modalContent").empty().append("Thêm mới KHÔNG thành công");
+                                $("div#modalContent").empty().append("Thêm mới KHÔNG thành công. Kiểm tra vị trí điều trị");
                                 $("button[name=modalAgree]").hide();
                             }
                         })

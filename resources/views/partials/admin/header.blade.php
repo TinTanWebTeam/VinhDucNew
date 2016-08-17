@@ -41,9 +41,14 @@
                         <li>
                             <a href="javascript:;">Chức vụ</a>
                         </li>
-                        <li>
-                            <a href="javascript:;">Người dùng</a>
-                        </li>
+                        @if(Auth::user()->roleId == 1)
+                            <li>
+                                <a href="javascript:;">Người dùng</a>
+                            </li>
+                        @else
+
+                        @endif
+
                         <li>
                             <a href="javascript:;">Bệnh nhân</a>
                         </li>
@@ -87,7 +92,7 @@
                             <a href="javascript:;"> <i class="fa fa-wrench fa-fw"></i>Tiến triển bệnh<span
                                         class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                @if(Auth::user()->roleId == 3 || Auth::user()->positionId == 3 )
+                                @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 3 )
                                     <li>
                                         <a href="javascript:;">Điều trị chuyên môn</a>
                                     </li>
