@@ -36,9 +36,7 @@
                                style="margin-bottom: 0px;">
                             <thead>
                             <tr>
-
-                                <th>Mã phiếu</th>
-                                <th>Ghi chú</th>
+                                <th>Chẩn đoán</th>
                                 <th>Ngày tạo</th>
                                 <th>Gói</th>
                                 <th>Chi tiết</th>
@@ -232,7 +230,7 @@
                                                placeholder="BN001">
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12">
-                                        <label for="Note"><b>Ghi chú</b></label>
+                                        <label for="Note"><b>Chẩn đoán</b></label>
                                         <textarea class="form-control"
                                                   id="Note"
                                                   style="resize: none;"
@@ -339,7 +337,6 @@
                 }
             },
             checked: function (element) {
-                1
                 if ($(element).prop("checked") !== true) {
                     $(element).parent().css("background-color", "white").css('color', '#555555');
                     $(element).removeAttr("checked");
@@ -357,7 +354,6 @@
                     } else {
                         tr += "<tr id=" + data[i]["id"] + " style='cursor: pointer' data-note='" + data[i]["note"] + "' data-code='" + data[i]["code"] + "' data-patientId='" + data[i]["patientId"] + "' data-packageId='" + data[i]["packageId"] + "' ondblclick='diagnosticView.updateTreatmentPackage(this)'>";
                     }
-                    tr += "<td>" + data[i]["code"] + "</td>";
                     tr += "<td>" + data[i]["note"] + "</td>";
                     tr += "<td>" + data[i]["createdDate"] + "</td>";
                     tr += "<td>" + data[i]["namePackage"] + "</td>";
@@ -600,6 +596,18 @@
                 }
             },
             addNewTreatmentPackages: function () {
+                var d = new Date();
+                var year = d.getFullYear();
+                var month = d.getMonth() + 1;
+                var date = d.getDate();
+                if (month < 10) month = "0" + month;
+                if (date < 10) date = "0" + date;
+                var strDate = year + "" + month + "" + date;
+
+                var b = "PDT" + Math.floor((Math.random() * 1000) + 1) + strDate;
+                $("input[name=TreatmentPackageCode]").prop("readOnly",true);
+                $("input[name=TreatmentPackageCode]").val(b);
+
                 $("select[name=PatientId]").val($("input[name=Id]").val());
                 $("div[name=tableSearchPatient]").hide();
                 $("div[name=buttonSearchPatient]").hide();

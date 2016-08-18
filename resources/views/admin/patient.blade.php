@@ -154,8 +154,6 @@
                                             <input type="text" class="form-control"
                                                    id="Job"
                                                    name="Job"
-                                                   onclick=""
-                                                   onchange=""
                                                    placeholder="Nhân viên văn phòng">
                                         </div>
                                         <div class="form-group form-md-line-input col-md-6">
@@ -163,8 +161,6 @@
                                             <input type="text" class="form-control"
                                                    id="Phone"
                                                    name="Phone"
-                                                   onclick=""
-                                                   onchange=""
                                                    placeholder="0963276xxx">
                                         </div>
                                     </div>
@@ -174,8 +170,6 @@
                                         <input type="text" class="form-control"
                                                id="Address"
                                                name="Address"
-                                               onclick=""
-                                               onchange=""
                                                placeholder="562/2A Lê Quang Định Gò Vấp">
                                     </div>
                                     <div>
@@ -190,14 +184,11 @@
                                             </select>
                                         </div>
                                         <div class="form-group form-md-line-input col-md-6">
-                                            <label for="AgeId"><b>Độ tuổi</b></label>
-                                            <select class="form-control" id="AgeId" name="AgeId">
-                                                @if($ages)
-                                                    @foreach($ages as $item)
-                                                        <option value="{{$item->id}}">{{$item->age}}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
+                                            <label for="Age"><b>Tuổi</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="Age"
+                                                   name="Age"
+                                                   placeholder="20">
                                         </div>
                                     </div>
                                 </div>
@@ -239,7 +230,7 @@
                     Phone: null,
                     Address: null,
                     ProvincialId: null,
-                    AgeId: null,
+                    Age: null,
                 },
                 resetPatientObject: function () {
                     for (var propertyName in patientView.PatientObject) {
@@ -366,51 +357,8 @@
                         var date = $("input[name=Birthday]").val().slice(0, 4);
 
                         var now = datenow - date;
-                        console.log(now);
-                        if (now < 1) {
-                            $("select[name=AgeId]").val(1);
-                        } else if (now >= 1 && now < 6) {
-                            $("select[name=AgeId]").val(2);
-                        } else if (now >= 6 && now < 11) {
-                            $("select[name=AgeId]").val(3);
-                        } else if (now >= 11 && now < 16) {
-                            $("select[name=AgeId]").val(4);
-                        } else if (now >= 16 && now < 21) {
-                            $("select[name=AgeId]").val(5);
-                        } else if (now >= 21 && now < 26) {
-                            $("select[name=AgeId]").val(6);
-                        } else if (now >= 26 && now < 31) {
-                            $("select[name=AgeId]").val(7);
-                        } else if (now >= 31 && now < 36) {
-                            $("select[name=AgeId]").val(8);
-                        } else if (now >= 36 && now < 41) {
-                            $("select[name=AgeId]").val(9);
-                        } else if (now >= 41 && now < 46) {
-                            $("select[name=AgeId]").val(10);
-                        } else if (now >= 46 && now < 51) {
-                            $("select[name=AgeId]").val(11);
-                        } else if (now >= 51 && now < 56) {
-                            $("select[name=AgeId]").val(12);
-                        } else if (now >= 56 && now < 61) {
-                            $("select[name=AgeId]").val(13);
-                        } else if (now >= 61 && now < 66) {
-                            $("select[name=AgeId]").val(14);
-                        } else if (now >= 66 && now < 71) {
-                            $("select[name=AgeId]").val(15);
-                        } else if (now >= 71 && now < 76) {
-                            $("select[name=AgeId]").val(16);
-                        } else if (now >= 76 && now < 81) {
-                            $("select[name=AgeId]").val(17);
-                        } else if (now >= 81 && now < 86) {
-                            $("select[name=AgeId]").val(18);
-                        } else if (now >= 86 && now < 91) {
-                            $("select[name=AgeId]").val(19);
-                        } else if (now >= 91 && now < 96) {
-                            $("select[name=AgeId]").val(20);
-                        } else if (now >= 96 && now < 100) {
-                            $("select[name=AgeId]").val(21);
-                        }
-                    });
+                        $("input[name=Age]").val(now)
+                    })
                 },
                 addNewAndUpdatePatient: function () {
                     patientView.resetPatientObject();

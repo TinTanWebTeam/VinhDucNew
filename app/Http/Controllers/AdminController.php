@@ -205,7 +205,7 @@ class AdminController extends Controller
                         $patient->phone = $request->get('dataPatient')['Phone'];
                         $patient->address = $request->get('dataPatient')['Address'];
                         $patient->provincialId = $request->get('dataPatient')['ProvincialId'];
-                        $patient->ageId = $request->get('dataPatient')['AgeId'];
+                        $patient->age = $request->get('dataPatient')['Age'];
                         $patient->createdBy = Auth::user()->id;
                         $patient->upDatedBy = Auth::user()->id;
                         $patient->save();

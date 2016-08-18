@@ -26,7 +26,7 @@ class CreatePatientManagementsTable extends Migration
             $table->string('phone');
             $table->string('address');
             $table->integer('provincialId')->unsigned();
-            $table->integer('ageId')->unsigned();
+            $table->integer('age');
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->string('upDatedBy');
@@ -34,7 +34,6 @@ class CreatePatientManagementsTable extends Migration
             $table->timestamps();
 
             $table->foreign('provincialId')->references('id')->on('provinces')->onDelete('no action');
-            $table->foreign('ageId')->references('id')->on('ages')->onDelete('no action');
            
 
 

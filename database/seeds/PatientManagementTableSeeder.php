@@ -24,7 +24,6 @@ class PatientManagementTableSeeder extends Seeder
                 'height'=>rand(150,180),
                 'bloodPressure'=>rand(130,160),
                 'provincialId'=>$index,
-                'ageId'=>$index
             ]);
         }
     }

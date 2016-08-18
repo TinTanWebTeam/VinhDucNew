@@ -19,7 +19,7 @@ class PatientManagement extends Model
         'job',
         'address',
         'provincialId',
-        'ageId',
+        'age',
         'createdBy',
         'upDatedBy',
         'active'
