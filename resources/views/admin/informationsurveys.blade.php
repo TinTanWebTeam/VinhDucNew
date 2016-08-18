@@ -42,9 +42,10 @@
                         <thead>
                         <tr>
                             <th>Ngày tạo</th>
-                            <th>Nhân viên hỏi</th>
+
                             <th>Ý kiến bệnh nhân</th>
                             <th>Tình trạng</th>
+                            <th>Nội dung xử lí</th>
                             {{--<th>BN</th>--}}
                             {{--<th>DTV</th>--}}
                         </tr>
@@ -53,13 +54,13 @@
                         @foreach($Informations as $item)
                             <tr id="{{$item->id}}" data-status = "{{$item->handling}}" onclick="informationView.viewListInformation(this)" style="cursor: pointer">
                                 <td>{{$item->createdDate}}</td>
-                                <td>{{$item->question}}</td>
                                 <td>{{$item->patientReviews}}</td>
                                 @if($item->handling === 1)
                                      <td>Đã xử lý</td>
                                 @elseif($item->handling === 2 || $item->handling === 0)
                                     <td>Chưa xử lý</td>
                                 @endif
+                                <td>{{$item->content}}</td>
                                 {{--<td>{{$item->InformationPatientId()->fullName}}</td>--}}
                                 {{--<td>{{$item->InformationTherapistId()->name}}</td>--}}
 
@@ -89,25 +90,18 @@
                                         <input type="text" class="form-control" name="Id" id="Id" value="">
                                     </div>
                                     <div class="form-group form-md-line-input"></div>
-                                    <div class="form-group form-md-line-input ">
-                                        <label for="TherapistId">Tên nhân viên</label>
-                                        <select class="form-control" id="Therapist_id" name="Therapist_id">
-                                            @if($therapists)
-                                                <option value="" selected>-- Chọn nhân viên --</option>
-                                                @foreach($therapists as $item)
-                                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
+                                    {{--<div class="form-group form-md-line-input ">--}}
+                                        {{--<label for="TherapistId">Tên nhân viên</label>--}}
+                                        {{--<select class="form-control" id="Therapist_id" name="Therapist_id">--}}
+                                            {{--@if($therapists)--}}
+                                                {{--<option value="" selected>-- Chọn nhân viên --</option>--}}
+                                                {{--@foreach($therapists as $item)--}}
+                                                    {{--<option value="{{$item->id}}">{{$item->name}}</option>--}}
+                                                {{--@endforeach--}}
+                                            {{--@endif--}}
+                                        {{--</select>--}}
 
-                                    </div>
-                                    <div class="form-group form-md-line-input">
-                                        <label for="Question">Nhân viên hỏi</label>
-                                        <textarea type="text" class="form-control" rows="5" cols="5"
-                                                  id="Question"
-                                                  name="Question"
-                                                  placeholder="Nhân viên hỏi"></textarea>
-                                    </div>
+                                    {{--</div>--}}
                                     <div class="form-group form-md-line-input ">
                                         <label for="PatientId">Tên bệnh nhân</label>
                                         <select class="form-control" id="Patient_id" name="Patient_id">
@@ -128,11 +122,18 @@
                                     </div>
                                     <div class="form-group form-md-line-input ">
                                         <label for="handling">Tình trạng</label>
-                                        <select class="form-control" id="Handling">
+                                        <select class="form-control" id="Handling" onchange="informationView.Processed()">
                                             <option value=""> -- Chọn tình trạng -- </option>
                                             <option value="1" >Đã xử lý</option>
                                             <option value="2">Chưa xử lý</option>
                                         </select>
+                                    </div>
+                                    <div class="form-group form-md-line-input" name="Content" style="display: none">
+                                        <label for="Content">Nội dung xử lý</label>
+                                        <textarea type="text" class="form-control" rows="5" cols="5"
+                                                  id="Content"
+                                                  name="Content"
+                                                  placeholder="Nội dung xử lý"></textarea>
                                     </div>
                                     <div class="form-group form-md-line-input ">
                                         <label for="CreatedDate">Ngày tạo</label>
@@ -171,7 +172,7 @@
                 idInformation: null,
                 informationObject: {
                     Id: null,
-                    Question: null,
+                    Content: null,
                     PatientReviews: null,
                     Handling: null,
                     CreatedDate:null,
@@ -205,6 +206,7 @@
                 },
                 addNewInformation: function (result) {
                     if (result === "") {
+                        $("button[name=complete]").show();
                         $("input[name=Id]").val("");
                         $("textarea[name=Id]").val("");
                         informationView.resetForm();
@@ -216,9 +218,34 @@
                         informationView.resetForm();
                     }
                 },
+                Processed:function () {
+                    if($("#Handling option:selected").val()==="1"){
+                        $("div[name=Content]").show();
+                    }else{
+                        $("div[name=Content]").hide();
+                    }
+                },
                 viewListInformation: function (element) {
                     if($(element).attr("data-status") === "1"){
                         $("button[name=complete]").hide();
+                        $("div[name=Content]").show();
+                        informationView.goBack = element;
+                        idInformation = $(element).attr("id");
+                        informationView.idInformation = $(element).attr("id");
+                        $("tbody#tbodyInformationList").find("tr").removeClass("active");
+                        $(element).addClass("active");
+                        $.post(url + "admin/postViewInformation", {
+                            _token: _token,
+                            idInformation: informationView.idInformation
+                        }, function (data) {
+                            console.log(data);
+                            $("input[name=Id]").empty().val(informationView.idInformation);
+                            for (var propertyName in data) {
+                                $("select[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
+                                $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
+                                $("textarea[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
+                            }
+                        })
                     }else {
                         $("button[name=complete]").show();
                         informationView.goBack = element;
@@ -230,6 +257,7 @@
                             _token: _token,
                             idInformation: informationView.idInformation
                         }, function (data) {
+                            console.log(data);
                             $("input[name=Id]").empty().val(informationView.idInformation);
                             for (var propertyName in data) {
                                 $("select[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
@@ -269,13 +297,13 @@
                         var tr = "";
                         tr += "<tr id=" + data["listInformation"][i]["Id"] + " data-status="+data["listInformation"][i]["Handling"]+"  onclick='informationView.viewListInformation(this)' style='cursor: pointer'>";
                         tr += "<td>" + data["listInformation"][i]["CreatedDate"] + "</td>";
-                        tr += "<td>" + data["listInformation"][i]["Question"] + "</td>";
                         tr += "<td>" + data["listInformation"][i]["PatientReviews"] + "</td>";
                         if(data["listInformation"][i]["Handling"] === 1) {
                             tr += "<td>" + ["Đã xử lý"] + "</td>";
                         }else if(data["listInformation"][i]["Handling"] === 2 || data["listInformation"][i]["Handling"] === 0){
                             tr += "<td>" + ["Chưa xử lý"] + "</td>";
                         }
+                        tr += "<td>" + data["listInformation"][i]["Content"] + "</td>";
                         row += tr;
                     }
                     $("tbody#tbodyInformationList").append(row);
@@ -289,13 +317,13 @@
                     }
                     $("#formInformation").validate({
                         rules: {
-                            Question: "required",
+                            Content: "required",
                             PatientReviews: "required",
                             Patient_id: "required",
                             Therapist_id:"required",
                         },
                         messages: {
-                            Question: "Câu hỏi không được rỗng",
+                            Content: "Câu hỏi không được rỗng",
                             PatientReviews: "Câu hỏi không được rỗng",
                             Therapist_id: "Hãy chọn chuyên viên",
                             Patient_id: "Hãy chọn bệnh nhân"

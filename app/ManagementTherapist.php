@@ -26,7 +26,4 @@ class ManagementTherapist extends Model
     public function Provinces(){
         return $this->belongsTo('App\Provinces','provincialId','id')->first();
     }
-    public function InformationTherapist(){
-        return $this->hasMany('App\InformationSurveys','therapist_Id','id')->get();
-    }
 }

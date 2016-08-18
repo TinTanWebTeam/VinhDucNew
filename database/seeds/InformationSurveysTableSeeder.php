@@ -21,7 +21,6 @@ class InformationSurveysTableSeeder extends Seeder
                 'question'=>"Cau hoi".$index,
                 'handling'=>random_int(1,2),
                 'patient_id'=> $index,
-                'therapist_id'=> $index
             ]);
         }
     }

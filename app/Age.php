@@ -13,9 +13,7 @@ class Age extends Model
         'upDatedBy',
         'active'
     ];
-    public function Patient(){
-        return $this->belongsTo('App\PatientManagement','ageId','id')->get();
-    }
+    
     public function Therapist(){
         return $this->belongsTo('App\ManagementTherapist','ageId','id')->get();
     }

@@ -19,15 +19,13 @@ class CreateInformationSurveysTable extends Migration
             $table->boolean('active')->default(1);
             $table->string('patientReviews');
             $table->integer('patient_id')->unsigned();
-            $table->integer('therapist_id')->unsigned();
-            $table->string('question');
+            $table->string('content');
             $table->boolean('handling');
             $table->string('createdBy');
             $table->string('upDatedBy');
             $table->timestamps();
 
             $table->foreign('patient_id')->references('id')->on('patient_managements');
-            $table->foreign('therapist_id')->references('id')->on('detailed_treatments');
 
         });
     }

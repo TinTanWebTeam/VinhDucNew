@@ -961,13 +961,13 @@ class AdminController extends Controller
             ];
         } else if ($variable == 'validatorInformation') {
             $datas = [
-                'Question' => $data['dataInformation']['Question'],
+                'Content' => $data['dataInformation']['Content'],
             ];
             $rules = [
-                'Question' => 'required',
+                'Content' => 'required',
             ];
             [
-                'Question.required' => 'Câu hỏi không được rỗng',
+                'Content.required' => 'Câu hỏi không được rỗng',
             ];
         }
         return Validator::make($datas, $rules);
@@ -1791,7 +1791,7 @@ class AdminController extends Controller
         foreach ($listInformation as $listInformation) {
             $array = [
                 'Id' => $listInformation->id,
-                'Question' => $listInformation->question,
+                'Content' => $listInformation->content,
                 'PatientReviews' => $listInformation->patientReviews,
                 'Handling' => $listInformation->handling,
                 'CreatedDate' => $listInformation->createdDate,
@@ -1813,14 +1813,13 @@ class AdminController extends Controller
                         $information = new InformationSurveys();
                         $information->createdDate = $request->get('dataInformation')['CreatedDate'];
                         $information->patientReviews = $request->get('dataInformation')['PatientReviews'];
-                        $information->question = $request->get('dataInformation')['Question'];
+                        $information->content = $request->get('dataInformation')['Content'];
                         if ($request->get('dataInformation')['Handling'] === "") {
                             $information->handling = '2';
                         } else {
                             $information->handling = $request->get('dataInformation')['Handling'];
                         }
                         $information->patient_id = $request->get('dataInformation')['Patient_id'];
-                        $information->therapist_id = $request->get('dataInformation')['Therapist_id'];
                         $information->upDatedBy = Auth::user()->id;
                         $information->save();
                         $result = array(1, 'listInformation' => $this->getInformation());
@@ -1833,14 +1832,13 @@ class AdminController extends Controller
                         try {
                             $information->createdDate = $request->get('dataInformation')['CreatedDate'];
                             $information->patientReviews = $request->get('dataInformation')['PatientReviews'];
-                            $information->question = $request->get('dataInformation')['Question'];
+                            $information->content = $request->get('dataInformation')['Content'];
                             if ($request->get('dataInformation')['Handling'] === "") {
                                 $information->handling = '2';
                             } else {
                                 $information->handling = $request->get('dataInformation')['Handling'];
                             }
                             $information->patient_id = $request->get('dataInformation')['Patient_id'];
-                            $information->therapist_id = $request->get('dataInformation')['Therapist_id'];
                             $information->upDatedBy = Auth::user()->id;
                             $information->save();
                             $result = array(2, 'listInformation' => $this->getInformation());
@@ -1871,7 +1869,7 @@ class AdminController extends Controller
     public function searchStatistical(Request $request)
     {
         try {
-            $SQL = "SELECT info.createdDate, info.question, info.handling, pm.fullName
+            $SQL = "SELECT info.createdDate, info.content, info.handling, pm.fullName
                       FROM information_surveys info 
                       INNER JOIN  management_therapists mt  ON mt.id = info.therapist_id 
                       INNER JOIN  patient_managements pm  ON pm.id = info.patient_id";
