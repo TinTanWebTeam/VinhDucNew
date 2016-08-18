@@ -146,6 +146,7 @@
                         _token:_token,
                         data:statisticsTherapistView.StatisticsTherapistObject
                     },function (data) {
+                        console.log(data);
                         statisticsTherapistView.fillTbody(data);
                     })
                 },

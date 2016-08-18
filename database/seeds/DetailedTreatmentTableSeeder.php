@@ -18,7 +18,8 @@ class DetailedTreatmentTableSeeder extends Seeder
             DetailedTreatment::create([
                 'name' =>$faker->userName,
                 'treatmentPackageId'=>$index,
-                'professionalTreatmentId'=>$index,
+                'professionalTreatment'=>$faker->name,
+                'location'=>$faker->name,
                 'patientId'=>$index,
                 'therapistId'=>$index
             ]);

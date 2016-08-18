@@ -1,14 +1,11 @@
 @if($detailedTreatments)
     @foreach($detailedTreatments as $detail)
-        {{--<tr>--}}
-        {{--<td colspan="1"></td>--}}
-        {{--</tr>--}}
-        {{--@foreach($detail as $rows)--}}
-        {{--@for($i = 0;$i<count($detail);$i++)--}}
         <tr>
-            <td style="width: 3%;">{{ \App\LocationTreatment::where('id',$detail->locationId)->first()->name }}</td>
+            {{--<td style="width: 3%;">{{ \App\LocationTreatment::where('id',$detail->locationId)->first()->name }}</td>--}}
             {{--@foreach($rows as $item)--}}
+            <td>{{$detail->sesameName}}</td>
             <td name="">{{$detail->professionalName}}</td>
+            <td>{{$detail->locationName}}</td>
             <td>
                 <select class="form-control" name="TherapistId">
                     @if($detail->detailTherapist !==0 )
@@ -45,24 +42,25 @@
                 </select>
             </td>
             {{--<td>--}}
-                {{--@if($detail->detailTherapist !==0 || $detail->detailAil !==2 )--}}
-                    {{--<button type="button" class="btn blue"--}}
-                            {{--id="{{$detail->professionalId}}"--}}
-                            {{--style="background-color:#00a859;color:#ffffff"--}}
-                            {{--onclick="professionalView.saveDetail(this)">--}}
-                        {{--Sửa--}}
-                    {{--</button>--}}
-                {{--@else--}}
-                    {{--<button type="button" class="btn blue"--}}
-                            {{--id="{{$detail->professionalId}}"--}}
-                            {{--onclick="professionalView.saveDetail(this)">--}}
-                        {{--Lưu--}}
-                    {{--</button>--}}
-                {{--@endif--}}
+            {{--@if($detail->detailTherapist !==0 || $detail->detailAil !==2 )--}}
+            {{--<button type="button" class="btn blue"--}}
+            {{--id="{{$detail->detailId}}"--}}
+            {{--style="background-color:#00a859;color:#ffffff"--}}
+            {{--onclick="professionalView.saveDetail(this)">--}}
+            {{--Sửa--}}
+            {{--</button>--}}
+            {{--@else--}}
+            {{--<button type="button" class="btn blue"--}}
+            {{--id="{{$detail->detailId}}"--}}
+            {{--onclick="professionalView.saveDetail(this)">--}}
+            {{--Lưu--}}
+            {{--</button>--}}
+            {{--@endif--}}
 
             {{--</td>--}}
             {{--@endforeach--}}
         </tr>
+
         {{--@endforeach--}}
         {{--@endfor--}}
     @endforeach

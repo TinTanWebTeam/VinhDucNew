@@ -54,7 +54,7 @@
                                                 <th>Mã</th>
                                                 <th>Họ và tên</th>
                                                 <th>Giới tính</th>
-                                                <th>Số điện thoại</th>
+                                                <th>Ngày sinh</th>
                                                 <th>Chọn</th>
                                             </tr>
                                             </thead>
@@ -144,6 +144,16 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover order-column" id="PackagesTable"
                                    style="overflow: scroll;">
+                                <thead>
+                                <tr>
+                                    <th>Vùng</th>
+                                    <th>Chuyên môn</th>
+                                    <th>Vị trí</th>
+                                    <th>Chuyên viên</th>
+                                    <th>Tình trạng</th>
+                                    <th>Lưu thay đổi</th>
+                                </tr>
+                                </thead>
                                 <tbody id="PackagesTable">
 
                                 </tbody>
@@ -184,7 +194,9 @@
                 PackagesId: null,
                 PatientId: null,
                 TreatmentPackageCode: null,
-                Note: null
+                Note: null,
+                TherapistId:null,
+                Status:null
             },
             resetProfessionalObject: function () {
                 for (var propertyName in professionalView.ProfessionalObject) {
@@ -280,7 +292,11 @@
                             tr += "<tr id=" + data[i]["id"] + ">";
                             tr += "<td>" + data[i]["code"] + "</td>";
                             tr += "<td>" + data[i]["fullName"] + "</td>";
-                            tr += "<td>" + data[i]["sex"] + "</td>";
+                            if(data[i]["sex"]==="1"){
+                                tr += "<td>Nam</td>";
+                            }else{
+                                tr += "<td>Nữ</td>";
+                            }
                             tr += "<td>" + data[i]["birthday"] + "</td>";
                             tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='professionalView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
                             tr += "</tr>";
@@ -449,24 +465,35 @@
                 }
             },
             saveDetail: function (element) {
-                $.post(url + "admin/updateAil", {
-                    _token: _token,
-                    therapistId: $(element).parent().parent().find("td").eq(2).find("select").val(),
-                    ail: $(element).parent().parent().find("td").eq(3).find("select").val(),
-                    professionalId: $(element).attr("id"),
-                    patientId:$("input[name=Id]").val(),
-                    treatmentPackageId:professionalView.idTreatmentPackage
-                }, function (data) {
-                    if(data==="1"){
-                        $(element).css("background-color", "#00a859").css('color', '#ffffff');
-                        $(element).text("Sửa")
-                        $("div#modalConfirm").modal("show");
-                        $("div#modalContent").empty().append("Lưu thay đổi thành công");
-                        $("button[name=modalAgree]").hide();
-                    }else if(data==="2"){
+                if($("select#TherapistId").val()==="0"){
+                    $("div#modalConfirm").modal("show");
+                    $("div#modalContent").empty().append("Chưa chọn chuyên viên thực hiện");
+                    $("button[name=modalAgree]").hide();
+                }else if($("select#Status").val()==="2"){
+                    $("div#modalConfirm").modal("show");
+                    $("div#modalContent").empty().append("Chưa chọn tình trạng bệnh nhân");
+                    $("button[name=modalAgree]").hide();
+                }else{
+                    $.post(url + "admin/updateAil", {
+                        _token: _token,
+                        therapistId: $(element).parent().parent().find("td").eq(3).find("select").val(),
+                        ail: $(element).parent().parent().find("td").eq(4).find("select").val(),
+//                    professionalId: $(element).attr("id"),
+//                    patientId:$("input[name=Id]").val(),
+//                    treatmentPackageId:professionalView.idTreatmentPackage
+                        id: $(element).attr("id")
+                    }, function (data) {
+                        if (data === "1") {
+                            $(element).css("background-color", "#00a859").css('color', '#ffffff');
+                            $(element).text("Sửa")
+                            $("div#modalConfirm").modal("show");
+                            $("div#modalContent").empty().append("Lưu thay đổi thành công");
+                            $("button[name=modalAgree]").hide();
+                        } else if (data === "2") {
 
-                    }
-                })
+                        }
+                    })
+                }
             }
         }
     }

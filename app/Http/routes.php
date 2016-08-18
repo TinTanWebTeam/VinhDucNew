@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::post('updateRegimen','AdminController@updateRegimen');
     Route::post('searchStatusPatient','AdminController@searchStatusPatient');
     Route::post('searchProfessionalTherapist','AdminController@searchProfessionalTherapist');
-
+    Route::post('deleteProfessional','AdminController@deleteProfessional');
     //AnhTam
     Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
     Route::post('addNewAndUpdatePackage','AdminController@addNewAndUpdatePackage');

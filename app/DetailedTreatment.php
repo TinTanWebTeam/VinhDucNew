@@ -10,7 +10,8 @@ class DetailedTreatment extends Model
     protected $fillable = [
         'name',
         'treatmentPackageId',
-        'professionalTreatmentId',
+        'professionalTreatment',
+        'location',
         'patientId',
         'therapistId',
         'ail',

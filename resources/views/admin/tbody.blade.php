@@ -1,16 +1,13 @@
 @if($detailedTreatments)
     @foreach($detailedTreatments as $detail)
-        {{--<tr>--}}
-        {{--<td colspan="1"></td>--}}
-        {{--</tr>--}}
-        {{--@foreach($detail as $rows)--}}
-        {{--@for($i = 0;$i<count($detail);$i++)--}}
         <tr>
-            <td style="width: 3%;">{{ \App\LocationTreatment::where('id',$detail->locationId)->first()->name }}</td>
+            {{--<td style="width: 3%;">{{ \App\LocationTreatment::where('id',$detail->locationId)->first()->name }}</td>--}}
             {{--@foreach($rows as $item)--}}
+            <td>{{$detail->sesameName}}</td>
             <td name="">{{$detail->professionalName}}</td>
+            <td>{{$detail->locationName}}</td>
             <td>
-                <select class="form-control" name="TherapistId">
+                <select class="form-control" id="TherapistId" name="TherapistId">
                     @if($detail->detailTherapist !==0 )
                         <option value="{{$detail->detailTherapist}}">{{\App\ManagementTherapist::where('id',$detail->detailTherapist)->first()->name}}</option>
                         @foreach($therapists as $item)
@@ -30,7 +27,7 @@
                 </select>
             </td>
             <td>
-                <select class="form-control" name="Status">
+                <select class="form-control" id="Status" name="Status">
                     @if($detail->detailAil ===1 )
                         <option value="1">Đau</option>
                         <option value="0">Không đau</option>
@@ -47,14 +44,14 @@
             <td>
                 @if($detail->detailTherapist !==0 || $detail->detailAil !==2 )
                     <button type="button" class="btn blue"
-                            id="{{$detail->professionalId}}"
+                            id="{{$detail->detailId}}"
                             style="background-color:#00a859;color:#ffffff"
                             onclick="professionalView.saveDetail(this)">
                         Sửa
                     </button>
                 @else
                     <button type="button" class="btn blue"
-                            id="{{$detail->professionalId}}"
+                            id="{{$detail->detailId}}"
                             onclick="professionalView.saveDetail(this)">
                         Lưu
                     </button>

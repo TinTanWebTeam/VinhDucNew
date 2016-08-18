@@ -224,6 +224,15 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover order-column" id="PackagesTable"
                                    style="overflow: scroll;">
+                                <thead>
+                                <tr>
+                                    <th>Vùng</th>
+                                    <th>Chuyên môn</th>
+                                    <th>Vị trí</th>
+                                    <th>Chuyên viên</th>
+                                    <th>Tình trạng</th>
+                                </tr>
+                                </thead>
                                 <tbody id="PackagesTable">
 
                                 </tbody>
@@ -476,7 +485,6 @@
                 })
             },
             goBack: function () {
-                $("div#TablePackages").hide();
                 $("div#menuPackageTreatment").show();
                 $("div[name=searchRegimen]").show();
                 $("div[name=formRegimens]").hide();
@@ -500,7 +508,6 @@
                         regimensView.SearchTreatmentRegimens($("input[name=AddNewId]").val());
                         regimensView.goBack();
                         $("div[name=SearchPatient]").show();
-
                         regimensView.resetForm();
                     } else {
                         $("div#modalContent").empty().append("Lưu KHÔNG thành công");
