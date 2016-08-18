@@ -32,7 +32,7 @@ user.click(function () {
             $("div.page-container").empty().append(data);
         })
     }
-    if($(this).find("a").text().trim()==="Vị trí điều trị"){
+    if($(this).find("a").text().trim()==="Vùng điều trị"){
         $.get(url + "admin/getViewLocation",function (data) {
             $("div.page-container").empty().append(data);
         })

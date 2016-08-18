@@ -65,10 +65,7 @@
                             <a href="javascript:;">Gói</a>
                         </li>
                         <li>
-                            <a href="javascript:;">Vị trí điều trị</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">Điều trị chuyên môn</a>
+                            <a href="javascript:;">Vùng điều trị</a>
                         </li>
                         <li>
                             <a href="javascript:;">Tỉnh thành</a>

@@ -18,7 +18,7 @@ class InformationSurveysTableSeeder extends Seeder
             InformationSurveys::create([
                 'createdDate'=> date('Y-m-d'),
                 'patientReviews'=>"Tra loi".$index,
-                'question'=>"Cau hoi".$index,
+                'content'=>"Cau hoi".$index,
                 'handling'=>random_int(1,2),
                 'patient_id'=> $index,
             ]);
