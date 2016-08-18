@@ -165,7 +165,7 @@
                         tr += "<tr id=" +data[i]["Id"] + ">";
                         tr += "<td>"+ data[i]["createdDate"] +"</td>";
                         tr += "<td>"+ data[i]["fullName"] +"</td>";
-                        tr += "<td>"+ data[i]["question"] +"</td>";
+                        tr += "<td>"+ data[i]["patientReviews"] +"</td>";
                         if(data[i]["handling"] === 2 || data[i]["handling"]=== 0){
                             tr += "<td>" + "Chưa xử lý" +"</td>";
                         }else {

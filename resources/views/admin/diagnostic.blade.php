@@ -99,6 +99,7 @@
                                 </div>
                                 <div class="form-group form-md-line-input">
                                     <button type="button" class="btn default" style="margin-top: 5%;"
+                                            name="CompleteTreatmentPackage"
                                             onclick="diagnosticView.CompleteTreatmentPackage()">Thêm
                                     </button>
                                 </div>
@@ -444,7 +445,7 @@
                 var strDate = year + "-" + month + "-" + date;
                 if ($(element).attr("data-date") < strDate || $(element).attr("data-active") === "0") {
                     diagnosticView.idTreatmentPackage = $(element).attr("data-Id");
-                    $("div[name=addProfessional]").hide();
+                    $("div[id=addProfessional]").hide();
                     $("button[name=cancelTreatment]").text("Trở về");
                     check = false;
                 } else if (result !== "") {

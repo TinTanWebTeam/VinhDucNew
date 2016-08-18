@@ -12,6 +12,7 @@ class DetailedTreatment extends Model
         'treatmentPackageId',
         'professionalTreatment',
         'location',
+        'sesame',
         'patientId',
         'therapistId',
         'ail',
