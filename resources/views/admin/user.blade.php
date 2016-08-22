@@ -297,7 +297,7 @@
                                 PasswordConfirm: {
                                     required: true,
                                     equalTo: "#Password",
-                                    minlegth: 6,
+                                    minlength: 6,
                                     maxlength: 20
                                 },
                                 Email: {
@@ -313,14 +313,14 @@
                                 },
                                 Password: {
                                     required: "Mật khẩu không được rỗng",
-                                    minlenght: "Tên đăng nhập phải từ 6 kí tự đến 20 kí tự",
-                                    maxlenght: "Tên đăng nhập phải từ 6 kí tự đến 20 kí tự"
+                                    minlenght: "Mật khẩu phải từ 6 kí tự đến 20 kí tự",
+                                    maxlenght: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự"
                                 },
                                 PasswordConfirm: {
                                     required: "Nhập lại mật khẩu không đúng",
                                     equalTo: "Nhập lại mật khẩu không đúng",
-                                    minlenght: "Tên đăng nhập phải từ 6 kí tự đến 20 kí tự",
-                                    maxlenght: "Tên đăng nhập phải từ 6 kí tự đến 20 kí tự"
+                                    minlenght: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự",
+                                    maxlenght: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự"
                                 },
                                 Email: {
                                     required: "Email không được rỗng.",
@@ -361,6 +361,7 @@
                             addNewOrUpdateId: $("input[name=Id]").val(),
                             dataUser: userView.UserObject
                         }, function (data) {
+                            console.log(data);
                             if (data[0] !== 3) {
                                 if (data[0] === 1) {
                                     idUsers=null;
