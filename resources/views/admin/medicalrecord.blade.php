@@ -99,8 +99,7 @@
                                                   name="Reasons"
                                                   style="resize:none"
                                                   rows="3"
-                                                  placeholder="Đau lưng">
-                                            </textarea>
+                                                  placeholder="Đau lưng"></textarea>
                                     </div>
                                     <div class="form-group form-md-line-input col-md-6 row">
                                         <label for="MedicalHistory"><b>Bệnh sử:</b></label>
@@ -114,8 +113,8 @@
                                                   name="PathologicalProcess"
                                                   style="resize:none"
                                                   rows="3"
-                                                  placeholder="Đau cột sống">
-                                            </textarea>
+                                                  cols="3"
+                                                  placeholder="Đau cột sống"></textarea>
                                         </div>
                                         <div class="form-group form-md-line-input ">
                                             <label for="Anamnesis"><b style="font-weight: normal;">Tiền sử
@@ -125,8 +124,8 @@
                                                   name="Anamnesis"
                                                   style="resize:none"
                                                   rows="3"
-                                                  placeholder="Đau cột sống">
-                                            </textarea>
+                                                  cols="3"
+                                                  placeholder="Đau cột sống"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group form-md-line-input col-md-6 row">
@@ -140,8 +139,8 @@
                                                   name="Body"
                                                   style="resize:none"
                                                   rows="3"
-                                                  placeholder="Đau cột sống">
-                                            </textarea>
+                                                  cols="3"
+                                                  placeholder="Đau cột sống"></textarea>
                                         </div>
                                         <div class="form-group form-md-line-input ">
                                             <label for="Parts"><b style="font-weight: normal;">Các bộ phận</b></label>
@@ -150,8 +149,8 @@
                                                   name="Parts"
                                                   style="resize:none"
                                                   rows="3"
-                                                  placeholder="Đau cột sống">
-                                            </textarea>
+                                                  cols="3"
+                                                  placeholder="Đau cột sống"></textarea>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -205,8 +204,8 @@
                                                   name="Subclinical"
                                                   style="resize:none"
                                                   rows="3"
-                                                  placeholder="Đau lưng">
-                                            </textarea>
+                                                  cols="3"
+                                                  placeholder="Đau lưng"></textarea>
                                     </div>
                                 </div>
                             </div>
