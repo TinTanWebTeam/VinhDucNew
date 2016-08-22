@@ -45,7 +45,7 @@
 
                             <th>Ý kiến bệnh nhân</th>
                             <th>Tình trạng</th>
-                            <th>Nội dung xử lí</th>
+                            <th>Nội dung xử lý</th>
                             {{--<th>BN</th>--}}
                             {{--<th>DTV</th>--}}
                         </tr>

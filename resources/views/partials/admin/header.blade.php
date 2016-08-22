@@ -20,7 +20,7 @@
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
             <a href="{{ asset('auth/logout') }}">
-                Đăng xuất
+                {{ \Auth::User()->name}}
                 <i class="fa fa-user fa-fw"></i>
             </a>
             <!-- /.dropdown-user -->
