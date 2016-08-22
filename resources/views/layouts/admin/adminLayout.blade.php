@@ -51,7 +51,8 @@
         <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
         <!-- VALIDATE-->
         <script src="../assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
-        <script src="../assets/global/plugins/jquery-validation/js/jquery.validate.js" type="text/javascript"></script>
+
+        <script src="../assets/global/plugins/jquery.number.min.js" type="text/javascript"></script>
 
         <!-- Custom Theme JavaScript -->
         <script src="../dist/js/sb-admin-2.js"></script>

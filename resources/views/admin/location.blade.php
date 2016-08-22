@@ -31,10 +31,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Vùng điều trị
-                        <button type="button" class="btn btn-danger btn-circle pull-right"
-                                onclick="locationView.deleteLocation()"><i
-                                    class="fa fa-times"></i>
-                        </button>
+                        {{--<button type="button" class="btn btn-danger btn-circle pull-right"--}}
+                                {{--onclick="locationView.deleteLocation()"><i--}}
+                                    {{--class="fa fa-times"></i>--}}
+                        {{--</button>--}}
                     </div>
 
                 </div>
