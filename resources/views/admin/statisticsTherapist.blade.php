@@ -18,7 +18,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 style="color: #00a859">Khảo sát > Tiến triển bệnh > Thống kê bệnh nhân</h4>
+            <h4 style="color: #00a859">Khảo sát > Tiến triển bệnh > Thống kê chuyên viên</h4>
             <hr style="margin-top: 0px;">
         </div>
         <!-- /.col-lg-12 -->
@@ -41,7 +41,7 @@
                             <th>Điều trị chuyên môn</th>
                             <th>Ngày</th>
                             <th>Mã bệnh nhân</th>
-                            <th>tình trạng</th>
+                            <th>Tình trạng</th>
                         </tr>
                         </thead>
                         <tbody id="tbodyStatisticTherapistList">

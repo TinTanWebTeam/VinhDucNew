@@ -33,10 +33,10 @@
                                 onclick="professionalView.addNewProfessional('')"><i
                                     class="fa fa-refresh"></i>
                         </button>
-                        <button type="button" class="btn btn-info btn-circle pull-right"
-                                onclick="professionalView.addNewTreatmentPackages()"><i
-                                    class="fa fa-plus"></i>
-                        </button>
+                        {{--<button type="button" class="btn btn-info btn-circle pull-right"--}}
+                                {{--onclick="professionalView.addNewTreatmentPackages()"><i--}}
+                                    {{--class="fa fa-plus"></i>--}}
+                        {{--</button>--}}
                     </div>
                 </div>
                 <div>
