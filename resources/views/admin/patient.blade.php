@@ -25,17 +25,17 @@
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-md-6 col-sm-6" style="height: 660px; overflow: scroll">
+        <div class="col-md-6 col-sm-6" >
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách bệnh nhân
                         {{--<button type="button" class="btn btn-danger btn-circle pull-right"--}}
-                                {{--onclick="patientView.deletePatient()"><i--}}
-                                    {{--class="fa fa-times"></i>--}}
+                        {{--onclick="patientView.deletePatient()"><i--}}
+                        {{--class="fa fa-times"></i>--}}
                         {{--</button>--}}
                     </div>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive" style="height: 480px; overflow: scroll">
                     <table class="table table-bordered table-hover order-column col-md-6" id="tablePatientList"
                            style="margin-bottom: 0px;">
                         <thead>
@@ -79,29 +79,29 @@
                         </button>
                     </div>
                 </div>
-                <div>
+                <div style="height: 480px; overflow: scroll">
                     <div class="portlet-body form">
                         <form role="form" id="formPatient">
                             <div class="form-body">
-                                <div>
-                                    <div class="form-group form-md-line-input" style="display:none">
+                                <div class="col-md-12">
+                                    <div class="form-group form-md-line-input " style="display:none">
                                         <input type="text" class="form-control" name="Id" id="Id">
                                     </div>
-                                    <div class="form-group form-md-line-input col-md-12">
+                                    <div class="form-group form-md-line-input ">
                                         <label for="Code"><b>Mã</b></label>
                                         <input type="text" class="form-control"
                                                id="Code"
                                                name="Code"
                                                placeholder="BN001">
                                     </div>
-                                    <div class="form-group form-md-line-input col-md-12">
+                                    <div class="form-group form-md-line-input ">
                                         <label for="FullName"><b>Họ và tên</b></label>
                                         <input type="text" class="form-control"
                                                id="FullName"
                                                name="FullName"
                                                placeholder="Nguyễn Văn A">
                                     </div>
-                                    <div class="">
+                                    <div class="row">
                                         <div class="form-group form-md-line-input col-md-6">
                                             <label for="Sex"><b>Giới tính</b></label>
                                             <select class="form-control" name="Sex" id="Sex">
@@ -118,37 +118,7 @@
                                                    value={{date('Y-m-d')}}>
                                         </div>
                                     </div>
-                                    <div class="">
-                                        <div class="form-group form-md-line-input col-md-3">
-                                            <label for="Height"><b>Chiều cao</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Height"
-                                                   name="Height"
-                                                   placeholder="170">
-                                        </div>
-                                        <div class="form-group form-md-line-input col-md-3">
-                                            <label for="Weight"><b>Cân nặng</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Weight"
-                                                   name="Weight"
-                                                   placeholder="70">
-                                        </div>
-                                        <div class="form-group form-md-line-input col-md-3">
-                                            <label for="BloodPressure"><b>Huyết áp</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="BloodPressure"
-                                                   name="BloodPressure"
-                                                   placeholder="130">
-                                        </div>
-                                        <div class="form-group form-md-line-input col-md-3">
-                                            <label for="Pulse"><b>Mạch</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Pulse"
-                                                   name="Pulse"
-                                                   placeholder="160">
-                                        </div>
-                                    </div>
-                                    <div>
+                                    <div class="row">
                                         <div class="form-group form-md-line-input col-md-6">
                                             <label for="Job"><b>Công việc</b></label>
                                             <input type="text" class="form-control"
@@ -164,15 +134,14 @@
                                                    placeholder="0963276xxx">
                                         </div>
                                     </div>
-
-                                    <div class="form-group form-md-line-input col-md-12">
+                                    <div class="form-group form-md-line-input">
                                         <label for="Address"><b>Địa chỉ</b></label>
                                         <input type="text" class="form-control"
                                                id="Address"
                                                name="Address"
                                                placeholder="562/2A Lê Quang Định Gò Vấp">
                                     </div>
-                                    <div>
+                                    <div class="row">
                                         <div class="form-group form-md-line-input col-md-6">
                                             <label for="ProvincialId"><b>Thành phố/ Tỉnh</b></label>
                                             <select class="form-control" id="ProvincialId" name="ProvincialId">
@@ -190,16 +159,46 @@
                                                    name="Age"
                                                    placeholder="20">
                                         </div>
+                                        <div class="form-group form-md-line-input col-md-12 col-lg-6">
+                                            <label for="HoursMinuteTo"><b>Đến khám bệnh lúc: Giờ:phút</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="HoursMinuteTo"
+                                                   name="HoursMinuteTo"
+                                                   placeholder="15:20">
+                                        </div>
+                                        <div class="form-group form-md-line-input col-md-12 col-lg-6">
+                                            <label for="DateMonthYearTo"><b>Ngày/tháng/năm</b></label>
+                                            <input type="date" class="form-control"
+                                                   id="DateMonthYearTo"
+                                                   name="DateMonthYearTo"
+                                                   value="{{date('Y-m-d')}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label for="Where"><b>Nơi đến</b></label>
+                                        <input type="text" class="form-control"
+                                               id="Where"
+                                               name="Where"
+                                               placeholder="562 Lê Quang Định Gò Vấp">
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label for="TimeGoIn"><b>Giờ vào khám</b></label>
+                                        <input type="text" class="form-control"
+                                               id="TimeGoIn"
+                                               name="TimeGoIn"
+                                               placeholder="15:30">
                                     </div>
                                 </div>
-                                <div class="form-actions noborder">
-                                    <div class="form-group" style="padding-left: 15px;">
-                                        <button type="button" class="btn blue"
-                                                onclick="patientView.addNewAndUpdatePatient()">
-                                            Hoàn tất
-                                        </button>
-                                        <button type="button" class="btn default" onclick="patientView.Cancel()">Huỷ</button>
-                                    </div>
+                            </div>
+                            <div class="form-actions noborder">
+                                <div class="form-group" style="padding-left: 15px;">
+                                    <button type="button" class="btn blue"
+                                            onclick="patientView.addNewAndUpdatePatient()">
+                                        Hoàn tất
+                                    </button>
+                                    <button type="button" class="btn default" onclick="patientView.Cancel()">
+                                        Huỷ
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -222,15 +221,15 @@
                     FullName: null,
                     Birthday: null,
                     Sex: null,
-                    Weight: null,
-                    Height: null,
-                    BloodPressure: null,
-                    Pulse: null,
                     Job: null,
                     Phone: null,
                     Address: null,
                     ProvincialId: null,
                     Age: null,
+                    HoursMinuteTo: null,
+                    DateMonthYearTo: null,
+                    Where: null,
+                    TimeGoIn: null
                 },
                 resetPatientObject: function () {
                     for (var propertyName in patientView.PatientObject) {
@@ -302,11 +301,11 @@
                     patientView.addNewPatient(result);
                 },
                 deletePatient: function () {
-                    if(idPatient==null) {
+                    if (idPatient == null) {
                         $("div#modalContent").empty().append("Vui lòng chọn bệnh nhân để xoá");
                         $("button[name=modalAgree]").hide();
                         $("div#modalConfirm").modal("show");
-                    }else{
+                    } else {
                         $("div#modalContent").empty().append("Chắc chắn xoá ?");
                         $("button[name=modalAgree]").show();
                         $("div#modalConfirm").modal("show");
@@ -325,7 +324,6 @@
                     }, function (data) {
                         $("input[name=Id]").empty().val(patientView.idPatient)
                         for (var propertyName in data) {
-
                             $("select[id=" + patientView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                             $("input[id=" + patientView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                         }
@@ -338,7 +336,7 @@
                             idPatient: idPatient
                         }, function (data) {
                             if (data[0] === 1) {
-                                idPatient=null;
+                                idPatient = null;
                                 patientView.fillTbody(data, 'delete');
                             }
                         });

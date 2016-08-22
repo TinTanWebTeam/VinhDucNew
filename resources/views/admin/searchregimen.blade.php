@@ -121,7 +121,7 @@
                             <div class="form-actions noborder">
                                 <div class="form-group" style="padding-left: 15px;">
                                     <button type="button" class="btn blue"
-                                            onclick="regimensView.searchPatient(this)">
+                                            onclick="regimensView.searchPatient()">
                                         Tìm kiếm
                                     </button>
                                     <button type="button" class="btn default" onclick="regimensView.Cancel(this)">Huỷ</button>
@@ -220,7 +220,7 @@
 //                    $("tbody#TableRegimentList").empty().append(row);
 //                    $("div#Table").show();
                     $("b[name=ToTal]").text("Tổng: " + data.length + "");
-                    $("tbody#TableRegimentList").append(row);
+                    $("tbody#TableRegimentList").empty().append(row);
                 });
             },
         }

@@ -19,7 +19,8 @@ class CreateDetailedTreatmentsTable extends Migration
             $table->integer('patientId')->unsigned();
             $table->string('professionalTreatment');
             $table->string('location');
-            $table->string('sesame');
+            $table->integer('sesame');
+            $table->integer('minute');
             $table->integer('therapistId')->unsigned();
             $table->boolean('ail')->default(0);
             $table->string('note');

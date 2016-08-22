@@ -20,9 +20,6 @@ class PatientManagementTableSeeder extends Seeder
                 'fullName'=>$faker->userName,
                 'address'=>$faker->address,
                 'sex'=>rand(1,2),
-                'weight'=>rand(40,70),
-                'height'=>rand(150,180),
-                'bloodPressure'=>rand(130,160),
                 'provincialId'=>$index,
             ]);
         }

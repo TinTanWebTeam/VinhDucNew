@@ -13,6 +13,7 @@ class DetailedTreatment extends Model
         'professionalTreatment',
         'location',
         'sesame',
+        'minute',
         'patientId',
         'therapistId',
         'ail',

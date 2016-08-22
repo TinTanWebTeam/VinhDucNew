@@ -292,7 +292,7 @@
                             tr += "<tr id=" + data[i]["id"] + ">";
                             tr += "<td>" + data[i]["code"] + "</td>";
                             tr += "<td>" + data[i]["fullName"] + "</td>";
-                            if(data[i]["sex"]==="1"){
+                            if(data[i]["sex"]===1){
                                 tr += "<td>Nam</td>";
                             }else{
                                 tr += "<td>Nữ</td>";

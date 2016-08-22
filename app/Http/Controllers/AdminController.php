@@ -7,6 +7,7 @@ use App\DetailedTreatment;
 use App\InformationSurveys;
 use App\LocationTreatment;
 use App\ManagementTherapist;
+use App\MedicalRecord;
 use App\Package;
 use App\PatientManagement;
 use App\Position;
@@ -197,13 +198,13 @@ class AdminController extends Controller
                         $patient->fullName = $request->get('dataPatient')['FullName'];
                         $patient->birthday = $request->get('dataPatient')['Birthday'];
                         $patient->sex = $request->get('dataPatient')['Sex'];
-                        $patient->weight = $request->get('dataPatient')['Weight'];
-                        $patient->height = $request->get('dataPatient')['Height'];
-                        $patient->bloodPressure = $request->get('dataPatient')['BloodPressure'];
-                        $patient->pulse = $request->get('dataPatient')['Pulse'];
                         $patient->job = $request->get('dataPatient')['Job'];
                         $patient->phone = $request->get('dataPatient')['Phone'];
                         $patient->address = $request->get('dataPatient')['Address'];
+                        $patient->hoursminuteto = $request->get('dataPatient')['HoursMinuteTo'];
+                        $patient->datemonthyearto = $request->get('dataPatient')['DateMonthYearTo'];
+                        $patient->where = $request->get('dataPatient')['Where'];
+                        $patient->timegoin = $request->get('dataPatient')['TimeGoIn'];
                         $patient->provincialId = $request->get('dataPatient')['ProvincialId'];
                         $patient->age = $request->get('dataPatient')['Age'];
                         $patient->createdBy = Auth::user()->id;
@@ -221,15 +222,15 @@ class AdminController extends Controller
                             $patient->fullName = $request->get('dataPatient')['FullName'];
                             $patient->birthday = $request->get('dataPatient')['Birthday'];
                             $patient->sex = $request->get('dataPatient')['Sex'];
-                            $patient->weight = $request->get('dataPatient')['Weight'];
-                            $patient->height = $request->get('dataPatient')['Height'];
-                            $patient->bloodPressure = $request->get('dataPatient')['BloodPressure'];
-                            $patient->pulse = $request->get('dataPatient')['Pulse'];
                             $patient->job = $request->get('dataPatient')['Job'];
                             $patient->phone = $request->get('dataPatient')['Phone'];
                             $patient->address = $request->get('dataPatient')['Address'];
+                            $patient->hoursminuteto = $request->get('dataPatient')['HoursMinuteTo'];
+                            $patient->datemonthyearto = $request->get('dataPatient')['DateMonthYearTo'];
+                            $patient->where = $request->get('dataPatient')['Where'];
+                            $patient->timegoin = $request->get('dataPatient')['TimeGoIn'];
                             $patient->provincialId = $request->get('dataPatient')['ProvincialId'];
-                            $patient->ageId = $request->get('dataPatient')['AgeId'];
+                            $patient->age = $request->get('dataPatient')['Age'];
                             $patient->upDatedBy = Auth::user()->id;
                             $patient->save();
                             $result = array(2, 'listPatient' => $this->getPatient());
@@ -667,10 +668,10 @@ class AdminController extends Controller
     {
         $package = Package::where('active', 1)->get();
         $patient = PatientManagement::where('active', 1)->get();
-        $location = LocationTreatment::where('active',1)->get();
+        $location = LocationTreatment::where('active', 1)->get();
         return view('admin.diagnostic')->with('professionals', $this->getDiagnostic())
             ->with('packages', $package)->with('patients', $patient)
-            ->with('locations',$location);
+            ->with('locations', $location);
     }
 
     public function deleteRowDetail(Request $request)
@@ -679,9 +680,9 @@ class AdminController extends Controller
             DB::table('detailed_treatments')
                 ->where('patientId', '=', $request->get('idPatient'))
                 ->where('treatmentPackageId', '=', $request->get('idTreatmentPackage'))
-                ->where('sesame','=',$request->get('data')['Sesame'])
-                ->where('location','=',$request->get('data')['Location'])
-                ->where('professionalTreatment','=',$request->get('data')['Professional'])
+                ->where('sesame', '=', $request->get('data')['Sesame'])
+                ->where('location', '=', $request->get('data')['Location'])
+                ->where('professionalTreatment', '=', $request->get('data')['Professional'])
                 ->delete();
             return true;
         } catch (Exception $ex) {
@@ -703,6 +704,7 @@ class AdminController extends Controller
                     $updateDetail->professionalTreatment = $request->get('data')['Professional'];
                     $updateDetail->location = $request->get('data')['Location'];
                     $updateDetail->sesame = $request->get('data')['Sesame'];
+                    $updateDetail->minute = $request->get('data')['Minute'];
                     $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
                     $updateDetail->ail = 2;//chua biet dau hay khong dau
                     $updateDetail->note = "";
@@ -717,7 +719,7 @@ class AdminController extends Controller
                 }
                 DB::commit();
                 return 1;
-            }else{
+            } else {
                 try {
                     $updateDetail = new DetailedTreatment();
                     $updateDetail->name = "";
@@ -726,6 +728,7 @@ class AdminController extends Controller
                     $updateDetail->professionalTreatment = $request->get('data')['Professional'];
                     $updateDetail->location = $request->get('data')['Location'];
                     $updateDetail->sesame = $request->get('data')['Sesame'];
+                    $updateDetail->minute = $request->get('data')['Minute'];
                     $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
                     $updateDetail->ail = 2;//chua biet dau hay khong dau
                     $updateDetail->note = "";
@@ -757,6 +760,7 @@ class AdminController extends Controller
                 ->select(
                     'detail.id as detailId',
                     'detail.name as detailName',
+                    'detail.minute',
                     'detail.location as detailLocation',
                     'location.id as location',
                     'location.name as locationName',
@@ -958,16 +962,6 @@ class AdminController extends Controller
             ];
             [
                 'Age.required' => 'Tuổi không được rỗng',
-            ];
-        } else if ($variable == 'validatorInformation') {
-            $datas = [
-                'Content' => $data['dataInformation']['Content'],
-            ];
-            $rules = [
-                'Content' => 'required',
-            ];
-            [
-                'Content.required' => 'Câu hỏi không được rỗng',
             ];
         }
         return Validator::make($datas, $rules);
@@ -1208,16 +1202,131 @@ class AdminController extends Controller
 
     public function deleteProfessional(Request $request)
     {
-        try{
-            if($request->get('id')!=null){
-                $detail = DetailedTreatment::where('active',1)->where('id',$request->get('id'));
-                if($detail){
+        try {
+            if ($request->get('id') != null) {
+                $detail = DetailedTreatment::where('active', 1)->where('id', $request->get('id'));
+                if ($detail) {
                     $detail->delete();
                     return 1;
-                }else{
+                } else {
                     return 0;
                 }
             }
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getViewMedicalRecord()
+    {
+        $patient = PatientManagement::where('active',1)->get();
+        $medical = MedicalRecord::where('active',1)->get();
+        return view('admin.medicalrecord')->with('patients',$patient)->with('medicals',$medical);
+    }
+
+    public function addNewAndUpdateMedicalRecord(Request $request)
+    {
+        try{
+            if($request->get('data')['Id'] == null){
+                try{
+                    $medical = new MedicalRecord();
+                    $medical->patientId = $request->get('data')['PatientId'];
+                    $medical->reasons = trim($request->get('data')['Reasons']);
+                    $medical->pathologicalProcess = trim($request->get('data')['PathologicalProcess']);
+                    $medical->anamnesis = trim($request->get('data')['Anamnesis']);
+                    $medical->body = trim($request->get('data')['Body']);
+                    $medical->parts = trim($request->get('data')['Parts']);
+                    $medical->pulse = trim($request->get('data')['Pulse']);
+                    $medical->temperature = trim($request->get('data')['Temperature']);
+                    $medical->bloodPressure = trim($request->get('data')['BloodPressure']);
+                    $medical->breathing = trim($request->get('data')['Breathing']);
+                    $medical->weight = trim($request->get('data')['Weight']);
+                    $medical->height = trim($request->get('data')['Height']);
+                    $medical->subclinical = trim($request->get('data')['Subclinical']);
+                    $medical->save();
+                    return 1;
+                }
+                catch (Exception $ex){
+                    return $ex;
+                }
+            }else{
+                try{
+                    $medical= MedicalRecord::where('active',1)->where('id',$request->get('data')['Id'])->first();
+                    if($medical){
+                        $medical->patientId = $request->get('data')['PatientId'];
+                        $medical->reasons = trim($request->get('data')['Reasons']);
+                        $medical->pathologicalProcess = trim($request->get('data')['PathologicalProcess']);
+                        $medical->anamnesis = trim($request->get('data')['Anamnesis']);
+                        $medical->body = trim($request->get('data')['Body']);
+                        $medical->parts = trim($request->get('data')['Parts']);
+                        $medical->pulse = trim($request->get('data')['Pulse']);
+                        $medical->temperature = trim($request->get('data')['Temperature']);
+                        $medical->bloodPressure = trim($request->get('data')['BloodPressure']);
+                        $medical->breathing = trim($request->get('data')['Breathing']);
+                        $medical->weight = trim($request->get('data')['Weight']);
+                        $medical->height = trim($request->get('data')['Height']);
+                        $medical->subclinical = trim($request->get('data')['Subclinical']);
+                        $medical->save();
+                        return 2;
+                    }else{
+                        return 0;
+                    }
+                }
+                catch (Exception $ex){
+                    return $ex;
+                }
+            }
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+
+    public function getMedicalRecord()
+    {
+        try {
+            $searchProfessionalTherapist = DB::table('medical_records')
+                ->join('patient_managements', 'medical_records.patientId', '=', 'patient_managements.id')
+                ->where('medical_records.active', 1)
+                ->select(
+                    'medical_records.id',
+                    'patient_managements.code',
+                    'patient_managements.fullName as name',
+                    'medical_records.reasons'
+                )
+                ->get();
+            return $searchProfessionalTherapist;
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+
+    public function getMedicalRecordOnly(Request $request)
+    {
+        try{
+            $medicalrecord = MedicalRecord::where('active',1)->where('id',$request->get('id'))->first();
+            return $medicalrecord;
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+
+    public function searchMedicalRecordViewByCodePatient(Request $request)
+    {
+        try{
+            $search = DB::table('medical_records')
+                ->join('patient_managements', 'medical_records.patientId', '=', 'patient_managements.id')
+                ->where('medical_records.active', 1)
+                ->where('patient_managements.code','LIKE','%'. $request->get('search') .'%')
+                ->select(
+                    'medical_records.id',
+                    'patient_managements.code',
+                    'patient_managements.fullName as name',
+                    'medical_records.reasons'
+                )
+                ->get();
+            return $search;
         }
         catch (Exception $ex){
             return $ex;
@@ -1805,12 +1914,29 @@ class AdminController extends Controller
     {
         try {
             $result = null;
-            if ($this->validator($request->all(), "validatorInformation")->fails()) {
-                return $this->validator($request->all(), "validatorInformation")->errors();
+
+            if ($request->get('addNewOrUpdateId') == "") {
+                try {
+                    $information = new InformationSurveys();
+                    $information->createdDate = $request->get('dataInformation')['CreatedDate'];
+                    $information->patientReviews = $request->get('dataInformation')['PatientReviews'];
+                    $information->content = $request->get('dataInformation')['Content'];
+                    if ($request->get('dataInformation')['Handling'] === "") {
+                        $information->handling = '2';
+                    } else {
+                        $information->handling = $request->get('dataInformation')['Handling'];
+                    }
+                    $information->patient_id = $request->get('dataInformation')['Patient_id'];
+                    $information->upDatedBy = Auth::user()->id;
+                    $information->save();
+                    $result = array(1, 'listInformation' => $this->getInformation());
+                } catch (Exception $ex) {
+                    return $ex;
+                }
             } else {
-                if ($request->get('addNewOrUpdateId') == "") {
+                $information = InformationSurveys::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
+                if ($information) {
                     try {
-                        $information = new InformationSurveys();
                         $information->createdDate = $request->get('dataInformation')['CreatedDate'];
                         $information->patientReviews = $request->get('dataInformation')['PatientReviews'];
                         $information->content = $request->get('dataInformation')['Content'];
@@ -1822,32 +1948,12 @@ class AdminController extends Controller
                         $information->patient_id = $request->get('dataInformation')['Patient_id'];
                         $information->upDatedBy = Auth::user()->id;
                         $information->save();
-                        $result = array(1, 'listInformation' => $this->getInformation());
+                        $result = array(2, 'listInformation' => $this->getInformation());
                     } catch (Exception $ex) {
                         return $ex;
                     }
                 } else {
-                    $information = InformationSurveys::where('active', 1)->where('id', $request->get('addNewOrUpdateId'))->first();
-                    if ($information) {
-                        try {
-                            $information->createdDate = $request->get('dataInformation')['CreatedDate'];
-                            $information->patientReviews = $request->get('dataInformation')['PatientReviews'];
-                            $information->content = $request->get('dataInformation')['Content'];
-                            if ($request->get('dataInformation')['Handling'] === "") {
-                                $information->handling = '2';
-                            } else {
-                                $information->handling = $request->get('dataInformation')['Handling'];
-                            }
-                            $information->patient_id = $request->get('dataInformation')['Patient_id'];
-                            $information->upDatedBy = Auth::user()->id;
-                            $information->save();
-                            $result = array(2, 'listInformation' => $this->getInformation());
-                        } catch (Exception $ex) {
-                            return $ex;
-                        }
-                    } else {
-                        $result = array(0, 'listInformation' => null);
-                    }
+                    $result = array(0, 'listInformation' => null);
                 }
             }
             return $result;

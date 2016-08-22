@@ -18,13 +18,13 @@ class CreatePatientManagementsTable extends Migration
             $table->string('fullName');
             $table->date('birthday');
             $table->boolean('sex');
-            $table->float('weight');
-            $table->float('height');
-            $table->string('bloodPressure');
-            $table->string('pulse');
             $table->string('job');
             $table->string('phone');
             $table->string('address');
+            $table->string('hoursMinuteTo');
+            $table->date('dateMonthYearTo');
+            $table->string('where');
+            $table->string('timeGoIn');
             $table->integer('provincialId')->unsigned();
             $table->integer('age');
             $table->boolean('active')->default(1);

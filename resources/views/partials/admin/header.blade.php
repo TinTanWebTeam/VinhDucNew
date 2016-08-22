@@ -75,6 +75,9 @@
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript:;"><i class="fa fa-book fa-fw"></i> Hồ sơ bệnh án<span></span></a>
+                </li>
                 @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 2)
                     <li>
                         <a href="javascript:;"><i class="fa fa-edit fa-fw"></i> Chẩn đoán</a>

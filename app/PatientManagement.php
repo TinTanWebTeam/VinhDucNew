@@ -12,12 +12,12 @@ class PatientManagement extends Model
         'fullName',
         'birthday',
         'sex',
-        'weight',
-        'height',
-        'bloodPressure',
-        'pulse',
         'job',
         'address',
+        'HoursMinuteTo',
+        'DateMonthYearTo',
+        'Where',
+        'TimeGoIn',
         'provincialId',
         'age',
         'createdBy',
@@ -34,5 +34,7 @@ class PatientManagement extends Model
     public function InformationPatient(){
         return $this->hasMany('App\InformationSurveys','patient_Id','id')->get();
     }
-    
+    public function MedicalRecord(){
+        return $this->hasMany('App\MedicalRecord','patientId','id')->get();
+    }
 }

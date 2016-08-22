@@ -60,9 +60,11 @@
                                    style="overflow: scroll;">
                                 <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>Vùng</th>
                                     <th>Điều trị chuyên môn</th>
                                     <th>Vị trí điều trị</th>
+                                    <th>Phút</th>
                                     <th>Bỏ chọn</th>
                                 </tr>
                                 </thead>
@@ -73,7 +75,7 @@
                         </div>
                         <form action="" id="addProfessional">
                             <div id="addProfessional">
-                                <div class="form-group form-md-line-input col-md-3">
+                                <div class="form-group form-md-line-input col-md-12 col-lg-3">
                                     <label for="Sesame"><b>Vùng</b></label>
                                     <select class="form-control" name="Sesame" id="Sesame">
                                         @if($locations)
@@ -83,40 +85,40 @@
                                         @endif
                                     </select>
                                 </div>
-                                <div class="form-group form-md-line-input col-md-3">
+                                <div class="form-group form-md-line-input col-md-12 col-lg-3">
                                     <label for="Professional"><b>Chuyên môn</b></label>
                                     <input type="text" class="form-control"
                                            id="Professional"
                                            name="Professional"
                                            placeholder="Siêu âm">
                                 </div>
-                                <div class="form-group form-md-line-input col-md-4">
+                                <div class="form-group form-md-line-input col-md-12 col-lg-4">
                                     <label for="Location"><b>Vị trí</b></label>
                                     <input type="text" class="form-control"
                                            id="Location"
-                                           name="Location"
-                                           placeholder="">
+                                           name="Location">
                                 </div>
-                                <div class="form-group form-md-line-input">
-                                    <button type="button" class="btn default" style="margin-top: 5%;"
-                                            name="CompleteTreatmentPackage"
-                                            onclick="diagnosticView.CompleteTreatmentPackage()">Thêm
-                                    </button>
+                                <div class="form-group form-md-line-input col-md-12 col-lg-2">
+                                    <label for="Minute"><b>Phút</b></label>
+                                    <input type="text" class="form-control"
+                                           id="Minute"
+                                           onkeypress="diagnosticView.enternumber()"
+                                           name="Minute">
                                 </div>
                             </div>
                         </form>
-                        <div class="form-group pull-bottom" style="margin-top: 12%; text-align: center; ">
-                            {{--<button type="button" name="CompleteTreatmentPackage" class="btn blue"--}}
-                            {{--onclick="diagnosticView.CompleteTreatmentPackage(this)">--}}
-                            {{--Hoàn tất--}}
-                            {{--</button>--}}
-                            <button type="button" name="cancelTreatment" onclick="diagnosticView.cancelTreatment(this)"
-                                    class="btn default">Huỷ
+                        <div class="form-group noborder" style="margin-top: 12%; text-align: center;">
+                            <button type="button" name="CompleteTreatmentPackage"
+                                    onclick="diagnosticView.CompleteTreatmentPackage()"
+                                    class="btn default">Thêm
+                            </button>
+                            <button type="button" name="cancelTreatment"
+                                    onclick="diagnosticView.cancelTreatment(this)"
+                                    class="btn default">Trở về
                             </button>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="col-sm-6" id="seachPatient">
@@ -289,7 +291,8 @@
                 Note: null,
                 Location: null,
                 Professional: null,
-                Sesame: null
+                Sesame: null,
+                Minute:null
             },
             resetDiagnosticObject: function () {
                 for (var propertyName in diagnosticView.DiagnosticObject) {
@@ -411,6 +414,9 @@
                         $("tbody#AutoCompleteTableBody").empty().append(row);
                         $("div#Table").show();
                         //$("div#Table").css("left", position.left).css("top", (position.top - 235));
+                    }else{
+                        $("div#modalConfirm").modal("show");
+                        $("div#modalContent").empty().append("Không tìm thấy thông tin bệnh nhân");
                     }
 
                 });
@@ -444,16 +450,21 @@
                 if (date < 10) date = "0" + date;
                 var strDate = year + "-" + month + "-" + date;
                 if ($(element).attr("data-date") < strDate || $(element).attr("data-active") === "0") {
+
                     diagnosticView.idTreatmentPackage = $(element).attr("data-Id");
                     $("div[id=addProfessional]").hide();
+                    $("button[name=CompleteTreatmentPackage]").hide();
                     $("button[name=cancelTreatment]").text("Trở về");
                     check = false;
                 } else if (result !== "") {
+                    $("div[id=addProfessional]").show();
+                    $("button[name=CompleteTreatmentPackage]").show();
+                    $("button[name=cancelTreatment]").text("Trở về");
                     diagnosticView.idTreatmentPackage = result;
                 } else {
                     diagnosticView.idTreatmentPackage = $(element).attr("data-Id");
+                    $("div[id=addProfessional]").show();
                     $("button[name=CompleteTreatmentPackage]").show();
-//                    $("button[name=cancelTreatment]").text("Huỷ");
                     $("button[name=cancelTreatment]").text("Trở về");
                 }
                 $.post(url + "admin/searchProfessional", {
@@ -464,18 +475,22 @@
                         diagnosticView.data = data[0];
                         if (data.length !== 0) {
                             var row = "";
+                            var stt = 1;
                             for (var i = 0; i < data.length; i++) {
                                 var tr = "";
                                 tr += "<tr id=" + data[i]["detailId"] + ">";
+                                tr += "<td>" + stt + "</td>";
                                 tr += "<td>" + data[i]["locationName"] + "</td>";
                                 tr += "<td>" + data[i]["professional"] + "</td>";
                                 tr += "<td>" + data[i]["detailLocation"] + "</td>";
+                                tr += "<td>" + data[i]["minute"] + "</td>";
                                 if (check === true) {
                                     tr += "<td <button type='button' style='margin-left: 30%;margin-top: 2%;' class='btn btn-danger btn-circle' data-Id='" + data[i]["detailId"] + "' onclick='diagnosticView.deleteTable(this)'><i class='fa fa-times '></i></button></td>";
                                 } else {
                                 }
                                 tr += "</tr>";
                                 row += tr;
+                                stt++;
                             }
                             $("tbody#PackagesTable").empty().append(row);
                             diagnosticView.resetForm();
@@ -636,11 +651,26 @@
                             $("div#modalConfirm").modal("show");
                             $("div#modalContent").empty().append("Thêm phiếu thành công");
                             $("button[name=modalAgree]").hide();
+
+                            $("div[name=tableSearchPatient]").show();
+                            $("div[name=buttonSearchPatient]").show();
+                            $("div[name=tableAddNewTreatmentPackages]").hide();
+                            $("div[name=buttonAddNewTreatmentPackages]").hide();
+                            $("div[name=searchPatient]").show();
+                            $("div[name=addNewTreatment]").hide();
                             diagnosticView.resetForm();
                         } else if (data === "2") {
                             $("div#modalConfirm").modal("show");
                             $("div#modalContent").empty().append("Sửa phiếu thành công");
                             $("button[name=modalAgree]").hide();
+
+                            $("div[name=tableSearchPatient]").show();
+                            $("div[name=buttonSearchPatient]").show();
+                            $("div[name=tableAddNewTreatmentPackages]").hide();
+                            $("div[name=buttonAddNewTreatmentPackages]").hide();
+                            $("div[name=searchPatient]").show();
+                            $("div[name=addNewTreatment]").hide();
+                            diagnosticView.resetForm();
                         } else if (data === "0") {
                             $("div#modalConfirm").modal("show");
                             $("div#modalContent").empty().append("Sửa phiếu KHÔNG thành công");
@@ -669,6 +699,26 @@
                         $("button[name=modalAgree]").hide();
                     }
                 })
+            },
+            enternumber:function () {
+                var keypressed = null;
+                if (window.event)
+                {
+                    keypressed = window.event.keyCode;
+                }
+                else
+                {
+                    keypressed = e.which;
+                }
+
+                if (keypressed <= 48 || keypressed >= 57)
+                {
+                    if (keypressed == 8 || keypressed == 127)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
             }
 
         }
