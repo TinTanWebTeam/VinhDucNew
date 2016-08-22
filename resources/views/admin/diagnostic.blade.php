@@ -238,8 +238,8 @@
                                                   id="Note"
                                                   style="resize: none;"
                                                   rows="5"
-                                                  name="Note">
-                                        </textarea>
+                                                  name="Note"
+                                                  placeholder="chẩn đoán"></textarea>
                                     </div>
                                 </div>
                             </div>
