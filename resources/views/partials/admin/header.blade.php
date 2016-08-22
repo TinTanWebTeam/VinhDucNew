@@ -36,7 +36,7 @@
                     <a href="javascript:;"><i class="fa fa-dashboard fa-fw"></i> Trang chủ</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Quản lí<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Quản lý<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="javascript:;">Chức vụ</a>

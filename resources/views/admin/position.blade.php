@@ -93,7 +93,7 @@
                                                 onclick="positionView.addNewAndUpdatePosition()">
                                             Hoàn tất
                                         </button>
-                                        <button type="button" class="btn default" onclick="positionView.Cancel()">>Huỷ</button>
+                                        <button type="button" class="btn default" onclick="positionView.Cancel()">Huỷ</button>
                                     </div>
                                 </div>
                             </div>
