@@ -256,6 +256,8 @@
                                 $("button[name=modalAgree]").hide();
                             }
                         })
+                    }else{
+                        $("form#formLocation").find("label[class=error]").css("color","red");
                     }
                 },
             }

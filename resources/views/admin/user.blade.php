@@ -18,7 +18,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 style="color: #00a859">Quản lí > Người dùng</h4>
+            <h4 style="color: #00a859">Quản lý > Người dùng</h4>
             <hr style="margin-top: 0px;">
         </div>
         <!-- /.col-lg-12 -->
@@ -104,20 +104,26 @@
                                     <input type="text" class="form-control"
                                            id="Name"
                                            name="Name"
-                                           placeholder="Tên đăng nhập">
+                                           maxlength="20"
+                                           minlength="6"
+                                           placeholder="Tên đăng nhập có ít nhất 6 kí tự">
                                 </div>
                                 <div class="form-group form-md-line-input">
                                     <label for="Password"><b>Mật khẩu</b></label>
                                     <input type="password" class="form-control"
                                            id="Password"
                                            name="Password"
-                                           placeholder="Nhập mật khẩu">
+                                           maxlength="20"
+                                           minlength="6"
+                                           placeholder="Mật khẩu có ít nhất 6 kí tự">
                                 </div>
                                 <div class="form-group form-md-line-input ">
                                     <label for="PasswordConfirm"><b>Nhập lại mật khẩu</b></label>
                                     <input type="Password" class="form-control"
                                            id="PasswordConfirm"
                                            name="PasswordConfirm"
+                                           maxlength="20"
+                                           minlength="6"
                                            placeholder="Nhập lại mật khẩu">
                                 </div>
                                 <div class="form-group form-md-line-input">
@@ -282,7 +288,6 @@
                                     required: true,
                                     minlength: 6,
                                     maxlength: 20
-
                                 },
                                 Password: {
                                     required: true,
@@ -292,7 +297,7 @@
                                 PasswordConfirm: {
                                     required: true,
                                     equalTo: "#Password",
-                                    minlength: 6,
+                                    minlegth: 6,
                                     maxlength: 20
                                 },
                                 Email: {
@@ -376,13 +381,15 @@
                                 }
                                 else {
                                     $("div#modalConfirm").modal("show");
-                                    $("div#modalContent").empty().append("Thêm mới KHÔNG thành công");
+                                    $("div#modalContent").empty().append("Thêm mới KHÔNG thành công. Kiểm tra tài khoản");
                                     $("button[name=modalAgree]").hide();
                                 }
                             } else {
                                 $("label#Email").show();
                             }
                         })
+                    }else{
+                        $("form#formUser").find("label[class=error]").css("color","red");
                     }
                 }
             }

@@ -325,6 +325,8 @@
                                 $("button[name=modalAgree]").hide();
                             }
                         })
+                    }else{
+                        $("form#formTmPackage").find("label[class=error]").css("color","red");
                     }
                 }
             }

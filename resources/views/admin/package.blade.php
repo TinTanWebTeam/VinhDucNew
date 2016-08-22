@@ -274,6 +274,8 @@
                                 $("button[name=modalAgree]").hide();
                             }
                         })
+                    }else{
+                        $("form#formPackage").find("label[class=error]").css("color","red");
                     }
                     },
     }

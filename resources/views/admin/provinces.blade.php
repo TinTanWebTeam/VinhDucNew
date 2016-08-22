@@ -247,6 +247,8 @@
                                 $("button[name=modalAgree]").hide();
                             }
                         })
+                    }else{
+                        $("form#formProvince").find("label[class=error]").css("color","red");
                     }
                 },
             }

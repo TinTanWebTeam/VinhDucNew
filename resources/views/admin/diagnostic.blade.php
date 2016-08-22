@@ -107,7 +107,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="form-group noborder" style="margin-top: 12%; text-align: center;">
+                        <div class="form-group noborder" style="margin-top: 23%; text-align: center;">
                             <button type="button" name="CompleteTreatmentPackage"
                                     onclick="diagnosticView.CompleteTreatmentPackage()"
                                     class="btn default">Thêm
@@ -416,6 +416,7 @@
                         //$("div#Table").css("left", position.left).css("top", (position.top - 235));
                     }else{
                         $("div#modalConfirm").modal("show");
+                        $("button[name=modalAgree]").hide();
                         $("div#modalContent").empty().append("Không tìm thấy thông tin bệnh nhân");
                     }
 

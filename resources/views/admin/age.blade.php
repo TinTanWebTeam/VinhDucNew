@@ -249,6 +249,8 @@
                                 $("button[name=modalAgree]").hide();
                             }
                         })
+                    }else{
+                        $("form#formAge").find("label[class=error]").css("color","red");
                     }
                 },
             }

@@ -273,6 +273,8 @@
                                 $("button[name=modalAgree]").hide();
                             }
                         })
+                    }else{
+                        $("form#formProTm").find("label[class=error]").css("color","red");
                     }
                 },
             }

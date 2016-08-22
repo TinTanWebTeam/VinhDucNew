@@ -791,12 +791,15 @@ class AdminController extends Controller
             ];
             $rules = [
                 'Name' => 'required|min:6',
+                'Password'=>'required|min:6',
                 'RoleId' => 'required',
                 'Email' => 'required|email'
             ];
             [
                 'Name.required' => 'Tên đăng nhập không được rỗng',
-                'Name.min' => 'Tên đăng nhập phải có 6 kí tự ',
+                'Password.required'=>'Mật khẩu không được rỗng',
+                'Password.min'=>'Mật khẩu phải có 6 kí tự đến 20 kí tự',
+                'Name.min' => 'Tên đăng nhập phải có 6 kí tự đến 20 kí tự',
                 'RoleId.required' => 'Quyền sử dụng không được rỗng',
                 'Email.required' => 'Email không được rỗng',
                 'Email.email' => 'Email không đúng định dạng'

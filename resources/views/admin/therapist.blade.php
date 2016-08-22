@@ -18,7 +18,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 style="color: #00a859">Quản lí > Điều trị viên</h4>
+            <h4 style="color: #00a859">Quản lý > Điều trị viên</h4>
             <hr style="margin-top: 0px;color: #00a859">
         </div>
         <!-- /.col-lg-12 -->
@@ -338,6 +338,8 @@
                                 $("button[name=modalAgree]").hide();
                             }
                         })
+                    }else{
+                        $("form#formTherapist").find("label[class=error]").css("color","red");
                     }
                 }
             }

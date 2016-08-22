@@ -357,6 +357,8 @@
                                 $("button[name=modalAgree]").hide();
                             }
                         })
+                    }else{
+                        $("form#formInformation").find("label[class=error]").css("color","red");
                     }
                 }
             }

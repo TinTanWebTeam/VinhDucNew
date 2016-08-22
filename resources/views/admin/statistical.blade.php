@@ -61,7 +61,7 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa</div>
+                    <div style="color: #00a859;font-size: 17px;">Tìm kiếm</div>
 
                 </div>
                 <div>
