@@ -19,7 +19,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 style="color: #00a859">Danh mục > Tạo Gói</h4>
+            <h4 style="color: #00a859">Danh mục > Tạo gói</h4>
             <hr style="margin-top: 0px;">
         </div>
         <!-- /.col-lg-12 -->
@@ -29,7 +29,7 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Các Gói
+                    <div style="color: #00a859;font-size: 17px;">Các gói
                         <button type="button" class="btn btn-danger btn-circle pull-right" onclick="packageView.deletePackage()"><i
                                     class="fa fa-times"></i>
                         </button>
@@ -40,8 +40,8 @@
                            style="margin-bottom: 0px;">
                         <thead>
                         <tr>
-                            <th>Tên Gói</th>
-                            <th>Giá Tiền</th>
+                            <th>Tên gói</th>
+                            <th>Giá tiền</th>
 
                         </tr>
                         </thead>
@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="form-group form-md-line-input"></div>
                                     <div class="form-group form-md-line-input">
-                                        <label for="packageName">Tên Gói</label>
+                                        <label for="packageName">Tên gói</label>
                                         <input type="text" class="form-control"
                                                id="Name"
                                                name="Name"

@@ -20,7 +20,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 style="color: #00a859">Danh mục > Vị trí Điều trị</h4>
+            <h4 style="color: #00a859">Danh mục > Vùng điều trị</h4>
             <hr style="margin-top: 0px;">
         </div>
         <!-- /.col-lg-12 -->
@@ -30,7 +30,7 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Vị trí Điều Trị
+                    <div style="color: #00a859;font-size: 17px;">Vùng điều trị
                         <button type="button" class="btn btn-danger btn-circle pull-right"
                                 onclick="locationView.deleteLocation()"><i
                                     class="fa fa-times"></i>
@@ -43,7 +43,7 @@
                            style="margin-bottom: 0px;">
                         <thead>
                         <tr>
-                            <th>Vị trí điều trị</th>
+                            <th>Vùng điều trị</th>
                             <th>Ghi chú</th>
                         </tr>
                         </thead>
@@ -81,11 +81,11 @@
                                     </div>
                                     <div class="form-group form-md-line-input"></div>
                                     <div class="form-group form-md-line-input">
-                                        <label for="Location">Vị Trí Điều Trị</label>
+                                        <label for="Location">Vùng điều trị</label>
                                         <input type="text" class="form-control"
                                                id="Name"
                                                name="Name"
-                                               placeholder="Vị Trí Điều Trị">
+                                               placeholder="Vùng điều trị">
                                     </div>
                                     <div class="form-group form-md-line-input ">
                                         <label for="Note">Ghi chú</label>

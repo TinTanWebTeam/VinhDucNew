@@ -40,7 +40,7 @@
                             <thead>
                             <tr>
                                 <th>Mã phác đồ</th>
-                                <th>Tên BN</th>
+                                <th>Tên bệnh nhân</th>
                                 <th>Tình trạng</th>
                                 <th>Ghi chú</th>
                             </tr>
@@ -87,7 +87,7 @@
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12"></div>
                                     <div class="form-group form-md-line-input col-md-6">
-                                        <label for="CodePatient"><b>Mã BN</b></label>
+                                        <label for="CodePatient"><b>Mã bệnh nhân</b></label>
                                         <input type="text" class="form-control"
                                                id="CodePatient"
                                                name="CodePatient"

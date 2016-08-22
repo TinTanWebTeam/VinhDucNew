@@ -19,7 +19,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 style="color: #00a859">Danh mục > Độ Tuổi</h4>
+            <h4 style="color: #00a859">Danh mục > Độ tuổi</h4>
             <hr style="margin-top: 0px;">
         </div>
         <!-- /.col-lg-12 -->
@@ -29,7 +29,7 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Độ Tuổi</div>
+                    <div style="color: #00a859;font-size: 17px;">Độ tuổi</div>
                     <div style="position: absolute;margin: -25px 0px 0px 450px;">
 
                     </div>
@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="form-group form-md-line-input"></div>
                                     <div class="form-group form-md-line-input">
-                                        <label for="Age">Độ Tuổi</label>
+                                        <label for="Age">Độ tuổi</label>
                                         <input type="text" class="form-control"
                                                id="Age"
                                                name="Age"

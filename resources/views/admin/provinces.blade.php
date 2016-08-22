@@ -19,7 +19,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 style="color: #00a859">Danh mục > Tỉnh Thành</h4>
+            <h4 style="color: #00a859">Danh mục > Tỉnh thành</h4>
             <hr style="margin-top: 0px;">
         </div>
         <!-- /.col-lg-12 -->
@@ -29,14 +29,14 @@
         <div class="col-md-6 col-sm-6">
             <div class="panel panel-default" >
                 <div class="panel-heading"  >
-                    <div style="color: #00a859;font-size: 17px;">Tỉnh Thành</div>
+                    <div style="color: #00a859;font-size: 17px;">Tỉnh thành</div>
                 </div>
                 <div style="height: 300px;overflow: scroll;">
                     <table class="table table-bordered table-hover order-column" id="tableProvinceList"
                            style="margin-bottom: 0px;">
                         <thead>
                         <tr>
-                            <th>Tỉnh Thành</th>
+                            <th>tỉnh thành</th>
                         </tr>
                         </thead>
                         <tbody id="tbodyProvinceList">
@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="form-group form-md-line-input"></div>
                                     <div class="form-group form-md-line-input">
-                                        <label for="Name">Tỉnh Thành</label>
+                                        <label for="Name">Tỉnh thành</label>
                                         <input type="text" class="form-control"
                                                id="Name"
                                                name="Name"
