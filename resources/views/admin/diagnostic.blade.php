@@ -473,10 +473,11 @@
                     idPackageTreatment: diagnosticView.idTreatmentPackage
                 }, function (data) {
                     if (data !== null) {
-                        diagnosticView.data = data[0];
+                        diagnosticView.data = data;
                         if (data.length !== 0) {
                             var row = "";
                             var stt = 1;
+                            $("tbody#PackagesTable").empty();
                             for (var i = 0; i < data.length; i++) {
                                 var tr = "";
                                 tr += "<tr id=" + data[i]["detailId"] + ">";
@@ -493,9 +494,13 @@
                                 row += tr;
                                 stt++;
                             }
-                            $("tbody#PackagesTable").empty().append(row);
+                            $("tbody#PackagesTable").append(row);
                             diagnosticView.resetForm();
+                        }else{
+                            $("tbody#PackagesTable").empty();
                         }
+                    }else{
+                        $("tbody#PackagesTable").empty();
                     }
                 });
                 $("div#TablePackages").show();
