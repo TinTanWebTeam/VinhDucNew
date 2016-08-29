@@ -175,11 +175,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group form-md-line-input">
-                                        <label for="Where"><b>Nơi đến</b></label>
-                                        <input type="text" class="form-control"
-                                               id="Where"
-                                               name="Where"
-                                               placeholder="562 Lê Quang Định Gò Vấp">
+                                        <label for="SourceCustomerId"><b>Nguồn khách hàng</b></label>
+                                        <select class="form-control" id="SourceCustomerId" name="SourceCustomerId">
+                                            @if($sourceCustomers)
+                                                @foreach($sourceCustomers as $item)
+                                                    <option value="{{$item->id}}">{{$item->sourceCustomer}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                     </div>
                                     <div class="form-group form-md-line-input">
                                         <label for="TimeGoIn"><b>Giờ vào khám</b></label>
@@ -187,6 +190,50 @@
                                                id="TimeGoIn"
                                                name="TimeGoIn"
                                                placeholder="15:30">
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
+                                            <label for="Pulse"><b>Mạch</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="Pulse"
+                                                   name="Pulse"
+                                                   placeholder="70">
+                                        </div>
+                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
+                                            <label for="Temperature"><b>Nhiệt độ</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="Temperature"
+                                                   name="Temperature"
+                                                   placeholder="37">
+                                        </div>
+                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
+                                            <label for="BloodPressure"><b>Huyết áp</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="BloodPressure"
+                                                   name="BloodPressure"
+                                                   placeholder="100/70">
+                                        </div>
+                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
+                                            <label for="Breathing"><b>Nhịp thở</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="Breathing"
+                                                   name="Breathing"
+                                                   placeholder="16">
+                                        </div>
+                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
+                                            <label for="Weight"><b>Cân nặng</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="Weight"
+                                                   name="Weight"
+                                                   placeholder="60">
+                                        </div>
+                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
+                                            <label for="Height"><b>Chiều cao</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="Height"
+                                                   name="Height"
+                                                   placeholder="170">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -221,6 +268,13 @@
                     FullName: null,
                     Birthday: null,
                     Sex: null,
+                    Parts:null,
+                    Pulse:null,
+                    Temperature:null,
+                    BloodPressure:null,
+                    Breathing:null,
+                    Weight:null,
+                    Height:null,
                     Job: null,
                     Phone: null,
                     Address: null,
@@ -228,7 +282,7 @@
                     Age: null,
                     HoursMinuteTo: null,
                     DateMonthYearTo: null,
-                    Where: null,
+                    SourceCustomerId: null,
                     TimeGoIn: null
                 },
                 resetPatientObject: function () {
@@ -385,16 +439,16 @@
                         }, function (data) {
                             if (data[0] === 1) {
                                 idPatient = null;
+                                patientView.fillTbody(data, '');
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Thêm mới thành công");
                                 $("button[name=modalAgree]").hide();
-                                patientView.fillTbody(data, '');
                             } else if (data[0] === 2) {
                                 idPatient = null;
+                                patientView.fillTbody(data, '');
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Chỉnh sửa thành công");
                                 $("button[name=modalAgree]").hide();
-                                patientView.fillTbody(data, '');
                             } else if (data[0] === 0) {
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Chỉnh sửa KHÔNG thành công");

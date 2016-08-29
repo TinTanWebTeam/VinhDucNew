@@ -17,8 +17,7 @@ class ProfessionalTreatmentTableSeeder extends Seeder
         foreach (range(1,5) as $index){
             ProfessionalTreatment::create([
                 'name'=>$faker->userName,
-                'note'=>$faker->paragraph(5),
-                'locationTreatmentId'=>random_int(1,5)
+                'note'=>$faker->paragraph(5)
             ]);
         }
     }

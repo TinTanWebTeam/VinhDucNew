@@ -18,14 +18,8 @@ class CreateMedicalRecordsTable extends Migration
             $table->string('reasons');
             $table->string('pathologicalProcess');
             $table->string('anamnesis');
-            $table->string('body');
             $table->string('parts');
-            $table->string('pulse');
-            $table->string('temperature');
-            $table->string('bloodPressure');
-            $table->string('breathing');
-            $table->string('weight');
-            $table->string('height');
+            $table->string('body');
             $table->string('subclinical');
             $table->boolean('active')->default(1);
             

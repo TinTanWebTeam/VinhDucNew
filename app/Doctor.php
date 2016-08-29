@@ -10,7 +10,9 @@ class Doctor extends Model
     protected $fillable=[
         'code',
         'name',
-        'reference',
+        'address',
+        'phone',
+        'sex',
         'note',
         'ageId',
         'provincialId',
@@ -18,4 +20,10 @@ class Doctor extends Model
         'upDatedBy',
         'active'
     ];
+    public function Age(){
+        return $this->belongsTo('App\Age','ageId','id')->first();
+    }
+    public function Provinces(){
+        return $this->belongsTo('App\Provinces','provincialId','id')->first();
+    }
 }

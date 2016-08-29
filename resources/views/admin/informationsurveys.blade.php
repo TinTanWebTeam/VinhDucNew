@@ -42,7 +42,6 @@
                         <thead>
                         <tr>
                             <th>Ngày tạo</th>
-
                             <th>Ý kiến bệnh nhân</th>
                             <th>Tình trạng</th>
                             <th>Nội dung xử lý</th>

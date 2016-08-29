@@ -55,6 +55,9 @@
                         <li>
                             <a href="javascript:;">Điều trị viên</a>
                         </li>
+                        <li>
+                            <a href="javascript:;">Bác sĩ</a>
+                        </li>
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
@@ -66,6 +69,12 @@
                         </li>
                         <li>
                             <a href="javascript:;">Vùng điều trị</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">Điều trị chuyên môn</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">Nguồn khách hàng</a>
                         </li>
                         <li>
                             <a href="javascript:;">Tỉnh thành</a>

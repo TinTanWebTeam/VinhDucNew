@@ -16,7 +16,9 @@ class CreateDoctorsTable extends Migration
             $table->increments('id');
             $table->string('code')->unique();
             $table->string('name');
-            $table->string('reference');
+            $table->string('address');
+            $table->string('phone');
+            $table->boolean('sex');
             $table->string('note');
             $table->integer('ageId')->unsigned();
             $table->integer('provincialId')->unsigned();
@@ -25,6 +27,9 @@ class CreateDoctorsTable extends Migration
             $table->string('upDatedBy');
 
             $table->timestamps();
+
+            $table->foreign('provincialId')->references('id')->on('provinces')->onDelete('no action');
+            $table->foreign('ageId')->references('id')->on('ages')->onDelete('no action');
         });
     }
 

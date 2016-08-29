@@ -43,7 +43,6 @@
                         <thead>
                         <tr>
                             <th>Phương pháp điều trị</th>
-                            <th>Vị trí điều trị</th>
                             <th>Ghi Chú</th>
                         </tr>
                         </thead>
@@ -52,7 +51,6 @@
                             <tr id="{{$item->id}}" onclick="proTreatmentView.viewListProTm(this)"
                                 style="cursor: pointer">
                                 <td>{{$item->name}}</td>
-                                <td>{{$item->localTreatment()->name}}</td>
                                 <td>{{$item->note}}</td>
                             </tr>
                         @endforeach
@@ -88,18 +86,18 @@
                                                name="Name"
                                                placeholder="Phương Pháp Điều Trị">
                                     </div>
-                                    <div class="form-group form-md-line-input">
-                                        <label for="Location">Vị Trí Điều Trị</label>
-                                        <select class="form-control" id="LocationTreatmentId">
-                                            <option value="0">-- Chọn Vị Trí --</option>
-                                            @if($Locations)
-                                                @foreach($Locations as $item)
-                                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
+                                    {{--<div class="form-group form-md-line-input">--}}
+                                        {{--<label for="Location">Vị Trí Điều Trị</label>--}}
+                                        {{--<select class="form-control" id="LocationTreatmentId">--}}
+                                            {{--<option value="0">-- Chọn Vị Trí --</option>--}}
+                                            {{--@if($Locations)--}}
+                                                {{--@foreach($Locations as $item)--}}
+                                                {{--<option value="{{$item->id}}">{{$item->name}}</option>--}}
+                                                {{--@endforeach--}}
+                                            {{--@endif--}}
+                                        {{--</select>--}}
 
-                                    </div>
+                                    {{--</div>--}}
                                     <div class="form-group form-md-line-input ">
                                         <label for="Note">Ghi chú</label>
                                         <textarea class="form-control" id="Note" name="Note" rows="5" cols="10"
@@ -133,7 +131,6 @@
                 proTreatmentObject: {
                     Id: null,
                     Name: null,
-                    LocationTreatmentId: null,
                     Note: null,
 
                 },
@@ -200,7 +197,6 @@
                         var tr = "";
                         tr += "<tr id=" + data["listProTreatment"][i]["Id"] + " onclick='proTreatmentView.viewListProTm(this)' style='cursor: pointer'>";
                         tr += "<td>" + data["listProTreatment"][i]["Name"] + "</td>";
-                        tr += "<td>" + data["listProTreatment"][i]["LocationTreatmentId"] + "</td>";
                         tr += "<td>" + data["listProTreatment"][i]["Note"] + "</td>";
                         row += tr;
                     }

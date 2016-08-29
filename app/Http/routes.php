@@ -33,6 +33,11 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::get('getStatisticsTherapist','AdminController@getStatisticsTherapist');
     Route::get('getdate','AdminController@getdate');
     Route::get('getViewMedicalRecord','AdminController@getViewMedicalRecord');
+    Route::get('getViewDoctor','AdminController@getViewDoctor');
+    Route::get('getSearchCodeDoctor','AdminController@getSearchCodeDoctor');
+    Route::get('getSearchCodeTherapist','AdminController@getSearchCodeTherapist');
+    Route::get('getSearchCodeProfessional','AdminController@getSearchCodeProfessional');
+    Route::get('getViewSourceCustomer','AdminController@getViewSourceCustomer');
     //Anh Tam
 
     Route::get('getViewPackage','AdminController@getViewPackage');
@@ -60,7 +65,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::post('searchPatient','AdminController@searchPatient');
     Route::post('SearchTreatmentPackages','AdminController@SearchTreatmentPackages');
     Route::post('searchProfessional','AdminController@searchProfessional');
-    Route::post('updateDetailTreatment','AdminController@updateDetailTreatment');
+    Route::post('updateUmpteenthTreatmentPackages','AdminController@updateUmpteenthTreatmentPackages');
     Route::post('addNewTreatment','AdminController@addNewTreatment');
     Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
     Route::post('checkAilOrNotAil','AdminController@checkAilOrNotAil');
@@ -78,6 +83,11 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::post('getMedicalRecord','AdminController@getMedicalRecord');
     Route::post('getMedicalRecordOnly','AdminController@getMedicalRecordOnly');
     Route::post('searchMedicalRecordViewByCodePatient','AdminController@searchMedicalRecordViewByCodePatient');
+    Route::post('addNewAndUpdateDoctor','AdminController@addNewAndUpdateDoctor');
+    Route::post('postViewDoctor','AdminController@postViewDoctor');
+    Route::post('addNewAndUpdateSourceCustomer','AdminController@addNewAndUpdateSourceCustomer');
+    Route::post('postViewSourceCustomer','AdminController@postViewSourceCustomer');
+
     //AnhTam
     Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
     Route::post('addNewAndUpdatePackage','AdminController@addNewAndUpdatePackage');

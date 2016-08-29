@@ -154,48 +154,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
-                                            <label for="Pulse"><b>Mạch</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Pulse"
-                                                   name="Pulse"
-                                                   placeholder="70">
-                                        </div>
-                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
-                                            <label for="Temperature"><b>Nhiệt độ</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Temperature"
-                                                   name="Temperature"
-                                                   placeholder="37">
-                                        </div>
-                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
-                                            <label for="BloodPressure"><b>Huyết áp</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="BloodPressure"
-                                                   name="BloodPressure"
-                                                   placeholder="100/70">
-                                        </div>
-                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
-                                            <label for="Breathing"><b>Nhịp thở</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Breathing"
-                                                   name="Breathing"
-                                                   placeholder="16">
-                                        </div>
-                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
-                                            <label for="Weight"><b>Cân nặng</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Weight"
-                                                   name="Weight"
-                                                   placeholder="60">
-                                        </div>
-                                        <div class="form-group form-md-line-input col-md-6 col-lg-4">
-                                            <label for="Height"><b>Chiều cao</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Height"
-                                                   name="Height"
-                                                   placeholder="170">
-                                        </div>
+
                                     </div>
                                     <div class="form-group form-md-line-input ">
                                         <label for="Subclinical"><b>Cận lâm sàn</b></label>
@@ -242,7 +201,6 @@
                     Anamnesis: null,
                     Body: null,
                     Parts: null,
-                    Pulse: null,
                     Temperature: null,
                     BloodPressure: null,
                     Breathing: null,

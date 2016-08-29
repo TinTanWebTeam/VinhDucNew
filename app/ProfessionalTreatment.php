@@ -15,7 +15,7 @@ class ProfessionalTreatment extends Model
         'upDatedBy',
         'active'
     ];
-    public function localTreatment(){
-        return $this->belongsTo('App\LocationTreatment','locationTreatmentId','id')->first();
-    }
+//    public function localTreatment(){
+//        return $this->belongsTo('App\LocationTreatment','locationTreatmentId','id')->first();
+//    }
 }

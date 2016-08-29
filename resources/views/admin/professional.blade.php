@@ -141,20 +141,19 @@
                             <div style="color: #00a859;font-size: 17px;" name="title">Chi tiết điều trị của mã phiếu:
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover order-column" id="PackagesTable"
-                                   style="overflow: scroll;">
+                        <div style="height: 650px ;overflow: scroll;">
+                            <table class="table table-bordered table-hover order-column " id="PackagesTable">
                                 <thead>
                                 <tr>
                                     <th>Vùng</th>
                                     <th>Chuyên môn</th>
                                     <th>Vị trí</th>
-                                    <th>Chuyên viên</th>
+                                    <th>Mã chuyên viên</th>
                                     <th>Tình trạng</th>
                                     <th>Lưu thay đổi</th>
                                 </tr>
                                 </thead>
-                                <tbody id="PackagesTable">
+                                <tbody id="PackagesTable" class="" >
 
                                 </tbody>
                             </table>
@@ -257,7 +256,7 @@
                         tr += "<tr id=" + data[i]["id"] + " style='cursor: pointer' data-active='" + data[i]["active"] + "' data-date='" + data[i]["createdDate"] + "' data-code='" + data[i]["code"] + "' data-Id='" + data[i]["id"] + "' onclick='professionalView.fillUpdateToTable(this,String(\"\"))'>";
                     }
                     tr += "<td>" + data[i]["code"] + "</td>";
-                    tr += "<td>" + data[i]["note"] + "</td>";
+                    tr += "<td>" + data[i]["packagesNote"] + "</td>";
                     tr += "<td>" + data[i]["createdDate"] + "</td>";
                     tr += "<td>" + data[i]["namePackage"] + "</td>";
                     tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[i]["active"] + "' data-code='" + data[i]["code"] + "' data-date='" + data[i]["createdDate"] + "' data-Id='" + data[i]["id"] + "' onclick='professionalView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";
@@ -337,8 +336,10 @@
                 if (month < 10) month = "0" + month;
                 if (date < 10) date = "0" + date;
                 var strDate = year + "-" + month + "-" + date;
-                if ($(element).attr("data-date") < strDate || $(element).attr("data-active") === "0") {
-                } else if (result !== "") {
+//                if ($(element).attr("data-date") < strDate || $(element).attr("data-active") === "0") {
+//
+//                } else
+                if (result !== "") {
                     professionalView.idTreatmentPackage = result;
 
                 } else {
@@ -465,6 +466,7 @@
                 }
             },
             saveDetail: function (element) {
+                console.log($(element).parent().parent().find("td").find("input").val());
                 if($("select#TherapistId").val()==="0"){
                     $("div#modalConfirm").modal("show");
                     $("div#modalContent").empty().append("Chưa chọn chuyên viên thực hiện");
@@ -476,18 +478,23 @@
                 }else{
                     $.post(url + "admin/updateAil", {
                         _token: _token,
-                        therapistId: $(element).parent().parent().find("td").eq(3).find("select").val(),
+                        therapistId: $(element).parent().parent().find("td").find("input").val(),
                         ail: $(element).parent().parent().find("td").eq(4).find("select").val(),
 //                    professionalId: $(element).attr("id"),
-//                    patientId:$("input[name=Id]").val(),
+                        patientId:$("input[name=Id]").val(),
 //                    treatmentPackageId:professionalView.idTreatmentPackage
                         id: $(element).attr("id")
                     }, function (data) {
                         if (data === "1") {
-                            $(element).css("background-color", "#00a859").css('color', '#ffffff');
-                            $(element).text("Sửa")
+                            if($(element).attr("role")==="admin") {
+                                $(element).css("background-color", "#00a859").css('color', '#ffffff');
+                                $(element).text("Sửa");
+                            }else{
+                                $(element).hide();
+                            }
+
                             $("div#modalConfirm").modal("show");
-                            $("div#modalContent").empty().append("Lưu thay đổi thành công");
+                            $("div#modalContent").empty().append("Lưu thành công");
                             $("button[name=modalAgree]").hide();
                         } else if (data === "2") {
 

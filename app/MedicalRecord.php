@@ -13,12 +13,6 @@ class MedicalRecord extends Model
         'anamnesis',
         'body',
         'parts',
-        'pulse',
-        'temperature',
-        'bloodPressure',
-        'breathing',
-        'weight',
-        'height',
         'subclinical',
         'active'
     ];

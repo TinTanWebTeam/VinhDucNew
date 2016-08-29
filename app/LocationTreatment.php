@@ -14,8 +14,8 @@ class LocationTreatment extends Model
         'createdBy',
         'upDatedBy'
     ];
-    public function ProTreatment(){
-        return $this->hasMany('App\ProfessionalTreatment','locationTreatmentId','id')->get();
-
-    }
+//    public function ProTreatment(){
+//        return $this->hasMany('App\ProfessionalTreatment','locationTreatmentId','id')->get();
+//
+//    }
 }

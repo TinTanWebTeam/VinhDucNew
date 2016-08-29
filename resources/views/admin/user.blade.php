@@ -104,8 +104,6 @@
                                     <input type="text" class="form-control"
                                            id="Name"
                                            name="Name"
-                                           maxlength="20"
-                                           minlength="6"
                                            placeholder="Tên đăng nhập có ít nhất 6 kí tự">
                                 </div>
                                 <div class="form-group form-md-line-input">
@@ -113,8 +111,6 @@
                                     <input type="password" class="form-control"
                                            id="Password"
                                            name="Password"
-                                           maxlength="20"
-                                           minlength="6"
                                            placeholder="Mật khẩu có ít nhất 6 kí tự">
                                 </div>
                                 <div class="form-group form-md-line-input ">
@@ -141,7 +137,7 @@
                                            onclick="userView.checkEmail()"
                                            onchange="userView.checkEmail()"
                                            placeholder="Nhập email">
-                                    <label id="Email" style="display: none">Email đã tồn tại</label>
+                                    <label id="Email" style="display: none; color: red">Email đã tồn tại</label>
                                 </div>
                             </div>
                             <div class="form-actions noborder">
@@ -313,7 +309,7 @@
                                 },
                                 Password: {
                                     required: "Mật khẩu không được rỗng",
-                                    minlenght: "Mật khẩu phải từ 6 kí tự đến 20 kí tự",
+                                    minlenght: "abc",
                                     maxlenght: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự"
                                 },
                                 PasswordConfirm: {

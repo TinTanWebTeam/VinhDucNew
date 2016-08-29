@@ -21,6 +21,7 @@ class PatientManagementTableSeeder extends Seeder
                 'address'=>$faker->address,
                 'sex'=>rand(1,2),
                 'provincialId'=>$index,
+                'sourceCustomerId'=>$index
             ]);
         }
     }

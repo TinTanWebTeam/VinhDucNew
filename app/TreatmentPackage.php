@@ -13,6 +13,8 @@ class TreatmentPackage extends Model
         'note',
         'packageId',
         'patientId',
+        'codeDoctor',
+        'umpteenth',
         'createdDate',
         'createdBy',
         'updateDate',

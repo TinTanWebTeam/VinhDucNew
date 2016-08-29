@@ -17,4 +17,7 @@ class Age extends Model
     public function Therapist(){
         return $this->belongsTo('App\ManagementTherapist','ageId','id')->get();
     }
+    public function Doctor(){
+        return $this->belongsTo('App\Doctor','ageId','id')->get();
+    }
 }

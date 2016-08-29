@@ -18,9 +18,11 @@ class DoctorTableSeeder extends Seeder
             Doctor::create([
                 'code' =>'CODE' . str_random(3) . (string) date_timestamp_get(date_create()),
                 'name'=>$faker->userName,
-                'reference'=>$index,
+                'address'=>$faker->address,
+                'sex'=>rand(1,2),
                 'note'=>$faker->paragraph(5),
-                'provincialId'=>$index
+                'provincialId'=>$index,
+                'ageId'=>$index
             ]);
         }
     }

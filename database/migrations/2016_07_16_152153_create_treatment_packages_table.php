@@ -21,6 +21,8 @@ class CreateTreatmentPackagesTable extends Migration
             $table->integer('patientId')->unsigned();
             $table->boolean('active')->default(1);
             $table->date('createdDate');
+            $table->string('codeDoctor');
+            $table->integer('umpteenth')->default(0);
             $table->date('updateDate');
             $table->string('createdBy');
             $table->string('upDatedBy');

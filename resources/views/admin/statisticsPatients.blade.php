@@ -25,11 +25,44 @@
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-md-6 col-sm-6">
+        <div class="form-group form-md-line-input col-md-2">
+            <label for="FromDate"><b>Từ ngày</b></label>
+            <input type="date" class="form-control"
+                   id="FromDate"
+                   name="FromDate"
+                   onchange="statisticsPatientView.search()"
+                   value="{{date('Y-m-d')}}">
+        </div>
+        <div class="form-group form-md-line-input col-md-2">
+            <label for="ToDate"><b>Đến ngày</b></label>
+            <input type="date" class="form-control"
+                   id="ToDate"
+                   name="ToDate"
+                   onchange="statisticsPatientView.search()"
+                   value="{{date('Y-m-d')}}">
+        </div>
+        <div class="form-group form-md-line-input col-md-2">
+            <label for="SourceCustomerId"><b>Nguồn khách hàng</b></label>
+            <select class="form-control" name="SourceCustomerId" id="SourceCustomerId" onchange="statisticsPatientView.search()">
+                @if($sourceCustomers)
+                    @foreach($sourceCustomers as $item)
+                        <option value="{{$item->id}}">{{$item->sourceCustomer}}</option>
+                    @endforeach
+                @endif
+            </select>
+        </div>
+        <div class="form-group form-md-line-input col-md-2">
+            <label for="Umpteenth"><b>Khám mới / Tái khám</b></label>
+            <select class="form-control" name="Umpteenth" id="Umpteenth" onchange="statisticsPatientView.search()">
+                <option value="0">Khám mới</option>
+                <option value="1">Tái khám</option>
+            </select>
+        </div>
+        <div class="col-md-12 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách điều trị
-                        <label for="Name" class="pull-right"><b name="ToTal">Tổng:</b></label>
+                        <label for="Name" class="pull-right"><b name="ToTal">Tổng: {{count($patients)}}</b></label>
                     </div>
 
                 </div>
@@ -38,74 +71,34 @@
                            style="margin-bottom: 0px;">
                         <thead>
                         <tr>
+                            <th>Mã bệnh nhân</th>
                             <th>Tên bệnh nhân</th>
-                            <th>Tình trạng</th>
-                            <th>Thông tin tiến triển</th>
+                            <th>Năm sinh</th>
+                            <th>Tỉnh</th>
+                            <th>Gói</th>
+                            <th>Bác sĩ</th>
+                            <th>Lượt tái khám</th>
+                            <th>Ra/vào</th>
                         </tr>
                         </thead>
                         <tbody id="tbodyStatisticPatientList">
-                        {{--@if($Positions)--}}
-                        {{--@foreach($Positions as $item)--}}
-                        {{--<tr id="{{$item->id}}" onclick="statisticsPatientView.viewListPosition(this)"--}}
-                        {{--style="cursor: pointer">--}}
-                        {{--<td>{{$item->name}}</td>--}}
-                        {{--<td>{{$item->description}}</td>--}}
-                        {{--</tr>--}}
-                        {{--@endforeach--}}
-                        {{--@endif--}}
+                        @if($patients)
+                            @foreach($patients as $item)
+                                <tr id="{{$item->id}}" style="cursor: pointer">
+                                    <td>{{$item->MaBN}}</td>
+                                    <td>{{$item->TEN}}</td>
+                                    <td>{{$item->NAMSINH}}</td>
+                                    <td>{{$item->TINH}}</td>
+                                    <td>{{$item->GOI}}</td>
+                                    <td>{{$item->BS}}</td>
+                                    <td>{{$item->SOLANTAIKHAM}}</td>
+                                    <td>{{$item->SOLANRAVAO}}</td>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
 
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div style="color: #00a859;font-size: 17px;">Tìm kiếm
-                    </div>
-                </div>
-                <div>
-                    <div class="portlet-body form">
-                        <form role="form" id="formPosition">
-                            <div class="form-body">
-                                <div class="form-group form-md-line-input" style="display:none">
-                                    <input type="text" class="form-control" name="Id" id="Id">
-                                </div>
-                                <div class="form-group form-md-line-input col-md-6">
-                                    <label for="FromDate"><b>Từ ngày</b></label>
-                                    <input type="date" class="form-control"
-                                           id="FromDate"
-                                           name="FromDate"
-                                           value="{{date('Y-m-d')}}">
-                                </div>
-                                <div class="form-group form-md-line-input col-md-6">
-                                    <label for="ToDate"><b>Đến ngày</b></label>
-                                    <input type="date" class="form-control"
-                                           id="ToDate"
-                                           name="ToDate"
-                                           value="{{date('Y-m-d')}}">
-                                </div>
-                                <div class="form-group form-md-line-input col-md-12">
-                                    <label for="Status"><b>Tình trạng</b></label>
-                                    <select class="form-control" name="Status" id="Status">
-                                        <option value="0">Tình trạng</option>
-                                        <option value="1">Giảm</option>
-                                        <option value="2">Không giảm</option>
-                                        <option value="3">Đau hơn</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-actions noborder">
-                                <div class="form-group" style="padding-left: 15px;">
-                                    <button type="button" class="btn blue"
-                                            onclick="statisticsPatientView.search()">
-                                        Tìm
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -118,7 +111,8 @@
                 StatisticsPatientViewObject: {
                     FromDate: null,
                     ToDate: null,
-                    Status: null
+                    SourceCustomerId:null,
+                    Umpteenth:null
                 },
                 resetStatisticsPatientObject: function () {
                     for (var propertyName in statisticsPatientView.StatisticsPatientViewObject) {
@@ -147,12 +141,13 @@
                         //regimensView.viewListPatient(patientView.goBack);
                     }
                 },
-                search:function () {
+                search: function () {
                     statisticsPatientView.setValueObject();
-                    $.post(url+"admin/searchStatusPatient",{
-                        _token:_token,
-                        data:statisticsPatientView.StatisticsPatientViewObject
-                    },function (data) {
+                    $.post(url + "admin/searchStatusPatient", {
+                        _token: _token,
+                        data: statisticsPatientView.StatisticsPatientViewObject
+                    }, function (data) {
+                        console.log(data);
                         statisticsPatientView.fillTbody(data);
                     })
                 },
@@ -161,24 +156,31 @@
                     var row = "";
                     for (var i = 0; i < data.length; i++) {
                         var tr = "";
-                        tr += "<tr id=" +data[i]["id"] + ">";
-                        tr += "<td>"+ data[i]["fullName"] +"</td>";
-                        if(data[i]["status"]===0){
-                            tr += "<td></td>";
-                        }else if(data[i]["status"]===1){
-                            tr += "<td>Giảm</td>";
-                        }else if(data[i]["status"]===2){
-                            tr += "<td>Không giảm</td>";
-                        }else if(data[i]["status"]===3){
-                            tr += "<td>Đau hơn</td>";
-                        }
-                        tr += "<td>" + data[i]["note"] + "</td>";
+                        tr += "<tr id=" + data[i]["id"] + ">";
+                        tr += "<td>" + data[i]["MaBN"] + "</td>";
+                        tr += "<td>" + data[i]["TEN"] + "</td>";
+                        tr += "<td>" + data[i]["NAMSINH"] + "</td>";
+                        tr += "<td>" + data[i]["TINH"] + "</td>";
+                        tr += "<td>" + data[i]["GOI"] + "</td>";
+                        tr += "<td>" + data[i]["BS"] + "</td>";
+                        tr += "<td>" + data[i]["SOLANTAIKHAM"] + "</td>";
+                        tr += "<td>" + data[i]["SOLANRAVAO"] + "</td>";
                         row += tr;
                     }
                     $("b[name=ToTal]").text("Tổng: " + data.length + "");
+                    table.destroy();
+                    $("tbody#tbodyStatisticPatientList").empty();
                     $("tbody#tbodyStatisticPatientList").append(row);
+                    table = $("#tablestatisticsPatientViewList").DataTable({language : languageOptions});
+                    $("input[aria-controls=tablestatisticsPatientViewList]").on('keyup', function () {
+                        $("b[name=ToTal]").empty().html("Tổng: " + $("#tbodyStatisticPatientList").find("tr").length);
+                    });
                 },
             }
         }
-    })
+    });
+    var table = $("#tablestatisticsPatientViewList").DataTable({language: languageOptions});
+    $("input[aria-controls=tablestatisticsPatientViewList]").on('keyup', function () {
+        $("b[name=ToTal]").empty().html("Tổng: " + $("#tbodyStatisticPatientList").find("tr").length);
+    });
 </script>

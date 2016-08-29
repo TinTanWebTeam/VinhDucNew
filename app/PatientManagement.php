@@ -13,21 +13,23 @@ class PatientManagement extends Model
         'birthday',
         'sex',
         'job',
+        'pulse',
+        'temperature',
+        'bloodPressure',
+        'breathing',
+        'weight',
+        'height',
         'address',
         'HoursMinuteTo',
         'DateMonthYearTo',
-        'Where',
         'TimeGoIn',
         'provincialId',
+        'sourceCustomerId',
         'age',
         'createdBy',
         'upDatedBy',
         'active'
     ];
-    
-    public function Provinces(){
-        return $this->belongsTo('App\Provinces','provincialId','id')->first();
-    }
     public function TreatmentPackage(){
         return $this->hasMany('App\TreatmentPackage','patientId','id')->get();
     }

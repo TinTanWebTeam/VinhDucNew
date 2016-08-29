@@ -25,6 +25,8 @@
 
         <!-- Custom Fonts -->
         <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+        <link rel="stylesheet" href="{{ asset('admin/css/dataTables.bootstrap.min.css') }}">
     </head>
     <!-- END HEAD -->
 
@@ -62,5 +64,7 @@
             var _token = "{{ csrf_token() }}";
         </script>
         <script src="../../admin/js/global.js"></script>
+        <script src="{{ asset('admin/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('admin/js/dataTables.bootstrap.min.js') }}"></script>
     </body>
 </html>

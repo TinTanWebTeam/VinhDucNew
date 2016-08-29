@@ -15,13 +15,13 @@ class CreateDetailedTreatmentsTable extends Migration
         Schema::create('detailed_treatments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('treatmentPackageId')->unsigned();
-            $table->integer('patientId')->unsigned();
+            $table->integer('treatmentPackageId');
+            $table->integer('patientId');
             $table->string('professionalTreatment');
             $table->string('location');
             $table->integer('sesame');
             $table->integer('minute');
-            $table->integer('therapistId')->unsigned();
+            $table->string('therapistId');
             $table->boolean('ail')->default(0);
             $table->string('note');
             $table->boolean('active')->default(1);

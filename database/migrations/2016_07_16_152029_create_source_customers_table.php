@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProfessionalTreatmentsTable extends Migration
+class CreateSourceCustomersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +12,13 @@ class CreateProfessionalTreatmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('professional_treatments', function (Blueprint $table) {
+        Schema::create('source_customers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->string('note');
-//            $table->integer('locationTreatmentId')->unsigned();
+            $table->string('sourceCustomer')->unique();
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->string('upDatedBy');
             $table->timestamps();
-
-//            $table->foreign('locationTreatmentId')->references('id')->on('location_treatments')->onDelete('no action');
         });
     }
 
@@ -33,6 +29,6 @@ class CreateProfessionalTreatmentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('professional_treatments');
+        Schema::drop('source_customers');
     }
 }

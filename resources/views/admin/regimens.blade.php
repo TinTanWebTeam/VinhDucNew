@@ -186,6 +186,9 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+        <div class="col-md-6">
             <div id="menuPackageTreatment">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -213,46 +216,46 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
-            <div class="row" id="TablePackages">
-                <div style="background-color: white;">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div style="color: #00a859;font-size: 17px;" name="title">Chi tiết điều trị của mã phiếu:
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover order-column" id="PackagesTable"
-                                   style="overflow: scroll;">
-                                <thead>
-                                <tr>
-                                    <th>Vùng</th>
-                                    <th>Chuyên môn</th>
-                                    <th>Vị trí</th>
-                                    <th>Chuyên viên</th>
-                                    <th>Tình trạng</th>
-                                </tr>
-                                </thead>
-                                <tbody id="PackagesTable">
+        {{--<div class="col-sm-6">--}}
+        {{--<div class="row" id="TablePackages">--}}
+        {{--<div style="background-color: white;">--}}
+        {{--<div class="panel panel-default">--}}
+        {{--<div class="panel-heading">--}}
+        {{--<div style="color: #00a859;font-size: 17px;" name="title">Chi tiết điều trị của mã phiếu:--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="table-responsive">--}}
+        {{--<table class="table table-bordered table-hover order-column" id="PackagesTable"--}}
+        {{--style="overflow: scroll;">--}}
+        {{--<thead>--}}
+        {{--<tr>--}}
+        {{--<th>Vùng</th>--}}
+        {{--<th>Chuyên môn</th>--}}
+        {{--<th>Vị trí</th>--}}
+        {{--<th>Chuyên viên</th>--}}
+        {{--<th>Tình trạng</th>--}}
+        {{--</tr>--}}
+        {{--</thead>--}}
+        {{--<tbody id="PackagesTable">--}}
 
-                                </tbody>
-                            </table>
+        {{--</tbody>--}}
+        {{--</table>--}}
 
-                        </div>
-                        {{--<div class="form-group pull-bottom" style="margin-top: 10%; text-align: center; ">--}}
-                        {{--<button type="button" name="CompleteTreatmentPackage" class="btn blue"--}}
-                        {{--onclick="professionalView.CompleteTreatmentPackage(this)">--}}
-                        {{--Hoàn tất--}}
-                        {{--</button>--}}
-                        {{--<button type="button" name="cancelTreatment" onclick="professionalView.cancelTreatment(this)"--}}
-                        {{--class="btn default">Huỷ--}}
-                        {{--</button>--}}
-                        {{--</div>--}}
-                    </div>
-                </div>
+        {{--</div>--}}
+        {{--<div class="form-group pull-bottom" style="margin-top: 10%; text-align: center; ">--}}
+        {{--<button type="button" name="CompleteTreatmentPackage" class="btn blue"--}}
+        {{--onclick="professionalView.CompleteTreatmentPackage(this)">--}}
+        {{--Hoàn tất--}}
+        {{--</button>--}}
+        {{--<button type="button" name="cancelTreatment" onclick="professionalView.cancelTreatment(this)"--}}
+        {{--class="btn default">Huỷ--}}
+        {{--</button>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--</div>--}}
 
-            </div>
-        </div>
+        {{--</div>--}}
+        {{--</div>--}}
     </div>
 
 
@@ -390,7 +393,7 @@
                 });
             },
             fillToInput: function (element) {
-                var a = $("tbody[id=AutoCompleteTableBody]").find("tr[id="+$(element).attr("data-Id")+"]");
+                var a = $("tbody[id=AutoCompleteTableBody]").find("tr[id=" + $(element).attr("data-Id") + "]");
 
                 $("div#Table").hide();
                 $("input[name=Id]").val($(element).attr("data-Id"));

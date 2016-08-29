@@ -19,24 +19,25 @@ class CreatePatientManagementsTable extends Migration
             $table->date('birthday');
             $table->boolean('sex');
             $table->string('job');
+            $table->string('pulse');
+            $table->string('temperature');
+            $table->string('bloodPressure');
+            $table->string('breathing');
+            $table->string('weight');
+            $table->string('height');
             $table->string('phone');
             $table->string('address');
             $table->string('hoursMinuteTo');
             $table->date('dateMonthYearTo');
-            $table->string('where');
             $table->string('timeGoIn');
             $table->integer('provincialId')->unsigned();
+            $table->integer('sourceCustomerId')->unsigned();
             $table->integer('age');
             $table->boolean('active')->default(1);
             $table->string('createdBy');
             $table->string('upDatedBy');
 
             $table->timestamps();
-
-            $table->foreign('provincialId')->references('id')->on('provinces')->onDelete('no action');
-           
-
-
         });
     }
 
