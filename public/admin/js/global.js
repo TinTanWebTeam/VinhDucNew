@@ -79,6 +79,11 @@ Diagnostic.click(function () {
             $("div.page-container").empty().append(data);
         })
     }
+    if ($(this).find("a").text().trim() === "report") {
+        $.get(url + "admin/report", function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
 });
 var SurveyProgression = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li > ul.nav.nav-second-level >li>ul.nav.nav-third-level>li");
 SurveyProgression.click(function () {

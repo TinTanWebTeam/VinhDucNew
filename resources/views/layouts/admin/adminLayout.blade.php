@@ -66,5 +66,6 @@
         <script src="../../admin/js/global.js"></script>
         <script src="{{ asset('admin/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('admin/js/dataTables.bootstrap.min.js') }}"></script>
+        <script src="{{ asset('admin/js/printThis.js') }}"></script>
     </body>
 </html>

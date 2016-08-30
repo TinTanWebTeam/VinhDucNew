@@ -14,7 +14,7 @@ class CreateMedicalRecordsTable extends Migration
     {
         Schema::create('medical_records', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('patientId')->unsigned();
+            $table->string('patientId');
             $table->string('reasons');
             $table->string('pathologicalProcess');
             $table->string('anamnesis');
@@ -25,7 +25,7 @@ class CreateMedicalRecordsTable extends Migration
             
             $table->timestamps();
 
-            $table->foreign('patientId')->references('id')->on('patient_managements')->onDelete('no action');
+            $table->foreign('patientId')->references('code')->on('patient_managements')->onDelete('no action');
         });
     }
 

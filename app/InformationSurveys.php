@@ -14,9 +14,5 @@ class InformationSurveys extends Model
         'handling',
         'patient_id',
     ];
-    public function InformationPatientId()
-    {
-        return $this->belongsTo('App\PatientManagement','patient_id','id')->first();
-    }
     
 }

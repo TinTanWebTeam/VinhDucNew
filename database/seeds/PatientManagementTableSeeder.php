@@ -16,7 +16,7 @@ class PatientManagementTableSeeder extends Seeder
         $faker=Factory::create();
         foreach (range(1,5) as $index){
             PatientManagement::create([
-                'code'=>'BN' . str_random(3) . (string) date_timestamp_get(date_create()),
+                'code'=>$index,
                 'fullName'=>$faker->userName,
                 'address'=>$faker->address,
                 'sex'=>rand(1,2),

@@ -15,7 +15,7 @@
     <!-- /.modal-dialog -->
 </div>
 {{--End Modal--}}
-<div id="page-wrapper">
+<div id="page-wrapper" name="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
             <h4 style="color: #00a859">Chẩn đoán</h4>
@@ -29,7 +29,12 @@
             <div class="row" id="menuPackageTreatment">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div style="color: #00a859;font-size: 17px;">Danh sách gói điều trị</div>
+                        <div style="color: #00a859;font-size: 17px;">Danh sách gói điều trị
+                            <button type="button" class="btn btn-info btn-circle pull-right"
+                                    onclick="diagnosticView.report()"><i
+                                        class="fa fa-print"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover order-column" id="tableDiagnosticList"
@@ -235,13 +240,10 @@
                                     </div>
                                     <div class="form-group form-md-line-input col-md-6">
                                         <label for="PatientId"><b>Bệnh nhân</b></label>
-                                        <select class="form-control" id="PatientId" name="PatientId">
-                                            @if($patients)
-                                                @foreach($patients as $item)
-                                                    <option value="{{$item->id}}">{{$item->fullName}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
+                                        <input type="text" class="form-control"
+                                               id="PatientId"
+                                               name="PatientId"
+                                               placeholder="BN001">
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12" style="display: none">
                                         <label for="TreatmentPackageCode"><b>Mã Phiếu</b></label>
@@ -255,7 +257,7 @@
                                         <input type="text" class="form-control"
                                                id="CodeDoctor"
                                                name="CodeDoctor"
-                                               placeholder="BN001">
+                                               placeholder="BS001">
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12">
                                         <label for="Note"><b>Chẩn đoán</b></label>
@@ -295,19 +297,160 @@
         </div>
     </div>
 </div>
+<div id="page-wrapper" name="report" style="display: none">
+    <div class="row">
+        <div class="col-lg-12">
+            <button type="button" name="cancelReport" onclick="diagnosticView.cancelReport()"
+                    class="btn default pull-right">Huỷ
+            </button>
+            <button type="button" id="printReport" style="background-color: #00a859;margin-right: 0.3%;"
+                    onclick="diagnosticView.printReport()" class="btn default pull-right">In
+            </button>
+            <h4 style="color: #00a859">Report</h4>
+
+            <hr style="margin-top: 0px;color: #00a859">
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="report">
+        <div style="width: 95%;margin: 0 auto">
+            <div class="row" style="text-align: center; font-family: 'Times New Roman'">
+                <div class="col-md-12 col-sm-12">
+                    <div class="pull-right">
+                        <h5><b>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b><br></h5>
+                        <h6><b>Độc Lập – Tự Do – Hạnh Phúc</b></h6>
+                    </div>
+                    <h5 class="pull-left"><b>CÔNG TY TNHH TM DV CSSK VĨNH ĐỨC</b></h5>
+                </div>
+            </div>
+            <div class="row" style="text-align: center; font-family: 'Times New Roman'">
+                <h4><b>HỒ SƠ BỆNH ÁN VẬT LÝ TRỊ LIỆU</b></h4>
+            </div>
+            <br>
+            <div class="row" style="font-family: 'Times New Roman'">
+
+                <div class="col-md-6 pull-right ">
+                    <span>Mã BS:</span>
+                    <span name="CodeDoctor"></span>
+
+                    <span><br>Mã BN:</span>
+                    <span name="CodePatient"></span>
+                </div>
+
+            </div>
+            <div style="font-family: 'Times New Roman'">
+                <div class="row col-md-12">
+                    <h4><b>I-HÀNH CHÍNH</b></h4>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-6 col-sm-6">
+                                <span>1. Họ và tên:</span>
+                                <span name="FullName"></span>
+
+                                <span class="pull-right">Giới tính:
+                                <span name="Sex"></span>
+                            </span>
+
+
+                             <span style="margin-left: 20%;">Năm sinh:
+                                <span name="Birthday"></span>
+                            </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-6 col-sm-6">
+                                <span>2. Nghề nghiệp:</span>
+                                <span name="Job"></span>
+
+                                <span>Số điện thoại:</span>
+                                <span name="Phone"></span>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-6 col-sm-6">
+                                <span>3. Địa chỉ:</span>
+                                <span name="Address"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-6 col-sm-6">
+                                <span>4. Huyết áp:</span>
+                                <span name="BloodPressure"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-6 col-sm-6">
+                                <span>5. Mạch:</span>
+                                <span name="Pulse"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <h4><b>II-BỆNH SỬ</b></h4>
+                    <div class="col-md-12">
+                        <span>1. Quá trình bệnh lý:</span>
+                        <span name="PathologicalProcess"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <span>2. Tiền sử bệnh:</span>
+                        <span name="Anamnesis"></span>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <h4><b>III-CẬN LÂM SÀNG:</b></h4>
+                    <span name="Subclinical"></span>
+                </div>
+                <div class="row col-md-12">
+                    <h4><b>IV-CHẨN ĐOÁN:</b></h4>
+                    <span name="Diagnose"></span>
+                </div>
+                <div class="row col-md-12">
+                    <h4><b>V-PHÁC ĐỒ:</b></h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover order-column" id="tableRegimen"
+                               style="margin-bottom: 0px;">
+                            <thead>
+                            <tr>
+                                <th class="text-center">STT</th>
+                                <th class="text-center">Vùng</th>
+                                <th class="text-center">Điều trị chuyên môn</th>
+                                <th class="text-center">Vị trí điều trị</th>
+                                <th class="text-center">Phút</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbodyRegimen">
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
 <script>
     if (typeof (diagnosticView) === 'undefined') {
         //setup before functions
 
         diagnosticView = {
+            dataPatient: null,
+            dataPackage: null,
+            dataRegimen: null,
             goBack: null,
             idTreatmentPackage: null,
             idDiagnostic: null,
             data: null,
+            count:null,
             deleteTreatmentPackage: null,
             DiagnosticObject: {
                 Id: null,
-                Umpteenth:null,
+                Umpteenth: null,
                 CodeDoctor: null,
                 Code: null,
                 FullName: null,
@@ -321,7 +464,22 @@
                 Location: null,
                 Professional: null,
                 Sesame: null,
-                Minute: null
+                Minute: null,
+
+                CodeDoctor: null,
+                CodePatient: null,
+                FullName: null,
+                Birthday: null,
+                Sex: null,
+                Job: null,
+                Phone: null,
+                Address: null,
+                BloodPressure: null,
+                Pulse: null,
+                PathologicalProcess: null,
+                Anamnesis: null,
+                Subclinical: null,
+                Diagnose: null,
             },
             resetDiagnosticObject: function () {
                 for (var propertyName in diagnosticView.DiagnosticObject) {
@@ -330,7 +488,6 @@
                     }
                 }
             },
-
             addNewDiagnostic: function (result) {
                 if (result === "") {
                     $("input[name=Id]").val("");
@@ -378,7 +535,7 @@
                     $("input[name=Umpteenth]").val(number);
                 } else {
 
-                    $("input[name=Umpteenth]").empty().val(number -1);
+                    $("input[name=Umpteenth]").empty().val(number - 1);
                 }
             },
             fillTbody: function (data) {
@@ -387,9 +544,9 @@
                 for (var i = 0; i < data.length; i++) {
                     var tr = "";
                     if (data[i]["active"] === 0) {
-                        tr += "<tr id=" + data[i]["id"] + " data-note='" + data[i]["note"] + "' data-code='" + data[i]["code"] + "' data-patientId='" + data[i]["patientId"] + "' data-packageId='" + data[i]["packageId"] + "' ondblclick='diagnosticView.updateTreatmentPackage(this)' style='cursor: pointer;background-color: #e6e4e4'>";
+                        tr += "<tr id=" + data[i]["id"] + " data-note='" + data[i]["note"] + "' data-code='" + data[i]["code"] + "' data-patientId='" + data[i]["patientId"] + "' data-packageId='" + data[i]["packageId"] + "' onclick='diagnosticView.getIdPackage(this)' ondblclick='diagnosticView.updateTreatmentPackage(this)' style='cursor: pointer;background-color: #e6e4e4'>";
                     } else {
-                        tr += "<tr id=" + data[i]["id"] + " style='cursor: pointer' data-note='" + data[i]["note"] + "' data-code='" + data[i]["code"] + "' data-patientId='" + data[i]["patientId"] + "' data-packageId='" + data[i]["packageId"] + "' ondblclick='diagnosticView.updateTreatmentPackage(this)'>";
+                        tr += "<tr id=" + data[i]["id"] + " style='cursor: pointer' data-note='" + data[i]["packagesNote"] + "' data-codeDoctor='" + data[i]["codeDoctor"] + "' data-code='" + data[i]["code"] + "' data-patientId='" + data[i]["patientId"] + "' data-packageId='" + data[i]["packageId"] + "' onclick='diagnosticView.getIdPackage(this)' ondblclick='diagnosticView.updateTreatmentPackage(this)'>";
                     }
                     tr += "<td>" + data[i]["codeDoctor"] + "</td>";
                     tr += "<td>" + data[i]["packagesNote"] + "</td>";
@@ -405,17 +562,21 @@
                         tr += "<td>Đau hơn</td>";
                     }
                     tr += "<td>" + data[i]["regimensNote"] + "</td>";
-                    tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[i]["active"] + "' data-date='" + data[i]["createdDate"] + "' data-Id='" + data[i]["id"] + "' data-umpteenth='"+data[i]["umpteenth"]+"' onclick='diagnosticView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button><button type='button' style='margin-left: 5%;border-color: rgb(212, 0, 0);background-color: rgb(212, 0, 0);' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.deleteTreatmentPackages(this)'><i class='fa fa-times' ></i></button></td>";
+                    tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[i]["active"] + "' data-date='" + data[i]["createdDate"] + "' data-Id='" + data[i]["id"] + "' data-umpteenth='" + data[i]["umpteenth"] + "' onclick='diagnosticView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";//<button type='button' style='margin-left: 5%;border-color: rgb(212, 0, 0);background-color: rgb(212, 0, 0);' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.deleteTreatmentPackages(this)'><i class='fa fa-times' ></i></button>
                     row += tr;
                 }
                 $("tbody#tbodyDiagnosticList").append(row);
                 diagnosticView.idDiagnostic = null;
                 //diagnosticView.addNewDiagnostic(result);
             },
+            getIdPackage: function (element) {
+                $("tbody#tbodyDiagnosticList").find("tr[id=" + $(element).attr("id") + "]").css("background-color", "#00a859").css("color", "#ffffff");
+                diagnosticView.dataRegimen = $(element).attr("id");
+            },
             updateTreatmentPackage: function (element) {
                 $("input[name=AddNewId]").val($(element).attr("id"));
                 $("select[name=PackagesId]").val($(element).attr("data-packageId"));
-                //$("input[name=Id]").val($(element).attr("data-patientId"));
+                $("input[name=CodeDoctor]").val($(element).attr("data-codeDoctor"));
                 $("input[name=TreatmentPackageCode]").val($(element).attr("data-code"));
                 $("textarea[name=Note]").val($(element).attr("data-note"));
                 diagnosticView.addNewTreatmentPackages();
@@ -451,7 +612,7 @@
                                 tr += "<td>Nữ</td>";
                             }
                             tr += "<td>" + data[i]["birthday"] + "</td>";
-                            tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
+                            tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-code='" + data[i]["code"] + "' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
                             tr += "</tr>";
                             row += tr;
                         }
@@ -468,24 +629,25 @@
             },
             fillToInput: function (element) {
                 var a = $("tbody[id=AutoCompleteTableBody]").find("tr[id=" + $(element).attr("data-Id") + "]");
+                diagnosticView.dataPatient = $(element).attr("data-Id");
                 $("div#Table").hide();
                 $("input[name=Id]").val($(element).attr("data-Id"));
                 $("input[name=Code]").val(a.find("td").eq(0).text());
                 $("input[name=FullName]").val(a.find("td").eq(1).text());
                 $("input[name=Sex]").val(a.find("td").eq(2).text());
                 $("input[name=Birthday]").val(a.find("td").eq(3).text());
-                diagnosticView.SearchTreatmentPackages($(element).attr("data-Id"));
+                diagnosticView.SearchTreatmentPackages($(element).attr("data-code"));
             },
             SearchTreatmentPackages: function (element) {
                 $.post(url + "admin/SearchTreatmentPackages", {
                     _token: _token,
                     IdPatient: element
                 }, function (data) {
-                    console.log(data);
+                    diagnosticView.dataPackage = data;
                     diagnosticView.fillTbody(data)
                 })
             },
-            fillUpdateToTable: function (element, result,umpteenth) {
+            fillUpdateToTable: function (element, result, umpteenth) {
                 var check = true;
                 var d = new Date();
                 var year = d.getFullYear();
@@ -540,14 +702,23 @@
                                 stt++;
                             }
                             $("tbody#PackagesTable").append(row);
-                           diagnosticView.resetForm();
+                            $("input[name=Professional]").val("");
+                            $("input[name=Location]").val("");
+                            $("input[name=Minute]").val("");
+//                            diagnosticView.resetForm();
                             console.log(umpteenth);
-                            if(result !== ""){
-                                $("input[name=Umpteenth]").val(umpteenth);
-                            }else{
+                            if (diagnosticView.count !== null) {
+                               if(typeof(umpteenth)==='undefined'){
+                                   $("input[name=Umpteenth]").val(diagnosticView.count);
+                               }else{
+                                   diagnosticView.count=umpteenth;
+                                   $("input[name=Umpteenth]").val(diagnosticView.count);
+                               }
+                            } else if (diagnosticView.count === null){
+                                console.log("b");
                                 $("input[name=Umpteenth]").val($(element).attr("data-umpteenth"));
                             }
-                            $(element).attr("data-umpteenth",null);
+                            //$(element).attr("data-umpteenth", null);
                         } else {
                             $("tbody#PackagesTable").empty();
                         }
@@ -576,7 +747,7 @@
                     id: diagnosticView.deleteTreatmentPackage
                 }, function (data) {
                     if (data === "1") {
-                        diagnosticView.SearchTreatmentPackages($("input[name=Id]").val());
+                        diagnosticView.SearchTreatmentPackages($("input[name=Code]").val());
                         $("div#modalConfirm").modal("show");
                         $("div#modalContent").empty().append("Xoá thành công");
                         $("button[name=modalAgree]").hide();
@@ -591,20 +762,12 @@
                 if ($("button[name=cancelTreatment]").text() === "Trở về") {
                     $("div#TablePackages").hide();
                     $("div#menuPackageTreatment").show();
+                    $("input[name=checkbox]").prop("checked",false);
                 }
             },
             CompleteTreatmentPackage: function () {
-                $("#addProfessional").validate({
-                    rules: {
-                        Professional: "required",
-                        Location: "required"
-                    },
-                    messages: {
-                        Professional: "Không được rỗng",
-                        Location: "Không được rỗng"
-                    }
-                });
-                if ($("#addProfessional").valid()) {
+                diagnosticView.count=$("input[name=Umpteenth]").val();
+                if($("input[name=checkbox]").prop("checked")=== true){
                     diagnosticView.setValueObject();
                     $.post(url + "admin/updateUmpteenthTreatmentPackages", {
                         _token: _token,
@@ -613,15 +776,44 @@
                         idPatient: $("input[name=Id]").val()
                     }, function (data) {
                         if (data[0] === 1) {
-                            diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage,data[1]["umpteenth"]);
+                            diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage, diagnosticView.count);
                             $("div#modalConfirm").modal("show");
                             $("div#modalContent").empty().append("Lưu thành công");
                             $("button[name=modalAgree]").hide();
                         }
                     });
-                } else {
-                    $("form#addProfessional").find("label[class=error]").css("color", "red");
+                }else{
+                    $("#addProfessional").validate({
+                        rules: {
+                            Professional: "required",
+                            Location: "required"
+                        },
+                        messages: {
+                            Professional: "Không được rỗng",
+                            Location: "Không được rỗng"
+                        }
+                    });
+                    if ($("#addProfessional").valid()) {
+                        diagnosticView.setValueObject();
+                        $.post(url + "admin/updateUmpteenthTreatmentPackages", {
+                            _token: _token,
+                            idTreatmentPackage: diagnosticView.idTreatmentPackage,
+                            data: diagnosticView.DiagnosticObject,
+                            idPatient: $("input[name=Id]").val()
+                        }, function (data) {
+                            console.log(data[0]);
+                            if (data[0] === 1) {
+                                diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage, data[1]["umpteenth"]);
+                                $("div#modalConfirm").modal("show");
+                                $("div#modalContent").empty().append("Lưu thành công");
+                                $("button[name=modalAgree]").hide();
+                            }
+                        });
+                    } else {
+                        $("form#addProfessional").find("label[class=error]").css("color", "red");
+                    }
                 }
+
             },
             addNewTreatmentPackages: function () {
                 var d = new Date();
@@ -697,6 +889,76 @@
                     })
                 }
             },
+            report: function () {
+                if (diagnosticView.dataRegimen !== null) {
+                    $.post(url + "admin/report", {
+                        _token: _token,
+                        dataPatient: diagnosticView.dataPatient,
+                        idPackageTreatment: diagnosticView.dataRegimen
+                    }, function (data) {
+                        console.log(data);
+                        $("div[name=report]").show();
+                        $("div[name=page-wrapper]").hide();
+                        for (var propertyName in data[0]) {
+                            $("span[name=" + diagnosticView.firstToUpperCase(propertyName) + "]").text(data[0][propertyName]);
+                            if (propertyName === "sex") {
+                                if (data[0][propertyName] === 1) {
+                                    $("span[name=Sex]").text("Nam");
+                                } else {
+                                    $("span[name=Sex]").text("Nữ");
+                                }
+                            } else if (propertyName === "code") {
+                                $("span[name=CodePatient]").text(data[0][propertyName]);
+                            }
+                        }
+                        for (var propertyName in data[1]) {
+                            $("span[name=" + diagnosticView.firstToUpperCase(propertyName) + "]").text(data[1][propertyName]);
+                        }
+                        if (data[2].length !== 0) {
+                            var row = "";
+                            var stt = 1;
+                            $("tbody#tbodyRegimen").empty();
+                            for (var i = 0; i < data[2].length; i++) {
+                                var tr = "";
+                                tr += "<tr id=" + data[2][i]["detailId"] + " style='text-align:center '>";
+                                tr += "<td>" + stt + "</td>";
+                                tr += "<td>" + data[2][i]["locationName"] + "</td>";
+                                tr += "<td>" + data[2][i]["professional"] + "</td>";
+                                tr += "<td>" + data[2][i]["detailLocation"] + "</td>";
+                                tr += "<td>" + data[2][i]["minute"] + "</td>";
+                                tr += "</tr>";
+                                row += tr;
+                                stt++;
+                            }
+                            $("tbody#tbodyRegimen").append(row);
+
+                        }
+                        ;
+                    });
+                    $("span[name=CodeDoctor]").text(diagnosticView.dataPackage[0]["codeDoctor"]);
+                    $("span[name=Diagnose]").text(diagnosticView.dataPackage[0]["packagesNote"]);
+                } else {
+                    $("div#modalConfirm").modal("show");
+                    $("div#modalContent").empty().append("Chưa chọn phiếu để in");
+                    $("button[name=modalAgree]").hide();
+                }
+            },
+            printReport: function () {
+                $(".report").printThis({
+                    debug: false,
+                    importCSS: true,
+                    importStyle: false,
+                    loadCSS: "bower_components/dist/css/bootstrap.min.css",
+                    removeInline: false,
+                    printDelay: 2000,
+                    header: null,
+                    formValues: true
+                });
+            },
+            cancelReport: function () {
+                $("div[name=report]").hide();
+                $("div[name=page-wrapper]").show();
+            },
             deleteTable: function (element) {
                 $.post(url + "admin/deleteProfessional", {
                     _token: _token,
@@ -733,6 +995,85 @@
 
         }
     }
+
+    //setup before functions
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 500;  //time in ms, 3 second for example
+    var $inputCode = $("input#Code");
+
+    //on keyup, start the countdown
+    $inputCode.on('keyup', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTypingCode, doneTypingInterval);
+    });
+
+    //on keydown, clear the countdown
+    $inputCode.on('keydown', function () {
+        clearTimeout(typingTimer);
+    });
+
+    //user is "finished typing," do something
+    function doneTypingCode() {
+        $.get(url + 'admin/getSearchCodePatient', {
+            _token: _token,
+            Code: $inputCode.val()
+        }, function (data) {
+            if (data === "0") {
+                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
+                $("button[name=modalAgree]").hide();
+                $("input[name=Id]").val("");
+                $("div#modalConfirm").modal("show");
+                $inputCode.val("");
+            } else if (data === "2") {
+//                        $("div#modalContent").empty().append("Vui lòng nhập mã chính xác");
+//                        $("button[name=modalAgree]").hide();
+//                        $("input[name=Id]").val("");
+//                        $("div#modalConfirm").modal("show");
+            } else {
+                $inputCode.val(data[0]["code"]);
+            }
+        });
+    }
+
+    //setup before functions
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 500;  //time in ms, 3 second for example
+    var $inputPatient = $("input#PatientId");
+
+    //on keyup, start the countdown
+    $inputPatient.on('keyup', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTypingPatient, doneTypingInterval);
+    });
+
+    //on keydown, clear the countdown
+    $inputPatient.on('keydown', function () {
+        clearTimeout(typingTimer);
+    });
+
+    //user is "finished typing," do something
+    function doneTypingPatient() {
+        $.get(url + 'admin/getSearchCodePatient', {
+            _token: _token,
+            Code: $inputPatient.val()
+        }, function (data) {
+            if (data === "0") {
+                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
+                $("button[name=modalAgree]").hide();
+                $("input[name=Id]").val("");
+                $("div#modalConfirm").modal("show");
+                $inputPatient.val("");
+            } else if (data === "2") {
+//                        $("div#modalContent").empty().append("Vui lòng nhập mã chính xác");
+//                        $("button[name=modalAgree]").hide();
+//                        $("input[name=Id]").val("");
+//                        $("div#modalConfirm").modal("show");
+            } else {
+                $inputPatient.val(data[0]["code"]);
+            }
+        });
+    }
+
     //setup before functions
     var typingTimer;                //timer identifier
     var doneTypingInterval = 500;  //time in ms, 3 second for example
@@ -767,9 +1108,9 @@
 //                        $("input[name=Id]").val("");
 //                        $("div#modalConfirm").modal("show");
             } else {
-                console.log(data);
                 $input.val(data[0]["code"]);
             }
         });
     }
+
 </script>

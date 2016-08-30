@@ -31,12 +31,9 @@ class PatientManagement extends Model
         'active'
     ];
     public function TreatmentPackage(){
-        return $this->hasMany('App\TreatmentPackage','patientId','id')->get();
-    }
-    public function InformationPatient(){
-        return $this->hasMany('App\InformationSurveys','patient_Id','id')->get();
+        return $this->hasMany('App\TreatmentPackage','patientId','code')->get();
     }
     public function MedicalRecord(){
-        return $this->hasMany('App\MedicalRecord','patientId','id')->get();
+        return $this->hasMany('App\MedicalRecord','patientId','code')->get();
     }
 }

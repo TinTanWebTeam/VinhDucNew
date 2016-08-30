@@ -182,6 +182,7 @@
             idTreatmentPackage: null,
             idProfessional: null,
             data: null,
+            check:true,
             deleteTreatmentPackage: null,
             ProfessionalObject: {
                 Id: null,
@@ -236,15 +237,24 @@
                 } else {
                 }
             },
-//            checked: function (element) {
-//                1
-//                if ($(element).prop("checked") !== true) {
-//                    $(element).parent().css("background-color", "white").css('color', '#555555');
-//                    $(element).removeAttr("checked");
-//                } else {
-//                    $(element).parent().css('background-color', '#00a859').css('color', '#fff');
-//                }
-//            },
+            searchTherapist:function (element) {
+
+                $.post(url+"admin/searchTherapist",{
+                    _token:_token,
+                    codeTherapist:$(element).val()
+                },function (data) {
+                   if(data==="1"){
+                       professionalView.check=true;
+                   }else{
+                       professionalView.check=false;
+                       $("div#modalConfirm").modal("show");
+                       $("div#modalContent").empty().append("Không tìm thấy mã chuyên viên. Vui lòng nhập lại");
+                       $("button[name=modalAgree]").hide();
+                       $("input[id="+$(element).attr("Id")+"]").val("").focus();
+
+                   }
+                })
+            },
             fillTbody: function (data) {
                 $("tbody#tbodyProfessionalList").empty();
                 var row = "";
@@ -466,42 +476,85 @@
                 }
             },
             saveDetail: function (element) {
-                console.log($(element).parent().parent().find("td").find("input").val());
-                if($("select#TherapistId").val()==="0"){
-                    $("div#modalConfirm").modal("show");
-                    $("div#modalContent").empty().append("Chưa chọn chuyên viên thực hiện");
-                    $("button[name=modalAgree]").hide();
-                }else if($("select#Status").val()==="2"){
-                    $("div#modalConfirm").modal("show");
-                    $("div#modalContent").empty().append("Chưa chọn tình trạng bệnh nhân");
-                    $("button[name=modalAgree]").hide();
-                }else{
-                    $.post(url + "admin/updateAil", {
-                        _token: _token,
-                        therapistId: $(element).parent().parent().find("td").find("input").val(),
-                        ail: $(element).parent().parent().find("td").eq(4).find("select").val(),
+                if(professionalView.check==true){
+                    if($("select#TherapistId").val()==="0"){
+                        $("div#modalConfirm").modal("show");
+                        $("div#modalContent").empty().append("Chưa chọn chuyên viên thực hiện");
+                        $("button[name=modalAgree]").hide();
+                    }else if($("select#Status").val()==="2"){
+                        $("div#modalConfirm").modal("show");
+                        $("div#modalContent").empty().append("Chưa chọn tình trạng bệnh nhân");
+                        $("button[name=modalAgree]").hide();
+                    }else{
+                        $.post(url + "admin/updateAil", {
+                            _token: _token,
+                            therapistId: $(element).parent().parent().find("td").find("input").val(),
+                            ail: $(element).parent().parent().find("td").eq(4).find("select").val(),
 //                    professionalId: $(element).attr("id"),
-                        patientId:$("input[name=Id]").val(),
+                            patientId:$("input[name=Id]").val(),
 //                    treatmentPackageId:professionalView.idTreatmentPackage
-                        id: $(element).attr("id")
-                    }, function (data) {
-                        if (data === "1") {
-                            if($(element).attr("role")==="admin") {
-                                $(element).css("background-color", "#00a859").css('color', '#ffffff');
-                                $(element).text("Sửa");
-                            }else{
-                                $(element).hide();
+                            id: $(element).attr("id")
+                        }, function (data) {
+                            if (data === "1") {
+                                if($(element).attr("role")==="admin") {
+                                    $(element).css("background-color", "#00a859").css('color', '#ffffff');
+                                    $(element).text("Sửa");
+                                }else{
+                                    $(element).hide();
+                                }
+
+                                $("div#modalConfirm").modal("show");
+                                $("div#modalContent").empty().append("Lưu thành công");
+                                $("button[name=modalAgree]").hide();
+                            } else if (data === "2") {
+
                             }
-
-                            $("div#modalConfirm").modal("show");
-                            $("div#modalContent").empty().append("Lưu thành công");
-                            $("button[name=modalAgree]").hide();
-                        } else if (data === "2") {
-
-                        }
-                    })
+                        })
+                    }
+                }else{
+                    $("div#modalConfirm").modal("show");
+                    $("div#modalContent").empty().append("Không tìm thấy mã chuyên viên. Vui lòng nhập lại");
+                    $("button[name=modalAgree]").hide();
                 }
             }
         }
+    }
+    //setup before functions
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 500;  //time in ms, 3 second for example
+    var $inputCode = $("input#Code");
+
+    //on keyup, start the countdown
+    $inputCode.on('keyup', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTypingCode, doneTypingInterval);
+    });
+
+    //on keydown, clear the countdown
+    $inputCode.on('keydown', function () {
+        clearTimeout(typingTimer);
+    });
+
+    //user is "finished typing," do something
+    function doneTypingCode() {
+        $.get(url + 'admin/getSearchCodePatient', {
+            _token: _token,
+            Code: $inputCode.val()
+        }, function (data) {
+            if (data === "0") {
+                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
+                $("button[name=modalAgree]").hide();
+                $("input[name=Id]").val("");
+                $("div#modalConfirm").modal("show");
+                $inputCode.val("");
+            } else if (data === "2") {
+//                        $("div#modalContent").empty().append("Vui lòng nhập mã chính xác");
+//                        $("button[name=modalAgree]").hide();
+//                        $("input[name=Id]").val("");
+//                        $("div#modalConfirm").modal("show");
+            } else {
+                $inputCode.val(data[0]["code"]);
+            }
+        });
     }
 </script>

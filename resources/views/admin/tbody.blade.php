@@ -1,5 +1,7 @@
 @if($detailedTreatments)
+    {{$i = 0}}
     @foreach($detailedTreatments as $detail)
+
         <tr>
             {{--<td style="width: 3%;">{{ \App\LocationTreatment::where('id',$detail->locationId)->first()->name }}</td>--}}
             {{--@foreach($rows as $item)--}}
@@ -7,27 +9,10 @@
             <td name="">{{$detail->professionalName}}</td>
             <td>{{$detail->locationName}}</td>
             <td>
-                {{--<select class="form-control" id="TherapistId" name="TherapistId">--}}
-                    {{--@if($detail->detailTherapist !==0 )--}}
-                        {{--<option value="{{$detail->detailTherapist}}">{{\App\ManagementTherapist::where('id',$detail->detailTherapist)->first()->name}}</option>--}}
-                        {{--@foreach($therapists as $item)--}}
-                            {{--@if($item->id === $detail->detailTherapist)--}}
-                            {{--@else--}}
-                                {{--<option value="{{$item->id}}">{{$item->name}}</option>--}}
-                            {{--@endif--}}
-                        {{--@endforeach--}}
-                    {{--@else--}}
-                        {{--@if($therapists)--}}
-                            {{--<option value="0">Chuyên viên</option>--}}
-                            {{--@foreach($therapists as $item)--}}
-                                {{--<option value="{{$item->id}}">{{$item->name}}</option>--}}
-                            {{--@endforeach--}}
-                        {{--@endif--}}
-                    {{--@endif--}}
-                {{--</select>--}}
                 <input type="text" class="form-control"
-                       id="TherapistId"
+                       id="{{$i}}"
                        name="TherapistId"
+                       onchange="professionalView.searchTherapist(this)"
                        placeholder="Nguyễn Văn A"
                         value="{{$detail->detailTherapist}}">
             </td>
@@ -71,6 +56,7 @@
         </tr>
         {{--@endforeach--}}
         {{--@endfor--}}
+        {{$i++}}
     @endforeach
 @endif
 {{--<script>--}}

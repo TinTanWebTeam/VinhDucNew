@@ -18,6 +18,6 @@ class MedicalRecord extends Model
     ];
     public function PatientManagement()
     {
-        return $this->belongsTo('App\PatientManagement','patientId','id')->first();
+        return $this->belongsTo('App\PatientManagement','patientId','code')->first();
     }
 }

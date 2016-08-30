@@ -53,8 +53,8 @@
                             @foreach($medicals as $item)
                                 <tr id="{{$item->id}}" onclick="medicalrecordView.viewListPatient(this)"
                                     style="cursor: pointer">
-                                    <td>{{\App\PatientManagement::where('id',$item->patientId)->first()->code}}</td>
-                                    <td>{{\App\PatientManagement::where('id',$item->patientId)->first()->fullName}}</td>
+                                    <td>{{\App\PatientManagement::where('code',$item->patientId)->first()->code}}</td>
+                                    <td>{{\App\PatientManagement::where('code',$item->patientId)->first()->fullName}}</td>
                                     <td>{{$item->reasons}}</td>
                                 </tr>
                             @endforeach
@@ -84,13 +84,10 @@
                                     </div>
                                     <div class="form-group form-md-line-input">
                                         <label for="PatientId"><b>Bệnh nhân</b></label>
-                                        <select class="form-control" id="PatientId" name="PatientId">
-                                            @if($patients)
-                                                @foreach($patients as $item)
-                                                    <option value="{{$item->id}}">{{$item->fullName}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
+                                        <input type="text" class="form-control"
+                                               id="PatientId"
+                                               name="PatientId"
+                                               placeholder="BN001">
                                     </div>
                                     <div class="form-group form-md-line-input ">
                                         <label for="Reasons"><b>Lý do vào viện</b></label>
@@ -334,4 +331,42 @@
 
         }
     })
+    //setup before functions
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 500;  //time in ms, 3 second for example
+    var $input = $("input#PatientId");
+
+    //on keyup, start the countdown
+    $input.on('keyup', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    //on keydown, clear the countdown
+    $input.on('keydown', function () {
+        clearTimeout(typingTimer);
+    });
+
+    //user is "finished typing," do something
+    function doneTyping() {
+        $.get(url + 'admin/getSearchCodePatient', {
+            _token: _token,
+            Code: $input.val()
+        }, function (data) {
+            if (data === "0") {
+                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
+                $("button[name=modalAgree]").hide();
+                $("input[name=Id]").val("");
+                $("div#modalConfirm").modal("show");
+                $input.val("");
+            } else if (data === "2") {
+//                        $("div#modalContent").empty().append("Vui lòng nhập mã chính xác");
+//                        $("button[name=modalAgree]").hide();
+//                        $("input[name=Id]").val("");
+//                        $("div#modalConfirm").modal("show");
+            } else {
+                $input.val(data[0]["code"]);
+            }
+        });
+    }
 </script>

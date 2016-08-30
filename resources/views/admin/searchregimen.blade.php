@@ -86,19 +86,12 @@
                                         <input type="text" class="form-control" name="Id" id="Id">
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12"></div>
-                                    <div class="form-group form-md-line-input col-md-6">
+                                    <div class="form-group form-md-line-input col-md-12">
                                         <label for="CodePatient"><b>Mã bệnh nhân</b></label>
                                         <input type="text" class="form-control"
                                                id="CodePatient"
                                                name="CodePatient"
                                                placeholder="BN001">
-                                    </div>
-                                    <div class="form-group form-md-line-input col-md-6">
-                                        <label for="CodeRegimen"><b>Mã phác đồ</b></label>
-                                        <input type="text" class="form-control"
-                                               id="CodeRegimen"
-                                               name="CodeRegimen"
-                                               placeholder="PD001">
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12">
                                         <label for="FullName"><b>Họ và tên</b></label>
@@ -224,5 +217,43 @@
                 });
             },
         }
+    }
+    //setup before functions
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 500;  //time in ms, 3 second for example
+    var $inputCode = $("input#CodePatient");
+
+    //on keyup, start the countdown
+    $inputCode.on('keyup', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTypingCode, doneTypingInterval);
+    });
+
+    //on keydown, clear the countdown
+    $inputCode.on('keydown', function () {
+        clearTimeout(typingTimer);
+    });
+
+    //user is "finished typing," do something
+    function doneTypingCode() {
+        $.get(url + 'admin/getSearchCodePatient', {
+            _token: _token,
+            Code: $inputCode.val()
+        }, function (data) {
+            if (data === "0") {
+                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
+                $("button[name=modalAgree]").hide();
+                $("input[name=Id]").val("");
+                $("div#modalConfirm").modal("show");
+                $inputCode.val("");
+            } else if (data === "2") {
+//                        $("div#modalContent").empty().append("Vui lòng nhập mã chính xác");
+//                        $("button[name=modalAgree]").hide();
+//                        $("input[name=Id]").val("");
+//                        $("div#modalConfirm").modal("show");
+            } else {
+                $inputCode.val(data[0]["code"]);
+            }
+        });
     }
 </script>

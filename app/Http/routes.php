@@ -38,6 +38,8 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::get('getSearchCodeTherapist','AdminController@getSearchCodeTherapist');
     Route::get('getSearchCodeProfessional','AdminController@getSearchCodeProfessional');
     Route::get('getViewSourceCustomer','AdminController@getViewSourceCustomer');
+    Route::get('getSearchCodePatient','AdminController@getSearchCodePatient');
+
     //Anh Tam
 
     Route::get('getViewPackage','AdminController@getViewPackage');
@@ -87,7 +89,8 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::post('postViewDoctor','AdminController@postViewDoctor');
     Route::post('addNewAndUpdateSourceCustomer','AdminController@addNewAndUpdateSourceCustomer');
     Route::post('postViewSourceCustomer','AdminController@postViewSourceCustomer');
-
+    Route::post('report','AdminController@report');
+    Route::post('searchTherapist','AdminController@searchTherapist');
     //AnhTam
     Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
     Route::post('addNewAndUpdatePackage','AdminController@addNewAndUpdatePackage');

@@ -101,26 +101,22 @@
                                         {{--</select>--}}
 
                                     {{--</div>--}}
-                                    <div class="form-group form-md-line-input ">
-                                        <label for="PatientId">Tên bệnh nhân</label>
-                                        <select class="form-control" id="Patient_id" name="Patient_id">
-                                            @if($patients)
-                                                <option value="" selected>-- Chọn bệnh nhân --</option>
-                                                @foreach($patients as $item)
-                                                    <option value="{{$item->id}}">{{$item->fullName}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
+                                    <div class="form-group form-md-line-input">
+                                        <label for="Patient_id"><b>Mã bệnh nhân</b></label>
+                                        <input type="text" class="form-control"
+                                               id="Patient_id"
+                                               name="Patient_id"
+                                               placeholder="BN001">
                                     </div>
                                     <div class="form-group form-md-line-input">
-                                        <label for="patientReviews">Ý kiến bệnh nhân</label>
+                                        <label for="patientReviews"><b>Ý kiến bệnh nhân</b></label>
                                         <textarea type="text" class="form-control" rows="5" cols="5"
                                                   id="PatientReviews"
                                                   name="PatientReviews"
                                                   placeholder="Ý kiến bệnh nhân"></textarea>
                                     </div>
                                     <div class="form-group form-md-line-input ">
-                                        <label for="handling">Tình trạng</label>
+                                        <label for="handling"><b>Tình trạng</b></label>
                                         <select class="form-control" id="Handling" onchange="informationView.Processed()">
                                             <option value=""> -- Chọn tình trạng -- </option>
                                             <option value="1" >Đã xử lý</option>
@@ -128,14 +124,14 @@
                                         </select>
                                     </div>
                                     <div class="form-group form-md-line-input" name="Content" style="display: none">
-                                        <label for="Content">Nội dung xử lý</label>
+                                        <label for="Content"><b>Nội dung xử lý</b></label>
                                         <textarea type="text" class="form-control" rows="5" cols="5"
                                                   id="Content"
                                                   name="Content"
                                                   placeholder="Nội dung xử lý"></textarea>
                                     </div>
                                     <div class="form-group form-md-line-input ">
-                                        <label for="CreatedDate">Ngày tạo</label>
+                                        <label for="CreatedDate"><b>Ngày tạo</b></label>
                                         <input type="date" class="form-control"
                                                id="CreatedDate"
                                                name="CreatedDate"
@@ -363,7 +359,43 @@
             }
         }
     });
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 500;  //time in ms, 3 second for example
+    var $inputCode = $("input#Patient_id");
 
+    //on keyup, start the countdown
+    $inputCode.on('keyup', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTypingCode, doneTypingInterval);
+    });
+
+    //on keydown, clear the countdown
+    $inputCode.on('keydown', function () {
+        clearTimeout(typingTimer);
+    });
+
+    //user is "finished typing," do something
+    function doneTypingCode() {
+        $.get(url + 'admin/getSearchCodePatient', {
+            _token: _token,
+            Code: $inputCode.val()
+        }, function (data) {
+            if (data === "0") {
+                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
+                $("button[name=modalAgree]").hide();
+                $("input[name=Id]").val("");
+                $("div#modalConfirm").modal("show");
+                $inputCode.val("");
+            } else if (data === "2") {
+//                        $("div#modalContent").empty().append("Vui lòng nhập mã chính xác");
+//                        $("button[name=modalAgree]").hide();
+//                        $("input[name=Id]").val("");
+//                        $("div#modalConfirm").modal("show");
+            } else {
+                $inputCode.val(data[0]["code"]);
+            }
+        });
+    }
 
 
 </script>

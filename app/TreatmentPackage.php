@@ -25,6 +25,6 @@ class TreatmentPackage extends Model
         return $this->belongsTo('App\Package','packageId','id')->first();
     }
     public function Patient(){
-        return $this->belongsTo('App\PatientManagement','patientId','id')->first();
+        return $this->belongsTo('App\PatientManagement','patientId','code')->first();
     }
 }
