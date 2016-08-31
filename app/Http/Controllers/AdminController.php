@@ -1281,7 +1281,7 @@ class AdminController extends Controller
             $date = date('Y/m/d');
             $SQL = " SELECT tp.id,pm.`code` AS MaBN,pm.fullName AS TEN,pm.birthday AS NAMSINH,pv.`name` AS TINH,p.`name` AS GOI,tp.codeDoctor AS BS,tp.umpteenth AS SOLANTAIKHAM,COUNT(dt.therapistId) as SOLANRAVAO FROM treatment_packages tp ";
             $SQL .= " INNER JOIN detailed_treatments dt ON tp.id = dt.treatmentPackageId INNER JOIN packages p ON tp.packageId = p.id ";
-            $SQL .= " INNER JOIN patient_managements pm ON tp.patientId = pm.id INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
+            $SQL .= " INNER JOIN patient_managements pm ON tp.patientId = pm.`code` INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
             $SQL .= " INNER JOIN provinces pv ON pm.provincialId = pv.id ";
             $SQL .= " WHERE tp.createdDate BETWEEN '" . $date . "' AND '" . $date . "' ";
             $SQL .= " AND dt.therapistId != '0' AND sc.id = 1 AND tp.umpteenth = 0 ";
@@ -1317,7 +1317,7 @@ class AdminController extends Controller
 //                )->get();
             $SQL = " SELECT tp.id,pm.`code` AS MaBN,pm.fullName AS TEN,pm.birthday AS NAMSINH,pv.`name` AS TINH,p.`name` AS GOI,tp.codeDoctor AS BS,tp.umpteenth AS SOLANTAIKHAM,COUNT(dt.therapistId) as SOLANRAVAO FROM treatment_packages tp ";
             $SQL .= " INNER JOIN detailed_treatments dt ON tp.id = dt.treatmentPackageId INNER JOIN packages p ON tp.packageId = p.id ";
-            $SQL .= " INNER JOIN patient_managements pm ON tp.patientId = pm.code INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
+            $SQL .= " INNER JOIN patient_managements pm ON tp.patientId = pm.`code` INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
             $SQL .= " INNER JOIN provinces pv ON pm.provincialId = pv.id ";
             $SQL .= " WHERE tp.createdDate BETWEEN '" . $request->get('data')["FromDate"] . "' AND '" . $request->get('data')["ToDate"] . "' ";
             $SQL .= " AND dt.therapistId != '0' AND sc.id = " . $request->get('data')["SourceCustomerId"] . " ";
@@ -1327,7 +1327,6 @@ class AdminController extends Controller
                 $SQL .= " AND tp.umpteenth = 0 ";
             }
             $SQL .= " GROUP BY MaBN,TEN,NAMSINH,TINH,GOI,BS,SOLANTAIKHAM ";
-            dd($SQL);
             $Patient = DB::select($SQL);
             return $Patient;
         } catch (Exception $ex) {
