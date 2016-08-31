@@ -313,119 +313,120 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
-    <div class="report">
-        <div style="width: 95%;margin: 0 auto">
-            <div class="row" style="text-align: center; font-family: 'Times New Roman'">
-                <div class="col-md-12 col-sm-12">
-                    <div class="pull-right">
-                        <h5><b>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b><br></h5>
-                        <h6><b>Độc Lập – Tự Do – Hạnh Phúc</b></h6>
+    <div class="row">
+        <div class="report">
+            <div style="width: 95%;margin: 0 auto">
+                <div class="row" style="text-align: center; font-family: 'Times New Roman'">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="pull-right">
+                            <h5><b>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b><br></h5>
+                            <h6><b>Độc Lập – Tự Do – Hạnh Phúc</b></h6>
+                        </div>
+                        <h5 class="pull-left"><b>CÔNG TY TNHH TM DV CSSK VĨNH ĐỨC</b></h5>
+
                     </div>
-                    <h5 class="pull-left"><b>CÔNG TY TNHH TM DV CSSK VĨNH ĐỨC</b></h5>
+                </div>
+                <div class="row" style="text-align: center; font-family: 'Times New Roman'">
+                    <h4><b>HỒ SƠ BỆNH ÁN VẬT LÝ TRỊ LIỆU</b></h4>
+                </div>
+                <br>
+                <div class="row" style="font-family: 'Times New Roman'">
+
+                    <div class="col-md-6 pull-right ">
+                        <span>Mã BS:</span>
+                        <span name="CodeDoctor"></span>
+
+                        <span><br>Mã BN:</span>
+                        <span name="CodePatient"></span>
+                    </div>
 
                 </div>
-            </div>
-            <div class="row" style="text-align: center; font-family: 'Times New Roman'">
-                <h4><b>HỒ SƠ BỆNH ÁN VẬT LÝ TRỊ LIỆU</b></h4>
-            </div>
-            <br>
-            <div class="row" style="font-family: 'Times New Roman'">
-
-                <div class="col-md-6 pull-right ">
-                    <span>Mã BS:</span>
-                    <span name="CodeDoctor"></span>
-
-                    <span><br>Mã BN:</span>
-                    <span name="CodePatient"></span>
-                </div>
-
-            </div>
-            <div style="font-family: 'Times New Roman'">
-                <div class="row col-md-12">
-                    <h4><b>I-HÀNH CHÍNH</b></h4>
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12">
-                            <div class="col-md-6 col-sm-6">
-                                <span>1. Họ và tên:</span>
-                                <span name="FullName"></span>
+                <div style="font-family: 'Times New Roman'">
+                    <div class="row col-md-12">
+                        <h4><b>I-HÀNH CHÍNH</b></h4>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="col-md-12 col-sm-12">
+                                    <span>1. Họ và tên:</span>
+                                    <span name="FullName"></span>
 
                                 <span class="pull-right">Giới tính:
                                 <span name="Sex"></span>
                             </span>
 
 
-                             <span style="margin-left: 20%;">Năm sinh:
+                             <span style="margin-left: 35%;">Năm sinh:
                                 <span name="Birthday"></span>
                             </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12 col-sm-12">
-                            <div class="col-md-6 col-sm-6">
-                                <span>2. Nghề nghiệp:</span>
-                                <span name="Job"></span>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="col-md-12 col-sm-12">
+                                    <span>2. Nghề nghiệp:</span>
+                                    <span name="Job"></span>
 
-                                <span>Số điện thoại:</span>
-                                <span name="Phone"></span>
+                                    <span style="margin-left: 28%;">Số điện thoại:</span>
+                                    <span name="Phone"></span>
+                                </div>
                             </div>
-
-                        </div>
-                        <div class="col-md-12 col-sm-12">
-                            <div class="col-md-6 col-sm-6">
-                                <span>3. Địa chỉ:</span>
-                                <span name="Address"></span>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="col-md-6 col-sm-6">
+                                    <span>3. Địa chỉ:</span>
+                                    <span name="Address"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12 col-sm-12">
-                            <div class="col-md-6 col-sm-6">
-                                <span>4. Huyết áp:</span>
-                                <span name="BloodPressure"></span>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="col-md-6 col-sm-6">
+                                    <span>4. Huyết áp:</span>
+                                    <span name="BloodPressure"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12 col-sm-12">
-                            <div class="col-md-6 col-sm-6">
-                                <span>5. Mạch:</span>
-                                <span name="Pulse"></span>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="col-md-6 col-sm-6">
+                                    <span>5. Mạch:</span>
+                                    <span name="Pulse"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row col-md-12">
-                    <h4><b>II-BỆNH SỬ</b></h4>
-                    <div class="col-md-12">
-                        <span>1. Quá trình bệnh lý:</span>
-                        <span name="PathologicalProcess"></span>
+                    <div class="row col-md-12">
+                        <h4><b>II-BỆNH SỬ</b></h4>
+                        <div class="col-md-12">
+                            <span>1. Quá trình bệnh lý:</span>
+                            <span name="PathologicalProcess"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <span>2. Tiền sử bệnh:</span>
+                            <span name="Anamnesis"></span>
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        <span>2. Tiền sử bệnh:</span>
-                        <span name="Anamnesis"></span>
+                    <div class="row col-md-12">
+                        <h4><b>III-CẬN LÂM SÀNG:</b></h4>
+                        <span name="Subclinical"></span>
                     </div>
-                </div>
-                <div class="row col-md-12">
-                    <h4><b>III-CẬN LÂM SÀNG:</b></h4>
-                    <span name="Subclinical"></span>
-                </div>
-                <div class="row col-md-12">
-                    <h4><b>IV-CHẨN ĐOÁN:</b></h4>
-                    <span name="Diagnose"></span>
-                </div>
-                <div class="row col-md-12">
-                    <h4><b>V-PHÁC ĐỒ:</b></h4>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover order-column" id="tableRegimen"
-                               style="margin-bottom: 0px;">
-                            <thead>
-                            <tr>
-                                <th class="text-center">STT</th>
-                                <th class="text-center">Vùng</th>
-                                <th class="text-center">Điều trị chuyên môn</th>
-                                <th class="text-center">Vị trí điều trị</th>
-                                <th class="text-center">Phút</th>
-                            </tr>
-                            </thead>
-                            <tbody id="tbodyRegimen">
-                            </tbody>
-                        </table>
+                    <div class="row col-md-12">
+                        <h4><b>IV-CHẨN ĐOÁN:</b></h4>
+                        <span name="Diagnose"></span>
+                    </div>
+                    <div class="row col-md-12">
+                        <h4><b>V-PHÁC ĐỒ:</b></h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover order-column" id="tableRegimen"
+                                   style="margin-bottom: 0px;">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">STT</th>
+                                    <th class="text-center">Vùng</th>
+                                    <th class="text-center">Điều trị chuyên môn</th>
+                                    <th class="text-center">Vị trí điều trị</th>
+                                    <th class="text-center">Phút</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbodyRegimen">
+                                </tbody>
+                            </table>
 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -447,7 +448,7 @@
             idTreatmentPackage: null,
             idDiagnostic: null,
             data: null,
-            count:null,
+            count: null,
             deleteTreatmentPackage: null,
             DiagnosticObject: {
                 Id: null,
@@ -630,7 +631,7 @@
             },
             fillToInput: function (element) {
                 var a = $("tbody[id=AutoCompleteTableBody]").find("tr[id=" + $(element).attr("data-Id") + "]");
-                diagnosticView.dataPatient = $(element).attr("data-Id");
+                diagnosticView.dataPatient = $(element).attr("data-code");
                 $("div#Table").hide();
                 $("input[name=Id]").val($(element).attr("data-Id"));
                 $("input[name=Code]").val(a.find("td").eq(0).text());
@@ -709,13 +710,13 @@
 //                            diagnosticView.resetForm();
                             console.log(umpteenth);
                             if (diagnosticView.count !== null) {
-                               if(typeof(umpteenth)==='undefined'){
-                                   $("input[name=Umpteenth]").val(diagnosticView.count);
-                               }else{
-                                   diagnosticView.count=umpteenth;
-                                   $("input[name=Umpteenth]").val(diagnosticView.count);
-                               }
-                            } else if (diagnosticView.count === null){
+                                if (typeof(umpteenth) === 'undefined') {
+                                    $("input[name=Umpteenth]").val(diagnosticView.count);
+                                } else {
+                                    diagnosticView.count = umpteenth;
+                                    $("input[name=Umpteenth]").val(diagnosticView.count);
+                                }
+                            } else if (diagnosticView.count === null) {
                                 console.log("b");
                                 $("input[name=Umpteenth]").val($(element).attr("data-umpteenth"));
                             }
@@ -763,12 +764,12 @@
                 if ($("button[name=cancelTreatment]").text() === "Trở về") {
                     $("div#TablePackages").hide();
                     $("div#menuPackageTreatment").show();
-                    $("input[name=checkbox]").prop("checked",false);
+                    $("input[name=checkbox]").prop("checked", false);
                 }
             },
             CompleteTreatmentPackage: function () {
-                diagnosticView.count=$("input[name=Umpteenth]").val();
-                if($("input[name=checkbox]").prop("checked")=== true){
+                diagnosticView.count = $("input[name=Umpteenth]").val();
+                if ($("input[name=checkbox]").prop("checked") === true) {
                     diagnosticView.setValueObject();
                     $.post(url + "admin/updateUmpteenthTreatmentPackages", {
                         _token: _token,
@@ -783,7 +784,7 @@
                             $("button[name=modalAgree]").hide();
                         }
                     });
-                }else{
+                } else {
                     $("#addProfessional").validate({
                         rules: {
                             Professional: "required",
@@ -891,6 +892,7 @@
                 }
             },
             report: function () {
+                console.log(diagnosticView.dataPatient);
                 if (diagnosticView.dataRegimen !== null) {
                     $.post(url + "admin/report", {
                         _token: _token,

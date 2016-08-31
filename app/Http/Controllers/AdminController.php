@@ -1758,8 +1758,8 @@ class AdminController extends Controller
     public function report(Request $request)
     {
         try {
-            $patient = PatientManagement::where('active', 1)->where('id', $request->get('dataPatient'))->first();
-            $record = MedicalRecord::where('active', 1)->where('id', $request->get('dataPatient'))->first();
+            $patient = PatientManagement::where('active', 1)->where('code', $request->get('dataPatient'))->first();
+            $record = MedicalRecord::where('active', 1)->where('patientId', $request->get('dataPatient'))->first();
             $regimen = $this->searchProfessional($request);
             return array($patient, $record, $regimen);
         } catch (Exception $ex) {
