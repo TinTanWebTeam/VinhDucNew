@@ -2441,7 +2441,7 @@ class AdminController extends Controller
         try {
             $SQL = "SELECT info.createdDate, info.content, info.handling, pm.fullName,info.patientReviews
                       FROM information_surveys info
-                      INNER JOIN  patient_managements pm  ON pm.id = info.patient_id";
+                      INNER JOIN  patient_managements pm  ON pm.`code` = info.patient_id";
             if ($request->get('data')['Handling'] == "0") {
                 $SQL .= " Where info.`createdDate` BETWEEN '" . $request->get('data')['ToDate'] . "'" . 'AND' . "'" . $request->get('data')['FromDate'] . "'";
             }

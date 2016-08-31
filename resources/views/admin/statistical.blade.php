@@ -147,7 +147,7 @@
                         _token:_token,
                         data:statisticalView.StatisticalObject
                     },function (data) {
-                        if (data == "") {
+                        if (data === "") {
                             statisticalView.fillTbody(data);
                             $("div#modalConfirm").modal("show");
                             $("div#modalContent").empty().append("Dữ liệu không có.Vui lòng chọn lại");
