@@ -572,6 +572,7 @@
                 //diagnosticView.addNewDiagnostic(result);
             },
             getIdPackage: function (element) {
+                $("tbody#tbodyDiagnosticList").find("tr").css("background-color","#ffffff").css("color", "#000000");;
                 $("tbody#tbodyDiagnosticList").find("tr[id=" + $(element).attr("id") + "]").css("background-color", "#00a859").css("color", "#ffffff");
                 diagnosticView.dataRegimen = $(element).attr("id");
             },
