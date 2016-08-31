@@ -307,7 +307,7 @@
                                 tr += "<td>Nữ</td>";
                             }
                             tr += "<td>" + data[i]["birthday"] + "</td>";
-                            tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='professionalView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
+                            tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-code='" + data[i]["code"] + "' data-Id='" + data[i]["id"] + "' onclick='professionalView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
                             tr += "</tr>";
                             row += tr;
                         }
@@ -326,7 +326,7 @@
                 $("input[name=FullName]").val(a.find("td").eq(1).text());
                 $("input[name=Sex]").val(a.find("td").eq(2).text());
                 $("input[name=Birthday]").val(a.find("td").eq(3).text());
-                professionalView.SearchTreatmentPackages($(element).attr("data-Id"));
+                professionalView.SearchTreatmentPackages($(element).attr("data-code"));
             },
             SearchTreatmentPackages: function (element) {
                 $.post(url + "admin/SearchTreatmentPackages", {
