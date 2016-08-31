@@ -1157,7 +1157,7 @@ class AdminController extends Controller
     public function searchRegimens(Request $request)
     {
         try {
-            $SQL = "SELECT pm.id, pm.`code` as 'maBN',pm.fullName, tr.`code` as 'maPD',tr.createdDate FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.id = tr.patientId WHERE pm.active = 1 AND tr.active = 1";
+            $SQL = "SELECT pm.id, pm.`code` as 'maBN',pm.fullName, tr.`code` as 'maPD',tr.createdDate FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.`code` = tr.patientId WHERE pm.active = 1 AND tr.active = 1";
             if ($request->get('Patient')['CodePatient'] != "") {
                 $SQL .= " AND pm.`code` LIKE '" . '%' . $request->get('Patient')['CodePatient'] . '%' . "'";
             }
@@ -2276,17 +2276,36 @@ class AdminController extends Controller
 
     public function searchPatientTest(Request $request)
     {
+//        try {
+//            $SQL = "SELECT pm.`code` as 'maBN', pm.`fullName`, tr.`code` as 'maPD',tr.createdDate,tr.status, tr.note FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.id = tr.patientId WHERE pm.active = 1";
+//            if ($request->get('Regimens')['CodePatient'] != "") {
+//                $SQL .= " AND pm.`code` LIKE '" . '%' . $request->get('Regimens')['CodePatient'] . '%' . "'";
+//            }
+//            if ($request->get('Regimens')['FullName'] != "") {
+//                $SQL .= " AND pm.`fullName` LIKE '" . '%' . $request->get('Regimens')['FullName'] . '%' . "'";
+//            }
+//            if ($request->get('Regimens')['CodeRegimen'] != "") {
+//                $SQL .= " AND tr.`code` LIKE '" . '%' . $request->get('Regimens')['CodeRegimen'] . '%' . "'";
+//            }
+//            if ($request->get('Regimens')['CreatedDate'] != "") {
+//                $SQL .= " AND tr.createdDate LIKE '" . '%' . $request->get('Regimens')['CreatedDate'] . '%' . "'";
+//            }
+//            $patient = DB::select($SQL);
+//            return $patient;
+//        } catch (Exception $ex) {
+//            return $ex;
+//        }
         try {
-            $SQL = "SELECT pm.`code` as 'maBN', pm.`fullName`, tr.`code` as 'maPD',tr.createdDate,tr.status, tr.note FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.id = tr.patientId WHERE pm.active = 1";
+            $SQL = "SELECT pm.id, pm.`code` as 'maBN',pm.fullName, tr.`code` as 'maPD',tr.createdDate,tr.note FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.`code` = tr.patientId WHERE pm.active = 1 AND tr.active = 1";
             if ($request->get('Regimens')['CodePatient'] != "") {
                 $SQL .= " AND pm.`code` LIKE '" . '%' . $request->get('Regimens')['CodePatient'] . '%' . "'";
             }
             if ($request->get('Regimens')['FullName'] != "") {
-                $SQL .= " AND pm.`fullName` LIKE '" . '%' . $request->get('Regimens')['FullName'] . '%' . "'";
+                $SQL .= " AND pm.fullName LIKE '" . '%' . $request->get('Regimens')['FullName'] . '%' . "'";
             }
-            if ($request->get('Regimens')['CodeRegimen'] != "") {
-                $SQL .= " AND tr.`code` LIKE '" . '%' . $request->get('Regimens')['CodeRegimen'] . '%' . "'";
-            }
+//            if ($request->get('Regimens')['CodeRegimen'] != "") {
+//                $SQL .= " AND tr.`code` LIKE '" . '%' . $request->get('Regimens')['CodeRegimen'] . '%' . "'";
+//            }
             if ($request->get('Regimens')['CreatedDate'] != "") {
                 $SQL .= " AND tr.createdDate LIKE '" . '%' . $request->get('Regimens')['CreatedDate'] . '%' . "'";
             }
