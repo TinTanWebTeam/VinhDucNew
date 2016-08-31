@@ -1317,7 +1317,7 @@ class AdminController extends Controller
 //                )->get();
             $SQL = " SELECT tp.id,pm.`code` AS MaBN,pm.fullName AS TEN,pm.birthday AS NAMSINH,pv.`name` AS TINH,p.`name` AS GOI,tp.codeDoctor AS BS,tp.umpteenth AS SOLANTAIKHAM,COUNT(dt.therapistId) as SOLANRAVAO FROM treatment_packages tp ";
             $SQL .= " INNER JOIN detailed_treatments dt ON tp.id = dt.treatmentPackageId INNER JOIN packages p ON tp.packageId = p.id ";
-            $SQL .= " INNER JOIN patient_managements pm ON tp.patientId = pm.id INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
+            $SQL .= " INNER JOIN patient_managements pm ON tp.patientId = pm.code INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
             $SQL .= " INNER JOIN provinces pv ON pm.provincialId = pv.id ";
             $SQL .= " WHERE tp.createdDate BETWEEN '" . $request->get('data')["FromDate"] . "' AND '" . $request->get('data')["ToDate"] . "' ";
             $SQL .= " AND dt.therapistId != '0' AND sc.id = " . $request->get('data')["SourceCustomerId"] . " ";
@@ -1327,6 +1327,7 @@ class AdminController extends Controller
                 $SQL .= " AND tp.umpteenth = 0 ";
             }
             $SQL .= " GROUP BY MaBN,TEN,NAMSINH,TINH,GOI,BS,SOLANTAIKHAM ";
+            dd($SQL);
             $Patient = DB::select($SQL);
             return $Patient;
         } catch (Exception $ex) {
@@ -1340,7 +1341,7 @@ class AdminController extends Controller
         try {
             $searchProfessionalTherapist = DB::table('detailed_treatments')
                 ->join('management_therapists', 'detailed_treatments.therapistId', '=', 'management_therapists.code')
-                ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.code')
+                ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.id')
                 ->where('detailed_treatments.therapistId', '<>', 0)
                 ->where('detailed_treatments.ail', '<>', 2)
                 ->where('detailed_treatments.createdDate', '=', $date)
