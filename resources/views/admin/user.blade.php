@@ -304,19 +304,19 @@
                             messages: {
                                 Name: {
                                     required: "Tên đăng nhập không được rỗng",
-                                    minlenght: "Tên đăng nhập phải từ 6 kí tự đến 20 kí tự",
-                                    maxlenght: "Tên đăng nhập phải từ 6 kí tự đến 20 kí tự"
+                                    minlength: "Tên đăng nhập phải từ 6 kí tự đến 20 kí tự",
+                                    maxlength: "Tên đăng nhập phải từ 6 kí tự đến 20 kí tự"
                                 },
                                 Password: {
                                     required: "Mật khẩu không được rỗng",
-                                    minlenght: "abc",
-                                    maxlenght: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự"
+                                    minlength: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự",
+                                    maxlength: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự"
                                 },
                                 PasswordConfirm: {
                                     required: "Nhập lại mật khẩu không đúng",
                                     equalTo: "Nhập lại mật khẩu không đúng",
-                                    minlenght: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự",
-                                    maxlenght: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự"
+                                    minlength: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự",
+                                    maxlength: "Mật khẩu nhập phải từ 6 kí tự đến 20 kí tự"
                                 },
                                 Email: {
                                     required: "Email không được rỗng.",

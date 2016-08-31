@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a href="."><img src="{{asset('img/logo.jpg')}}" style="margin-left: 15px;" width="150"
+        <a><img src="{{asset('img/logo.jpg')}}" style="margin-left: 15px;" width="150"
                          alt="CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC"></a>
         <div class="scroll-left" style="display: inline-block;margin-left: 300px;color: #00a859;">
             <marquee id="marquee" direction="left" scrollamount="3" loop="true" scrolldelay="6">
@@ -46,9 +46,7 @@
                                 <a href="javascript:;">Người dùng</a>
                             </li>
                         @else
-
                         @endif
-
                         <li>
                             <a href="javascript:;">Bệnh nhân</a>
                         </li>

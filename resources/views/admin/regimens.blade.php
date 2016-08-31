@@ -32,11 +32,9 @@
                     </tr>
                 </table>
             </div>
-            {{--<div class="modal-footer">--}}
-            {{--<button type="button" class="btn green" name="modalAgree"--}}
-            {{--onclick="regimensView.modalAgree()">Tiếp tục--}}
-            {{--</button>--}}
-            {{--</div>--}}
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal" name="modalClose">Đóng</button>
+            </div>
         </div>
         <!-- /.modal-content -->
     </div>
@@ -84,6 +82,7 @@
                                             <tr class="AutoCompleteTableHeader">
                                                 <th>Mã bệnh nhân</th>
                                                 <th>Họ và tên</th>
+                                                <th>Mã phác đồ</th>
                                                 <th>Ngày tạo</th>
                                                 <th>Chọn</th>
                                             </tr>
@@ -108,14 +107,14 @@
                                                placeholder="Nguyễn Văn A">
                                     </div>
                                     <div class="">
-                                        {{--<div class="form-group form-md-line-input col-md-6">--}}
-                                            {{--<label for="CodeRegimen"><b>Mã phác đồ</b></label>--}}
-                                            {{--<input type="text" class="form-control"--}}
-                                                   {{--id="CodeRegimen"--}}
-                                                   {{--name="CodeRegimen"--}}
-                                                   {{--placeholder="BN001">--}}
-                                        {{--</div>--}}
-                                        <div class="form-group form-md-line-input col-md-12">
+                                        <div class="form-group form-md-line-input col-md-6">
+                                            <label for="CodeRegimen"><b>Mã phác đồ</b></label>
+                                            <input type="text" class="form-control"
+                                                   id="CodeRegimen"
+                                                   name="CodeRegimen"
+                                                   placeholder="BN001">
+                                        </div>
+                                        <div class="form-group form-md-line-input col-md-6">
                                             <label for="CreatedDate"><b>Ngày tạo phác đồ</b></label>
                                             <input type="date" class="form-control"
                                                    id="CreatedDate"
@@ -215,7 +214,49 @@
                 </div>
             </div>
         </div>
+        {{--<div class="col-sm-6">--}}
+        {{--<div class="row" id="TablePackages">--}}
+        {{--<div style="background-color: white;">--}}
+        {{--<div class="panel panel-default">--}}
+        {{--<div class="panel-heading">--}}
+        {{--<div style="color: #00a859;font-size: 17px;" name="title">Chi tiết điều trị của mã phiếu:--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="table-responsive">--}}
+        {{--<table class="table table-bordered table-hover order-column" id="PackagesTable"--}}
+        {{--style="overflow: scroll;">--}}
+        {{--<thead>--}}
+        {{--<tr>--}}
+        {{--<th>Vùng</th>--}}
+        {{--<th>Chuyên môn</th>--}}
+        {{--<th>Vị trí</th>--}}
+        {{--<th>Chuyên viên</th>--}}
+        {{--<th>Tình trạng</th>--}}
+        {{--</tr>--}}
+        {{--</thead>--}}
+        {{--<tbody id="PackagesTable">--}}
+
+        {{--</tbody>--}}
+        {{--</table>--}}
+
+        {{--</div>--}}
+        {{--<div class="form-group pull-bottom" style="margin-top: 10%; text-align: center; ">--}}
+        {{--<button type="button" name="CompleteTreatmentPackage" class="btn blue"--}}
+        {{--onclick="professionalView.CompleteTreatmentPackage(this)">--}}
+        {{--Hoàn tất--}}
+        {{--</button>--}}
+        {{--<button type="button" name="cancelTreatment" onclick="professionalView.cancelTreatment(this)"--}}
+        {{--class="btn default">Huỷ--}}
+        {{--</button>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+
+        {{--</div>--}}
+        {{--</div>--}}
     </div>
+
+
 </div>
 <script>
     if (typeof (regimensView) === 'undefined') {
@@ -329,23 +370,28 @@
                     _token: _token,
                     Patient: regimensView.regimensObject
                 }, function (data) {
-                    if (data.length !== 0) {
-                        var row = "";
-                        for (var i = 0; i < data.length; i++) {
-                            var tr = "";
-                            tr += "<tr id=" + data[i]["id"] + ">";
-                            tr += "<td>" + data[i]["maBN"] + "</td>";
-                            tr += "<td>" + data[i]["fullName"] + "</td>";
-                            tr += "<td>" + data[i]["createdDate"] + "</td>";
-                            tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-code='" + data[i]["maPD"] + "' data-Id='" + data[i]["id"] + "' onclick='regimensView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
-                            tr += "</tr>";
-                            row += tr;
-                        }
-                        $("tbody#AutoCompleteTableBody").empty().append(row);
-                        $("div#Table").show();
-                        //$("div#Table").css("left", position.left).css("top", (position.top - 235));
+                    if (data.length == 0)
+                    {
+                        $("div#modalConfirm").modal("show");
+                        $("div#modalContent").empty().append("Dữ liệu không có.Vui lòng chọn lại");
+                        $("button[name=modalAgree]").hide();
+                        regimensView.fillTbody(data, '');
                     }
-
+                    var row = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var tr = "";
+                        tr += "<tr id=" + data[i]["id"] + ">";
+                        tr += "<td>" + data[i]["maBN"] + "</td>";
+                        tr += "<td>" + data[i]["fullName"] + "</td>";
+                        tr += "<td>" + data[i]["maPD"] + "</td>";
+                        tr += "<td>" + data[i]["createdDate"] + "</td>";
+                        tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-code='" + data[i]["maPD"] + "' data-Id='" + data[i]["id"] + "' onclick='regimensView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
+                        tr += "</tr>";
+                        row += tr;
+                    }
+                    $("tbody#AutoCompleteTableBody").empty().append(row);
+                    $("div#Table").show();
+                    //$("div#Table").css("left", position.left).css("top", (position.top - 235));
                 });
             },
             fillToInput: function (element) {
@@ -476,44 +522,5 @@
                 })
             }
         }
-    }
-
-    //setup before functions
-    var typingTimer;                //timer identifier
-    var doneTypingInterval = 500;  //time in ms, 3 second for example
-    var $inputCode = $("input#CodePatient");
-
-    //on keyup, start the countdown
-    $inputCode.on('keyup', function () {
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(doneTypingCode, doneTypingInterval);
-    });
-
-    //on keydown, clear the countdown
-    $inputCode.on('keydown', function () {
-        clearTimeout(typingTimer);
-    });
-
-    //user is "finished typing," do something
-    function doneTypingCode() {
-        $.get(url + 'admin/getSearchCodePatient', {
-            _token: _token,
-            Code: $inputCode.val()
-        }, function (data) {
-            if (data === "0") {
-                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
-                $("button[name=modalAgree]").hide();
-                $("input[name=Id]").val("");
-                $("div#modalConfirm").modal("show");
-                $inputCode.val("");
-            } else if (data === "2") {
-//                        $("div#modalContent").empty().append("Vui lòng nhập mã chính xác");
-//                        $("button[name=modalAgree]").hide();
-//                        $("input[name=Id]").val("");
-//                        $("div#modalConfirm").modal("show");
-            } else {
-                $inputCode.val(data[0]["code"]);
-            }
-        });
     }
 </script>

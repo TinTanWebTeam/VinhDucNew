@@ -41,7 +41,7 @@
                             onclick="professionalView.saveDetail(this)">
                         Sửa
                     </button>
-                @elseif($detail->detailTherapist ===0 || \Auth::User()->name === 'admin')
+                @elseif($detail->detailTherapist ==="0" || \Auth::User()->name === 'admin')
                     <button type="button" class="btn blue"
                             id="{{$detail->detailId}}"
                             name="saveDetail"

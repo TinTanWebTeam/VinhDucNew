@@ -72,8 +72,8 @@
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Tìm kiếm phác đồ
                         {{--<button type="button" class="btn btn-info btn-circle pull-right"--}}
-                                {{--onclick="regimensView.addNewRegimens('')"><i--}}
-                                    {{--class="fa fa-refresh"></i>--}}
+                        {{--onclick="regimensView.addNewRegimens('')"><i--}}
+                        {{--class="fa fa-refresh"></i>--}}
                         {{--</button>--}}
                     </div>
                 </div>
@@ -86,12 +86,19 @@
                                         <input type="text" class="form-control" name="Id" id="Id">
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12"></div>
-                                    <div class="form-group form-md-line-input col-md-12">
+                                    <div class="form-group form-md-line-input col-md-6">
                                         <label for="CodePatient"><b>Mã bệnh nhân</b></label>
                                         <input type="text" class="form-control"
                                                id="CodePatient"
                                                name="CodePatient"
                                                placeholder="BN001">
+                                    </div>
+                                    <div class="form-group form-md-line-input col-md-6">
+                                        <label for="CodeRegimen"><b>Mã phác đồ</b></label>
+                                        <input type="text" class="form-control"
+                                               id="CodeRegimen"
+                                               name="CodeRegimen"
+                                               placeholder="PD001">
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12">
                                         <label for="FullName"><b>Họ và tên</b></label>
@@ -184,32 +191,32 @@
                 }, function (data)
                 {
                     if (data.length == 0)
-                         {
-                            $("div#modalConfirm").modal("show");
-                            $("div#modalContent").empty().append("Dữ liệu không có.Vui lòng chọn lại");
-                            $("button[name=modalAgree]").hide();
-                            regimensView.fillTbody(data, '');
-                        }
-                        var row = "";
-                        for (var i = 0; i < data.length; i++)
-                        {
-                            var tr = "";
-                            tr += "<tr id=" + data[i]["id"] + ">";
-                            tr += "<td>" + data[i]["maPD"] + "</td>";
-                            tr += "<td>" + data[i]["fullName"] + "</td>";
-                            if(data[i]["status"] === 0) {
-                                tr += "<td>" + ["Không Đau"] + "</td>";
-                            }else if(data[i]["status"] === 1) {
+                    {
+                        $("div#modalConfirm").modal("show");
+                        $("div#modalContent").empty().append("Dữ liệu không có.Vui lòng chọn lại");
+                        $("button[name=modalAgree]").hide();
+                        regimensView.fillTbody(data, '');
+                    }
+                    var row = "";
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var tr = "";
+                        tr += "<tr id=" + data[i]["id"] + ">";
+                        tr += "<td>" + data[i]["maPD"] + "</td>";
+                        tr += "<td>" + data[i]["fullName"] + "</td>";
+                        if(data[i]["status"] === 0) {
+                            tr += "<td>" + ["Không Đau"] + "</td>";
+                        }else if(data[i]["status"] === 1) {
                             tr += "<td>" + ["Giảm"] + "</td>";
-                            }else if(data[i]["status"] === 2) {
-                                tr += "<td>" + ["Không Giảm"] + "</td>";
-                            }else{
-                                tr += "<td>" + ["Đau hơn"] + "</td>";
-                            }
-                            tr += "<td>" + data[i]["note"] + "</td>";
-                            tr += "</tr>";
-                            row += tr;
+                        }else if(data[i]["status"] === 2) {
+                            tr += "<td>" + ["Không Giảm"] + "</td>";
+                        }else{
+                            tr += "<td>" + ["Đau hơn"] + "</td>";
                         }
+                        tr += "<td>" + data[i]["note"] + "</td>";
+                        tr += "</tr>";
+                        row += tr;
+                    }
 //                    $("tbody#TableRegimentList").empty().append(row);
 //                    $("div#Table").show();
                     $("b[name=ToTal]").text("Tổng: " + data.length + "");
@@ -217,43 +224,5 @@
                 });
             },
         }
-    }
-    //setup before functions
-    var typingTimer;                //timer identifier
-    var doneTypingInterval = 500;  //time in ms, 3 second for example
-    var $inputCode = $("input#CodePatient");
-
-    //on keyup, start the countdown
-    $inputCode.on('keyup', function () {
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(doneTypingCode, doneTypingInterval);
-    });
-
-    //on keydown, clear the countdown
-    $inputCode.on('keydown', function () {
-        clearTimeout(typingTimer);
-    });
-
-    //user is "finished typing," do something
-    function doneTypingCode() {
-        $.get(url + 'admin/getSearchCodePatient', {
-            _token: _token,
-            Code: $inputCode.val()
-        }, function (data) {
-            if (data === "0") {
-                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
-                $("button[name=modalAgree]").hide();
-                $("input[name=Id]").val("");
-                $("div#modalConfirm").modal("show");
-                $inputCode.val("");
-            } else if (data === "2") {
-//                        $("div#modalContent").empty().append("Vui lòng nhập mã chính xác");
-//                        $("button[name=modalAgree]").hide();
-//                        $("input[name=Id]").val("");
-//                        $("div#modalConfirm").modal("show");
-            } else {
-                $inputCode.val(data[0]["code"]);
-            }
-        });
     }
 </script>

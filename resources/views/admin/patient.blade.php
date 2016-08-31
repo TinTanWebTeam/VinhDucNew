@@ -131,6 +131,7 @@
                                             <input type="text" class="form-control"
                                                    id="Phone"
                                                    name="Phone"
+                                                   maxlength="15"
                                                    placeholder="0963276xxx">
                                         </div>
                                     </div>

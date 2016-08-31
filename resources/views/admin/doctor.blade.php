@@ -143,8 +143,7 @@
                                     <input type="text" class="form-control"
                                            id="Phone"
                                            name="Phone"
-                                           onclick=""
-                                           onchange=""
+                                           maxlength="15"
                                            placeholder="093266xxx">
                                 </div>
 
