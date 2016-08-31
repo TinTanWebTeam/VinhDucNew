@@ -2296,7 +2296,7 @@ class AdminController extends Controller
 //            return $ex;
 //        }
         try {
-            $SQL = "SELECT pm.id, pm.`code` as 'maBN',pm.fullName, tr.`code` as 'maPD',tr.createdDate,tr.note FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.`code` = tr.patientId WHERE pm.active = 1 AND tr.active = 1";
+            $SQL = "SELECT pm.id, pm.`code` as 'maBN',pm.fullName, tr.`code` as 'maPD',tr.createdDate,tr.status,tr.note FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.`code` = tr.patientId WHERE pm.active = 1 AND tr.active = 1";
             if ($request->get('Regimens')['CodePatient'] != "") {
                 $SQL .= " AND pm.`code` LIKE '" . '%' . $request->get('Regimens')['CodePatient'] . '%' . "'";
             }
