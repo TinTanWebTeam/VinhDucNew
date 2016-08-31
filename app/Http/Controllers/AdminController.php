@@ -845,7 +845,7 @@ class AdminController extends Controller
             } else if (count($pro) == 0) {
                 return 0;
             } else if (count($pro) > 1) {
-                return $pro;
+                return 2;
             }
         } catch (Exception $ex) {
             return $ex;
@@ -2309,8 +2309,8 @@ class AdminController extends Controller
             if ($request->get('Regimens')['CreatedDate'] != "") {
                 $SQL .= " AND tr.createdDate LIKE '" . '%' . $request->get('Regimens')['CreatedDate'] . '%' . "'";
             }
-            $patient = DB::select($SQL);
-            return $patient;
+            $regimens = DB::select($SQL);
+            return $regimens;
         } catch (Exception $ex) {
             return $ex;
         }

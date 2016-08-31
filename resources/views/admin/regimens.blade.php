@@ -82,7 +82,7 @@
                                         <table class="table table-hover table-light" id="AutoCompleteTable">
                                             <thead>
                                             <tr class="AutoCompleteTableHeader">
-                                                <th>Mã bệnh nhân</th>
+                                                <th>Mã phác đồ</th>
                                                 <th>Họ và tên</th>
                                                 <th>Ngày tạo</th>
                                                 <th>Chọn</th>
@@ -128,7 +128,7 @@
                             <div class="form-actions noborder">
                                 <div class="form-group" style="padding-left: 15px;">
                                     <button type="button" class="btn blue"
-                                            onclick="regimensView.searchRegimens()">
+                                            onclick="regimensView.searchRegimens(this)">
                                         Tìm kiếm
                                     </button>
                                     <button type="button" class="btn default">Huỷ</button>
@@ -334,7 +334,7 @@
                         for (var i = 0; i < data.length; i++) {
                             var tr = "";
                             tr += "<tr id=" + data[i]["id"] + ">";
-                            tr += "<td>" + data[i]["maBN"] + "</td>";
+                            tr += "<td>" + data[i]["maPD"] + "</td>";
                             tr += "<td>" + data[i]["fullName"] + "</td>";
                             tr += "<td>" + data[i]["createdDate"] + "</td>";
                             tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-code='" + data[i]["maPD"] + "' data-Id='" + data[i]["id"] + "' onclick='regimensView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";

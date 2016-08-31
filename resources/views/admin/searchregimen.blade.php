@@ -6,7 +6,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn dark btn-outline" data-dismiss="modal" name="modalClose">Đóng</button>
                 <button type="button" class="btn green" name="modalAgree"
-                        onclick="regimensView.modalAgree()">Tiếp tục
+                        onclick="regimensViews.modalAgree()">Tiếp tục
                 </button>
             </div>
         </div>
@@ -59,7 +59,7 @@
                             <div style="color: #00a859;font-size: 17px;">Điều trị chuyên môn</div>
                         </div>
                         <div class="form-group pull-bottom" style="margin-top: 10%; text-align: center; ">
-                            <button type="button" name="cancelTreatment" onclick="regimensView.goBack(this)"
+                            <button type="button" name="cancelTreatment" onclick="regimensViews.goBack(this)"
                                     class="btn default">Trở về
                             </button>
                         </div>
@@ -72,7 +72,7 @@
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Tìm kiếm phác đồ
                         {{--<button type="button" class="btn btn-info btn-circle pull-right"--}}
-                        {{--onclick="regimensView.addNewRegimens('')"><i--}}
+                        {{--onclick="regimensViews.addNewRegimens('')"><i--}}
                         {{--class="fa fa-refresh"></i>--}}
                         {{--</button>--}}
                     </div>
@@ -114,10 +114,10 @@
                             <div class="form-actions noborder">
                                 <div class="form-group" style="padding-left: 15px;">
                                     <button type="button" class="btn blue"
-                                            onclick="regimensView.searchPatient()">
+                                            onclick="regimensViews.searchPatient()">
                                         Tìm kiếm
                                     </button>
-                                    <button type="button" class="btn default" onclick="regimensView.Cancel(this)">Huỷ</button>
+                                    <button type="button" class="btn default" onclick="regimensViews.Cancel(this)">Huỷ</button>
                                 </div>
 
                             </div>
@@ -129,8 +129,8 @@
     </div>
 </div>
 <script>
-    if (typeof (regimensView) === 'undefined') {
-        regimensView = {
+    if (typeof (regimensViews) === 'undefined') {
+        regimensViews = {
             goBack: null,
             idRegimens:null,
             data: null,
@@ -143,15 +143,15 @@
                 //Note:null,
             },
             resetRegimensObject: function () {
-                for (var propertyName in regimensView.RegimensObject) {
-                    if (regimensView.RegimensObject.hasOwnProperty(propertyName)) {
-                        regimensView.RegimensObject.propertyName = null;
+                for (var propertyName in regimensViews.RegimensObject) {
+                    if (regimensViews.RegimensObject.hasOwnProperty(propertyName)) {
+                        regimensViews.RegimensObject.propertyName = null;
                     }
                 }
             },
 
             Cancel: function () {
-                regimensView.resetForm();
+                regimensViews.resetForm();
             },
 //
             firstToUpperCase: function (str) {
@@ -165,22 +165,22 @@
             },
 
             setValueObject: function () {
-                regimensView.resetRegimensObject();
-                for (var i = 0; i < Object.keys(regimensView.RegimensObject).length; i++) {
-                    regimensView.RegimensObject[Object.keys(regimensView.RegimensObject)[i]] = $("#" + Object.keys(regimensView.RegimensObject)[i]).val();
+                regimensViews.resetRegimensObject();
+                for (var i = 0; i < Object.keys(regimensViews.RegimensObject).length; i++) {
+                    regimensViews.RegimensObject[Object.keys(regimensViews.RegimensObject)[i]] = $("#" + Object.keys(regimensViews.RegimensObject)[i]).val();
                 }
             },
             searchPatient: function () {
-                regimensView.setValueObject();
+                regimensViews.setValueObject();
                 var dataArray = [];
-                for (var i = 0; i < Object.keys(regimensView.RegimensObject).length; i++) {
-                    if (regimensView.RegimensObject[Object.keys(regimensView.RegimensObject)[i]] != null) {
-                        dataArray.push(regimensView.RegimensObject[Object.keys(regimensView.RegimensObject)[i]]);
+                for (var i = 0; i < Object.keys(regimensViews.RegimensObject).length; i++) {
+                    if (regimensViews.RegimensObject[Object.keys(regimensViews.RegimensObject)[i]] != null) {
+                        dataArray.push(regimensViews.RegimensObject[Object.keys(regimensViews.RegimensObject)[i]]);
                     }
                 }
                 $.post(url + "admin/searchPatientTest", {
                     _token: _token,
-                    Regimens: regimensView.RegimensObject
+                    Regimens: regimensViews.RegimensObject
                 }, function (data) {
                     if (data.length !== 0) {
                         var row = "";
@@ -246,10 +246,7 @@
                 $("div#modalConfirm").modal("show");
                 $inputCode.val("");
             } else if (data === "2") {
-//                        $("div#modalContent").empty().append("Vui lòng nhập mã chính xác");
-//                        $("button[name=modalAgree]").hide();
-//                        $("input[name=Id]").val("");
-//                        $("div#modalConfirm").modal("show");
+//
             } else {
                 $inputCode.val(data[0]["code"]);
             }

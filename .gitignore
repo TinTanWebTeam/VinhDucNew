@@ -10,3 +10,4 @@ Homestead.json
 .phpstorm.meta.php
 _ide_helper.php
 
+*.php___jb_tmp___
