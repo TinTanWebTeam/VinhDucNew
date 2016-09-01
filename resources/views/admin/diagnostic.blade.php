@@ -540,15 +540,15 @@
                     $("input[name=Umpteenth]").empty().val(number - 1);
                 }
             },
-            fillTbody: function (data) {
+            fillTbody: function (data,IdPatient) {
                 $("tbody#tbodyDiagnosticList").empty();
                 var row = "";
                 for (var i = 0; i < data.length; i++) {
                     var tr = "";
                     if (data[i]["active"] === 0) {
-                        tr += "<tr id=" + data[i]["id"] + " data-note='" + data[i]["note"] + "' data-code='" + data[i]["code"] + "' data-patientId='" + data[i]["patientId"] + "' data-packageId='" + data[i]["packageId"] + "' onclick='diagnosticView.getIdPackage(this)' ondblclick='diagnosticView.updateTreatmentPackage(this)' style='cursor: pointer;background-color: #e6e4e4'>";
+                        tr += "<tr id=" + data[i]["id"] + " data-note='" + data[i]["note"] + "' data-code='" + data[i]["code"] + "' data-patientId='" + IdPatient + "' data-packageId='" + data[i]["packageId"] + "' onclick='diagnosticView.getIdPackage(this)' ondblclick='diagnosticView.updateTreatmentPackage(this)' style='cursor: pointer;background-color: #e6e4e4'>";
                     } else {
-                        tr += "<tr id=" + data[i]["id"] + " style='cursor: pointer' data-note='" + data[i]["packagesNote"] + "' data-codeDoctor='" + data[i]["codeDoctor"] + "' data-code='" + data[i]["code"] + "' data-patientId='" + data[i]["patientId"] + "' data-packageId='" + data[i]["packageId"] + "' onclick='diagnosticView.getIdPackage(this)' ondblclick='diagnosticView.updateTreatmentPackage(this)'>";
+                        tr += "<tr id=" + data[i]["id"] + " style='cursor: pointer' data-note='" + data[i]["packagesNote"] + "' data-codeDoctor='" + data[i]["codeDoctor"] + "' data-code='" + data[i]["code"] + "' data-patientId='" + IdPatient + "' data-packageId='" + data[i]["packageId"] + "' onclick='diagnosticView.getIdPackage(this)' ondblclick='diagnosticView.updateTreatmentPackage(this)'>";
                     }
                     tr += "<td>" + data[i]["codeDoctor"] + "</td>";
                     tr += "<td>" + data[i]["packagesNote"] + "</td>";
@@ -572,11 +572,13 @@
                 //diagnosticView.addNewDiagnostic(result);
             },
             getIdPackage: function (element) {
+                console.log($(element).attr("id"));
                 $("tbody#tbodyDiagnosticList").find("tr").css("background-color","#ffffff").css("color", "#000000");;
                 $("tbody#tbodyDiagnosticList").find("tr[id=" + $(element).attr("id") + "]").css("background-color", "#00a859").css("color", "#ffffff");
                 diagnosticView.dataRegimen = $(element).attr("id");
             },
             updateTreatmentPackage: function (element) {
+                $("input[name=PatientId]").val($(element).attr("data-patientId"));
                 $("input[name=AddNewId]").val($(element).attr("id"));
                 $("select[name=PackagesId]").val($(element).attr("data-packageId"));
                 $("input[name=CodeDoctor]").val($(element).attr("data-codeDoctor"));
@@ -646,8 +648,9 @@
                     _token: _token,
                     IdPatient: element
                 }, function (data) {
+                    console.log(data);
                     diagnosticView.dataPackage = data;
-                    diagnosticView.fillTbody(data)
+                    diagnosticView.fillTbody(data,element)
                 })
             },
             fillUpdateToTable: function (element, result, umpteenth) {
@@ -831,7 +834,7 @@
                 $("input[name=TreatmentPackageCode]").prop("readOnly", true);
                 $("input[name=TreatmentPackageCode]").val(b);
 
-                $("select[name=PatientId]").val($("input[name=Id]").val());
+                $("input[name=PatientId]").val($("input[name=Code]").val());
                 $("div[name=tableSearchPatient]").hide();
                 $("div[name=buttonSearchPatient]").hide();
                 $("div[name=tableAddNewTreatmentPackages]").show();
@@ -893,7 +896,6 @@
                 }
             },
             report: function () {
-                console.log(diagnosticView.dataPatient);
                 if (diagnosticView.dataRegimen !== null) {
                     $.post(url + "admin/report", {
                         _token: _token,
@@ -936,8 +938,9 @@
                             }
                             $("tbody#tbodyRegimen").append(row);
 
-                        }
-                        ;
+                        }else{
+                            $("tbody#tbodyRegimen").empty();
+                        };
                     });
                     $("span[name=CodeDoctor]").text(diagnosticView.dataPackage[0]["codeDoctor"]);
                     $("span[name=Diagnose]").text(diagnosticView.dataPackage[0]["packagesNote"]);

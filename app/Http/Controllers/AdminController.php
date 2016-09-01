@@ -541,6 +541,7 @@ class AdminController extends Controller
                     'treatment_packages.note as packagesNote',
                     'treatment_packages.packageId',
                     'treatment_packages.createdDate',
+                    'treatment_packages.patientId',
                     'treatment_packages.umpteenth',
                     'treatment_packages.codeDoctor',
                     'treatment_regimens.status',
@@ -599,7 +600,7 @@ class AdminController extends Controller
                     try {
                         $treatment = TreatmentPackage::where('active', 1)->where('id', $request->get('data')['AddNewId'])->first();
                         if ($treatment) {
-                            $treatment->code = $request->get('data')['TreatmentPackageCode'];
+                            //$treatment->code = $request->get('data')['TreatmentPackageCode'];
                             $treatment->name = "";
                             $treatment->codeDoctor = $request->get('data')['CodeDoctor'];
                             $treatment->note = $request->get('data')['Note'];
@@ -650,10 +651,9 @@ class AdminController extends Controller
             } else if ($result == 2) {
                 try {
                     $packageId = TreatmentPackage::where('active', 1)->where('id', $request->get('data')['AddNewId'])->first();
-
                     $regimen = TreatmentRegimen::where('active', 1)->where('code', $packageId->code)->first();
                     if ($regimen) {
-                        $regimen->code = $packageId->code;
+                        //$regimen->code = $packageId->code;
                         $regimen->patientId = $request->get('data')['PatientId'];
                         $regimen->treatmentPackageId = $packageId->id;
                         $regimen->status = "";
