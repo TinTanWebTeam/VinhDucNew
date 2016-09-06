@@ -14,6 +14,7 @@ class DetailedTreatment extends Model
         'location',
         'sesame',
         'minute',
+        'time',
         'patientId',
         'therapistId',
         'ail',

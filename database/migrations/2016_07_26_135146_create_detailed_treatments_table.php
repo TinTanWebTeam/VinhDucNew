@@ -19,6 +19,7 @@ class CreateDetailedTreatmentsTable extends Migration
             $table->integer('patientId');
             $table->string('professionalTreatment');
             $table->string('location');
+            $table->string('time');
             $table->integer('sesame');
             $table->integer('minute');
             $table->string('therapistId');

@@ -205,7 +205,7 @@
                                 <th>Ngày sửa</th>
                                 <th>Tình trạng</th>
                                 <th>Ghi chú</th>
-                                <th>Chi tiết</th>
+                                {{--<th>Chi tiết</th>--}}
                             </tr>
                             </thead>
                             <tbody id="tbodyRegimensList">
@@ -294,7 +294,7 @@
                         tr += "<td>Đau hơn</td>";
                     }
                     tr += "<td>" + data[i]["note"] + "</td>";
-                    tr += "<td style='min-width: 50px;'><button  type='button' style='margin-left: 10%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-packageId='" + data[i]["treatmentPackageId"] + "' data-code='" + data[i]["code"] + "' data-active='" + data[i]["active"] + "' data-date='" + data[i]["createdDate"] + "' data-Id='" + data[i]["id"] + "' onclick='regimensView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";
+//                    tr += "<td style='min-width: 50px;'><button  type='button' style='margin-left: 10%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-packageId='" + data[i]["treatmentPackageId"] + "' data-code='" + data[i]["code"] + "' data-active='" + data[i]["active"] + "' data-date='" + data[i]["createdDate"] + "' data-Id='" + data[i]["id"] + "' onclick='regimensView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";
                     row += tr;
                 }
                 $("tbody#tbodyRegimensList").empty().append(row);

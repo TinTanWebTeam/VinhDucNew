@@ -154,7 +154,7 @@
 
                                     </div>
                                     <div class="form-group form-md-line-input ">
-                                        <label for="Subclinical"><b>Cận lâm sàn</b></label>
+                                        <label for="Subclinical"><b>Cận lâm sàng</b></label>
                                         <textarea type="text" class="form-control"
                                                   id="Subclinical"
                                                   name="Subclinical"

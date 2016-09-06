@@ -481,7 +481,7 @@
                         $("div#modalConfirm").modal("show");
                         $("div#modalContent").empty().append("Chưa chọn chuyên viên thực hiện");
                         $("button[name=modalAgree]").hide();
-                    }else if($("select#Status").val()==="2"){
+                    }else if($("select#Status").val()==="-1"){
                         $("div#modalConfirm").modal("show");
                         $("div#modalContent").empty().append("Chưa chọn tình trạng bệnh nhân");
                         $("button[name=modalAgree]").hide();

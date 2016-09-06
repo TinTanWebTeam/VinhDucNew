@@ -45,7 +45,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách điều trị
-                        <label for="Name" class="pull-right"><b name="ToTal">Tổng: {{count($searchProfessionalTherapists)}}</b></label>
+                        <label for="Name" class="pull-right"><b
+                                    name="ToTal">Tổng: {{count($searchProfessionalTherapists)}}</b></label>
                     </div>
 
                 </div>
@@ -54,11 +55,13 @@
                            style="margin-bottom: 0px;">
                         <thead>
                         <tr>
+                            <th>Mã chuyên viên</th>
                             <th>Chuyên viên</th>
                             <th>Điều trị chuyên môn</th>
-                            <th>Ngày</th>
-                            <th>Mã bệnh nhân</th>
+                            {{--<th>Ngày</th>--}}
+                            {{--<th>Mã bệnh nhân</th>--}}
                             <th>Tình trạng</th>
+                            <th>Tổng</th>
                         </tr>
                         </thead>
                         <tbody id="tbodyStatisticTherapistList">
@@ -66,15 +69,21 @@
                             @foreach($searchProfessionalTherapists as $item)
                                 <tr id="{{$item->id}}" onclick="tmPackageView.viewListTmPackages(this)"
                                     style="cursor: pointer">
+                                    <td>{{$item->codeTherapist}}</td>
                                     <td>{{$item->nameTherapist}}</td>
                                     <td>{{$item->name}}</td>
-                                    <td>{{$item->createdDate}}</td>
-                                    <td>{{$item->code}}</td>
+                                    {{--<td>{{$item->createdDate}}</td>--}}
+                                    {{--<td>{{$item->code}}</td>--}}
                                     @if($item->ail==0)
                                         <td>Không đau</td>
                                     @elseif($item->ail==1)
-                                        <td>Đau</td>
+                                        <td>Có Đau</td>
+                                    @elseif($item->ail==2)
+                                        <td>Có giảm</td>
+                                    @elseif($item->ail==3)
+                                        <td>Không giảm</td>
                                     @endif
+                                    <td>{{$item->total}}</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -128,7 +137,6 @@
                         _token: _token,
                         data: statisticsTherapistView.StatisticsTherapistObject
                     }, function (data) {
-                        console.log(data);
                         statisticsTherapistView.fillTbody(data);
                     })
                 },
@@ -138,22 +146,28 @@
                     for (var i = 0; i < data.length; i++) {
                         var tr = "";
                         tr += "<tr id=" + data[i]["id"] + ">";
+                        tr += "<td>" + data[i]["codeTherapist"] + "</td>";
                         tr += "<td>" + data[i]["nameTherapist"] + "</td>";
                         tr += "<td>" + data[i]["name"] + "</td>";
-                        tr += "<td>" + data[i]["createdDate"] + "</td>";
-                        tr += "<td>" + data[i]["code"] + "</td>";
+//                        tr += "<td>" + data[i]["createdDate"] + "</td>";
+//                        tr += "<td>" + data[i]["code"] + "</td>";
                         if (data[i]["ail"] == 0) {
                             tr += "<td>Không đau</td>";
                         } else if (data[i]["ail"] == 1) {
-                            tr += "<td>Đau</td>";
+                            tr += "<td>Có đau</td>";
+                        } else if (data[i]["ail"] == 2) {
+                            tr += "<td>Có giảm</td>";
+                        } else if (data[i]["ail"] == 3) {
+                            tr += "<td>Không giảm</td>";
                         }
+                        tr += "<td>" + data[i]["total"] + "</td>";
                         row += tr;
                     }
                     $("b[name=ToTal]").text("Tổng: " + data.length + "");
                     table.destroy();
                     $("tbody#tbodyStatisticTherapistList").empty();
                     $("tbody#tbodyStatisticTherapistList").append(row);
-                    table = $("#tablestatisticsTherapistViewList").DataTable({language : languageOptions});
+                    table = $("#tablestatisticsTherapistViewList").DataTable({language: languageOptions});
                     $("input[aria-controls=tablestatisticsTherapistViewList]").on('keyup', function () {
                         $("b[name=ToTal]").empty().html("Tổng: " + $("#tbodyStatisticTherapistList").find("tr").length);
                     });
@@ -162,7 +176,7 @@
         }
     });
 
-    var table =  $("#tablestatisticsTherapistViewList").DataTable({language : languageOptions});
+    var table = $("#tablestatisticsTherapistViewList").DataTable({language: languageOptions});
     $("input[aria-controls=tablestatisticsTherapistViewList]").on('keyup', function () {
         $("b[name=ToTal]").empty().html("Tổng: " + $("#tbodyStatisticTherapistList").find("tr").length);
     });
@@ -189,7 +203,6 @@
             _token: _token,
             Name: $input.val()
         }, function (data) {
-            console.log(data);
             if (data === "0") {
                 $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
                 $("button[name=modalAgree]").hide();
@@ -207,3 +220,4 @@
         });
     }
 </script>
+
