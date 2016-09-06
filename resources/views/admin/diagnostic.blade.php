@@ -62,7 +62,8 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div style="color: #00a859;font-size: 17px;">Điều trị chuyên môn
-                                <button type="button" class="btn btn-warning btn-circle pull-right" onclick="diagnosticView.deleteProTm()"><i class="fa fa-times"></i>
+                                <button type="button" class="btn btn-warning btn-circle pull-right"
+                                        onclick="diagnosticView.deleteProTm()"><i class="fa fa-times"></i>
                                 </button>
                             </div>
                         </div>
@@ -127,7 +128,8 @@
                                 </div>
                                 <div class="form-group form-md-line-input col-md-12 col-lg-4">
                                     <label for="DoctorCode"><b>Bác sĩ</b></label>
-                                    <select class="form-control" name="DoctorCode" id="DoctorCode" onchange="diagnosticView.loadDetailByDoctor()">
+                                    <select class="form-control" name="DoctorCode" id="DoctorCode"
+                                            onchange="diagnosticView.loadDetailByDoctor()">
                                         @if($doctors)
                                             @foreach($doctors as $item)
                                                 <option value="{{$item->code}}">{{$item->code}}</option>
@@ -332,7 +334,8 @@
                     onclick="diagnosticView.printReport()" class="btn default pull-right">In
             </button>
             <div class="form-group form-md-line-input pull-right col-md-12 col-lg-3">
-                <select class="form-control" name="Date" id="Date" onchange="diagnosticView.loadDateCreateProfessional()">
+                <select class="form-control" name="Date" id="Date"
+                        onchange="diagnosticView.loadDateCreateProfessional()">
                     {{--@if($doctors)--}}
                     {{--@foreach($doctors as $item)--}}
                     {{--<option value="{{$item->code}}">{{$item->code}}</option>--}}
@@ -490,8 +493,8 @@
                 Sesame: null,
                 Minute: null,
 
-                Time:null,
-                DoctorCode:null,
+                Time: null,
+                DoctorCode: null,
                 CodeDoctor: null,
                 CodePatient: null,
                 FullName: null,
@@ -596,7 +599,6 @@
                 //diagnosticView.addNewDiagnostic(result);
             },
             getIdPackage: function (element) {
-                console.log($(element).attr("id"));
                 $("tbody#tbodyDiagnosticList").find("tr").css("background-color", "#ffffff").css("color", "#000000");
                 ;
                 $("tbody#tbodyDiagnosticList").find("tr[id=" + $(element).attr("id") + "]").css("background-color", "#00a859").css("color", "#ffffff");
@@ -824,7 +826,6 @@
                             data: diagnosticView.DiagnosticObject,
                             idPatient: $("input[name=Id]").val()
                         }, function (data) {
-                            console.log(data[0]);
                             if (data[0] === 1) {
                                 diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage, data[1]["umpteenth"]);
                                 $("div#modalConfirm").modal("show");
@@ -912,29 +913,35 @@
                     })
                 }
             },
-            loadDetailByDoctor:function () {
+            loadDetailByDoctor: function () {
                 diagnosticView.setValueObject();
-                $.post(url+"admin/loadDetailByDoctor",{
-                    _token:_token,
-                    data:diagnosticView.DiagnosticObject
-                },function (data) {
+                $.post(url + "admin/loadDetailByDoctor", {
+                    _token: _token,
+                    data: diagnosticView.DiagnosticObject,
+                    idPackageTreatment: diagnosticView.idTreatmentPackage
+                }, function (data) {
+                    console.log(data[1][0]["now"]);
 
-                    if (data.length !== 0) {
-                        console.log(data);
+                    if (data[0].length !== 0) {
                         var row = "";
                         var stt = 1;
                         $("tbody#PackagesTable").empty();
-                        for (var i = 0; i < data.length; i++) {
+                        for (var i = 0; i < data[0].length; i++) {
+                            console.log(data[0][i]["createdDate"]);
                             var tr = "";
-                            tr += "<tr id=" + data[i]["detailId"] + ">";
+                            tr += "<tr id=" + data[0][i]["detailId"] + ">";
                             tr += "<td>" + stt + "</td>";
-                            tr += "<td>" + data[i]["locationName"] + "</td>";
-                            tr += "<td>" + data[i]["time"] + "</td>";
-                            tr += "<td>" + data[i]["professional"] + "</td>";
-                            tr += "<td>" + data[i]["detailLocation"] + "</td>";
-                            tr += "<td>" + data[i]["minute"] + "</td>";
-                            tr += "<td>" + data[i]["createdBy"] + "</td>";
-                            tr += "<td>" + data[i]["createdDate"] + "</td>";
+                            tr += "<td>" + data[0][i]["locationName"] + "</td>";
+                            tr += "<td>" + data[0][i]["time"] + "</td>";
+                            tr += "<td>" + data[0][i]["professional"] + "</td>";
+                            tr += "<td>" + data[0][i]["detailLocation"] + "</td>";
+                            tr += "<td>" + data[0][i]["minute"] + "</td>";
+                            tr += "<td>" + data[0][i]["createdBy"] + "</td>";
+                            tr += "<td>" + data[0][i]["createdDate"] + "</td>";
+                            if (data[0][i]["createdDate"] === data[1][0]["now"]) {
+                                tr += "<td <button type='button' style='margin-left: 30%;margin-top: 2%;' class='btn btn-danger btn-circle' data-Id='" + data[0][i]["detailId"] + "' onclick='diagnosticView.deleteTable(this)'><i class='fa fa-times '></i></button></td>";
+                            } else {
+                            }
                             tr += "</tr>";
                             row += tr;
                             stt++;
@@ -943,10 +950,11 @@
 
                     } else {
                         $("tbody#PackagesTable").empty();
-                    };
+                    }
+                    ;
                 })
             },
-            deleteProTm:function () {
+            deleteProTm: function () {
                 $("tbody#PackagesTable").empty();
             },
             report: function () {
@@ -958,16 +966,16 @@
                     }, function (data) {
                         $("div[name=report]").show();
                         $("div[name=page-wrapper]").hide();
-                        var value =0;
-                        var select="";
+                        var value = 0;
+                        var select = "";
                         $("select#Date").empty();
-                        for(var propertyName in data[3]){
-                            var option="";
-                            option+="<option value='"+ value +"'>Lần thứ: "+(data[3].length -value) + " Ngày: " + data[3][propertyName]+"</option>"
+                        for (var propertyName in data[3]) {
+                            var option = "";
+                            option += "<option value='" + value + "'>Lần thứ: " + (data[3].length - value) + " Ngày: " + data[3][propertyName] + "</option>"
                             select += option;
-                            value+=1;
+                            value += 1;
                         }
-                        select +="<option></option>"
+                        select += "<option></option>"
                         $("select#Date").append(select);
 
                         for (var propertyName in data[0]) {
@@ -1008,7 +1016,8 @@
 
                         } else {
                             $("tbody#tbodyRegimen").empty();
-                        };
+                        }
+                        ;
                     });
                     $("span[name=CodeDoctor]").text(diagnosticView.dataPackage[0]["codeDoctor"]);
                     $("span[name=Diagnose]").text(diagnosticView.dataPackage[0]["packagesNote"]);
@@ -1018,12 +1027,12 @@
                     $("button[name=modalAgree]").hide();
                 }
             },
-            loadDateCreateProfessional:function () {
-                $.post(url+"admin/loadDateCreateProfessional",{
-                    _token:_token,
+            loadDateCreateProfessional: function () {
+                $.post(url + "admin/loadDateCreateProfessional", {
+                    _token: _token,
                     idPackageTreatment: diagnosticView.dataRegimen,
-                    date:$("select#Date option:selected").text().slice(17)
-                },function (data) {
+                    date: $("select#Date option:selected").text().slice(17)
+                }, function (data) {
                     if (data.length !== 0) {
                         var row = "";
                         var stt = 1;
@@ -1047,7 +1056,8 @@
 
                     } else {
                         $("tbody#tbodyRegimen").empty();
-                    };
+                    }
+                    ;
                 })
             },
             printReport: function () {

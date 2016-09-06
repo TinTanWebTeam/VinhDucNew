@@ -900,7 +900,7 @@ class AdminController extends Controller
             $Professional = DB::table('detailed_treatments as detail')
                 ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
                 ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
-                ->where('treatment.id', '=', $request->get('data')['PackagesId'])
+                ->where('treatment.id', '=', $request->get('idPackageTreatment'))
                 ->where('detail.createdBy', $request->get('data')['DoctorCode'])
                 ->where('detail.createdDate', $maxDate)
                 ->select(
@@ -916,7 +916,8 @@ class AdminController extends Controller
                     'detail.professionalTreatment as professional'
                 )
                 ->get();
-            return $Professional;
+            $date = $this->getdate();
+            return array($Professional,$date);
         } catch (Exception $ex) {
             return $ex;
         }
@@ -1392,7 +1393,7 @@ class AdminController extends Controller
                 ->where('detailed_treatments.therapistId', '<>', 0)
                 ->where('detailed_treatments.ail', '<>', -1)
                 ->where('detailed_treatments.createdDate', '=', $date)
-                ->groupBy('detailed_treatments.professionalTreatment','management_therapists.name')
+                ->groupBy('detailed_treatments.professionalTreatment', 'management_therapists.name')
                 ->get();
             return view('admin.statisticsTherapist')->with('searchProfessionalTherapists', $searchProfessionalTherapist);
         } catch (Exception $ex) {
@@ -1417,7 +1418,7 @@ class AdminController extends Controller
                     COUNT(detailed_treatments.professionalTreatment) as total'
                 )
                 ->whereBetween('createdDate', [$request->get('data')['FromDate'], $request->get('data')['ToDate']])
-                ->groupBy('detailed_treatments.professionalTreatment','management_therapists.name')
+                ->groupBy('detailed_treatments.professionalTreatment', 'management_therapists.name')
                 ->get();
             return $searchProfessionalTherapist;
         } catch (Exception $ex) {
@@ -1808,7 +1809,7 @@ class AdminController extends Controller
             $record = MedicalRecord::where('active', 1)->where('patientId', $request->get('dataPatient'))->first();
             $regimen = $this->searchProfessional($request);
             $date = DB::table('detailed_treatments')
-                ->where('detailed_treatments.treatmentPackageId',$request->get('idPackageTreatment'))
+                ->where('detailed_treatments.treatmentPackageId', $request->get('idPackageTreatment'))
                 ->groupBy('createdDate')
                 ->orderBy('createdDate', 'desc')
                 ->select(
