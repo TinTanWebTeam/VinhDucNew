@@ -1251,6 +1251,7 @@ class AdminController extends Controller
                 'detail.name as detailName',
                 'detail.therapistId as detailTherapist',
                 'detail.ail as detailAil',
+                'detail.time',
                 'location.id as sesameId',
                 'location.name as sesameName',
                 'detail.location as locationName',

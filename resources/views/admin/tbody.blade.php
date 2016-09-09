@@ -8,6 +8,7 @@
             <td>{{$detail->sesameName}}</td>
             <td name="">{{$detail->professionalName}}</td>
             <td>{{$detail->locationName}}</td>
+            <td>{{$detail->time}}</td>
             <td>
                 <input type="text" class="form-control"
                        id="{{$i}}"
@@ -25,7 +26,7 @@
                         <option value="3">Không giảm</option>
                     @elseif($detail->detailAil ===0)
                         <option value="0">Không đau</option>
-                        <option value="1">Đau</option>
+                        <option value="1">Có đau</option>
                         <option value="2">Có giảm</option>
                         <option value="3">Không giảm</option>
                     @elseif($detail->detailAil ===2)
@@ -40,7 +41,7 @@
                         <option value="0">Không đau</option>
                     @else
                         <option value="2">Tình trạng</option>
-                        <option value="1">Đau</option>
+                        <option value="1">Có đau</option>
                         <option value="0">Không đau</option>
                         <option value="2">Có giảm</option>
                         <option value="3">Không giảm</option>

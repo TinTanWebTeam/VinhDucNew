@@ -705,6 +705,9 @@
                     idPackageTreatment: diagnosticView.idTreatmentPackage
                 }, function (data) {
                     if (data !== null) {
+                        console.log(data[0]["createdBy"]);
+                        var bs =data[0]["createdBy"];
+                        $("select#DoctorCode").val(bs);
                         diagnosticView.data = data;
                         if (data.length !== 0) {
                             var row = "";

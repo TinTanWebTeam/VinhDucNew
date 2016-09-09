@@ -25,7 +25,7 @@
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-sm-6" id="seachPatient">
+        <div class="col-sm-5" id="seachPatient">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;" name="searchPatient">Tìm kiếm bệnh nhân
@@ -133,7 +133,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-7">
             <div class="row" id="TablePackages">
                 <div style="background-color: white;">
                     <div class="panel panel-default">
@@ -148,6 +148,7 @@
                                     <th>Vùng</th>
                                     <th>Chuyên môn</th>
                                     <th>Vị trí</th>
+                                    <th>Thời gian</th>
                                     <th>Mã chuyên viên</th>
                                     <th>Tình trạng</th>
                                     <th>Lưu thay đổi</th>
