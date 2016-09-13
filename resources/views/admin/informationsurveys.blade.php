@@ -30,7 +30,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Thông tin ý kiến bệnh nhân
-                        <button type="button" class="btn btn-danger btn-circle pull-right" onclick="informationView.deleteInformation()"><i
+                        <button type="button" class="btn btn-danger btn-circle pull-right"
+                                onclick="informationView.deleteInformation()"><i
                                     class="fa fa-times"></i>
                         </button>
                     </div>
@@ -51,21 +52,28 @@
                         </thead>
                         <tbody id="tbodyInformationList">
                         @foreach($Informations as $item)
-                            <tr id="{{$item->id}}" data-status = "{{$item->handling}}" onclick="informationView.viewListInformation(this)" style="cursor: pointer">
-                                <td>{{$item->createdDate}}</td>
-                                <td>{{$item->patientReviews}}</td>
-                                @if($item->handling === 1)
-                                     <td>Đã xử lý</td>
-                                @elseif($item->handling === 2 || $item->handling === 0)
-                                    <td>Chưa xử lý</td>
-                                @endif
-                                <td>{{$item->content}}</td>
-                                {{--<td>{{$item->InformationPatientId()->fullName}}</td>--}}
-                                {{--<td>{{$item->InformationTherapistId()->name}}</td>--}}
+                            @if($item->special ===1)
+                                <tr id="{{$item->id}}" data-status="{{$item->handling}}"
+                                    onclick="informationView.viewListInformation(this)"
+                                    style="cursor: pointer;color: red">
+                            @else
+                                <tr id="{{$item->id}}" data-status="{{$item->handling}}"
+                                    onclick="informationView.viewListInformation(this)" style="cursor: pointer">
+                                    @endif
+                                    <td>{{$item->createdDate}}</td>
+                                    <td>{{$item->patientReviews}}</td>
+                                    @if($item->handling === 1)
+                                        <td>Đã xử lý</td>
+                                    @elseif($item->handling === 2 || $item->handling === 0)
+                                        <td>Chưa xử lý</td>
+                                    @endif
+                                    <td>{{$item->content}}</td>
+                                    {{--<td>{{$item->InformationPatientId()->fullName}}</td>--}}
+                                    {{--<td>{{$item->InformationTherapistId()->name}}</td>--}}
 
-                                {{--<td>{{$item->InformationTherapist()->id}}</td>--}}
-                            </tr>
-                        @endforeach
+                                    {{--<td>{{$item->InformationTherapist()->id}}</td>--}}
+                                </tr>
+                                @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -75,7 +83,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Thêm mới | Chỉnh sửa
-                        <button type="button" class="btn btn-info btn-circle pull-right" onclick="informationView.addNewInformation('')"><i
+                        <button type="button" class="btn btn-info btn-circle pull-right"
+                                onclick="informationView.addNewInformation('')"><i
                                     class="fa fa-plus"></i>
                         </button>
                     </div>
@@ -90,15 +99,15 @@
                                     </div>
                                     <div class="form-group form-md-line-input"></div>
                                     {{--<div class="form-group form-md-line-input ">--}}
-                                        {{--<label for="TherapistId">Tên nhân viên</label>--}}
-                                        {{--<select class="form-control" id="Therapist_id" name="Therapist_id">--}}
-                                            {{--@if($therapists)--}}
-                                                {{--<option value="" selected>-- Chọn nhân viên --</option>--}}
-                                                {{--@foreach($therapists as $item)--}}
-                                                    {{--<option value="{{$item->id}}">{{$item->name}}</option>--}}
-                                                {{--@endforeach--}}
-                                            {{--@endif--}}
-                                        {{--</select>--}}
+                                    {{--<label for="TherapistId">Tên nhân viên</label>--}}
+                                    {{--<select class="form-control" id="Therapist_id" name="Therapist_id">--}}
+                                    {{--@if($therapists)--}}
+                                    {{--<option value="" selected>-- Chọn nhân viên --</option>--}}
+                                    {{--@foreach($therapists as $item)--}}
+                                    {{--<option value="{{$item->id}}">{{$item->name}}</option>--}}
+                                    {{--@endforeach--}}
+                                    {{--@endif--}}
+                                    {{--</select>--}}
 
                                     {{--</div>--}}
                                     <div class="form-group form-md-line-input">
@@ -117,9 +126,10 @@
                                     </div>
                                     <div class="form-group form-md-line-input ">
                                         <label for="handling"><b>Tình trạng</b></label>
-                                        <select class="form-control" id="Handling" onchange="informationView.Processed()">
-                                            <option value=""> -- Chọn tình trạng -- </option>
-                                            <option value="1" >Đã xử lý</option>
+                                        <select class="form-control" id="Handling"
+                                                onchange="informationView.Processed()">
+                                            <option value=""> -- Chọn tình trạng --</option>
+                                            <option value="1">Đã xử lý</option>
                                             <option value="2">Chưa xử lý</option>
                                         </select>
                                     </div>
@@ -135,7 +145,15 @@
                                         <input type="date" class="form-control"
                                                id="CreatedDate"
                                                name="CreatedDate"
-                                                value="{{date('Y-m-d')}}">
+                                               value="{{date('Y-m-d')}}">
+                                    </div>
+                                    <div class="form-group form-md-line-input">
+                                        <label for="Special"><b>Đặc biệt</b></label>
+                                        <input type="checkbox" class="form-control"
+                                               style="width: 20px;height: 20px;"
+                                               id="Special"
+                                               name="Special"
+                                               placeholder="BN001">
                                     </div>
                                 </div>
                                 <div class="form-actions noborder">
@@ -170,9 +188,10 @@
                     Content: null,
                     PatientReviews: null,
                     Handling: null,
-                    CreatedDate:null,
-                    Therapist_id:null,
-                    Patient_id :null,
+                    CreatedDate: null,
+                    Therapist_id: null,
+                    Patient_id: null,
+                    Special: null
                 },
                 resetInformationObject: function () {
                     for (var propertyName in informationView.informationObject) {
@@ -213,15 +232,15 @@
                         informationView.resetForm();
                     }
                 },
-                Processed:function () {
-                    if($("#Handling option:selected").val()==="1"){
+                Processed: function () {
+                    if ($("#Handling option:selected").val() === "1") {
                         $("div[name=Content]").show();
-                    }else{
+                    } else {
                         $("div[name=Content]").hide();
                     }
                 },
                 viewListInformation: function (element) {
-                    if($(element).attr("data-status") === "1"){
+                    if ($(element).attr("data-status") === "1") {
                         $("button[name=complete]").hide();
                         $("div[name=Content]").show();
                         informationView.goBack = element;
@@ -233,15 +252,24 @@
                             _token: _token,
                             idInformation: informationView.idInformation
                         }, function (data) {
-                            console.log(data);
                             $("input[name=Id]").empty().val(informationView.idInformation);
                             for (var propertyName in data) {
                                 $("select[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                                 $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                                 $("textarea[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
+                                console.log(data[propertyName]);
+                                if (propertyName === "special") {
+
+                                    if (data[propertyName] === 1) {
+                                        $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").prop("checked", true);
+
+                                    } else {
+                                        $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").prop("checked", false);
+                                    }
+                                }
                             }
                         })
-                    }else {
+                    } else {
                         $("button[name=complete]").show();
                         informationView.goBack = element;
                         idInformation = $(element).attr("id");
@@ -252,12 +280,21 @@
                             _token: _token,
                             idInformation: informationView.idInformation
                         }, function (data) {
-                            console.log(data);
                             $("input[name=Id]").empty().val(informationView.idInformation);
                             for (var propertyName in data) {
                                 $("select[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                                 $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                                 $("textarea[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
+                                console.log(data[propertyName]);
+                                if (propertyName === "special") {
+
+                                    if (data[propertyName] === 1) {
+                                        $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").prop("checked", true);
+
+                                    } else {
+                                        $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").prop("checked", false);
+                                    }
+                                }
                             }
                         })
                     }
@@ -286,16 +323,21 @@
                     }
                 },
                 fillTbody: function (data, result) {
+                    console.log(data);
                     $("tbody#tbodyInformationList").empty();
                     var row = "";
                     for (var i = 0; i < data["listInformation"].length; i++) {
                         var tr = "";
-                        tr += "<tr id=" + data["listInformation"][i]["Id"] + " data-status="+data["listInformation"][i]["Handling"]+"  onclick='informationView.viewListInformation(this)' style='cursor: pointer'>";
+                        if (data["listInformation"][i]["special"] === 1) {
+                            tr += "<tr id=" + data["listInformation"][i]["Id"] + " data-status=" + data["listInformation"][i]["Handling"] + "  onclick='informationView.viewListInformation(this)' style='cursor: pointer;color: red'>";
+                        } else {
+                            tr += "<tr id=" + data["listInformation"][i]["Id"] + " data-status=" + data["listInformation"][i]["Handling"] + "  onclick='informationView.viewListInformation(this)' style='cursor: pointer'>";
+                        }
                         tr += "<td>" + data["listInformation"][i]["CreatedDate"] + "</td>";
                         tr += "<td>" + data["listInformation"][i]["PatientReviews"] + "</td>";
-                        if(data["listInformation"][i]["Handling"] === 1) {
+                        if (data["listInformation"][i]["Handling"] === 1) {
                             tr += "<td>" + ["Đã xử lý"] + "</td>";
-                        }else if(data["listInformation"][i]["Handling"] === 2 || data["listInformation"][i]["Handling"] === 0){
+                        } else if (data["listInformation"][i]["Handling"] === 2 || data["listInformation"][i]["Handling"] === 0) {
                             tr += "<td>" + ["Chưa xử lý"] + "</td>";
                         }
                         tr += "<td>" + data["listInformation"][i]["Content"] + "</td>";
@@ -315,7 +357,7 @@
                             Content: "required",
                             PatientReviews: "required",
                             Patient_id: "required",
-                            Therapist_id:"required",
+                            Therapist_id: "required",
                         },
                         messages: {
                             Content: "Câu hỏi không được rỗng",
@@ -326,10 +368,16 @@
 
                     });
                     if ($("#formInformation").valid()) {
+                        if ($("input#Special").is(":checked")) {
+                            informationView.Special = 1;
+                        } else {
+                            informationView.Special = 0;
+                        }
                         $.post(url + "admin/addNewAndUpdateInformation", {
                             _token: _token,
                             addNewOrUpdateId: $("input[name=Id]").val(),
-                            dataInformation: informationView.informationObject
+                            dataInformation: informationView.informationObject,
+                            Special: informationView.Special
                         }, function (data) {
                             if (data[0] === 1) {
                                 $("div#modalConfirm").modal("show");
@@ -352,8 +400,8 @@
                                 $("button[name=modalAgree]").hide();
                             }
                         })
-                    }else{
-                        $("form#formInformation").find("label[class=error]").css("color","red");
+                    } else {
+                        $("form#formInformation").find("label[class=error]").css("color", "red");
                     }
                 }
             }

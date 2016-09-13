@@ -82,7 +82,7 @@
                                         <table class="table table-hover table-light" id="AutoCompleteTable">
                                             <thead>
                                             <tr class="AutoCompleteTableHeader">
-                                                <th>Mã phác đồ</th>
+                                                <th>Mã bệnh nhân</th>
                                                 <th>Họ và tên</th>
                                                 <th>Ngày tạo</th>
                                                 <th>Chọn</th>
@@ -166,7 +166,13 @@
                                                       placeholder="Thông tin tiến triển bệnh nhân">
                                             </textarea>
                                     </div>
-
+                                    <div class="form-group form-md-line-input col-md-12">
+                                        <label for="Therapist"><b>Mã chuyên viên</b></label>
+                                        <input type="text" class="form-control"
+                                               id="Therapist"
+                                               name="Therapist"
+                                               placeholder="Nhập mã chuyên viên">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-actions noborder">
@@ -199,12 +205,11 @@
                                style="margin-bottom: 0px;">
                             <thead>
                             <tr>
-
-                                <th>Mã</th>
                                 <th>Ngày tạo</th>
                                 <th>Ngày sửa</th>
                                 <th>Tình trạng</th>
                                 <th>Ghi chú</th>
+                                <th>Chuyên viên</th>
                                 {{--<th>Chi tiết</th>--}}
                             </tr>
                             </thead>
@@ -234,7 +239,8 @@
                 CreatedDate: null,
                 AddNewId: null,
                 Status: null,
-                Note: null
+                Note: null,
+                Therapist:null
             },
             resetregimensObject: function () {
                 for (var propertyName in regimensView.regimensObject) {
@@ -281,7 +287,7 @@
 //                    } else {
                     tr += "<tr id=" + data[i]["id"] + " data-code=" + data[i]["code"] + " data-status=" + data[i]["status"] + " ondblclick='regimensView.updateTreatmentRegiment(this)' style='cursor: pointer' data-note=" + data[i]["note"] + ">";
 //                    }
-                    tr += "<td>" + data[i]["code"] + "</td>";
+                    //tr += "<td>" + data[i]["code"] + "</td>";
                     tr += "<td>" + data[i]["createdDate"] + "</td>";
                     tr += "<td>" + data[i]["updatedDate"] + "</td>";
                     if (data[i]["status"] === 0) {
@@ -294,6 +300,7 @@
                         tr += "<td>Đau hơn</td>";
                     }
                     tr += "<td>" + data[i]["note"] + "</td>";
+                    tr += "<td>" + data[i]["therapist"] + "</td>";
 //                    tr += "<td style='min-width: 50px;'><button  type='button' style='margin-left: 10%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-packageId='" + data[i]["treatmentPackageId"] + "' data-code='" + data[i]["code"] + "' data-active='" + data[i]["active"] + "' data-date='" + data[i]["createdDate"] + "' data-Id='" + data[i]["id"] + "' onclick='regimensView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";
                     row += tr;
                 }
@@ -334,7 +341,7 @@
                         for (var i = 0; i < data.length; i++) {
                             var tr = "";
                             tr += "<tr id=" + data[i]["id"] + ">";
-                            tr += "<td>" + data[i]["maPD"] + "</td>";
+                            tr += "<td>" + data[i]["maBN"] + "</td>";
                             tr += "<td>" + data[i]["fullName"] + "</td>";
                             tr += "<td>" + data[i]["createdDate"] + "</td>";
                             tr += "<td <button type='button' style='margin-left: 30%;' class='btn btn-info btn-circle' data-code='" + data[i]["maPD"] + "' data-Id='" + data[i]["id"] + "' onclick='regimensView.fillToInput(this)'><i class='fa fa-check '></i></button></td>";
@@ -460,27 +467,79 @@
 
             },
             addRegimen: function () {
-                regimensView.setValueObject();
-                $.post(url + "admin/updateRegimen", {
-                    _token: _token,
-                    data: regimensView.regimensObject
-                }, function (data) {
-                    if (data === "1") {
-                        $("div#modalContent").empty().append("Lưu thành công");
-                        $("div#modalConfirm").modal("show");
-                        regimensView.SearchTreatmentRegimens($("input[name=AddNewId]").val());
-                        regimensView.goBack();
-                        $("div[name=SearchPatient]").show();
-                        regimensView.resetForm();
-                    } else {
-                        $("div#modalContent").empty().append("Lưu KHÔNG thành công");
-                        $("div#modalConfirm").modal("show");
-                        $("button[name=modalAgree]").hide();
+                $("#formregimens").validate({
+                    rules: {
+                        Therapist: "required",
+                    },
+                    messages: {
+                        Therapist: "Mã chuyên viên không được rỗng",
                     }
-                })
+                });
+                if ($("#formregimens").valid()) {
+                    regimensView.setValueObject();
+                    $.post(url + "admin/updateRegimen", {
+                        _token: _token,
+                        data: regimensView.regimensObject
+                    }, function (data) {
+                        if (data === "1") {
+                            $("div#modalContent").empty().append("Lưu thành công");
+                            $("div#modalConfirm").modal("show");
+                            regimensView.SearchTreatmentRegimens($("input[name=AddNewId]").val());
+                            regimensView.goBack();
+                            $("div[name=SearchPatient]").show();
+                            regimensView.resetForm();
+                        } else {
+                            $("div#modalContent").empty().append("Lưu KHÔNG thành công");
+                            $("div#modalConfirm").modal("show");
+                            $("button[name=modalAgree]").hide();
+                        }
+                    })
+                }
             }
         }
     }
+
+    //setup before functions
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 500;  //time in ms, 3 second for example
+    var $input = $("input#Therapist");
+
+    //on keyup, start the countdown
+    $input.on('keyup', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    //on keydown, clear the countdown
+    $input.on('keydown', function () {
+        clearTimeout(typingTimer);
+    });
+
+    //user is "finished typing," do something
+    function doneTyping() {
+        $.get(url + 'admin/getSearchCodeTherapist', {
+            _token: _token,
+            Code: $input.val()
+        }, function (data) {
+            console.log(data);
+            if (data === "0") {
+                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
+                $("button[name=modalAgree]").hide();
+                $("input[name=Id]").val("");
+                $("div#modalConfirm").modal("show");
+                $input.val("");
+            } else if (data === "2") {
+//                        $("div#modalContent").empty().append("Vui lòng nhập mã chính xác");
+//                        $("button[name=modalAgree]").hide();
+//                        $("input[name=Id]").val("");
+//                        $("div#modalConfirm").modal("show");
+            } else {
+                $input.val(data[0]["code"]);
+            }
+        });
+    }
+
+
 
     //setup before functions
     var typingTimer;                //timer identifier

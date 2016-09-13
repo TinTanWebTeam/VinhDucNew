@@ -43,6 +43,7 @@
                                 <th>Tên bệnh nhân</th>
                                 <th>Tình trạng</th>
                                 <th>Ghi chú</th>
+                                <th>Chuyên viên</th>
                             </tr>
                             </thead>
                             <tbody id="TableRegimentList">
@@ -200,6 +201,7 @@
                                 tr += "<td>" + ["Đau hơn"] + "</td>";
                             }
                             tr += "<td>" + data[i]["note"] + "</td>";
+                            tr += "<td>" + data[i]["therapist"] + "</td>";
                             tr += "</tr>";
                             row += tr;
                         }

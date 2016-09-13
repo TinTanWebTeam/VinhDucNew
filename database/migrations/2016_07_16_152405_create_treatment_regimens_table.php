@@ -18,6 +18,7 @@ class CreateTreatmentRegimensTable extends Migration
             $table->string('patientId');
             $table->integer('treatmentPackageId')->unsigned();
             $table->boolean('status');
+            $table->string('therapist');
             $table->date('createdDate');
             $table->date('updatedDate');
             $table->string('note');

@@ -12,6 +12,7 @@ class TreatmentRegimen extends Model
         'patientId',
         'createdBy',
         'status',
+        'therapist',
         'createdDate',
         'updatedDate',
         'note',

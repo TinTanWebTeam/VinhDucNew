@@ -21,9 +21,9 @@ class TreatmentPackage extends Model
         'upDatedBy',
         'active'
     ];
-    public function Package(){
-        return $this->belongsTo('App\Package','packageId','id')->first();
-    }
+//    public function Package(){
+//        return $this->belongsTo('App\Package','packageId','id')->first();
+//    }
     public function Patient(){
         return $this->belongsTo('App\PatientManagement','patientId','code')->first();
     }

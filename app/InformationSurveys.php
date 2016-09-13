@@ -13,6 +13,7 @@ class InformationSurveys extends Model
         'content',
         'handling',
         'patient_id',
+        'special'
     ];
     
 }

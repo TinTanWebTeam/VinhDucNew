@@ -14,13 +14,11 @@ class CreateStatusesTable extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->integer('therapistId')->unsigned();
-            $table->integer('doctorId')->unsigned();
-            $table->integer('patientId')->unsigned();
+            $table->string('therapistCode');
+            $table->integer('detailTreatmentId');
+            $table->integer('ail');
             $table->boolean('active')->default(1);
-            $table->string('createdBy');
-            $table->date('upDatedBy');
+            $table->date('createdDate');
             $table->timestamps();
         });
     }

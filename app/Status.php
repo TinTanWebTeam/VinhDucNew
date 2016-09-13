@@ -8,12 +8,10 @@ class Status extends Model
 {
     protected $table='statuses';
     protected $fillable=[
-        'name',
-        'therapistId',
-        'doctorId',
-        'patientId',
-        'createdBy',
-        'upDatedBy',
+        'therapistCode',
+        'ail',
+        'detailTreatmentId',
+        'createdDate',
         'active'
     ];
 }

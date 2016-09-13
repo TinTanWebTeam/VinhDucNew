@@ -17,7 +17,7 @@ class CreateTreatmentPackagesTable extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->string('note');
-            $table->integer('packageId')->unsigned();
+            $table->integer('packageId');
             $table->string('patientId');
             $table->boolean('active')->default(1);
             $table->date('createdDate');
@@ -28,7 +28,7 @@ class CreateTreatmentPackagesTable extends Migration
             $table->string('upDatedBy');
             $table->timestamps();
 
-            $table->foreign('packageId')->references('id')->on('packages')->onDelete('no action');
+            //$table->foreign('packageId')->references('id')->on('packages')->onDelete('no action');
             $table->foreign('patientId')->references('code')->on('patient_managements')->onDelete('no action');
         });
     }

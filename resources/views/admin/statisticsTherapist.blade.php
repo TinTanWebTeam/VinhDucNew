@@ -60,7 +60,7 @@
                             <th>Điều trị chuyên môn</th>
                             {{--<th>Ngày</th>--}}
                             {{--<th>Mã bệnh nhân</th>--}}
-                            <th>Tình trạng</th>
+                            {{--<th>Tình trạng</th>--}}
                             <th>Tổng</th>
                         </tr>
                         </thead>
@@ -74,15 +74,15 @@
                                     <td>{{$item->name}}</td>
                                     {{--<td>{{$item->createdDate}}</td>--}}
                                     {{--<td>{{$item->code}}</td>--}}
-                                    @if($item->ail==0)
-                                        <td>Không đau</td>
-                                    @elseif($item->ail==1)
-                                        <td>Có Đau</td>
-                                    @elseif($item->ail==2)
-                                        <td>Có giảm</td>
-                                    @elseif($item->ail==3)
-                                        <td>Không giảm</td>
-                                    @endif
+                                    {{--@if($item->ail==0)--}}
+                                        {{--<td>Không đau</td>--}}
+                                    {{--@elseif($item->ail==1)--}}
+                                        {{--<td>Có Đau</td>--}}
+                                    {{--@elseif($item->ail==2)--}}
+                                        {{--<td>Có giảm</td>--}}
+                                    {{--@elseif($item->ail==3)--}}
+                                        {{--<td>Không giảm</td>--}}
+                                    {{--@endif--}}
                                     <td>{{$item->total}}</td>
                                 </tr>
                             @endforeach
@@ -151,15 +151,15 @@
                         tr += "<td>" + data[i]["name"] + "</td>";
 //                        tr += "<td>" + data[i]["createdDate"] + "</td>";
 //                        tr += "<td>" + data[i]["code"] + "</td>";
-                        if (data[i]["ail"] == 0) {
-                            tr += "<td>Không đau</td>";
-                        } else if (data[i]["ail"] == 1) {
-                            tr += "<td>Có đau</td>";
-                        } else if (data[i]["ail"] == 2) {
-                            tr += "<td>Có giảm</td>";
-                        } else if (data[i]["ail"] == 3) {
-                            tr += "<td>Không giảm</td>";
-                        }
+//                        if (data[i]["ail"] == 0) {
+//                            tr += "<td>Không đau</td>";
+//                        } else if (data[i]["ail"] == 1) {
+//                            tr += "<td>Có đau</td>";
+//                        } else if (data[i]["ail"] == 2) {
+//                            tr += "<td>Có giảm</td>";
+//                        } else if (data[i]["ail"] == 3) {
+//                            tr += "<td>Không giảm</td>";
+//                        }
                         tr += "<td>" + data[i]["total"] + "</td>";
                         row += tr;
                     }

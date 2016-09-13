@@ -21,7 +21,7 @@ class DetailedTreatmentTableSeeder extends Seeder
                 'professionalTreatment'=>$faker->name,
                 'location'=>$faker->name,
                 'patientId'=>$index,
-                'therapistId'=>$index
+//                'therapistId'=>$index
             ]);
         }
     }

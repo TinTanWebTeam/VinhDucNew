@@ -92,7 +92,7 @@
                                     <td>{{$item->GOI}}</td>
                                     <td>{{$item->BS}}</td>
                                     <td>{{$item->SOLANTAIKHAM}}</td>
-                                    <td>{{$item->SOLANRAVAO}}</td>
+                                    <td>{{$item->RAVAO}}</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -164,7 +164,7 @@
                         tr += "<td>" + data[i]["GOI"] + "</td>";
                         tr += "<td>" + data[i]["BS"] + "</td>";
                         tr += "<td>" + data[i]["SOLANTAIKHAM"] + "</td>";
-                        tr += "<td>" + data[i]["SOLANRAVAO"] + "</td>";
+                        tr += "<td>" + data[i]["RAVAO"] + "</td>";
                         row += tr;
                     }
                     $("b[name=ToTal]").text("Tổng: " + data.length + "");

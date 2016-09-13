@@ -17,8 +17,8 @@ class Package extends Model
         'active'
     ];
     
-    public function TreatmentPackage()
-    {
-        return $this->hasMany('App\TreatmentPackage','packageId','id')->get();
-    }
+//    public function TreatmentPackage()
+//    {
+//        return $this->hasMany('App\TreatmentPackage','packageId','id')->get();
+//    }
 }

@@ -16,10 +16,12 @@ use App\ProfessionalTreatment;
 use App\Provinces;
 use App\Role;
 use App\SourceCustomer;
+use App\Status;
 use App\TreatmentPackage;
 use App\TreatmentRegimen;
 use App\User;
 use Auth;
+use Carbon\Carbon;
 use Config;
 use DateTime;
 use DB;
@@ -534,6 +536,7 @@ class AdminController extends Controller
                 ->join('treatment_regimens', 'treatment_packages.id', '=', 'treatment_regimens.treatmentPackageId')
                 ->where('treatment_packages.patientId', $request->get('IdPatient'))
                 ->where('treatment_regimens.active', 1)
+                ->where('treatment_packages.active',1)
                 ->select(
                     'treatment_packages.id',
                     'treatment_packages.active',
@@ -565,7 +568,8 @@ class AdminController extends Controller
                 ];
                 array_push($arraylistTreatment, $array);
             }
-            return $arraylistTreatment;
+            $package = Package::where('active',1)->where('id','<>',0)->get();
+            return array($arraylistTreatment,$package);
         } catch (Exception $ex) {
             return $ex;
         }
@@ -584,7 +588,7 @@ class AdminController extends Controller
                         $treatment->code = $request->get('data')['TreatmentPackageCode'];
                         $treatment->name = "";
                         $treatment->note = $request->get('data')['Note'];
-                        $treatment->packageId = $request->get('data')['PackagesId'];
+                        $treatment->packageId = "";
                         $treatment->patientId = $request->get('data')['PatientId'];
                         $treatment->createdDate = $date;
                         $treatment->codeDoctor = $request->get('data')['CodeDoctor'];
@@ -604,7 +608,7 @@ class AdminController extends Controller
                             $treatment->name = "";
                             $treatment->codeDoctor = $request->get('data')['CodeDoctor'];
                             $treatment->note = $request->get('data')['Note'];
-                            $treatment->packageId = (integer)$request->get('data')['PackagesId'];
+                            $treatment->packageId = "";
                             $treatment->patientId = $request->get('data')['PatientId'];
                             $treatment->updateDate = $date;
                             $treatment->upDatedBy = (string)Auth::user()->id;
@@ -683,11 +687,10 @@ class AdminController extends Controller
 
     public function deleteTreatmentPackage(Request $request)
     {
-
         try {
             $delete = TreatmentPackage::where('active', 1)->where('id', $request->get('id'))->first();
             if ($delete) {
-                $delete->active = 0;
+                $delete->active=0;
                 $delete->save();
                 return 1;
             } else {
@@ -759,8 +762,8 @@ class AdminController extends Controller
                     $updateDetail->sesame = $request->get('data')['Sesame'];
                     $updateDetail->minute = $request->get('data')['Minute'];
                     $updateDetail->Time = $request->get('data')['Time'];
-                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
-                    $updateDetail->ail = -1;//chua biet dau hay khong dau
+//                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
+//                    $updateDetail->ail = -1;//chua biet dau hay khong dau
                     $updateDetail->note = "";
                     $updateDetail->createdDate = $date;
                     $updateDetail->updateDate = $date;
@@ -784,8 +787,8 @@ class AdminController extends Controller
                     $updateDetail->sesame = $request->get('data')['Sesame'];
                     $updateDetail->minute = $request->get('data')['Minute'];
                     $updateDetail->Time = $request->get('data')['Time'];
-                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
-                    $updateDetail->ail = -1;//chua biet dau hay khong dau
+//                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
+//                    $updateDetail->ail = -1;//chua biet dau hay khong dau
                     $updateDetail->note = "";
                     $updateDetail->createdDate = $date;
                     $updateDetail->updateDate = $date;
@@ -870,6 +873,7 @@ class AdminController extends Controller
             $Professional = DB::table('detailed_treatments as detail')
                 ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
                 ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
+                ->join('packages','treatment.packageId','=','packages.id')
                 ->where('treatment.id', '=', $request->get('idPackageTreatment'))
                 ->where('detail.active', 1)
                 ->orderBy('detail.createdDate', 'desc')
@@ -884,7 +888,8 @@ class AdminController extends Controller
                     'detail.location as detailLocation',
                     'location.id as location',
                     'location.name as locationName',
-                    'detail.professionalTreatment as professional'
+                    'detail.professionalTreatment as professional',
+                    'packages.name as packageName '
                 )
                 ->get();
             return $Professional;
@@ -1065,7 +1070,15 @@ class AdminController extends Controller
                 'Age.required' => 'Tuổi không được rỗng',
             ];
         } else if ($variable == "validatorRegimen") {
-
+            $datas = [
+                'Therapist' => $data['data']['Therapist'],
+            ];
+            $rules = [
+                'Therapist' => 'required',
+            ];
+            [
+                'Therapist.required' => 'Mã chuyên viên không được rỗng',
+            ];
         } else if ($variable == "validatorTreatmentPackages") {
             $datas = [
                 'TreatmentPackageCode' => $data['data']['TreatmentPackageCode'],
@@ -1163,17 +1176,25 @@ class AdminController extends Controller
 
     public function updateAil(Request $request)
     {
+        $date = $this->getdate();
         try {
-            $detail = DetailedTreatment::where('active', 1)->where('id', $request->get('id'))->first();
-            if ($detail) {
-                $detail->ail = $request->get('ail');
-                $detail->therapistId = $request->get('therapistId');
-                $detail->patientId = $request->get('patientId');
-                $detail->save();
-                return 1;
-            } else {
-                return 2;
-            }
+//            $detail = DetailedTreatment::where('active', 1)->where('id', $request->get('id'))->first();
+//            if ($detail) {
+//                $detail->ail = $request->get('ail');
+//                $detail->therapistId = $request->get('therapistId');
+//                $detail->patientId = $request->get('patientId');
+//                $detail->save();
+//                return 1;
+//            } else {
+//                return 2;
+//            }
+            $status = new Status();
+            $status->therapistCode = $request->get('therapistId');
+            $status->detailTreatmentId = $request->get('id');
+            $status->ail = $request->get('ail');
+            $status->createdDate = $date[0]->now;
+            $status->save();
+            return 1;
         } catch (Exception $ex) {
             return $ex;
         }
@@ -1233,6 +1254,8 @@ class AdminController extends Controller
 
     public function fillToTbody(Request $request)
     {
+        $date=$this->getdate();
+
 //        $detailedTreatment = DB::table('detailed_treatments as detail')
 //            ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
 //            ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
@@ -1249,8 +1272,9 @@ class AdminController extends Controller
             ->select(
                 'detail.id as detailId',
                 'detail.name as detailName',
-                'detail.therapistId as detailTherapist',
-                'detail.ail as detailAil',
+//                'detail.therapistId as detailTherapist',
+//                'detail.ail as detailAil',
+                'detail.minute',
                 'detail.time',
                 'location.id as sesameId',
                 'location.name as sesameName',
@@ -1258,8 +1282,30 @@ class AdminController extends Controller
                 'detail.professionalTreatment as professionalName'
             )
             ->get();
+
+        $arraystatus=[];
+        foreach ($detailedTreatment as $item) {
+            $status= Status::where('active',1)->where('detailTreatmentId',$item->detailId)->where('createdDate',$date[0]->now)->first();
+            if($status) {
+                 $array = [
+                     'id' => $status->id,
+                     'therapistCode' => $status->therapistCode,
+                     'detailId' => $status->detailTreatmentId,
+                     'ail' => $status->ail
+                 ];
+                 array_push($arraystatus, $array);
+             }else{
+                $array=[
+                    'id'=>"",
+                    'detailId'=>$item->detailId,
+                    'therapistCode'=>"",
+                     'ail' => ""
+                ];
+                 array_push($arraystatus, $array);
+             }
+        }
         $Therapist = ManagementTherapist::where('active', 1)->get();
-        return view('admin.tbody')->with('detailedTreatments', $detailedTreatment)->with('therapists', $Therapist);
+        return view('admin.tbody')->with('detailedTreatments', $detailedTreatment)->with('therapists', $Therapist)->with('arraystatus',$arraystatus);
     }
 
     public function SearchTreatmentRegimens(Request $request)
@@ -1277,6 +1323,7 @@ class AdminController extends Controller
                     'treatmentPackageId' => $item->treatmentPackageId,
                     'createdDate' => $item->createdDate,
                     'updatedDate' => $item->updatedDate,
+                    'therapist' =>$item->therapist
                 ];
                 array_push($arraylistTreatment, $array);
             }
@@ -1314,18 +1361,23 @@ class AdminController extends Controller
     public function updateRegimen(Request $request)
     {
         try {
-            if ($request->get('data')['AddNewId'] != null) {
-                $regimen = TreatmentRegimen::where('active', 1)->where('code', $request->get('data')['AddNewId'])->first();
-                if ($regimen) {
-                    $regimen->status = $request->get('data')['Status'];
-                    $regimen->note = $request->get('data')['Note'];
-                    $regimen->save();
-                    return 1;
+            if ($this->validator($request->all(), "validatorRegimen")->fails()) {
+                return $this->validator($request->all(), "validatorRegimen")->errors();
+            } else {
+                if ($request->get('data')['AddNewId'] != null) {
+                    $regimen = TreatmentRegimen::where('active', 1)->where('code', $request->get('data')['AddNewId'])->first();
+                    if ($regimen) {
+                        $regimen->status = $request->get('data')['Status'];
+                        $regimen->note = $request->get('data')['Note'];
+                        $regimen->therapist = $request->get('data')['Therapist'];
+                        $regimen->save();
+                        return 1;
+                    } else {
+                        return 0;
+                    }
                 } else {
                     return 0;
                 }
-            } else {
-                return 0;
             }
         } catch (Exception $ex) {
             return $ex;
@@ -1335,14 +1387,21 @@ class AdminController extends Controller
     public function getStatisticsPatients()
     {
         try {
-            $date = date('Y/m/d');
-            $SQL = " SELECT tp.id,pm.`code` AS MaBN,pm.fullName AS TEN,pm.birthday AS NAMSINH,pv.`name` AS TINH,p.`name` AS GOI,tp.codeDoctor AS BS,tp.umpteenth AS SOLANTAIKHAM,COUNT(dt.therapistId) as SOLANRAVAO FROM treatment_packages tp ";
-            $SQL .= " INNER JOIN detailed_treatments dt ON tp.id = dt.treatmentPackageId INNER JOIN packages p ON tp.packageId = p.id ";
-            $SQL .= " INNER JOIN patient_managements pm ON tp.patientId = pm.`code` INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
-            $SQL .= " INNER JOIN provinces pv ON pm.provincialId = pv.id ";
-            $SQL .= " WHERE tp.createdDate BETWEEN '" . $date . "' AND '" . $date . "' ";
-            $SQL .= " AND dt.therapistId != '0' AND sc.id = 1 AND tp.umpteenth = 0 ";
-            $SQL .= " GROUP BY MaBN,TEN,NAMSINH,TINH,GOI,BS,SOLANTAIKHAM ";
+            $date=$this->getdate();
+            $SQL = " SELECT id,MaBN,TEN,NAMSINH,TINH ,GOI,BS,SOLANTAIKHAM, COUNT(SANGCHIEU) AS RAVAO ";
+            $SQL .= " FROM ( ";
+            $SQL .=         " SELECT dt.id, dt.patientId AS MaBN, pm.fullName AS TEN, pm.birthday AS NAMSINH, pv.`name` AS TINH, p.`name` AS GOI, tp.codeDoctor AS BS,tp.umpteenth AS SOLANTAIKHAM,dt.time AS SANGCHIEU ";
+            $SQL .=         " FROM treatment_packages tp ";
+            $SQL .=         " INNER JOIN detailed_treatments dt ON tp.id = dt.treatmentPackageId ";
+            $SQL .=         " LEFT JOIN statuses st ON dt.id = st.detailTreatmentId ";
+            $SQL .=         " INNER JOIN packages p ON tp.packageId = p.id ";
+            $SQL .=         " INNER JOIN patient_managements pm ON tp.patientId = pm.`code` ";
+            $SQL .=         " INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
+            $SQL .=         " INNER JOIN provinces pv ON pm.provincialId = pv.id ";
+            $SQL .=         " WHERE st.createdDate BETWEEN '" . $date[0]->now . "' AND '" . $date[0]->now . "' ";
+            $SQL .=         " AND sc.id = 1 AND tp.umpteenth = 0 ";
+            $SQL .=         " GROUP BY dt.patientId,dt.time) as a";
+            $SQL .= " GROUP BY MaBN ";
             $Patient = DB::select($SQL);
             $sourceCustomer = SourceCustomer::where('active', 1)->get();
             return view('admin.statisticsPatients')->with('sourceCustomers', $sourceCustomer)->with('patients', $Patient);
@@ -1354,19 +1413,26 @@ class AdminController extends Controller
     public function searchStatusPatient(Request $request)
     {
         try {
-            $date = date('Y/m/d');
-            $SQL = " SELECT tp.id,pm.`code` AS MaBN,pm.fullName AS TEN,pm.birthday AS NAMSINH,pv.`name` AS TINH,p.`name` AS GOI,tp.codeDoctor AS BS,tp.umpteenth AS SOLANTAIKHAM,COUNT(dt.therapistId) as SOLANRAVAO FROM treatment_packages tp ";
-            $SQL .= " INNER JOIN detailed_treatments dt ON tp.id = dt.treatmentPackageId INNER JOIN packages p ON tp.packageId = p.id ";
-            $SQL .= " INNER JOIN patient_managements pm ON tp.patientId = pm.`code` INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
-            $SQL .= " INNER JOIN provinces pv ON pm.provincialId = pv.id ";
-            $SQL .= " WHERE tp.createdDate BETWEEN '" . $request->get('data')["FromDate"] . "' AND '" . $request->get('data')["ToDate"] . "' ";
-            $SQL .= " AND dt.therapistId != '0' AND sc.id = " . $request->get('data')["SourceCustomerId"] . " ";
+            $SQL = " SELECT id,MaBN,TEN,NAMSINH,TINH ,GOI,BS,SOLANTAIKHAM, COUNT(SANGCHIEU) AS RAVAO ";
+            $SQL .= " FROM ( ";
+            $SQL .=         " SELECT dt.id, dt.patientId AS MaBN, pm.fullName AS TEN, pm.birthday AS NAMSINH, pv.`name` AS TINH, p.`name` AS GOI, tp.codeDoctor AS BS,tp.umpteenth AS SOLANTAIKHAM,dt.time AS SANGCHIEU ";
+            $SQL .=         " FROM treatment_packages tp ";
+            $SQL .=         " INNER JOIN detailed_treatments dt ON tp.id = dt.treatmentPackageId ";
+            $SQL .=         " LEFT JOIN statuses st ON dt.id = st.detailTreatmentId ";
+            $SQL .=         " INNER JOIN packages p ON tp.packageId = p.id ";
+            $SQL .=         " INNER JOIN patient_managements pm ON tp.patientId = pm.`code` ";
+            $SQL .=         " INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
+            $SQL .=         " INNER JOIN provinces pv ON pm.provincialId = pv.id ";
+
+            $SQL .=         " WHERE st.createdDate BETWEEN '" . $request->get('data')["FromDate"] . "' AND '" . $request->get('data')["ToDate"] . "' ";
+            $SQL .=         " AND sc.id = " . $request->get('data')["SourceCustomerId"] . " ";
             if ($request->get('data')["Umpteenth"] != 0) {
-                $SQL .= " AND tp.umpteenth != 0 ";
+                $SQL .=     " AND tp.umpteenth != 0 ";
             } else {
-                $SQL .= " AND tp.umpteenth = 0 ";
+                $SQL .=     " AND tp.umpteenth = 0 ";
             }
-            $SQL .= " GROUP BY MaBN,TEN,NAMSINH,TINH,GOI,BS,SOLANTAIKHAM ";
+            $SQL .=          "  GROUP BY dt.patientId,dt.time) as a";
+            $SQL .= " GROUP BY MaBN ";
             $Patient = DB::select($SQL);
             return $Patient;
         } catch (Exception $ex) {
@@ -1376,24 +1442,25 @@ class AdminController extends Controller
 
     public function getStatisticsTherapist()
     {
-        $date = date('Y-m-d');
+        $date=$this->getdate();
         try {
             $searchProfessionalTherapist = DB::table('detailed_treatments')
-                ->join('management_therapists', 'detailed_treatments.therapistId', '=', 'management_therapists.code')
                 ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.id')
+                ->join('statuses','detailed_treatments.id','=','statuses.detailTreatmentId')
+                ->join('management_therapists', 'statuses.therapistCode', '=', 'management_therapists.code')
                 ->selectRaw(
                     'detailed_treatments.id,
                     detailed_treatments.professionalTreatment as name,
-                    detailed_treatments.createdDate,
+                    statuses.createdDate,
                     patient_managements.code,
-                    detailed_treatments.ail,
-                    management_therapists.code as codeTherapist,
+                    statuses.ail,
+                    statuses.therapistCode as codeTherapist,
                     management_therapists.name as nameTherapist,
                     COUNT(detailed_treatments.professionalTreatment) as total'
                 )
-                ->where('detailed_treatments.therapistId', '<>', 0)
-                ->where('detailed_treatments.ail', '<>', -1)
-                ->where('detailed_treatments.createdDate', '=', $date)
+//                ->where('detailed_treatments.therapistId', '<>', 0)
+//                ->where('detailed_treatments.ail', '<>', -1)
+                ->where('statuses.createdDate', '=', $date[0]->now)
                 ->groupBy('detailed_treatments.professionalTreatment', 'management_therapists.name')
                 ->get();
             return view('admin.statisticsTherapist')->with('searchProfessionalTherapists', $searchProfessionalTherapist);
@@ -1406,19 +1473,20 @@ class AdminController extends Controller
     {
         try {
             $searchProfessionalTherapist = DB::table('detailed_treatments')
-                ->join('management_therapists', 'detailed_treatments.therapistId', '=', 'management_therapists.code')
-                ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.code')
+                ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.id')
+                ->join('statuses','detailed_treatments.id','=','statuses.detailTreatmentId')
+                ->join('management_therapists', 'statuses.therapistCode', '=', 'management_therapists.code')
                 ->selectRaw(
                     'detailed_treatments.id,
                     detailed_treatments.professionalTreatment as name,
-                    detailed_treatments.createdDate,
+                    statuses.createdDate,
                     patient_managements.code,
-                    detailed_treatments.ail,
-                    management_therapists.code as codeTherapist,
+                    statuses.ail,
+                    statuses.therapistCode as codeTherapist,
                     management_therapists.name as nameTherapist,
                     COUNT(detailed_treatments.professionalTreatment) as total'
                 )
-                ->whereBetween('createdDate', [$request->get('data')['FromDate'], $request->get('data')['ToDate']])
+                ->whereBetween('statuses.createdDate', [$request->get('data')['FromDate'], $request->get('data')['ToDate']])
                 ->groupBy('detailed_treatments.professionalTreatment', 'management_therapists.name')
                 ->get();
             return $searchProfessionalTherapist;
@@ -1691,11 +1759,11 @@ class AdminController extends Controller
 
 //            $doctor=Doctor::where('active',1)->where('code','LIKE','%' . $request->get('Code')  . '%')->get();
             if (count($therapist) == 1) {
-
+                return $therapist;
             } else if (count($therapist) == 0) {
                 return 0;
             } else if (count($therapist) > 1) {
-                return $therapist;
+                return 2;
             }
         } catch (Exception $ex) {
             return $ex;
@@ -1849,8 +1917,8 @@ class AdminController extends Controller
                 $Professional = DB::table('detailed_treatments as detail')
                     ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
                     ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
+                    ->join('packages','treatment_packages.packageId','=','packages.id')
                     ->where('treatment.id', '=', $request->get('idPackageTreatment'))
-                    //->where('detail.createdDate',$request->get('date'))
                     ->orderBy('detail.createdDate', 'desc')
 //                ->take($count)
                     ->select(
@@ -1863,7 +1931,8 @@ class AdminController extends Controller
                         'detail.location as detailLocation',
                         'location.id as location',
                         'location.name as locationName',
-                        'detail.professionalTreatment as professional'
+                        'detail.professionalTreatment as professional',
+                        'packages.name as packageName'
                     )
                     ->get();
             } else {
@@ -1872,6 +1941,7 @@ class AdminController extends Controller
                 $Professional = DB::table('detailed_treatments as detail')
                     ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
                     ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
+                    ->join('packages','treatment.packageId','=','packages.id')
                     ->where('treatment.id', '=', $request->get('idPackageTreatment'))
                     ->where('detail.createdDate', $request->get('date'))
 //                ->orderBy('detail.createdDate', 'desc')
@@ -1886,7 +1956,8 @@ class AdminController extends Controller
                         'detail.location as detailLocation',
                         'location.id as location',
                         'location.name as locationName',
-                        'detail.professionalTreatment as professional'
+                        'detail.professionalTreatment as professional',
+                        'packages.name as packageName'
                     )
                     ->get();
             }
@@ -1897,6 +1968,23 @@ class AdminController extends Controller
         }
     }
 
+    public function updatePackageForTreatmentPackage(Request $request)
+    {
+        try{
+            $treatmentPackage = TreatmentPackage::where('active',1)->where('id',$request->get('idTreatmentPackage'))->first();
+            if($treatmentPackage){
+                $treatmentPackage->packageId = $request->get('idPackage');
+                $treatmentPackage->save();
+                return 1;
+            }else{
+                return 0;
+            }
+        }
+        catch (Exception $ex){
+            return $ex;
+        }
+    }
+    
     // Anh Tam
 
 
@@ -2412,7 +2500,7 @@ class AdminController extends Controller
 //            return $ex;
 //        }
         try {
-            $SQL = "SELECT pm.id, pm.`code` as 'maBN',pm.fullName, tr.`code` as 'maPD',tr.createdDate,tr.status,tr.note FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.`code` = tr.patientId WHERE pm.active = 1 AND tr.active = 1";
+            $SQL = "SELECT pm.id, pm.`code` as 'maBN',pm.fullName, tr.`code` as 'maPD',tr.createdDate,tr.status,tr.note,tr.therapist FROM treatment_regimens tr INNER JOIN  patient_managements pm  ON pm.`code` = tr.patientId WHERE pm.active = 1 AND tr.active = 1";
             if ($request->get('Regimens')['CodePatient'] != "") {
                 $SQL .= " AND pm.`code` LIKE '" . '%' . $request->get('Regimens')['CodePatient'] . '%' . "'";
             }
@@ -2484,6 +2572,7 @@ class AdminController extends Controller
                 'PatientReviews' => $listInformation->patientReviews,
                 'Handling' => $listInformation->handling,
                 'CreatedDate' => $listInformation->createdDate,
+                'special' => $listInformation->special,
             ];
             array_push($arrayListInformation, $array);
         }
@@ -2501,6 +2590,7 @@ class AdminController extends Controller
                     $information->createdDate = $request->get('dataInformation')['CreatedDate'];
                     $information->patientReviews = $request->get('dataInformation')['PatientReviews'];
                     $information->content = $request->get('dataInformation')['Content'];
+                    $information->special = $request->get('Special');
                     if ($request->get('dataInformation')['Handling'] === "") {
                         $information->handling = '2';
                     } else {
@@ -2520,6 +2610,7 @@ class AdminController extends Controller
                         $information->createdDate = $request->get('dataInformation')['CreatedDate'];
                         $information->patientReviews = $request->get('dataInformation')['PatientReviews'];
                         $information->content = $request->get('dataInformation')['Content'];
+                        $information->special = $request->get('Special');
                         if ($request->get('dataInformation')['Handling'] === "") {
                             $information->handling = '2';
                         } else {

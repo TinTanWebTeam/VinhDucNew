@@ -16,14 +16,14 @@ class CreateDetailedTreatmentsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('treatmentPackageId');
-            $table->integer('patientId');
+            $table->string('patientId');
             $table->string('professionalTreatment');
             $table->string('location');
             $table->string('time');
             $table->integer('sesame');
             $table->integer('minute');
-            $table->string('therapistId');
-            $table->boolean('ail')->default(0);
+//            $table->string('therapistId');
+//            $table->boolean('ail')->default(0);
             $table->string('note');
             $table->boolean('active')->default(1);
             $table->date('createdDate');

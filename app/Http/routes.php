@@ -93,6 +93,9 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::post('searchTherapist','AdminController@searchTherapist');
     Route::post('loadDetailByDoctor','AdminController@loadDetailByDoctor');
     Route::post('loadDateCreateProfessional','AdminController@loadDateCreateProfessional');
+    Route::post('updatePackageForTreatmentPackage','AdminController@updatePackageForTreatmentPackage');
+    
+
     //AnhTam
     Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
     Route::post('addNewAndUpdatePackage','AdminController@addNewAndUpdatePackage');

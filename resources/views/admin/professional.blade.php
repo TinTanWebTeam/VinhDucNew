@@ -145,10 +145,12 @@
                             <table class="table table-bordered table-hover order-column " id="PackagesTable">
                                 <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>Vùng</th>
                                     <th>Chuyên môn</th>
                                     <th>Vị trí</th>
-                                    <th>Thời gian</th>
+                                    <th>S/C</th>
+                                    <th>Phút</th>
                                     <th>Mã chuyên viên</th>
                                     <th>Tình trạng</th>
                                     <th>Lưu thay đổi</th>
@@ -257,20 +259,21 @@
                 })
             },
             fillTbody: function (data) {
+                console.log(data);
                 $("tbody#tbodyProfessionalList").empty();
                 var row = "";
-                for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < data[0].length; i++) {
                     var tr = "";
-                    if (data[i]["active"] === 0) {
-                        tr += "<tr id=" + data[i]["id"] + " style='cursor: pointer;background-color: #e6e4e4' data-active='" + data[i]["active"] + "' data-date='" + data[i]["createdDate"] + "' data-code='" + data[i]["code"] + "' data-Id='" + data[i]["id"] + "' onclick='professionalView.fillUpdateToTable(this,String(\"\"))'>";
+                    if (data[0][i]["active"] === 0) {
+                        tr += "<tr id=" + data[0][i]["id"] + " style='cursor: pointer;background-color: #e6e4e4' data-active='" + data[0][i]["active"] + "' data-date='" + data[0][i]["createdDate"] + "' data-code='" + data[0][i]["code"] + "' data-Id='" + data[0][i]["id"] + "' onclick='professionalView.fillUpdateToTable(this,String(\"\"))'>";
                     } else {
-                        tr += "<tr id=" + data[i]["id"] + " style='cursor: pointer' data-active='" + data[i]["active"] + "' data-date='" + data[i]["createdDate"] + "' data-code='" + data[i]["code"] + "' data-Id='" + data[i]["id"] + "' onclick='professionalView.fillUpdateToTable(this,String(\"\"))'>";
+                        tr += "<tr id=" + data[0][i]["id"] + " style='cursor: pointer' data-active='" + data[0][i]["active"] + "' data-date='" + data[0][i]["createdDate"] + "' data-code='" + data[0][i]["code"] + "' data-Id='" + data[0][i]["id"] + "' onclick='professionalView.fillUpdateToTable(this,String(\"\"))'>";
                     }
-                    tr += "<td>" + data[i]["code"] + "</td>";
-                    tr += "<td>" + data[i]["packagesNote"] + "</td>";
-                    tr += "<td>" + data[i]["createdDate"] + "</td>";
-                    tr += "<td>" + data[i]["namePackage"] + "</td>";
-                    tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[i]["active"] + "' data-code='" + data[i]["code"] + "' data-date='" + data[i]["createdDate"] + "' data-Id='" + data[i]["id"] + "' onclick='professionalView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";
+                    tr += "<td>" + data[0][i]["code"] + "</td>";
+                    tr += "<td>" + data[0][i]["packagesNote"] + "</td>";
+                    tr += "<td>" + data[0][i]["createdDate"] + "</td>";
+                    tr += "<td>" + data[0][i]["namePackage"] + "</td>";
+                    tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[0][i]["active"] + "' data-code='" + data[0][i]["code"] + "' data-date='" + data[0][i]["createdDate"] + "' data-Id='" + data[0][i]["id"] + "' onclick='professionalView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";
                     row += tr;
                 }
                 $("tbody#tbodyProfessionalList").append(row);
@@ -338,6 +341,7 @@
                     professionalView.fillTbody(data)
                 })
             },
+
             fillUpdateToTable: function (element, result) {
                 $("div[name=title]").text("Chi tiết điều trị của mã phiếu: " + $(element).attr("data-code") + "");
                 var d = new Date();
@@ -490,7 +494,7 @@
                         $.post(url + "admin/updateAil", {
                             _token: _token,
                             therapistId: $(element).parent().parent().find("td").find("input").val(),
-                            ail: $(element).parent().parent().find("td").eq(4).find("select").val(),
+                            ail: $(element).parent().parent().find("td").eq(7).find("select").val(),
 //                    professionalId: $(element).attr("id"),
                             patientId:$("input[name=Id]").val(),
 //                    treatmentPackageId:professionalView.idTreatmentPackage

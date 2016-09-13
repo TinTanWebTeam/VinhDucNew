@@ -17,6 +17,7 @@ class CreateInformationSurveysTable extends Migration
             $table->increments('id');
             $table->date('createdDate');
             $table->boolean('active')->default(1);
+            $table->boolean('special')->default(0);
             $table->string('patientReviews');
             $table->string('patient_id');
             $table->string('content');

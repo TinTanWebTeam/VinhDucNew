@@ -16,10 +16,8 @@ class StatusTableSeeder extends Seeder
         $faker=Factory::create();
         foreach (range(1,5) as $index){
             Status::create([
-                'name'=>$faker->paragraph(5),
-                'therapistId'=>$index,
-                'doctorId'=>$index,
-                'patientId'=>$index
+                'therapistCode'=>$index,
+                'detailTreatmentId'=>$index
             ]);
         }
     }
