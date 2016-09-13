@@ -1445,8 +1445,8 @@ class AdminController extends Controller
         $date=$this->getdate();
         try {
             $searchProfessionalTherapist = DB::table('detailed_treatments')
-                ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.id')
-                ->join('statuses','detailed_treatments.id','=','statuses.detailTreatmentId')
+                ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.code')
+                ->leftJoin('statuses','detailed_treatments.id','=','statuses.detailTreatmentId')
                 ->join('management_therapists', 'statuses.therapistCode', '=', 'management_therapists.code')
                 ->selectRaw(
                     'detailed_treatments.id,
@@ -1456,12 +1456,12 @@ class AdminController extends Controller
                     statuses.ail,
                     statuses.therapistCode as codeTherapist,
                     management_therapists.name as nameTherapist,
-                    COUNT(detailed_treatments.professionalTreatment) as total'
+                    COUNT(statuses.detailTreatmentId) as total'
                 )
 //                ->where('detailed_treatments.therapistId', '<>', 0)
 //                ->where('detailed_treatments.ail', '<>', -1)
                 ->where('statuses.createdDate', '=', $date[0]->now)
-                ->groupBy('detailed_treatments.professionalTreatment', 'management_therapists.name')
+                ->groupBy('statuses.detailTreatmentId')
                 ->get();
             return view('admin.statisticsTherapist')->with('searchProfessionalTherapists', $searchProfessionalTherapist);
         } catch (Exception $ex) {
@@ -1473,7 +1473,7 @@ class AdminController extends Controller
     {
         try {
             $searchProfessionalTherapist = DB::table('detailed_treatments')
-                ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.id')
+                ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.code')
                 ->join('statuses','detailed_treatments.id','=','statuses.detailTreatmentId')
                 ->join('management_therapists', 'statuses.therapistCode', '=', 'management_therapists.code')
                 ->selectRaw(
