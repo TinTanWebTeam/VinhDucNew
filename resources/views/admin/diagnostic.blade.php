@@ -478,6 +478,7 @@
                 dataPackage: null,
                 dataRegimen: null,
                 goBack: null,
+                checkPackagesId:null,
                 idTreatmentPackage: null,
                 idDiagnostic: null,
                 data: null,
@@ -626,11 +627,11 @@
                     })
                 },
                 getIdPackage: function (element) {
-                    $("tbody#tbodyDiagnosticList").find("tr").css("background-color", "#ffffff").css("color", "#000000");
-                    ;
+                    $("tbody#tbodyDiagnosticList").find("tr").css("background-color", "#ffffff").css("color", "#000000");;
                     $("tbody#tbodyDiagnosticList").find("tr[id=" + $(element).attr("id") + "]").css("background-color", "#00a859").css("color", "#ffffff");
                     diagnosticView.dataRegimen = $(element).attr("id");
                     deleteTreatmentPackage = $(element).attr("id");
+                    diagnosticView.checkPackagesId = $(element).find("td").find("select").val();
                 }
                 ,
                 updateTreatmentPackage: function (element) {
@@ -1009,78 +1010,83 @@
                 }
                 ,
                 report: function () {
-                    if (diagnosticView.dataRegimen !== null) {
-                        $.post(url + "admin/report", {
-                            _token: _token,
-                            dataPatient: diagnosticView.dataPatient,
-                            idPackageTreatment: diagnosticView.dataRegimen
-                        }, function (data) {
-                            console.log(data);
-                            $("div[name=report]").show();
-                            $("div[name=page-wrapper]").hide();
-                            var value = 0;
-                            var select = "";
-                            $("select#Date").empty();
-                            for (var propertyName in data[3]) {
-                                var option = "";
-                                option += "<option value='" + value + "'>Lần thứ: " + (data[3].length - value) + " Ngày: " + data[3][propertyName] + "</option>"
-                                select += option;
-                                value += 1;
-                            }
-                            select += "<option></option>"
-                            $("select#Date").append(select);
+                    if(diagnosticView.checkPackagesId !== "0") {
+                        if (diagnosticView.dataRegimen !== null) {
+                            $.post(url + "admin/report", {
+                                _token: _token,
+                                dataPatient: diagnosticView.dataPatient,
+                                idPackageTreatment: diagnosticView.dataRegimen
+                            }, function (data) {
+                                $("div[name=report]").show();
+                                $("div[name=page-wrapper]").hide();
+                                var value = 0;
+                                var select = "";
+                                $("select#Date").empty();
+                                for (var propertyName in data[3]) {
+                                    var option = "";
+                                    option += "<option value='" + value + "'>Lần thứ: " + (data[3].length - value) + " Ngày: " + data[3][propertyName] + "</option>"
+                                    select += option;
+                                    value += 1;
+                                }
+                                select += "<option></option>"
+                                $("select#Date").append(select);
 
-                            for (var propertyName in data[0]) {
-                                $("span[name=" + diagnosticView.firstToUpperCase(propertyName) + "]").text(data[0][propertyName]);
-                                if (propertyName === "sex") {
-                                    if (data[0][propertyName] === 1) {
-                                        $("span[name=Sex]").text("Nam");
-                                    } else {
-                                        $("span[name=Sex]").text("Nữ");
+                                for (var propertyName in data[0]) {
+                                    $("span[name=" + diagnosticView.firstToUpperCase(propertyName) + "]").text(data[0][propertyName]);
+                                    if (propertyName === "sex") {
+                                        if (data[0][propertyName] === 1) {
+                                            $("span[name=Sex]").text("Nam");
+                                        } else {
+                                            $("span[name=Sex]").text("Nữ");
+                                        }
+                                    } else if (propertyName === "code") {
+                                        $("span[name=CodePatient]").text(data[0][propertyName]);
                                     }
-                                } else if (propertyName === "code") {
-                                    $("span[name=CodePatient]").text(data[0][propertyName]);
                                 }
-                            }
-                            for (var propertyName in data[1]) {
-                                $("span[name=" + diagnosticView.firstToUpperCase(propertyName) + "]").text(data[1][propertyName]);
-                            }
-                            if (data[2].length !== 0) {
-                                var row = "";
-                                var stt = 1;
-                                $("tbody#tbodyRegimen").empty();
-                                for (var i = 0; i < data[2].length; i++) {
-                                    var tr = "";
-                                    tr += "<tr id=" + data[2][i]["detailId"] + " style='text-align:center '>";
-                                    tr += "<td>" + stt + "</td>";
-                                    tr += "<td>" + data[2][i]["locationName"] + "</td>";
-                                    tr += "<td>" + data[2][i]["time"] + "</td>";
-                                    tr += "<td>" + data[2][i]["professional"] + "</td>";
-                                    tr += "<td>" + data[2][i]["detailLocation"] + "</td>";
-                                    tr += "<td>" + data[2][i]["minute"] + "</td>";
-                                    tr += "<td>" + data[2][i]["createdBy"] + "</td>";
-                                    tr += "<td>" + data[2][i]["createdDate"] + "</td>";
-                                    tr += "<td>" + data[2][i]["packageName"] + "</td>";
-                                    tr += "</tr>";
-                                    row += tr;
-                                    stt++;
+                                for (var propertyName in data[1]) {
+                                    $("span[name=" + diagnosticView.firstToUpperCase(propertyName) + "]").text(data[1][propertyName]);
                                 }
-                                $("tbody#tbodyRegimen").append(row);
+                                if (data[2].length !== 0) {
+                                    var row = "";
+                                    var stt = 1;
+                                    $("tbody#tbodyRegimen").empty();
+                                    for (var i = 0; i < data[2].length; i++) {
+                                        var tr = "";
+                                        tr += "<tr id=" + data[2][i]["detailId"] + " style='text-align:center '>";
+                                        tr += "<td>" + stt + "</td>";
+                                        tr += "<td>" + data[2][i]["locationName"] + "</td>";
+                                        tr += "<td>" + data[2][i]["time"] + "</td>";
+                                        tr += "<td>" + data[2][i]["professional"] + "</td>";
+                                        tr += "<td>" + data[2][i]["detailLocation"] + "</td>";
+                                        tr += "<td>" + data[2][i]["minute"] + "</td>";
+                                        tr += "<td>" + data[2][i]["createdBy"] + "</td>";
+                                        tr += "<td>" + data[2][i]["createdDate"] + "</td>";
+                                        tr += "<td>" + data[2][i]["packageName"] + "</td>";
+                                        tr += "</tr>";
+                                        row += tr;
+                                        stt++;
+                                    }
+                                    $("tbody#tbodyRegimen").append(row);
 
-                            } else {
-                                $("tbody#tbodyRegimen").empty();
-                            }
-                            ;
-                        });
-                        $("span[name=CodeDoctor]").text(diagnosticView.dataPackage[0]["codeDoctor"]);
-                        $("span[name=Diagnose]").text(diagnosticView.dataPackage[0]["packagesNote"]);
-                    } else {
+                                } else {
+                                    $("tbody#tbodyRegimen").empty();
+                                }
+                                ;
+                            });
+                            $("span[name=CodeDoctor]").text(diagnosticView.dataPackage[0]["codeDoctor"]);
+                            $("span[name=Diagnose]").text(diagnosticView.dataPackage[0]["packagesNote"]);
+                        } else {
+                            $("div#modalConfirm").modal("show");
+                            $("div#modalContent").empty().append("Chưa chọn phiếu để in");
+                            $("button[name=modalAgree]").hide();
+                        }
+                        diagnosticView.checkPackagesId = null;
+                    }else{
                         $("div#modalConfirm").modal("show");
-                        $("div#modalContent").empty().append("Chưa chọn phiếu để in");
+                        $("div#modalContent").empty().append("Chưa chọn gói cho phiếu điều trị");
                         $("button[name=modalAgree]").hide();
                     }
-                }
-                ,
+                },
                 loadDateCreateProfessional: function () {
                     $.post(url + "admin/loadDateCreateProfessional", {
                         _token: _token,

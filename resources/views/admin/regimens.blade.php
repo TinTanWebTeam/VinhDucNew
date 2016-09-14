@@ -521,7 +521,6 @@
             _token: _token,
             Code: $input.val()
         }, function (data) {
-            console.log(data);
             if (data === "0") {
                 $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
                 $("button[name=modalAgree]").hide();

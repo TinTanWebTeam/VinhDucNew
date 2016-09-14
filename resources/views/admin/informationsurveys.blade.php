@@ -257,7 +257,6 @@
                                 $("select[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                                 $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                                 $("textarea[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
-                                console.log(data[propertyName]);
                                 if (propertyName === "special") {
 
                                     if (data[propertyName] === 1) {
@@ -285,7 +284,6 @@
                                 $("select[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                                 $("input[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
                                 $("textarea[id=" + informationView.firstToUpperCase(propertyName) + "]").val(data[propertyName]);
-                                console.log(data[propertyName]);
                                 if (propertyName === "special") {
 
                                     if (data[propertyName] === 1) {
@@ -323,7 +321,6 @@
                     }
                 },
                 fillTbody: function (data, result) {
-                    console.log(data);
                     $("tbody#tbodyInformationList").empty();
                     var row = "";
                     for (var i = 0; i < data["listInformation"].length; i++) {

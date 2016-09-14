@@ -357,7 +357,6 @@
                             addNewOrUpdateId: $("input[name=Id]").val(),
                             dataUser: userView.UserObject
                         }, function (data) {
-                            console.log(data);
                             if (data[0] !== 3) {
                                 if (data[0] === 1) {
                                     idUsers=null;

@@ -259,7 +259,6 @@
                 })
             },
             fillTbody: function (data) {
-                console.log(data);
                 $("tbody#tbodyProfessionalList").empty();
                 var row = "";
                 for (var i = 0; i < data[0].length; i++) {

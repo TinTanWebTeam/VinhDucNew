@@ -168,7 +168,6 @@
                     })
                 },
                 fillTbody: function (data, result) {
-                    console.log(data["listSourceCustomer"]);
                     $("tbody#tbodySourceCustomerList").empty();
                     var row = "";
                     for (var i = 0; i < data["listSourceCustomer"].length; i++) {

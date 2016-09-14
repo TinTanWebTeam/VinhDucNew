@@ -147,7 +147,6 @@
                         _token: _token,
                         data: statisticsPatientView.StatisticsPatientViewObject
                     }, function (data) {
-                        console.log(data);
                         statisticsPatientView.fillTbody(data);
                     })
                 },
