@@ -406,7 +406,7 @@
                     $.get(url + "admin/getdate", {
                         _token: _token,
                     }, function (data) {
-                        var datenow = data[0]["NOW()"].slice(0, 4);
+                        var datenow = data[0]["now"].slice(0, 4);
                         var date = $("input[name=Birthday]").val().slice(0, 4);
 
                         var now = datenow - date;

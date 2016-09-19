@@ -131,7 +131,7 @@ class AdminController extends Controller
     public function getPatient()
     {
         $arrayListPatient = [];
-        $listPatient = PatientManagement::where('active', 1)->get();
+        $listPatient = PatientManagement::where('active', 1)->orderBy('updated_at','desc') ->get();
         foreach ($listPatient as $patient) {
             $array = [
                 'id' => $patient->id,
@@ -1423,9 +1423,12 @@ class AdminController extends Controller
             $SQL .=         " INNER JOIN patient_managements pm ON tp.patientId = pm.`code` ";
             $SQL .=         " INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
             $SQL .=         " INNER JOIN provinces pv ON pm.provincialId = pv.id ";
-
             $SQL .=         " WHERE st.createdDate BETWEEN '" . $request->get('data')["FromDate"] . "' AND '" . $request->get('data')["ToDate"] . "' ";
-            $SQL .=         " AND sc.id = " . $request->get('data')["SourceCustomerId"] . " ";
+            if($request->get('data')["SourceCustomerId"]==0){
+
+            }else{
+                $SQL .=     " AND sc.id = " . $request->get('data')["SourceCustomerId"] . " ";
+            }
             if ($request->get('data')["Umpteenth"] != 0) {
                 $SQL .=     " AND tp.umpteenth != 0 ";
             } else {

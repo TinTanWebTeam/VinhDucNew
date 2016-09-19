@@ -45,6 +45,7 @@
             <label for="SourceCustomerId"><b>Nguồn khách hàng</b></label>
             <select class="form-control" name="SourceCustomerId" id="SourceCustomerId" onchange="statisticsPatientView.search()">
                 @if($sourceCustomers)
+                    <option value="0">Tất cả</option>
                     @foreach($sourceCustomers as $item)
                         <option value="{{$item->id}}">{{$item->sourceCustomer}}</option>
                     @endforeach
