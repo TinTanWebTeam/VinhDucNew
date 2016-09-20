@@ -610,7 +610,7 @@ class AdminController extends Controller
                             $treatment->name = "";
                             $treatment->codeDoctor = $request->get('data')['CodeDoctor'];
                             $treatment->note = $request->get('data')['Note'];
-                            $treatment->packageId = "";
+                            $treatment->packageId = $request->get('idTreatmentPackage');
                             $treatment->patientId = $request->get('data')['PatientId'];
                             $treatment->updateDate = $date;
                             $treatment->upDatedBy = (string)Auth::user()->id;
@@ -876,7 +876,7 @@ class AdminController extends Controller
                 ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
                 ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
                 ->join('packages','treatment.packageId','=','packages.id')
-                ->where('treatment.id', '=', $request->get('idPackageTreatment'))
+                ->where('detail.treatmentPackageId', '=', $request->get('idPackageTreatment'))
                 ->where('detail.active', 1)
                 ->orderBy('detail.createdDate', 'desc')
                 ->take($count)
@@ -1885,6 +1885,7 @@ class AdminController extends Controller
             $patient = PatientManagement::where('active', 1)->where('code', $request->get('dataPatient'))->first();
             $record = MedicalRecord::where('active', 1)->where('patientId', $request->get('dataPatient'))->first();
             $regimen = $this->searchProfessional($request);
+            $package = TreatmentPackage::where('active',1)->where('id',$request->get('idPackageTreatment'))->first();
             $date = DB::table('detailed_treatments')
                 ->where('detailed_treatments.treatmentPackageId', $request->get('idPackageTreatment'))
                 ->groupBy('createdDate')
@@ -1896,7 +1897,7 @@ class AdminController extends Controller
                 $payment = $date[$i]->createdDate;
                 array_push($arrayDate, $payment);
             }
-            return array($patient, $record, $regimen, $arrayDate);
+            return array($patient, $record, $regimen, $arrayDate,$package);
         } catch (Exception $ex) {
             return $ex;
         }

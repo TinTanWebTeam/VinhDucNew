@@ -641,6 +641,7 @@
                     $("input[name=CodeDoctor]").val($(element).attr("data-codeDoctor"));
                     $("input[name=TreatmentPackageCode]").val($(element).attr("data-code"));
                     $("textarea[name=Note]").val($(element).attr("data-note"));
+                    diagnosticView.idTreatmentPackage = $(element).attr("data-packageId");
                     diagnosticView.addNewTreatmentPackages();
                 }
                 ,
@@ -739,7 +740,7 @@
                         _token: _token,
                         idPackageTreatment: diagnosticView.idTreatmentPackage
                     }, function (data) {
-                        if (data !== null) {
+                        if (data.length !== 0) {
                             var bs = data[0]["createdBy"];
                             $("select#DoctorCode").val(bs);
                             diagnosticView.data = data;
@@ -927,7 +928,8 @@
                     if ($("#formDiagnostic").valid()) {
                         $.post(url + "admin/addNewTreatment", {
                             _token: _token,
-                            data: diagnosticView.DiagnosticObject
+                            data: diagnosticView.DiagnosticObject,
+                            idTreatmentPackage:diagnosticView.idTreatmentPackage
                         }, function (data) {
                             if (data === "1") {
                                 $("div#modalConfirm").modal("show");
@@ -952,6 +954,8 @@
                                 $("div[name=buttonAddNewTreatmentPackages]").hide();
                                 $("div[name=searchPatient]").show();
                                 $("div[name=addNewTreatment]").hide();
+                                //$("tbody#tbodyDiagnosticList").empty();
+
                                 diagnosticView.resetForm();
                             } else if (data === "0") {
                                 $("div#modalConfirm").modal("show");
@@ -1070,8 +1074,11 @@
 
                                 } else {
                                     $("tbody#tbodyRegimen").empty();
+                                };
+                                if(data[4].lenght !== 0){
+                                    $("span[name=Diagnose]").text(data[4]["note"]);
+
                                 }
-                                ;
                             });
                             $("span[name=CodeDoctor]").text(diagnosticView.dataPackage[0]["codeDoctor"]);
                             $("span[name=Diagnose]").text(diagnosticView.dataPackage[0]["packagesNote"]);
