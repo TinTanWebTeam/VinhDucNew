@@ -46,7 +46,7 @@ class AdminController extends Controller
     public function getViewPosition()
     {
         try {
-            $position = Position::where('active', 1)->get();
+            $position = Position::where('active', 1)->orderBy('updated_at','desc')->get();
             if ($position) {
                 return view('admin.position')->with('Positions', $position);
             } else {
@@ -150,7 +150,7 @@ class AdminController extends Controller
         try {
             $age = Age::where('active', 1)->get();
             $province = Provinces::where('active', 1)->get();
-            $patient = PatientManagement::where('active', 1)->get();
+            $patient = PatientManagement::where('active', 1)->orderBy('updated_at','desc')->get();
             $sourceCustomer = SourceCustomer::where('active', 1)->get();
             return view('admin.patient')->with('patients', $patient)->with('ages', $age)
                 ->with('sourceCustomers', $sourceCustomer)->with('provinces', $province);
@@ -271,7 +271,7 @@ class AdminController extends Controller
         try {
             $age = Age::where('active', 1)->get();
             $province = Provinces::where('active', 1)->get();
-            $therapist = ManagementTherapist::where('active', 1)->get();
+            $therapist = ManagementTherapist::where('active', 1)->orderBy('updated_at','desc')->get();
             return view('admin.therapist')->with('ages', $age)->with('provinces', $province)->with('therapists', $therapist);
         } catch (Exception $ex) {
             return $ex;
@@ -281,7 +281,7 @@ class AdminController extends Controller
     public function getTherapist()
     {
         $arrayListTherapist = [];
-        $listTherapist = ManagementTherapist::where('active', 1)->get();
+        $listTherapist = ManagementTherapist::where('active', 1)->orderBy('updated_at','desc')->get();
         foreach ($listTherapist as $Therapist) {
             $array = [
                 'id' => $Therapist->id,
@@ -300,7 +300,7 @@ class AdminController extends Controller
     public function postViewTherapist(Request $request)
     {
         try {
-            $therapist = ManagementTherapist::where('active', 1)->where('id', $request->get('idTherapist'))->first();
+            $therapist = ManagementTherapist::where('active', 1)->where('id', $request->get('idTherapist'))->orderBy('updated_at','desc')->first();
             if ($therapist) {
                 return $therapist;
             } else {
@@ -384,7 +384,7 @@ class AdminController extends Controller
     {
         try {
             $role = Role::where('active', 1)->where('name', '!=', 'admin')->get();
-            $user = User::where('active', 1)->where('roleId', '!=', 1)->get();
+            $user = User::where('active', 1)->where('roleId', '!=', 1)->orderBy('updated_at','desc')->get();
             $position = Position::where('active', 1)->get();
             return view('admin.user')->with('users', $user)->with('roles', $role)->with('positions', $position);
         } catch (Exception $ex) {
@@ -409,7 +409,7 @@ class AdminController extends Controller
     public function getUser()
     {
         $arrayListUser = [];
-        $listUser = User::where('active', 1)->where('name', '!=', 'admin')->get();
+        $listUser = User::where('active', 1)->where('name', '!=', 'admin')->orderBy('updated_at','desc')->get();
         foreach ($listUser as $user) {
             $array = [
                 'id' => $user->id,
@@ -520,6 +520,7 @@ class AdminController extends Controller
             if ($request->get('Patient')['Sex'] != "") {
                 $SQL .= " AND sex = '" . $request->get('Patient')['Sex'] . "'";
             }
+            $SQL .= " ORDER BY updated_at desc ";
             $patient = DB::select($SQL);
             return $patient;
         } catch (Exception $ex) {
@@ -551,6 +552,7 @@ class AdminController extends Controller
                     'treatment_regimens.note as regimensNote',
                     'packages.name'
                 )
+                ->orderBy('treatment_packages.updated_at','desc')
                 ->get();
             foreach ($TreatmentPackage as $item) {
                 $array = [
@@ -1238,6 +1240,7 @@ class AdminController extends Controller
             if ($request->get('Patient')['CreatedDate'] != "") {
                 $SQL .= " AND tr.createdDate LIKE '" . '%' . $request->get('Patient')['CreatedDate'] . '%' . "'";
             }
+            $SQL .= " ORDER BY tr.updated_at desc ";
             $patient = DB::select($SQL);
             return $patient;
         } catch (Exception $ex) {
@@ -1523,7 +1526,7 @@ class AdminController extends Controller
     public function getViewMedicalRecord()
     {
         $patient = PatientManagement::where('active', 1)->get();
-        $medical = MedicalRecord::where('active', 1)->get();
+        $medical = MedicalRecord::where('active', 1)->orderBy('updated_at','desc')->get();
         return view('admin.medicalrecord')->with('patients', $patient)->with('medicals', $medical);
     }
 
@@ -1592,6 +1595,7 @@ class AdminController extends Controller
                     'patient_managements.fullName as name',
                     'medical_records.reasons'
                 )
+                ->orderBy('medical_records.updated_at','desc')
                 ->get();
             return $searchProfessionalTherapist;
         } catch (Exception $ex) {
@@ -1622,6 +1626,7 @@ class AdminController extends Controller
                     'patient_managements.fullName as name',
                     'medical_records.reasons'
                 )
+                ->orderBy('medical_records.updated_at','desc')
                 ->get();
             return $search;
         } catch (Exception $ex) {
@@ -1634,7 +1639,7 @@ class AdminController extends Controller
         try {
             $age = Age::where('active', 1)->get();
             $province = Provinces::where('active', 1)->get();
-            $doctor = Doctor::where('active', 1)->get();
+            $doctor = Doctor::where('active', 1)->orderBy('updated_at','desc')->get();
             return view('admin.doctor')->with('ages', $age)->with('provinces', $province)->with('doctors', $doctor);
         } catch (Exception $ex) {
             return $ex;
@@ -1644,7 +1649,7 @@ class AdminController extends Controller
     public function getDoctor()
     {
         $arrayListDoctor = [];
-        $listDoctor = Doctor::where('active', 1)->get();
+        $listDoctor = Doctor::where('active', 1)->orderBy('updated_at','desc')->get();
         foreach ($listDoctor as $Doctor) {
             $array = [
                 'id' => $Doctor->id,
@@ -1994,7 +1999,7 @@ class AdminController extends Controller
     public function getViewPackage()
     {
         try {
-            $Package = Package::where('active', 1)->get();
+            $Package = Package::where('active', 1)->orderBy('updated_at','desc')->get();
             return view('admin.package')->with('Packages', $Package);
         } catch (Exception $ex) {
             return $ex;
@@ -2033,7 +2038,7 @@ class AdminController extends Controller
     public function getPackage()
     {
         $arrayListPackage = [];
-        $listPackages = Package::where('active', 1)->get();
+        $listPackages = Package::where('active', 1)->orderBy('updated_at','desc')->get();
         foreach ($listPackages as $listPackage) {
             $array = [
                 'id' => $listPackage->id,
@@ -2094,7 +2099,7 @@ class AdminController extends Controller
     public function getViewProTreatment()
     {
         try {
-            $proTm = ProfessionalTreatment::where('active', 1)->get();
+            $proTm = ProfessionalTreatment::where('active', 1)->orderBy('updated_at','desc')->get();
             return view('admin.protreatment')->with('proTms', $proTm);
         } catch (Exception $ex) {
             return $ex;
@@ -2133,7 +2138,7 @@ class AdminController extends Controller
     public function getProTreatment()
     {
         $arrayListProTreatment = [];
-        $listProTreatment = ProfessionalTreatment::where('active', 1)->get();
+        $listProTreatment = ProfessionalTreatment::where('active', 1)->orderBy('updated_at','desc')->get();
         foreach ($listProTreatment as $item) {
             $array = [
                 'Id' => $item->id,
@@ -2193,7 +2198,7 @@ class AdminController extends Controller
     {
 
         try {
-            $locaTion = LocationTreatment::where('active', 1)->get();
+            $locaTion = LocationTreatment::where('active', 1)->orderBy('updated_at','desc')->get();
             return view("admin.location")->with('locaTions', $locaTion);
         } catch (Exception $ex) {
             return $ex;
@@ -2233,7 +2238,7 @@ class AdminController extends Controller
     public function getLocation()
     {
         $arrayListLocation = [];
-        $listLocation = LocationTreatment::where('active', 1)->get();
+        $listLocation = LocationTreatment::where('active', 1)->orderBy('updated_at','desc')->get();
         foreach ($listLocation as $listLocation) {
             $array = [
                 'id' => $listLocation->id,
@@ -2289,7 +2294,7 @@ class AdminController extends Controller
     public function getViewProvinces()
     {
         try {
-            $province = Provinces::where('active', 1)->get();
+            $province = Provinces::where('active', 1)->orderBy('updated_at','desc')->get();
             return view("admin.provinces")->with('Provinces', $province);
         } Catch (Exception $ex) {
             return $ex;
@@ -2329,7 +2334,7 @@ class AdminController extends Controller
     public function getProvince()
     {
         $arrayListProvince = [];
-        $listProvince = Provinces::where('active', 1)->get();
+        $listProvince = Provinces::where('active', 1)->orderBy('updated_at','desc')->get();
         foreach ($listProvince as $listProvince) {
             $array = [
                 'id' => $listProvince->id,
@@ -2516,6 +2521,7 @@ class AdminController extends Controller
             if ($request->get('Regimens')['CreatedDate'] != "") {
                 $SQL .= " AND tr.createdDate LIKE '" . '%' . $request->get('Regimens')['CreatedDate'] . '%' . "'";
             }
+            $SQL .= " order By tr.updated_at  desc ";
             $regimens = DB::select($SQL);
             return $regimens;
         } catch (Exception $ex) {
@@ -2567,7 +2573,7 @@ class AdminController extends Controller
     public function getInformation()
     {
         $arrayListInformation = [];
-        $listInformation = InformationSurveys::where('active', 1)->get();
+        $listInformation = InformationSurveys::where('active', 1)->orderBy('updated_at','desc')->get();
         foreach ($listInformation as $listInformation) {
             $array = [
                 'Id' => $listInformation->id,
@@ -2660,7 +2666,7 @@ class AdminController extends Controller
                     'AND' . "'" . $request->get('data')['FromDate'] . "'" .
                     'AND info.`handling` =' . "'" . $request->get('data')['Handling'] . "'";
             }
-            $SQL .= "AND info.active = 1 ORDER BY createdDate ASC";
+            $SQL .= "AND info.active = 1 ORDER BY updated_at desc";
             $data = DB::select($SQL);
             return $data;
         } catch (Exception $ex) {
