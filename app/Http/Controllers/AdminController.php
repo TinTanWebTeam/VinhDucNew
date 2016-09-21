@@ -904,11 +904,11 @@ class AdminController extends Controller
     public function loadDetailByDoctor(Request $request)
     {
         try {
-            $maxDate = DB::table('detailed_treatments as detail')->where('detail.createdBy', $request->get('data')['DoctorCode'])->max('createdDate');
+            $maxDate = DB::table('detailed_treatments')->where('treatmentPackageId',$request->get('idPackageTreatment'))->where('createdBy', $request->get('data')['DoctorCode'])->max('createdDate');
             $Professional = DB::table('detailed_treatments as detail')
                 ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
                 ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
-                ->where('treatment.id', '=', $request->get('idPackageTreatment'))
+                ->where('detail.treatmentPackageId', '=', $request->get('idPackageTreatment'))
                 ->where('detail.createdBy', $request->get('data')['DoctorCode'])
                 ->where('detail.createdDate', $maxDate)
                 ->select(
