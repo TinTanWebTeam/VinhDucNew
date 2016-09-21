@@ -752,7 +752,7 @@ class AdminController extends Controller
     {
         try {
             DB::beginTransaction();
-            $date = date('Y/m/d');
+            $date = $this->getdate();
             if ($this->deleteRowDetail($request)) {
                 try {
                     $updateDetail = new DetailedTreatment();
@@ -767,8 +767,8 @@ class AdminController extends Controller
 //                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
 //                    $updateDetail->ail = -1;//chua biet dau hay khong dau
                     $updateDetail->note = "";
-                    $updateDetail->createdDate = $date;
-                    $updateDetail->updateDate = $date;
+                    $updateDetail->createdDate = $date[0]->now;
+                    $updateDetail->updateDate = $date[0]->now;
                     $updateDetail->createdBy = $request->get('data')['DoctorCode'];
                     $updateDetail->upDatedBy = $request->get('data')['DoctorCode'];
                     $updateDetail->save();
@@ -792,8 +792,8 @@ class AdminController extends Controller
 //                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
 //                    $updateDetail->ail = -1;//chua biet dau hay khong dau
                     $updateDetail->note = "";
-                    $updateDetail->createdDate = $date;
-                    $updateDetail->updateDate = $date;
+                    $updateDetail->createdDate = $date[0]->now;
+                    $updateDetail->updateDate = $date[0]->now;
                     $updateDetail->createdBy = $request->get('data')['DoctorCode'];
                     $updateDetail->upDatedBy = $request->get('data')['DoctorCode'];
                     $updateDetail->save();
@@ -870,16 +870,16 @@ class AdminController extends Controller
     public function searchProfessional(Request $request)
     {
         try {
-            $max = DB::table('detailed_treatments as detail')->max('createdDate');
-            $count = DB::table('detailed_treatments as detail')->where('createdDate', $max)->count();
+            $max = DB::table('detailed_treatments')->where('detailed_treatments.treatmentPackageId',$request->get('idPackageTreatment'))->max('createdDate');
+            //$count = DB::table('detailed_treatments')->where('detailed_treatments.treatmentPackageId',$request->get('idPackageTreatment'))->where('createdDate','=', $max )->count();
             $Professional = DB::table('detailed_treatments as detail')
                 ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
                 ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
                 ->join('packages','treatment.packageId','=','packages.id')
                 ->where('detail.treatmentPackageId', '=', $request->get('idPackageTreatment'))
                 ->where('detail.active', 1)
-                ->orderBy('detail.createdDate', 'desc')
-                ->take($count)
+                //->take($count)
+                ->where('detail.createdDate','=',$max)
                 ->select(
                     'detail.id as detailId',
                     'detail.name as detailName',
@@ -894,6 +894,7 @@ class AdminController extends Controller
                     'packages.name as packageName '
                 )
                 ->get();
+
             return $Professional;
         } catch (Exception $ex) {
             return $ex;

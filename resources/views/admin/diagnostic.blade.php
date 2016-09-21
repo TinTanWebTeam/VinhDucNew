@@ -845,7 +845,7 @@
                     diagnosticView.count = $("input[name=Umpteenth]").val();
                     if ($("input[name=checkbox]").prop("checked") === true) {
                         diagnosticView.setValueObject();
-                        $.post(url + "admin/updateUmpteenthTreatmentPackages", {
+                            $.post(url + "admin/updateUmpteenthTreatmentPackages", {
                             _token: _token,
                             idTreatmentPackage: diagnosticView.idTreatmentPackage,
                             data: diagnosticView.DiagnosticObject,
