@@ -2668,7 +2668,8 @@ class AdminController extends Controller
                     'AND' . "'" . $request->get('data')['FromDate'] . "'" .
                     'AND info.`handling` =' . "'" . $request->get('data')['Handling'] . "'";
             }
-            $SQL .= "AND info.active = 1 ORDER BY updated_at desc";
+            $SQL .= "AND info.active = 1 ORDER BY info.updated_at desc";
+
             $data = DB::select($SQL);
             return $data;
         } catch (Exception $ex) {
