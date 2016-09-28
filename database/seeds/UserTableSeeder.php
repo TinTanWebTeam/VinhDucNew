@@ -30,10 +30,10 @@ class UserTableSeeder extends Seeder
             'positionId'=>random_int(1,5)
         ]);
         User::create([
-            'name' => 'root',
+            'name' => 'tts_vinhduc',
             'email' => 'root@gmail.com',
             'fullName'=>'root',
-            'password' => encrypt('t1nt@n50ft',$key),
+            'password' => encrypt('4h0ngc0p@55.comA1',$key),
             'roleId' => 1,
             'positionId'=>random_int(1,5)
         ]);

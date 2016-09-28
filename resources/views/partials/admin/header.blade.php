@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        @if(Auth::user()->name ==="root")
+        @if(Auth::user()->name ==="tts_vinhduc")
         <a><img src="{{asset('img/logo.jpg')}}" style="margin-left: 15px;" width="150"
                 alt="CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC" onclick="headerView.sevenClick()"></a>
         @else
