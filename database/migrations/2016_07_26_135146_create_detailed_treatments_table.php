@@ -22,7 +22,6 @@ class CreateDetailedTreatmentsTable extends Migration
             $table->string('time');
             $table->integer('sesame');
             $table->integer('minute');
-            $table->boolean('complete')->default(1);
 //            $table->string('therapistId');
 //            $table->boolean('ail')->default(0);
             $table->string('note');
