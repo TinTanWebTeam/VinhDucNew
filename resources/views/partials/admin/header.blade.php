@@ -7,8 +7,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
+        @if(Auth::user()->name ==="root")
         <a><img src="{{asset('img/logo.jpg')}}" style="margin-left: 15px;" width="150"
-                         alt="CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC"></a>
+                alt="CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC" onclick="headerView.sevenClick()"></a>
+        @else
+            <a><img src="{{asset('img/logo.jpg')}}" style="margin-left: 15px;" width="150"
+                    alt="CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC"></a>
+        @endif
         <div class="scroll-left" style="display: inline-block;margin-left: 300px;color: #00a859;">
             <marquee id="marquee" direction="left" scrollamount="3" loop="true" scrolldelay="6">
                 CHÀO MỪNG ĐẾN VỚI TRUNG TÂM PHỤC HỒI CHỨC NĂNG VĨNH ĐỨC
@@ -142,6 +147,8 @@
         <!-- /.sidebar-collapse -->
     </div>
     <!-- /.navbar-static-side -->
+
+
 </nav>
 <style>
     @media (max-width: 768px) {

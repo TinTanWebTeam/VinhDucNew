@@ -481,11 +481,13 @@
             },
             saveDetail: function (element) {
                 if(professionalView.check==true){
-                    if($("select#TherapistId").val()==="0"){
+                    $idTherapist = $(element).parent().parent().find("td").eq(6).children().val();
+                    $idstatus = $(element).parent().parent().find("td").eq(7).children().val();
+                    if($idTherapist===""){
                         $("div#modalConfirm").modal("show");
                         $("div#modalContent").empty().append("Chưa chọn chuyên viên thực hiện");
                         $("button[name=modalAgree]").hide();
-                    }else if($("select#Status").val()==="-1"){
+                    }else if($idstatus==="-1"){
                         $("div#modalConfirm").modal("show");
                         $("div#modalContent").empty().append("Chưa chọn tình trạng bệnh nhân");
                         $("button[name=modalAgree]").hide();

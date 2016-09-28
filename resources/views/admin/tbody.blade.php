@@ -27,7 +27,7 @@
                         <select class="form-control" id="Status" name="Status">
 
                             @if($item["ail"] === "")
-                                <option value="2">Tình trạng</option>
+                                <option value="-1">Tình trạng</option>
                                 <option value="1">Có đau</option>
                                 <option value="0">Không đau</option>
                                 <option value="2">Có giảm</option>
@@ -53,7 +53,7 @@
                                 <option value="1">Có Đau</option>
                                 <option value="0">Không đau</option>
                             @else
-                                <option value="2">Tình trạng</option>
+                                <option value="-1">Tình trạng</option>
                                 <option value="1">Có đau</option>
                                 <option value="0">Không đau</option>
                                 <option value="2">Có giảm</option>

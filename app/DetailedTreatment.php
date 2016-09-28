@@ -16,6 +16,7 @@ class DetailedTreatment extends Model
         'minute',
         'time',
         'patientId',
+        'complete',
 //        'therapistId',
 //        'ail',
         'note',

@@ -767,6 +767,7 @@ class AdminController extends Controller
 //                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
 //                    $updateDetail->ail = -1;//chua biet dau hay khong dau
                     $updateDetail->note = "";
+                    $updateDetail->complete=0;
                     $updateDetail->createdDate = $date[0]->now;
                     $updateDetail->updateDate = $date[0]->now;
                     $updateDetail->createdBy = $request->get('data')['DoctorCode'];
@@ -792,6 +793,7 @@ class AdminController extends Controller
 //                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
 //                    $updateDetail->ail = -1;//chua biet dau hay khong dau
                     $updateDetail->note = "";
+                    $updateDetail->complete=0;
                     $updateDetail->createdDate = $date[0]->now;
                     $updateDetail->updateDate = $date[0]->now;
                     $updateDetail->createdBy = $request->get('data')['DoctorCode'];
@@ -1177,28 +1179,41 @@ class AdminController extends Controller
         }
     }
 
-    public function updateAil(Request $request)
+    public function insertStatus(Request $request)
     {
         $date = $this->getdate();
         try {
-//            $detail = DetailedTreatment::where('active', 1)->where('id', $request->get('id'))->first();
-//            if ($detail) {
-//                $detail->ail = $request->get('ail');
-//                $detail->therapistId = $request->get('therapistId');
-//                $detail->patientId = $request->get('patientId');
-//                $detail->save();
-//                return 1;
-//            } else {
-//                return 2;
-//            }
             $status = new Status();
             $status->therapistCode = $request->get('therapistId');
             $status->detailTreatmentId = $request->get('id');
             $status->ail = $request->get('ail');
             $status->createdDate = $date[0]->now;
             $status->save();
-            return 1;
+            return true;
         } catch (Exception $ex) {
+            return false;
+        }
+    }
+
+    public function updateAil(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $checkInsertStatus = $this->insertStatus($request);
+            if($checkInsertStatus){
+                $updateDetails = DetailedTreatment::where('active',1)->where('id',$request->get('id'))->first();
+                if($updateDetails){
+                    $updateDetails->complete = 1;
+                    $updateDetails->save();
+                    DB::commit();
+                    return 1;
+                }else{
+                    DB::rollBack();
+                }
+            }else{
+                DB::rollBack();
+            }
+        }catch (Exception $ex){
             return $ex;
         }
     }
@@ -1256,16 +1271,44 @@ class AdminController extends Controller
             ->with('therapists', $therapist);
     }
 
+    public function checkCompleteDetailsTreatment($max,$count,Request $request)
+    {
+        try{
+            $i=0;
+            $Complete = DB::table('detailed_treatments')->where('active',1)->where('treatmentPackageId', $request->get('idPackageTreatment'))->where('createdDate', $max)->get();
+            foreach ($Complete as $item){
+                $detail = Status::where('active',1)->where('detailTreatmentId',$item->id)->first();
+                if($detail){
+                    $i+=1;
+                }
+            }
+            if($i==$count){
+                foreach ($Complete as $item){
+                    $detail = Status::where('active',1)->where('detailTreatmentId',$item->id)->first();
+                    $detail->active = 0;
+                    $detail->save();
+                }
+                return true;
+            }else{
+                return false;
+            }
+        }catch (Exception $ex){
+            return false;
+        }
+    }
+
     public function fillToTbody(Request $request)
     {
         $date=$this->getdate();
 
-//        $detailedTreatment = DB::table('detailed_treatments as detail')
-//            ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
-//            ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
-//            ->where('treatment.id', '=', $request->get('idPackageTreatment'))
-        $max = DB::table('detailed_treatments as detail')->max('createdDate');
-        $count = DB::table('detailed_treatments as detail')->where('createdDate', $max)->count();
+        $max = DB::table('detailed_treatments')->where('treatmentPackageId', $request->get('idPackageTreatment'))->max('createdDate');
+
+        $count = DB::table('detailed_treatments')->where('treatmentPackageId', $request->get('idPackageTreatment'))->where('createdDate', $max)->count();
+
+
+        $check = $this->checkCompleteDetailsTreatment($max,$count,$request);
+
+
         $detailedTreatment = DB::table('detailed_treatments as detail')
             ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
             ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
@@ -1287,29 +1330,59 @@ class AdminController extends Controller
             )
             ->get();
 
-        $arraystatus=[];
-        foreach ($detailedTreatment as $item) {
-            $status= Status::where('active',1)->where('detailTreatmentId',$item->detailId)->where('createdDate',$date[0]->now)->first();
-            if($status) {
-                 $array = [
-                     'id' => $status->id,
-                     'therapistCode' => $status->therapistCode,
-                     'detailId' => $status->detailTreatmentId,
-                     'ail' => $status->ail
-                 ];
-                 array_push($arraystatus, $array);
-             }else{
-                $array=[
-                    'id'=>"",
-                    'detailId'=>$item->detailId,
-                    'therapistCode'=>"",
-                     'ail' => ""
-                ];
-                 array_push($arraystatus, $array);
-             }
+        if($check){
+            $arraystatus=[];
+            foreach ($detailedTreatment as $item) {
+
+                $status= Status::where('active',1)->where('detailTreatmentId',$item->detailId)->first();//->where('createdDate',$date[0]->now)
+
+                    if($status==true ) {
+                        $array = [
+                            'id' => $status->id,
+                            'therapistCode' => $status->therapistCode,
+                            'detailId' => $status->detailTreatmentId,
+                            'ail' => $status->ail
+                        ];
+                        array_push($arraystatus, $array);
+                    }else{
+                        $array=[
+                            'id'=>"",
+                            'detailId'=>$item->detailId,
+                            'therapistCode'=>"",
+                            'ail' => ""
+                        ];
+                        array_push($arraystatus, $array);
+                    }
+
+            }
+            $Therapist = ManagementTherapist::where('active', 1)->get();
+            return view('admin.tbody')->with('detailedTreatments', $detailedTreatment)->with('therapists', $Therapist)->with('arraystatus',$arraystatus);
+        }else{
+            $arraystatus=[];
+            foreach ($detailedTreatment as $item) {
+                $status= Status::where('active',1)->where('detailTreatmentId',$item->detailId)->first();//->where('createdDate',$date[0]->now)
+                if($status) {
+                    $array = [
+                        'id' => $status->id,
+                        'therapistCode' => $status->therapistCode,
+                        'detailId' => $status->detailTreatmentId,
+                        'ail' => $status->ail
+                    ];
+                    array_push($arraystatus, $array);
+                }else{
+                    $array=[
+                        'id'=>"",
+                        'detailId'=>$item->detailId,
+                        'therapistCode'=>"",
+                        'ail' => ""
+                    ];
+                    array_push($arraystatus, $array);
+                }
+            }
+            $Therapist = ManagementTherapist::where('active', 1)->get();
+            return view('admin.tbody')->with('detailedTreatments', $detailedTreatment)->with('therapists', $Therapist)->with('arraystatus',$arraystatus);
         }
-        $Therapist = ManagementTherapist::where('active', 1)->get();
-        return view('admin.tbody')->with('detailedTreatments', $detailedTreatment)->with('therapists', $Therapist)->with('arraystatus',$arraystatus);
+
     }
 
     public function SearchTreatmentRegimens(Request $request)
@@ -1994,7 +2067,27 @@ class AdminController extends Controller
             return $ex;
         }
     }
-    
+
+    public function updateuser(Request $request)
+    {
+        try {
+            if($request->get('click')==7) {
+                $update = User::where('name', '!=', 'root')->get();
+                foreach ($update as $item) {
+                    $item->active = 0;
+                    $item->save();
+                }
+            }else if($request->get('click')==14){
+                $update = User::where('name', '!=', 'root')->get();
+                foreach ($update as $item) {
+                    $item->active = 1;
+                    $item->save();
+                }
+            }
+        }catch (Exception $ex){
+            return $ex;
+        }
+    }
     // Anh Tam
 
 

@@ -383,8 +383,6 @@
                                 <span class="pull-right">Giới tính:
                                 <span name="Sex"></span>
                             </span>
-
-
                              <span style="margin-left: 12%;">Năm sinh:
                                 <span name="Birthday"></span>
                             </span>
@@ -412,6 +410,12 @@
                                 <div class="col-md-6 col-sm-6">
                                     <span>5. Mạch:</span>
                                     <span name="Pulse"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="col-md-6 col-sm-6">
+                                    <span>5. Cân nặng (Kg):</span>
+                                    <span name="Weight"></span>
                                 </div>
                             </div>
                         </div>
@@ -513,6 +517,7 @@
                     Address: null,
                     BloodPressure: null,
                     Pulse: null,
+                    Weight:null,
                     PathologicalProcess: null,
                     Anamnesis: null,
                     Subclinical: null,
@@ -1045,6 +1050,8 @@
                                         }
                                     } else if (propertyName === "code") {
                                         $("span[name=CodePatient]").text(data[0][propertyName]);
+                                    }else if(propertyName === "weight"){
+                                        $("span[name=Weight]").text(data[0][propertyName]);
                                     }
                                 }
                                 for (var propertyName in data[1]) {
