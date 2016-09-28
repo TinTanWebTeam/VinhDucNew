@@ -767,7 +767,6 @@ class AdminController extends Controller
 //                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
 //                    $updateDetail->ail = -1;//chua biet dau hay khong dau
                     $updateDetail->note = "";
-                    $updateDetail->complete=0;
                     $updateDetail->createdDate = $date[0]->now;
                     $updateDetail->updateDate = $date[0]->now;
                     $updateDetail->createdBy = $request->get('data')['DoctorCode'];
@@ -793,7 +792,6 @@ class AdminController extends Controller
 //                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
 //                    $updateDetail->ail = -1;//chua biet dau hay khong dau
                     $updateDetail->note = "";
-                    $updateDetail->complete=0;
                     $updateDetail->createdDate = $date[0]->now;
                     $updateDetail->updateDate = $date[0]->now;
                     $updateDetail->createdBy = $request->get('data')['DoctorCode'];
@@ -1181,6 +1179,11 @@ class AdminController extends Controller
 
     public function insertStatus(Request $request)
     {
+
+    }
+
+    public function updateAil(Request $request)
+    {
         $date = $this->getdate();
         try {
             $status = new Status();
@@ -1189,31 +1192,8 @@ class AdminController extends Controller
             $status->ail = $request->get('ail');
             $status->createdDate = $date[0]->now;
             $status->save();
-            return true;
+            return 1;
         } catch (Exception $ex) {
-            return false;
-        }
-    }
-
-    public function updateAil(Request $request)
-    {
-        try {
-            DB::beginTransaction();
-            $checkInsertStatus = $this->insertStatus($request);
-            if($checkInsertStatus){
-                $updateDetails = DetailedTreatment::where('active',1)->where('id',$request->get('id'))->first();
-                if($updateDetails){
-                    $updateDetails->complete = 1;
-                    $updateDetails->save();
-                    DB::commit();
-                    return 1;
-                }else{
-                    DB::rollBack();
-                }
-            }else{
-                DB::rollBack();
-            }
-        }catch (Exception $ex){
             return $ex;
         }
     }
