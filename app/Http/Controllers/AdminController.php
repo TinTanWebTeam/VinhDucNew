@@ -579,7 +579,7 @@ class AdminController extends Controller
 
     public function Treatment(Request $request)
     {
-        $date = date('Y-m-d');
+        $date = $this->getdate();
         try {
             if ($this->validator($request->all(), "validatorTreatmentPackages")->fails()) {
                 return $this->validator($request->all(), "validatorTreatmentPackages")->errors();
@@ -592,9 +592,9 @@ class AdminController extends Controller
                         $treatment->note = $request->get('data')['Note'];
                         $treatment->packageId = "";
                         $treatment->patientId = $request->get('data')['PatientId'];
-                        $treatment->createdDate = $date;
                         $treatment->codeDoctor = $request->get('data')['CodeDoctor'];
-                        $treatment->updateDate = $date;
+                        $treatment->createdDate = $date[0]->now;
+                        $treatment->updateDate = $date[0]->now;
                         $treatment->createdBy = Auth::user()->id;
                         $treatment->upDatedBy = Auth::user()->id;
                         $treatment->save();
@@ -612,7 +612,7 @@ class AdminController extends Controller
                             $treatment->note = $request->get('data')['Note'];
                             $treatment->packageId = $request->get('idTreatmentPackage');
                             $treatment->patientId = $request->get('data')['PatientId'];
-                            $treatment->updateDate = $date;
+                            $treatment->updateDate = $date[0]->now;
                             $treatment->upDatedBy = (string)Auth::user()->id;
                             $treatment->save();
                         }
@@ -631,7 +631,7 @@ class AdminController extends Controller
     {
         try {
             DB::beginTransaction();
-            $date = date('Y-m-d');
+            $date = $this->getdate();
             $result = $this->Treatment($request);
             if ($result == 1) {
                 $packageId = TreatmentPackage::where('id', DB::table('treatment_packages')->max('id'))->first();
@@ -642,8 +642,8 @@ class AdminController extends Controller
                     $regimen->treatmentPackageId = $packageId->id;
                     $regimen->status = "";
                     $regimen->note = "";
-                    $regimen->createdDate = $date;
-                    $regimen->updatedDate = $date;
+                    $regimen->createdDate = $date[0]->now;
+                    $regimen->updatedDate = $date[0]->now;
                     $regimen->createdBy = (string)Auth::user()->id;
                     $regimen->updatedBy = (string)Auth::user()->id;
                     $regimen->save();
@@ -664,7 +664,7 @@ class AdminController extends Controller
                         $regimen->treatmentPackageId = $packageId->id;
                         $regimen->status = "";
                         $regimen->note = "";
-                        $regimen->updatedDate = $date;
+                        $regimen->updatedDate = $date[0]->now;
                         $regimen->updatedBy = (string)Auth::user()->id;
                         $regimen->save();
                     } else {
