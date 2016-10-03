@@ -764,7 +764,7 @@
                                     tr += "<td>" + data[i]["minute"] + "</td>";
                                     tr += "<td>" + data[i]["createdBy"] + "</td>";
                                     tr += "<td>" + data[i]["createdDate"] + "</td>";
-                                    if (check === true) {
+                                    if (data[i]["createdDate"] === strDate) {
                                         tr += "<td <button type='button' style='margin-left: 30%;margin-top: 2%;' class='btn btn-danger btn-circle' data-Id='" + data[i]["detailId"] + "' onclick='diagnosticView.deleteTable(this)'><i class='fa fa-times '></i></button></td>";
                                     } else {
                                     }
