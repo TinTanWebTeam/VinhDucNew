@@ -1190,7 +1190,6 @@ class AdminController extends Controller
             $status->therapistCode = $request->get('therapistId');
             $status->detailTreatmentId = $request->get('id');
             $status->ail = $request->get('ail');
-            $status->statusPayment = 1;
             $status->createdDate = $date[0]->now;
             $status->save();
             return 1;
@@ -1296,7 +1295,6 @@ class AdminController extends Controller
                     }
                     return false;
                 }else{
-
                     return false;
                 }
             }
