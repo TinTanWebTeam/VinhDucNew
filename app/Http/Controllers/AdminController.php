@@ -593,8 +593,8 @@ class AdminController extends Controller
                         $treatment->packageId = "";
                         $treatment->patientId = $request->get('data')['PatientId'];
                         $treatment->codeDoctor = $request->get('data')['CodeDoctor'];
-                        $treatment->createdDate = $date[0]->now;
-                        $treatment->updateDate = $date[0]->now;
+                        $treatment->createdDate = $date;
+                        $treatment->updateDate = $date;
                         $treatment->createdBy = Auth::user()->id;
                         $treatment->upDatedBy = Auth::user()->id;
                         $treatment->save();
@@ -612,7 +612,7 @@ class AdminController extends Controller
                             $treatment->note = $request->get('data')['Note'];
                             $treatment->packageId = $request->get('idTreatmentPackage');
                             $treatment->patientId = $request->get('data')['PatientId'];
-                            $treatment->updateDate = $date[0]->now;
+                            $treatment->updateDate = $date;
                             $treatment->upDatedBy = (string)Auth::user()->id;
                             $treatment->save();
                         }
@@ -642,8 +642,8 @@ class AdminController extends Controller
                     $regimen->treatmentPackageId = $packageId->id;
                     $regimen->status = "";
                     $regimen->note = "";
-                    $regimen->createdDate = $date[0]->now;
-                    $regimen->updatedDate = $date[0]->now;
+                    $regimen->createdDate = $date;
+                    $regimen->updatedDate = $date;
                     $regimen->createdBy = (string)Auth::user()->id;
                     $regimen->updatedBy = (string)Auth::user()->id;
                     $regimen->save();
@@ -664,7 +664,7 @@ class AdminController extends Controller
                         $regimen->treatmentPackageId = $packageId->id;
                         $regimen->status = "";
                         $regimen->note = "";
-                        $regimen->updatedDate = $date[0]->now;
+                        $regimen->updatedDate = $date;
                         $regimen->updatedBy = (string)Auth::user()->id;
                         $regimen->save();
                     } else {
@@ -767,8 +767,8 @@ class AdminController extends Controller
 //                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
 //                    $updateDetail->ail = -1;//chua biet dau hay khong dau
                     $updateDetail->note = "";
-                    $updateDetail->createdDate = $date[0]->now;
-                    $updateDetail->updateDate = $date[0]->now;
+                    $updateDetail->createdDate = $date;
+                    $updateDetail->updateDate = $date;
                     $updateDetail->createdBy = $request->get('data')['DoctorCode'];
                     $updateDetail->upDatedBy = $request->get('data')['DoctorCode'];
                     $updateDetail->save();
@@ -792,8 +792,8 @@ class AdminController extends Controller
 //                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
 //                    $updateDetail->ail = -1;//chua biet dau hay khong dau
                     $updateDetail->note = "";
-                    $updateDetail->createdDate = $date[0]->now;
-                    $updateDetail->updateDate = $date[0]->now;
+                    $updateDetail->createdDate = $date;
+                    $updateDetail->updateDate = $date;
                     $updateDetail->createdBy = $request->get('data')['DoctorCode'];
                     $updateDetail->upDatedBy = $request->get('data')['DoctorCode'];
                     $updateDetail->save();
@@ -853,8 +853,8 @@ class AdminController extends Controller
                         $detail->minute = $request->get('data')['Minute'];
                         $detail->Time = $request->get('data')['Time'];
                         $detail->note = "";
-                        $detail->createdDate = $date[0]->now;
-                        $detail->updateDate = $date[0]->now;
+                        $detail->createdDate = $date;
+                        $detail->updateDate = $date;
                         $detail->createdBy = $request->get('data')['DoctorCode'];
                         $detail->upDatedBy = $request->get('data')['DoctorCode'];
                         $detail->save();
@@ -1213,7 +1213,7 @@ class AdminController extends Controller
             $status->therapistCode = $request->get('therapistId');
             $status->detailTreatmentId = $request->get('id');
             $status->ail = $request->get('ail');
-            $status->createdDate = $date[0]->now;
+            $status->createdDate = $date;//$date[0]->now;
             $status->save();
             return 1;
         } catch (Exception $ex) {
@@ -1356,7 +1356,7 @@ class AdminController extends Controller
             $arraystatus = [];
             foreach ($detailedTreatment as $item) {
 
-                $status = Status::where('active', 1)->where('detailTreatmentId', $item->detailId)->where('createdDate', $date[0]->now)->first();//->where('createdDate',$date[0]->now)
+                $status = Status::where('active', 1)->where('detailTreatmentId', $item->detailId)->where('createdDate', $date)->first();//->where('createdDate',$date)
 
                 if ($status == true) {
                     $array = [
@@ -1381,7 +1381,7 @@ class AdminController extends Controller
         } else {
             $arraystatus = [];
             foreach ($detailedTreatment as $item) {
-                $status = Status::where('active', 1)->where('detailTreatmentId', $item->detailId)->first();//->where('createdDate',$date[0]->now)
+                $status = Status::where('active', 1)->where('detailTreatmentId', $item->detailId)->first();//->where('createdDate',$date)
 
                 if ($status) {
                     $array = [
@@ -1496,7 +1496,7 @@ class AdminController extends Controller
             $SQL .= " INNER JOIN patient_managements pm ON tp.patientId = pm.`code` ";
             $SQL .= " INNER JOIN source_customers sc ON pm.sourceCustomerId = sc.id ";
             $SQL .= " INNER JOIN provinces pv ON pm.provincialId = pv.id ";
-            $SQL .= " WHERE st.createdDate BETWEEN '" . $date[0]->now . "' AND '" . $date[0]->now . "' ";
+            $SQL .= " WHERE st.createdDate BETWEEN '" . $date . "' AND '" . $date . "' ";
             $SQL .= " AND sc.id = 1 AND tp.umpteenth = 0 ";
             $SQL .= " GROUP BY dt.patientId,dt.time) as a";
             $SQL .= " GROUP BY MaBN ";
@@ -1561,7 +1561,7 @@ class AdminController extends Controller
                 )
 //                ->where('detailed_treatments.therapistId', '<>', 0)
 //                ->where('detailed_treatments.ail', '<>', -1)
-                ->where('statuses.createdDate', '=', $date[0]->now)
+                ->where('statuses.createdDate', '=', $date)
                 ->groupBy('statuses.detailTreatmentId')
                 ->get();
             return view('admin.statisticsTherapist')->with('searchProfessionalTherapists', $searchProfessionalTherapist);
