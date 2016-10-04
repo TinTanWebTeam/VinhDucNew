@@ -812,32 +812,54 @@ class AdminController extends Controller
 
     public function updateUmpteenthTreatmentPackages(Request $request)
     {
+        $date = $this->getdate();
         try {
-            if ($request->get('data')['Professional'] == "") {
-                $treatmentPackage = TreatmentPackage::where('active', 1)->where('id', $request->get('idTreatmentPackage'))->first();
-                if ($treatmentPackage) {
-                    $treatmentPackage->umpteenth = $request->get('data')['Umpteenth'];
-                    $treatmentPackage->save();
-                    return array(1, $treatmentPackage);
-                } else {
-                    return 0;
-                }
-            } else {
-                DB::beginTransaction();
-                $updateDetailTreatment = $this->updateDetailTreatment($request);
-                if ($updateDetailTreatment) {
+            if($request->get('idDetail')=="") {
+                if ($request->get('data')['Professional'] == "") {
                     $treatmentPackage = TreatmentPackage::where('active', 1)->where('id', $request->get('idTreatmentPackage'))->first();
                     if ($treatmentPackage) {
                         $treatmentPackage->umpteenth = $request->get('data')['Umpteenth'];
                         $treatmentPackage->save();
-                        DB::commit();
                         return array(1, $treatmentPackage);
+                    } else {
+                        return 0;
+                    }
+                } else {
+                    DB::beginTransaction();
+                    $updateDetailTreatment = $this->updateDetailTreatment($request);
+                    if ($updateDetailTreatment) {
+                        $treatmentPackage = TreatmentPackage::where('active', 1)->where('id', $request->get('idTreatmentPackage'))->first();
+                        if ($treatmentPackage) {
+                            $treatmentPackage->umpteenth = $request->get('data')['Umpteenth'];
+                            $treatmentPackage->save();
+                            DB::commit();
+                            return array(1, $treatmentPackage);
+                        } else {
+                            DB::rollback();
+                        }
                     } else {
                         DB::rollback();
                     }
-                } else {
-                    DB::rollback();
                 }
+            }else{
+                $detail = DetailedTreatment::where('active',1)->where('id',$request->get('idDetail'))->first();
+                    if($detail){
+                        $detail->name = "";
+                        $detail->treatmentPackageId = $request->get('idTreatmentPackage');
+                        $detail->patientId = $request->get('data')['Code'];
+                        $detail->professionalTreatment = $request->get('data')['Professional'];
+                        $detail->location = $request->get('data')['Location'];
+                        $detail->sesame = $request->get('data')['Sesame'];
+                        $detail->minute = $request->get('data')['Minute'];
+                        $detail->Time = $request->get('data')['Time'];
+                        $detail->note = "";
+                        $detail->createdDate = $date[0]->now;
+                        $detail->updateDate = $date[0]->now;
+                        $detail->createdBy = $request->get('data')['DoctorCode'];
+                        $detail->upDatedBy = $request->get('data')['DoctorCode'];
+                        $detail->save();
+                        return 2;
+                    }
             }
         } catch (Exception $ex) {
             DB::rollback();
@@ -884,6 +906,7 @@ class AdminController extends Controller
                     'detail.id as detailId',
                     'detail.name as detailName',
                     'detail.minute',
+                    'detail.sesame',
                     'detail.time',
                     'detail.createdDate',
                     'detail.createdBy',
