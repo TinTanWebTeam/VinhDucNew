@@ -579,7 +579,7 @@ class AdminController extends Controller
 
     public function Treatment(Request $request)
     {
-        $date = $this->getdate();
+        $date = date('Y-m-d');
         try {
             if ($this->validator($request->all(), "validatorTreatmentPackages")->fails()) {
                 return $this->validator($request->all(), "validatorTreatmentPackages")->errors();
@@ -631,7 +631,7 @@ class AdminController extends Controller
     {
         try {
             DB::beginTransaction();
-            $date = $this->getdate();
+            $date = date('Y-m-d');
             $result = $this->Treatment($request);
             if ($result == 1) {
                 $packageId = TreatmentPackage::where('id', DB::table('treatment_packages')->max('id'))->first();
@@ -752,7 +752,7 @@ class AdminController extends Controller
     {
         try {
             DB::beginTransaction();
-            $date = $this->getdate();
+            $date = date('Y-m-d');
             if ($this->deleteRowDetail($request)) {
                 try {
                     $updateDetail = new DetailedTreatment();
@@ -812,7 +812,7 @@ class AdminController extends Controller
 
     public function updateUmpteenthTreatmentPackages(Request $request)
     {
-        $date = $this->getdate();
+        $date = date('Y-m-d');
         try {
             if($request->get('idDetail')=="") {
                 if ($request->get('data')['Professional'] == "") {
@@ -947,7 +947,7 @@ class AdminController extends Controller
                     'detail.professionalTreatment as professional'
                 )
                 ->get();
-            $date = $this->getdate();
+            $date = date('Y-m-d');
             return array($Professional, $date);
         } catch (Exception $ex) {
             return $ex;
@@ -1207,7 +1207,7 @@ class AdminController extends Controller
 
     public function updateAil(Request $request)
     {
-        $date = $this->getdate();
+        $date = date('Y-m-d');
         try {
             $status = new Status();
             $status->therapistCode = $request->get('therapistId');
@@ -1276,7 +1276,7 @@ class AdminController extends Controller
 
     public function checkCompleteDetailsTreatment($max, $count, Request $request)
     {
-        //$date = $this->getdate();
+        //$date = date('Y-m-d');
         try {
             $i = 0;
             $j = 0;
@@ -1327,7 +1327,7 @@ class AdminController extends Controller
     }
     public function fillToTbody(Request $request)
     {
-        $date = $this->getdate();
+        $date = date('Y-m-d');
         $max = DB::table('detailed_treatments')->where('treatmentPackageId', $request->get('idPackageTreatment'))->max('createdDate');
         $count = DB::table('detailed_treatments')->where('treatmentPackageId', $request->get('idPackageTreatment'))->where('createdDate', $max)->count();
         $check = $this->checkCompleteDetailsTreatment($max, $count, $request);
@@ -1485,7 +1485,7 @@ class AdminController extends Controller
     public function getStatisticsPatients()
     {
         try {
-            $date = $this->getdate();
+            $date = date('Y-m-d');
             $SQL = " SELECT id,MaBN,TEN,NAMSINH,TINH ,GOI,BS,SOLANTAIKHAM, COUNT(SANGCHIEU) AS RAVAO ";
             $SQL .= " FROM ( ";
             $SQL .= " SELECT dt.id, dt.patientId AS MaBN, pm.fullName AS TEN, pm.birthday AS NAMSINH, pv.`name` AS TINH, p.`name` AS GOI, tp.codeDoctor AS BS,tp.umpteenth AS SOLANTAIKHAM,dt.time AS SANGCHIEU ";
@@ -1543,7 +1543,7 @@ class AdminController extends Controller
 
     public function getStatisticsTherapist()
     {
-        $date = $this->getdate();
+        $date = date('Y-m-d');
         try {
             $searchProfessionalTherapist = DB::table('detailed_treatments')
                 ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.code')
@@ -1598,7 +1598,7 @@ class AdminController extends Controller
 
     public function deleteProfessional(Request $request)
     {
-        $dateServer = $this->getdate();
+        $dateServer = date('Y-m-d');
         try {
             if ($request->get('id') != null) {
                 $detail = DetailedTreatment::where('active', 1)->where('id', $request->get('id'))->first();

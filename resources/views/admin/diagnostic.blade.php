@@ -997,6 +997,7 @@
                         data: diagnosticView.DiagnosticObject,
                         idPackageTreatment: diagnosticView.idTreatmentPackage
                     }, function (data) {
+                        console.log(data[1]);
                         if (data[0].length !== 0) {
                             var row = "";
                             var stt = 1;
@@ -1012,7 +1013,7 @@
                                 tr += "<td>" + data[0][i]["minute"] + "</td>";
                                 tr += "<td>" + data[0][i]["createdBy"] + "</td>";
                                 tr += "<td>" + data[0][i]["createdDate"] + "</td>";
-                                if (data[0][i]["createdDate"] === data[1][0]["now"] && data[0][i]["createdBy"] === $("select#DoctorCode option:selected").text()) {
+                                if (data[0][i]["createdDate"] === data[1] && data[0][i]["createdBy"] === $("select#DoctorCode option:selected").text()) {
                                     tr += "<td <button type='button' style='margin-left: 30%;margin-top: 2%;' class='btn btn-danger btn-circle' data-Id='" + data[0][i]["detailId"] + "' onclick='diagnosticView.deleteTable(this)'><i class='fa fa-times '></i></button></td>";
                                 } else {
                                 }
