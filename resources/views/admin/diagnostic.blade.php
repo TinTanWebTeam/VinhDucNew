@@ -463,6 +463,10 @@
 
                         </div>
                     </div>
+                    <div class="row col-md-12 ">
+                        <h6 class="pull-right"><b>(Kí và ghi rõ họ tên)</b></h6>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -997,7 +1001,6 @@
                         data: diagnosticView.DiagnosticObject,
                         idPackageTreatment: diagnosticView.idTreatmentPackage
                     }, function (data) {
-                        console.log(data[1]);
                         if (data[0].length !== 0) {
                             var row = "";
                             var stt = 1;

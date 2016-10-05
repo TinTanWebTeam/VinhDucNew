@@ -1303,6 +1303,9 @@ class AdminController extends Controller
                     }
                 }
             }
+//            var_dump($i);
+//            var_dump($j);
+//            dd($count);
             //$j se lon hon $i
             // trong truong hop chuyen vien khong lam het phat do trong cung 1 ngay
             // $i = $count
@@ -1328,8 +1331,8 @@ class AdminController extends Controller
     public function fillToTbody(Request $request)
     {
         $date = date('Y-m-d');
-        $max = DB::table('detailed_treatments')->where('treatmentPackageId', $request->get('idPackageTreatment'))->max('createdDate');
-        $count = DB::table('detailed_treatments')->where('treatmentPackageId', $request->get('idPackageTreatment'))->where('createdDate', $max)->count();
+        $max = DB::table('detailed_treatments')->where('active',1)->where('treatmentPackageId', $request->get('idPackageTreatment'))->max('createdDate');
+        $count = DB::table('detailed_treatments')->where('active',1)->where('treatmentPackageId', $request->get('idPackageTreatment'))->where('createdDate', $max)->count();
         $check = $this->checkCompleteDetailsTreatment($max, $count, $request);
         $detailedTreatment = DB::table('detailed_treatments as detail')
             ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
