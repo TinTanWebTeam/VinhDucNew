@@ -514,12 +514,12 @@ class AdminController extends Controller
             if ($request->get('Patient')['FullName'] != "") {
                 $SQL .= " AND fullName LIKE '" . '%' . $request->get('Patient')['FullName'] . '%' . "'";
             }
-            if ($request->get('Patient')['Birthday'] != "") {
-                $SQL .= " AND birthday LIKE '" . '%' . $request->get('Patient')['Birthday'] . '%' . "'";
-            }
-            if ($request->get('Patient')['Sex'] != "") {
-                $SQL .= " AND sex = '" . $request->get('Patient')['Sex'] . "'";
-            }
+//            if ($request->get('Patient')['Birthday'] != "") {
+//                $SQL .= " AND birthday LIKE '" . '%' . $request->get('Patient')['Birthday'] . '%' . "'";
+//            }
+//            if ($request->get('Patient')['Sex'] != "") {
+//                $SQL .= " AND sex = '" . $request->get('Patient')['Sex'] . "'";
+//            }
             $SQL .= " ORDER BY updated_at desc ";
             $patient = DB::select($SQL);
             return $patient;
@@ -579,6 +579,7 @@ class AdminController extends Controller
 
     public function Treatment(Request $request)
     {
+
         $date = date('Y-m-d');
         try {
             if ($this->validator($request->all(), "validatorTreatmentPackages")->fails()) {
@@ -718,11 +719,13 @@ class AdminController extends Controller
     {
         $package = Package::where('active', 1)->get();
         $patient = PatientManagement::where('active', 1)->get();
-        $location = LocationTreatment::where('active', 1)->get();
+        $location = LocationTreatment::where('active', 1)->orderBy('name','asc')->get()->toArray();
         $doctor = Doctor::where('active', 1)->get();
+        $professional = ProfessionalTreatment::where("active",1)->orderBy('name','asc')->get()->toArray();
         return view('admin.diagnostic')->with('professionals', $this->getDiagnostic())
             ->with('packages', $package)->with('patients', $patient)
-            ->with('locations', $location)->with('doctors', $doctor);
+            ->with('locations', $location)->with('doctors', $doctor)
+            ->with('professionals',$professional);
     }
 
     public function deleteRowDetail(Request $request)
@@ -750,11 +753,13 @@ class AdminController extends Controller
 
     public function updateDetailTreatment(Request $request)
     {
+
         try {
             DB::beginTransaction();
             $date = date('Y-m-d');
             if ($this->deleteRowDetail($request)) {
                 try {
+
                     $updateDetail = new DetailedTreatment();
                     $updateDetail->name = "";
                     $updateDetail->treatmentPackageId = $request->get('idTreatmentPackage');
@@ -764,8 +769,7 @@ class AdminController extends Controller
                     $updateDetail->sesame = $request->get('data')['Sesame'];
                     $updateDetail->minute = $request->get('data')['Minute'];
                     $updateDetail->Time = $request->get('data')['Time'];
-//                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
-//                    $updateDetail->ail = -1;//chua biet dau hay khong dau
+                    $updateDetail->serial = $request->get('data')['Serial'];
                     $updateDetail->note = "";
                     $updateDetail->createdDate = $date;
                     $updateDetail->updateDate = $date;
@@ -780,6 +784,7 @@ class AdminController extends Controller
                 return 1;
             } else {
                 try {
+
                     $updateDetail = new DetailedTreatment();
                     $updateDetail->name = "";
                     $updateDetail->treatmentPackageId = $request->get('idTreatmentPackage');
@@ -789,8 +794,7 @@ class AdminController extends Controller
                     $updateDetail->sesame = $request->get('data')['Sesame'];
                     $updateDetail->minute = $request->get('data')['Minute'];
                     $updateDetail->Time = $request->get('data')['Time'];
-//                    $updateDetail->therapistId = 0;// chuyen vien chua thuc hien
-//                    $updateDetail->ail = -1;//chua biet dau hay khong dau
+                    $updateDetail->serial = $request->get('data')['Serial'];
                     $updateDetail->note = "";
                     $updateDetail->createdDate = $date;
                     $updateDetail->updateDate = $date;
@@ -815,7 +819,9 @@ class AdminController extends Controller
         $date = date('Y-m-d');
         try {
             if($request->get('idDetail')=="") {
+
                 if ($request->get('data')['Professional'] == "") {
+                    dd($request->all());
                     $treatmentPackage = TreatmentPackage::where('active', 1)->where('id', $request->get('idTreatmentPackage'))->first();
                     if ($treatmentPackage) {
                         $treatmentPackage->umpteenth = $request->get('data')['Umpteenth'];
@@ -857,6 +863,7 @@ class AdminController extends Controller
                         $detail->updateDate = $date;
                         $detail->createdBy = $request->get('data')['DoctorCode'];
                         $detail->upDatedBy = $request->get('data')['DoctorCode'];
+                        $detail->serial = $request->get('data')['Serial'];
                         $detail->save();
                         return 2;
                     }
@@ -903,6 +910,7 @@ class AdminController extends Controller
                 //->take($count)
                 ->where('detail.createdDate', '=', $max)
                 ->select(
+                    'detail.serial',
                     'detail.id as detailId',
                     'detail.name as detailName',
                     'detail.minute',
@@ -916,6 +924,7 @@ class AdminController extends Controller
                     'detail.professionalTreatment as professional',
                     'packages.name as packageName '
                 )
+                ->orderBy('detail.serial', 'asc')
                 ->get();
 
             return $Professional;
@@ -1213,6 +1222,8 @@ class AdminController extends Controller
             $status->therapistCode = $request->get('therapistId');
             $status->detailTreatmentId = $request->get('id');
             $status->ail = $request->get('ail');
+            $status->dateStart = $request->get('dateStart');
+            $status->dateEnd = $request->get('dateEnd');
             $status->createdDate = $date;//$date[0]->now;
             $status->save();
             return 1;
@@ -1342,6 +1353,7 @@ class AdminController extends Controller
             ->orderBy('detail.createdDate', 'desc')
             ->take($count)
             ->select(
+                'detail.serial',
                 'detail.id as detailId',
                 'detail.name as detailName',
 //                'detail.therapistId as detailTherapist',
@@ -1366,7 +1378,9 @@ class AdminController extends Controller
                         'id' => $status->id,
                         'therapistCode' => $status->therapistCode,
                         'detailId' => $status->detailTreatmentId,
-                        'ail' => $status->ail
+                        'ail' => $status->ail,
+                        'dateStart'=>$status->dateStart,
+                        'dateEnd'=>$status->dateEnd,
                     ];
                     array_push($arraystatus, $array);
                 } else {
@@ -1391,7 +1405,9 @@ class AdminController extends Controller
                         'id' => $status->id,
                         'therapistCode' => $status->therapistCode,
                         'detailId' => $status->detailTreatmentId,
-                        'ail' => $status->ail
+                        'ail' => $status->ail,
+                        'dateStart'=>$status->dateStart,
+                        'dateEnd'=>$status->dateEnd,
                     ];
                     array_push($arraystatus, $array);
                 } else {
@@ -1711,6 +1727,15 @@ class AdminController extends Controller
         }
     }
 
+    public function searchPatientByCodePatient(Request $request)
+    {
+        try{
+            $patient = PatientManagement::where('active',1)->where('code',$request->get('search'))->get();
+            return array('listPatient'=>$patient);
+        }catch (Exception $ex){
+            return $ex;
+        }
+    }
     public function searchMedicalRecordViewByCodePatient(Request $request)
     {
         try {

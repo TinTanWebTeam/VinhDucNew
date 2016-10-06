@@ -19,6 +19,8 @@ class CreateStatusesTable extends Migration
             $table->integer('ail');
             $table->boolean('active')->default(1);
             $table->date('createdDate');
+            $table->date('dateStart');
+            $table->date('dateEnd');
             $table->timestamps();
         });
     }

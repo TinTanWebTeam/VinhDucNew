@@ -92,31 +92,128 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="table-responsive  row col-md-12 col-sm-12"
+                             style="display:none;background-color: #ffffff" id="sesame">
+                            <table class="table table-responsive table-hover table-light" id="SesameList">
+                                <tbody id="SesameList">
+                                <div class="form-group form-md-line-input">
+                                    @if($locations)
+                                        @foreach(array_chunk($locations,3) as $row)
+                                            <div class="row">
+                                                @foreach($row as $item)
+
+                                                    <div class="col-sm-4">
+                                                        <label for="checkedSesame">
+                                                            <input type="radio" class="form-control"
+                                                                   style="height: 20px;width: 20px;display: inline-block"
+                                                                   id="{{$item['id']}}"
+                                                                   name="checkedSesame"
+                                                                   onchange="diagnosticView.fillToInputSesame(this)">
+                                                            <b id="{{$item['id']}}"
+                                                               onclick="diagnosticView.checkedSesame(this)">{{$item['name']}}</b>
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive  row col-md-12 col-sm-12"
+                             style="display:none;background-color: #ffffff" id="professional">
+                            <table class="table table-responsive table-hover table-light" id="SesameList">
+                                <tbody id="ProfessionalList">
+                                <div class="form-group form-md-line-input">
+                                    @if($professionals)
+                                        @foreach(array_chunk($professionals,3) as $row)
+                                            <div class="row">
+                                                @foreach($row as $item)
+
+                                                    <div class="col-sm-4">
+                                                        <label for="checkedSesame">
+                                                            <input type="radio" class="form-control"
+                                                                   style="height: 20px;width: 20px;display: inline-block"
+                                                                   id="{{$item['id']}}"
+                                                                   name="checkedSesame"
+                                                                   onchange="diagnosticView.fillToInputProfessional(this)">
+                                                            <b id="{{$item['id']}}"
+                                                               onclick="diagnosticView.checkedProfessional(this)">{{$item['name']}}</b>
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                                </tbody>
+                            </table>
+                        </div>
                         <form action="" id="addProfessional">
                             <div id="addProfessional">
-                                <div class="form-group form-md-line-input col-md-12 col-lg-4">
-                                    <label for="Sesame"><b>Vùng</b></label>
-                                    <select class="form-control" name="Sesame" id="Sesame">
-                                        @if($locations)
-                                            @foreach($locations as $item)
-                                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
+                                <div class="form-group form-md-line-input col-md-12 col-lg-3">
+                                    <label for="Serial"><b>STT</b></label>
+                                    <input type="text" class="form-control"
+                                           id="Serial"
+                                           name="Serial"
+                                           placeholder="STT">
                                 </div>
-                                <div class="form-group form-md-line-input col-md-12 col-lg-4">
+                                <div class="form-group form-md-line-input col-md-12 col-lg-3">
+                                    <label for="Sesame"><b>Vùng</b></label>
+                                    {{--<select class="form-control" name="Sesame" id="Sesame">--}}
+                                    {{--@if($locations)--}}
+                                    {{--@foreach($locations as $item)--}}
+                                    {{--<option value="{{$item->id}}">{{$item->name}}</option>--}}
+                                    {{--@endforeach--}}
+                                    {{--@endif--}}
+                                    {{--</select>--}}
+                                    <input type="text" class="form-control"
+                                           id="Sesame"
+                                           name="Sesame"
+                                           placeholder="Vùng"
+                                           onfocus="diagnosticView.loadSesame()">
+                                </div>
+                                <div class="form-group form-md-line-input col-md-12 col-lg-3">
+                                    <div class="form-group form-md-line-input col-md-12 col-lg-4">
+                                        <label for="Morning"><b>Sáng</b></label>
+                                        <input type="radio" class="form-control"
+                                               id="Morning"
+                                               name="radio"
+                                               style="height: 20px;width: 20px;display: inline-block"
+                                                onchange="diagnosticView.loadTime(this)">
+                                    </div>
+                                    <div class="form-group form-md-line-input col-md-12 col-lg-4">
+                                        <label for="Affternoon"><b>Chiều</b></label>
+                                        <input type="radio" class="form-control"
+                                               id="Affternoon"
+                                               name="radio"
+                                               style="height: 20px;width: 20px;display: inline-block"
+                                               onchange="diagnosticView.loadTime(this)">
+                                    </div>
+                                    <div class="form-group form-md-line-input col-md-12 col-lg-4">
+                                        <label for="None"><b>Không</b></label>
+                                        <input type="radio" class="form-control"
+                                               id="None"
+                                               name="radio"
+                                               checked
+                                               style="height: 20px;width: 20px;display: inline-block"
+                                               onchange="diagnosticView.loadTime(this)">
+                                    </div>
+                                </div>
+                                <div class="form-group form-md-line-input col-md-12 col-lg-3" style="display: none">
                                     <label for="Time"><b>Sáng/Chiều</b></label>
                                     <input type="text" class="form-control"
                                            id="Time"
                                            name="Time"
                                            placeholder="S/C">
                                 </div>
-                                <div class="form-group form-md-line-input col-md-12 col-lg-4">
+                                <div class="form-group form-md-line-input col-md-12 col-lg-3">
                                     <label for="Professional"><b>Chuyên môn</b></label>
                                     <input type="text" class="form-control"
                                            id="Professional"
                                            name="Professional"
-                                           placeholder="Siêu âm">
+                                           onfocus="diagnosticView.loadProfessional()">
                                 </div>
                                 <div class="form-group form-md-line-input col-md-12 col-lg-4">
                                     <label for="Location"><b>Vị trí điều trị</b></label>
@@ -238,22 +335,22 @@
                                                name="FullName"
                                                placeholder="Nguyễn Văn A">
                                     </div>
-                                    <div class="">
-                                        <div class="form-group form-md-line-input col-md-6">
-                                            <label for="Sex"><b>Giới tính</b></label>
-                                            <select class="form-control" name="Sex" id="Sex">
-                                                <option value="1">Nam</option>
-                                                <option value="2">Nữ</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group form-md-line-input col-md-6">
-                                            <label for="Birthday"><b>Năm sinh</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Birthday"
-                                                   name="Birthday">
+                                    {{--<div class="">--}}
+                                        {{--<div class="form-group form-md-line-input col-md-6">--}}
+                                            {{--<label for="Sex"><b>Giới tính</b></label>--}}
+                                            {{--<select class="form-control" name="Sex" id="Sex">--}}
+                                                {{--<option value="1">Nam</option>--}}
+                                                {{--<option value="2">Nữ</option>--}}
+                                            {{--</select>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="form-group form-md-line-input col-md-6">--}}
+                                            {{--<label for="Birthday"><b>Năm sinh</b></label>--}}
+                                            {{--<input type="text" class="form-control"--}}
+                                                   {{--id="Birthday"--}}
+                                                   {{--name="Birthday">--}}
 
-                                        </div>
-                                    </div>
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                 </div>
                                 <div name="tableAddNewTreatmentPackages" style="display: none">
                                     <div class="form-group form-md-line-input" style="display:none">
@@ -489,7 +586,7 @@
                 checkPackagesId: null,
                 idTreatmentPackage: null,
                 idDiagnostic: null,
-                idDetail:null,
+                idDetail: null,
                 data: null,
                 count: null,
                 DiagnosticObject: {
@@ -509,7 +606,6 @@
                     Professional: null,
                     Sesame: null,
                     Minute: null,
-
                     Time: null,
                     DoctorCode: null,
                     CodeDoctor: null,
@@ -527,6 +623,7 @@
                     Anamnesis: null,
                     Subclinical: null,
                     Diagnose: null,
+                    Serial: null
                 },
                 resetDiagnosticObject: function () {
                     for (var propertyName in diagnosticView.DiagnosticObject) {
@@ -575,6 +672,44 @@
                     } else {
                     }
                 },
+                checkedSesame: function (element) {
+                    $(element).parent().find("input[id=" + $(element).attr("id") + "]").prop("checked", true);
+                    $("input#Sesame").val($(element).text());
+                    $("div#sesame").hide();
+                },
+                fillToInputSesame: function (element) {
+                    if ($(element).prop("checked") === true) {
+                        $("input#Sesame").val($(element).parent().find("b[id=" + $(element).attr("id") + "]").text());
+                        $("div#sesame").hide();
+                    }
+                },
+                loadSesame: function () {
+                    $("div#sesame").show();
+                },
+                loadProfessional:function () {
+                    $("div#professional").show();
+                },
+                fillToInputProfessional:function (element) {
+                    if ($(element).prop("checked") === true) {
+                        $("input#Professional").val($(element).parent().find("b[id=" + $(element).attr("id") + "]").text());
+                        $("div#professional").hide();
+                    }
+                },
+                checkedProfessional:function (element) {
+                    $(element).parent().find("input[id=" + $(element).attr("id") + "]").prop("checked", true);
+                    $("input#Professional").val($(element).text());
+                    $("div#professional").hide();
+                },
+                loadTime:function (element) {
+                     if($(element).attr("id")==="Morning"){
+                        $("input#Time").val("Sáng");
+                     }else if($(element).attr("id")==="Affternoon"){
+                         $("input#Time").val("Chiều");
+                     }else if($(element).attr("id")==="None"){
+                         $("input#Time").val("");
+                     }
+                },
+
                 checked: function (element) {
                     var number = Number($("input[name=Umpteenth]").val());
                     if ($(element).prop("checked") === true) {
@@ -698,7 +833,7 @@
                         } else {
                             $("div#modalConfirm").modal("show");
                             $("button[name=modalAgree]").hide();
-                            $("div#modalContent").empty().append("Không tìm thấy thông tin bệnh nhân");
+                            $("div#modalContent").empty().append("Bệnh nhân này đang được nhập dữ liệu.");
                         }
 
                     });
@@ -727,7 +862,7 @@
                 }
                 ,
                 fillUpdateToTable: function (element, result, umpteenth) {
-                    var check = true;
+                    $("input#Time").val("");
                     var d = new Date();
                     var year = d.getFullYear();
                     var month = d.getMonth() + 1;
@@ -757,12 +892,12 @@
                             diagnosticView.data = data;
                             if (data.length !== 0) {
                                 var row = "";
-                                var stt = 1;
+                                //var stt = 1;
                                 $("tbody#PackagesTable").empty();
                                 for (var i = 0; i < data.length; i++) {
                                     var tr = "";
                                     tr += "<tr id='" + data[i]["detailId"] + "' id-treatmentPackage ='" + data[i]["sesame"] + "'  onclick='diagnosticView.updateProfessional(this)'>";
-                                    tr += "<td>" + stt + "</td>";
+                                    tr += "<td>" + data[i]["serial"] + "</td>";
                                     tr += "<td>" + data[i]["locationName"] + "</td>";
                                     tr += "<td>" + data[i]["time"] + "</td>";
                                     tr += "<td>" + data[i]["professional"] + "</td>";
@@ -776,7 +911,7 @@
                                     }
                                     tr += "</tr>";
                                     row += tr;
-                                    stt++;
+                                    //stt++;
                                 }
                                 $("tbody#PackagesTable").append(row);
 //                            diagnosticView.resetForm();
@@ -803,6 +938,7 @@
                 },
                 updateProfessional: function (element) {
                     diagnosticView.idDetail = $(element).attr("id")
+                    $("input#Serial").val($(element).find("td").eq(0).text());
                     $("select#Sesame").val($(element).attr("id-treatmentPackage"));
                     $("input#Time").val($(element).find("td").eq(2).text());
                     $("input#Professional").val($(element).find("td").eq(3).text());
@@ -856,7 +992,7 @@
                 }
                 ,
                 CompleteTreatmentPackage: function () {
-                    console.log(diagnosticView.idDetail);
+                    console.log(diagnosticView.DiagnosticObject);
                     diagnosticView.count = $("input[name=Umpteenth]").val();
                     if ($("input[name=checkbox]").prop("checked") === true) {
                         diagnosticView.setValueObject();
@@ -894,18 +1030,17 @@
                                 idPatient: $("input[name=Code]").val(),
                                 idDetail: diagnosticView.idDetail
                             }, function (data) {
-                                console.log(typeof data);
                                 if (data[0] === 1) {
                                     diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage, data[1]["umpteenth"]);
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Lưu thành công");
                                     $("button[name=modalAgree]").hide();
-                                }else if(data=== "2"){
+                                } else if (data === "2") {
                                     diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage, '');
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Sửa thành công");
                                     $("button[name=modalAgree]").hide();
-                                    diagnosticView.idDetail=null;
+                                    diagnosticView.idDetail = null;
                                 }
                             });
                         } else {
@@ -1078,12 +1213,12 @@
                                 }
                                 if (data[2].length !== 0) {
                                     var row = "";
-                                    var stt = 1;
+//                                    var stt = 1;
                                     $("tbody#tbodyRegimen").empty();
                                     for (var i = 0; i < data[2].length; i++) {
                                         var tr = "";
                                         tr += "<tr id=" + data[2][i]["detailId"] + " style='text-align:center '>";
-                                        tr += "<td>" + stt + "</td>";
+                                        tr += "<td>" + data[2][i]["serial"] + "</td>";
                                         tr += "<td>" + data[2][i]["locationName"] + "</td>";
                                         tr += "<td>" + data[2][i]["time"] + "</td>";
                                         tr += "<td>" + data[2][i]["professional"] + "</td>";
@@ -1094,7 +1229,7 @@
                                         tr += "<td>" + data[2][i]["packageName"] + "</td>";
                                         tr += "</tr>";
                                         row += tr;
-                                        stt++;
+//                                        stt++;
                                     }
                                     $("tbody#tbodyRegimen").append(row);
 
@@ -1121,6 +1256,7 @@
                         $("button[name=modalAgree]").hide();
                     }
                 },
+
                 loadDateCreateProfessional: function () {
                     $.post(url + "admin/loadDateCreateProfessional", {
                         _token: _token,
@@ -1184,6 +1320,7 @@
                             $("div#modalConfirm").modal("show");
                             $("div#modalContent").empty().append("Xoá thành công");
                             $("button[name=modalAgree]").hide();
+                            diagnosticView.idDetail = null;
                         } else {
                             $("div#modalConfirm").modal("show");
                             $("div#modalContent").empty().append("Xoá KHÔNG thành công");
@@ -1274,7 +1411,7 @@
                 Code: $inputCode.val()
             }, function (data) {
                 if (data === "0") {
-                    $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
+                    $("div#modalContent").empty().append("Bệnh nhân này đang được nhập dữ liệu.");
                     $("button[name=modalAgree]").hide();
                     $("input[name=Id]").val("");
                     $("div#modalConfirm").modal("show");

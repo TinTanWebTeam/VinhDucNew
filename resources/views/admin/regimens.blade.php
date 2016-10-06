@@ -522,7 +522,7 @@
             Code: $input.val()
         }, function (data) {
             if (data === "0") {
-                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
+                $("div#modalContent").empty().append("Bệnh nhân này đang được nhập dữ liệu.");
                 $("button[name=modalAgree]").hide();
                 $("input[name=Id]").val("");
                 $("div#modalConfirm").modal("show");

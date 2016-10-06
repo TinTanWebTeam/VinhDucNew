@@ -29,10 +29,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div style="color: #00a859;font-size: 17px;">Danh sách bệnh nhân
-                        {{--<button type="button" class="btn btn-danger btn-circle pull-right"--}}
-                        {{--onclick="patientView.deletePatient()"><i--}}
-                        {{--class="fa fa-times"></i>--}}
-                        {{--</button>--}}
+                        <div class="input-group custom-search-form pull-right" style="width: 50%;margin-top: -1%;">
+                            <input type="text" class="form-control" placeholder="Search..." name = "searchMedicalRecordViewByCodePatient">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="patientView.searchMedicalRecordViewByCodePatient()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive" style="height: 480px; overflow: scroll">
@@ -401,6 +405,14 @@
                         $("div#modalContent").empty().append("Vui lòng chọn bệnh nhân cần xoá");
                         $("button[name=modalAgree]").hide();
                     }
+                },
+                searchMedicalRecordViewByCodePatient:function () {
+                    $.post(url+"admin/searchPatientByCodePatient",{
+                        _token:_token,
+                        search:$("input[name=searchMedicalRecordViewByCodePatient]").val()
+                    },function (data) {
+                        patientView.fillTbody(data);
+                    })
                 },
                 birthday: function () {
                     $.get(url + "admin/getdate", {

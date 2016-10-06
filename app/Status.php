@@ -12,6 +12,8 @@ class Status extends Model
         'ail',
         'detailTreatmentId',
         'createdDate',
+        'dateStart',
+        'dateEnd',
         'active'
     ];
 }

@@ -1,31 +1,63 @@
 @if($detailedTreatments)
-    {{$i = 1}}
+    {{--{{$i = 1}}--}}
     @foreach($detailedTreatments as $detail)
 
         <tr>
             {{--<td style="width: 3%;">{{ \App\LocationTreatment::where('id',$detail->locationId)->first()->name }}</td>--}}
             {{--@foreach($rows as $item)--}}
-            <td>{{$i}}</td>
+
+            {{--<td>{{$i}}</td>--}}
+            <td>{{$detail->serial}}</td>
             <td>{{$detail->sesameName}}</td>
             <td name="">{{$detail->professionalName}}</td>
             <td>{{$detail->locationName}}</td>
             <td>{{$detail->time}}</td>
             <td>{{$detail->minute}}</td>
 
-
             @foreach($arraystatus as $item)
                 @if($detail->detailId === $item["detailId"])
                     <td>
                         <input type="text" class="form-control"
-                               id="{{$i}}"
+                               id="{{$detail->serial}}"
+                               style="min-width: 73px;"
                                name="TherapistId"
                                onchange="professionalView.searchTherapist(this)"
                                placeholder="Nguyễn Văn A"
                                value="{{$item["therapistCode"]}}">
                     </td>
                     <td>
-                        <select class="form-control" id="Status" name="Status">
 
+
+                        @if($item["id"] === "")
+                            <button type="button" class="btn blue"
+                                    id="{{$detail->detailId}}"
+                                    name="Start"
+                                    {{--role="{{\Auth::User()->name}}">--}}
+                                    onclick="professionalView.Start(this)">
+                                Bắt đầu
+                            </button>
+                        @elseif($item["ail"] !==-1 && \Auth::User()->name === 'admin' )
+                            <button type="button" class="btn blue"
+                                    id="{{$detail->detailId}}"
+                                    name="Start"
+                                    style="background-color:#00a859;color:#ffffff"
+                                    onclick="professionalView.Start(this)">
+                                {{$item["dateStart"]}}
+                            </button>
+                        @elseif($item["therapistCode"]==="" || \Auth::User()->name === 'admin')
+                            <button type="button" class="btn blue"
+                                    id="{{$detail->detailId}}"
+                                    name="Start"
+                                    {{--role="{{\Auth::User()->name}}">--}}
+                                    onclick="professionalView.Start(this)">
+                                Bắt đầu
+                            </button>
+                        @endif
+
+
+                    </td>
+                    <td>
+                        <select class="form-control" id="Status" name="Status" style="min-width: 132px;">
                             @if($item["ail"] === "")
                                 <option value="-1">Tình trạng</option>
                                 <option value="1">Có đau</option>
@@ -68,7 +100,7 @@
                                     name="saveDetail"
                                     role="{{\Auth::User()->name}}"
                                     onclick="professionalView.saveDetail(this)">
-                                Lưu
+                                Kết thúc
                             </button>
                         @elseif($item["ail"] !==-1 && \Auth::User()->name === 'admin' )
                             <button type="button" class="btn blue"
@@ -77,7 +109,7 @@
                                     style="background-color:#00a859;color:#ffffff"
                                     role="{{\Auth::User()->name}}"
                                     onclick="professionalView.saveDetail(this)">
-                                Sửa
+                                {{$item["dateEnd"]}}
                             </button>
                         @elseif($item["therapistCode"]==="" || \Auth::User()->name === 'admin')
                             <button type="button" class="btn blue"
@@ -85,7 +117,7 @@
                                     name="saveDetail"
                                     role="{{\Auth::User()->name}}"
                                     onclick="professionalView.saveDetail(this)">
-                                Lưu
+                                Kết thúc
                             </button>
                         @endif
                     </td>
@@ -95,7 +127,8 @@
         </tr>
         {{--@endforeach--}}
         {{--@endfor--}}
-        {{$i++}}
+
+        {{--{{$i++}}--}}
     @endforeach
 @endif
 {{--<script>--}}

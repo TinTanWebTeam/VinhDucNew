@@ -34,8 +34,8 @@
                                     class="fa fa-refresh"></i>
                         </button>
                         {{--<button type="button" class="btn btn-info btn-circle pull-right"--}}
-                                {{--onclick="professionalView.addNewTreatmentPackages()"><i--}}
-                                    {{--class="fa fa-plus"></i>--}}
+                        {{--onclick="professionalView.addNewTreatmentPackages()"><i--}}
+                        {{--class="fa fa-plus"></i>--}}
                         {{--</button>--}}
                     </div>
                 </div>
@@ -77,22 +77,22 @@
                                                name="FullName"
                                                placeholder="Nguyễn Văn A">
                                     </div>
-                                    <div class="">
-                                        <div class="form-group form-md-line-input col-md-6">
-                                            <label for="Sex"><b>Giới tính</b></label>
-                                            <select class="form-control" name="Sex" id="Sex">
-                                                <option value="1">Nam</option>
-                                                <option value="2">Nữ</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group form-md-line-input col-md-6">
-                                            <label for="Birthday"><b>Năm sinh</b></label>
-                                            <input type="text" class="form-control"
-                                                   id="Birthday"
-                                                   name="Birthday">
+                                    {{--<div class="">--}}
+                                    {{--<div class="form-group form-md-line-input col-md-6">--}}
+                                    {{--<label for="Sex"><b>Giới tính</b></label>--}}
+                                    {{--<select class="form-control" name="Sex" id="Sex">--}}
+                                    {{--<option value="1">Nam</option>--}}
+                                    {{--<option value="2">Nữ</option>--}}
+                                    {{--</select>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group form-md-line-input col-md-6">--}}
+                                    {{--<label for="Birthday"><b>Năm sinh</b></label>--}}
+                                    {{--<input type="text" class="form-control"--}}
+                                    {{--id="Birthday"--}}
+                                    {{--name="Birthday">--}}
 
-                                        </div>
-                                    </div>
+                                    {{--</div>--}}
+                                    {{--</div>--}}
                                 </div>
                             </div>
                             <div class="form-actions noborder" name="buttonSearchPatient">
@@ -138,8 +138,22 @@
                 <div style="background-color: white;">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <div style="color: #00a859;font-size: 17px;" name="title">Chi tiết điều trị của mã phiếu:
+                            <div style="color: #00a859;font-size: 17px;" name="title"><span name="title">tiết điều trị của mã phiếu:</span>
+                                @if(Auth::user()->name ==="admin")
+                                    <button type="button" class="btn btn-info btn-circle pull-right"
+                                            onclick="professionalView.Show()"
+                                            style="width: 50px;"><i class="fa fa-plus"></i>
+                                        Hiện
+                                    </button>
+                                    <button type="button" class="btn btn-info btn-circle pull-right"
+                                            onclick="professionalView.Hide()"
+                                            style="width: 50px;"><i
+                                                class="fa fa-minus"></i>
+                                        Ẩn
+                                    </button>
+                                @endif
                             </div>
+
                         </div>
                         <div style="height: 650px ;overflow: scroll;">
                             <table class="table table-bordered table-hover order-column " id="PackagesTable">
@@ -152,24 +166,25 @@
                                     <th>S/C</th>
                                     <th>Phút</th>
                                     <th>Mã chuyên viên</th>
+                                    <th>Bắt đầu</th>
                                     <th>Tình trạng</th>
-                                    <th>Lưu thay đổi</th>
+                                    <th>Kết thúc</th>
                                 </tr>
                                 </thead>
-                                <tbody id="PackagesTable" class="" >
+                                <tbody id="PackagesTable" class="">
 
                                 </tbody>
                             </table>
 
                         </div>
                         {{--<div class="form-group pull-bottom" style="margin-top: 10%; text-align: center; ">--}}
-                            {{--<button type="button" name="CompleteTreatmentPackage" class="btn blue"--}}
-                                    {{--onclick="professionalView.CompleteTreatmentPackage(this)">--}}
-                                {{--Hoàn tất--}}
-                            {{--</button>--}}
-                            {{--<button type="button" name="cancelTreatment" onclick="professionalView.cancelTreatment(this)"--}}
-                                    {{--class="btn default">Huỷ--}}
-                            {{--</button>--}}
+                        {{--<button type="button" name="CompleteTreatmentPackage" class="btn blue"--}}
+                        {{--onclick="professionalView.CompleteTreatmentPackage(this)">--}}
+                        {{--Hoàn tất--}}
+                        {{--</button>--}}
+                        {{--<button type="button" name="cancelTreatment" onclick="professionalView.cancelTreatment(this)"--}}
+                        {{--class="btn default">Huỷ--}}
+                        {{--</button>--}}
                         {{--</div>--}}
                     </div>
                 </div>
@@ -185,7 +200,9 @@
             idTreatmentPackage: null,
             idProfessional: null,
             data: null,
-            check:true,
+            check: true,
+            DateStart: null,
+            DateEnd: null,
             deleteTreatmentPackage: null,
             ProfessionalObject: {
                 Id: null,
@@ -198,8 +215,9 @@
                 PatientId: null,
                 TreatmentPackageCode: null,
                 Note: null,
-                TherapistId:null,
-                Status:null
+                TherapistId: null,
+                Status: null,
+
             },
             resetProfessionalObject: function () {
                 for (var propertyName in professionalView.ProfessionalObject) {
@@ -240,22 +258,22 @@
                 } else {
                 }
             },
-            searchTherapist:function (element) {
+            searchTherapist: function (element) {
 
-                $.post(url+"admin/searchTherapist",{
-                    _token:_token,
-                    codeTherapist:$(element).val()
-                },function (data) {
-                   if(data==="1"){
-                       professionalView.check=true;
-                   }else{
-                       professionalView.check=false;
-                       $("div#modalConfirm").modal("show");
-                       $("div#modalContent").empty().append("Không tìm thấy mã chuyên viên. Vui lòng nhập lại");
-                       $("button[name=modalAgree]").hide();
-                       $("input[id="+$(element).attr("Id")+"]").val("").focus();
+                $.post(url + "admin/searchTherapist", {
+                    _token: _token,
+                    codeTherapist: $(element).val()
+                }, function (data) {
+                    if (data === "1") {
+                        professionalView.check = true;
+                    } else {
+                        professionalView.check = false;
+                        $("div#modalConfirm").modal("show");
+                        $("div#modalContent").empty().append("Không tìm thấy mã chuyên viên. Vui lòng nhập lại");
+                        $("button[name=modalAgree]").hide();
+                        $("input[id=" + $(element).attr("Id") + "]").val("").focus();
 
-                   }
+                    }
                 })
             },
             fillTbody: function (data) {
@@ -304,9 +322,9 @@
                             tr += "<tr id=" + data[i]["id"] + ">";
                             tr += "<td>" + data[i]["code"] + "</td>";
                             tr += "<td>" + data[i]["fullName"] + "</td>";
-                            if(data[i]["sex"]===1){
+                            if (data[i]["sex"] === 1) {
                                 tr += "<td>Nam</td>";
-                            }else{
+                            } else {
                                 tr += "<td>Nữ</td>";
                             }
                             tr += "<td>" + data[i]["birthday"] + "</td>";
@@ -322,7 +340,7 @@
                 });
             },
             fillToInput: function (element) {
-                var a = $("tbody[id=AutoCompleteTableBody]").find("tr[id="+$(element).attr("data-Id")+"]");
+                var a = $("tbody[id=AutoCompleteTableBody]").find("tr[id=" + $(element).attr("data-Id") + "]");
                 $("div#Table").hide();
                 $("input[name=Id]").val($(element).attr("data-Id"));
                 $("input[name=Code]").val(a.find("td").eq(0).text());
@@ -340,9 +358,51 @@
                     professionalView.fillTbody(data)
                 })
             },
+            Show: function () {
+                var dem = $("tbody[id=PackagesTable]").children("tr");
+                for (var i = 0; i < dem.length; i++) {
+                    if ($(dem[i]).find("td:eq(6)").children().val() !== "") {
+                        $(dem[i]).show();
+                    }
+                }
+            },
+            Hide:function () {
+                var dem = $("tbody[id=PackagesTable]").children("tr");
+                for (var i = 0; i < dem.length; i++) {
+                    if ($(dem[i]).find("td:eq(6)").children().val() !== "") {
+                        $(dem[i]).hide();
+                    }
+                }
+            },
+            getDate: function () {
+                var d = new Date();
+                var year = d.getFullYear();
+                var month = d.getMonth() + 1;
+                var date = d.getDate();
+                var Hour = d.getHours();
+                var Minute = d.getMinutes();
+                var second = d.getSeconds();
+                if (month < 10) month = "0" + month;
+                if (date < 10) date = "0" + date;
+                var strDate = year + "-" + month + "-" + date + " " + Hour + ":" + Minute + ":" + second;
+                return strDate;
+            },
+            Start: function (element) {
+                professionalView.DateStart = professionalView.getDate();
+                if ($(element).parent().parent().find("td:eq(6)").children().val() !== "") {
+                    $(element).parent().parent().find("td:eq(6)").children().prop("readOnly", true);
+                    $(element).prop("disabled", true);
+                    $(element).css("background-color", "#00a859").css("color", "#ffffff");
+                    $(element).text(professionalView.DateStart);
 
+                } else {
+                    $("div#modalConfirm").modal("show");
+                    $("div#modalContent").empty().append("Mã chuyên viên không được trống");
+                    $("button[name=modalAgree]").hide();
+                }
+            },
             fillUpdateToTable: function (element, result) {
-                $("div[name=title]").text("Chi tiết điều trị của mã phiếu: " + $(element).attr("data-code") + "");
+                $("span[name=title]").text("Chi tiết điều trị của mã phiếu: " + $(element).attr("data-code") + "");
                 var d = new Date();
                 var year = d.getFullYear();
                 var month = d.getMonth() + 1;
@@ -353,6 +413,7 @@
 //                if ($(element).attr("data-date") < strDate || $(element).attr("data-active") === "0") {
 //
 //                } else
+
                 if (result !== "") {
                     professionalView.idTreatmentPackage = result;
 
@@ -366,6 +427,12 @@
                     idPackageTreatment: professionalView.idTreatmentPackage
                 }, function (data) {
                     $("tbody[id=PackagesTable]").empty().append(data);
+                    var dem = $("tbody[id=PackagesTable]").children("tr");
+                    for (var i = 0; i < dem.length; i++) {
+                        if ($(dem[i]).find("td:eq(6)").children().val() !== "") {
+                            $(dem[i]).hide();
+                        }
+                    }
                 });
 
 //                $("div#TablePackages").show();
@@ -406,11 +473,11 @@
                     $("div#menuPackageTreatment").show();
                 } else {
                     $("tbody#PackagesTable").children().children().css("background-color", "white").css('color', '#555555');
-                   // $("tbody#PackagesTable").children().children().find("input").removeAttr("checked");
+                    // $("tbody#PackagesTable").children().children().find("input").removeAttr("checked");
                     for (var i = 0; i < professionalView.data.length; i++) {
                         if ($("tbody#PackagesTable").children().find("td[name=" + professionalView.data[i]["professionalId"] + "]")) {
                             $("td[name=" + professionalView.data[i]["professionalId"] + "]").css("background-color", "#00a859").css('color', '#ffffff');
-                           // $("td[name=" + professionalView.data[i]["professionalId"] + "]").find("input").prop("checked", true);
+                            // $("td[name=" + professionalView.data[i]["professionalId"] + "]").find("input").prop("checked", true);
                         }
                     }
                 }
@@ -480,33 +547,35 @@
                 }
             },
             saveDetail: function (element) {
-                if(professionalView.check==true){
+                if (professionalView.check == true) {
                     $idTherapist = $(element).parent().parent().find("td").eq(6).children().val();
                     $idstatus = $(element).parent().parent().find("td").eq(7).children().val();
-                    if($idTherapist===""){
+                    if ($idTherapist === "") {
                         $("div#modalConfirm").modal("show");
                         $("div#modalContent").empty().append("Chưa chọn chuyên viên thực hiện");
                         $("button[name=modalAgree]").hide();
-                    }else if($idstatus==="-1"){
+                    } else if ($idstatus === "-1") {
                         $("div#modalConfirm").modal("show");
                         $("div#modalContent").empty().append("Chưa chọn tình trạng bệnh nhân");
                         $("button[name=modalAgree]").hide();
-                    }else{
+                    } else {
+                        professionalView.DateEnd = professionalView.getDate();
                         $.post(url + "admin/updateAil", {
                             _token: _token,
                             therapistId: $(element).parent().parent().find("td").find("input").val(),
-                            ail: $(element).parent().parent().find("td").eq(7).find("select").val(),
-//                    professionalId: $(element).attr("id"),
-                            patientId:$("input[name=Id]").val(),
+                            ail: $(element).parent().parent().find("td").eq(8).find("select").val(),
+                            dateStart: professionalView.DateStart,
+                            dateEnd: professionalView.DateEnd,
+                            patientId: $("input[name=Id]").val(),
 //                    treatmentPackageId:professionalView.idTreatmentPackage
                             id: $(element).attr("id")
                         }, function (data) {
                             if (data === "1") {
-                                if($(element).attr("role")==="admin") {
+                                if ($(element).attr("role") === "admin") {
                                     $(element).css("background-color", "#00a859").css('color', '#ffffff');
-                                    $(element).text("Sửa");
-                                }else{
-                                    $(element).hide();
+                                    $(element).text(professionalView.DateEnd);
+                                } else {
+                                    $(element).parent().parent().hide();
                                 }
 
                                 $("div#modalConfirm").modal("show");
@@ -517,7 +586,7 @@
                             }
                         })
                     }
-                }else{
+                } else {
                     $("div#modalConfirm").modal("show");
                     $("div#modalContent").empty().append("Không tìm thấy mã chuyên viên. Vui lòng nhập lại");
                     $("button[name=modalAgree]").hide();
@@ -548,7 +617,7 @@
             Code: $inputCode.val()
         }, function (data) {
             if (data === "0") {
-                $("div#modalContent").empty().append("Không tìm thấy mã vừa nhập");
+                $("div#modalContent").empty().append("Bệnh nhân này đang được nhập dữ liệu.");
                 $("button[name=modalAgree]").hide();
                 $("input[name=Id]").val("");
                 $("div#modalConfirm").modal("show");

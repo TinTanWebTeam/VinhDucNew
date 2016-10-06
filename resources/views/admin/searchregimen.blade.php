@@ -211,7 +211,7 @@
                         $("tbody#TableRegimentList").append(row);
                     }else{
                         $("div#modalConfirm").modal("show");
-                        $("div#modalContent").empty().append("Dữ liệu không có.Vui lòng chọn lại");
+                        $("div#modalContent").empty().append("Bệnh nhân này đang được nhập dữ liệu");
                         $("button[name=modalAgree]").hide();
 
                     }
