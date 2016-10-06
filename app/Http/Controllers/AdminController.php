@@ -944,6 +944,7 @@ class AdminController extends Controller
                 ->where('detail.createdBy', $request->get('data')['DoctorCode'])
                 ->where('detail.createdDate', $maxDate)
                 ->where('detail.active',1)
+                ->where('detail.active',1)
                 ->select(
                     'detail.id as detailId',
                     'detail.name as detailName',
