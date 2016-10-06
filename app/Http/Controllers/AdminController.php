@@ -943,6 +943,7 @@ class AdminController extends Controller
                 ->where('detail.treatmentPackageId', '=', $request->get('idPackageTreatment'))
                 ->where('detail.createdBy', $request->get('data')['DoctorCode'])
                 ->where('detail.createdDate', $maxDate)
+                ->where('detail.active',1)
                 ->select(
                     'detail.id as detailId',
                     'detail.name as detailName',
