@@ -898,6 +898,7 @@ class AdminController extends Controller
 
     public function searchProfessional(Request $request)
     {
+
         try {
             $max = DB::table('detailed_treatments')->where('detailed_treatments.treatmentPackageId', $request->get('idPackageTreatment'))->max('createdDate');
             //$count = DB::table('detailed_treatments')->where('detailed_treatments.treatmentPackageId',$request->get('idPackageTreatment'))->where('createdDate','=', $max )->count();
@@ -926,7 +927,6 @@ class AdminController extends Controller
                 )
                 ->orderBy('detail.serial', 'asc')
                 ->get();
-
             return $Professional;
         } catch (Exception $ex) {
             return $ex;
@@ -1350,7 +1350,7 @@ class AdminController extends Controller
             ->join('treatment_packages as treatment', 'treatment.id', '=', 'detail.treatmentPackageId')
             ->where('treatment.id', '=', $request->get('idPackageTreatment'))
             ->where('detail.active', 1)
-            ->orderBy('detail.createdDate', 'desc')
+            ->orderBy('detail.serial', 'asc')
             ->take($count)
             ->select(
                 'detail.serial',

@@ -169,10 +169,15 @@
                                     {{--@endif--}}
                                     {{--</select>--}}
                                     <input type="text" class="form-control"
-                                           id="Sesame"
-                                           name="Sesame"
+                                           id="SesameName"
+                                           name="SesameName"
                                            placeholder="Vùng"
                                            onfocus="diagnosticView.loadSesame()">
+                                    <input type="text" class="form-control"
+                                           id="Sesame"
+                                           style="display: none"
+                                           name="Sesame"
+                                           placeholder="Vùng">
                                 </div>
                                 <div class="form-group form-md-line-input col-md-12 col-lg-3">
                                     <div class="form-group form-md-line-input col-md-12 col-lg-4">
@@ -562,7 +567,14 @@
                     </div>
                     <div class="row col-md-12 ">
                         <h6 class="pull-right"><b>(Kí và ghi rõ họ tên)</b></h6>
-
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="row col-md-12 ">
+                        <h6 class="pull-right"><b>BS Hoàng Trọng Thịnh</b></h6>
                     </div>
                 </div>
             </div>
@@ -674,7 +686,8 @@
                 },
                 checkedSesame: function (element) {
                     $(element).parent().find("input[id=" + $(element).attr("id") + "]").prop("checked", true);
-                    $("input#Sesame").val($(element).text());
+                    $("input#SesameName").val($(element).text());
+                    $("input#Sesame").val($(element).attr("id"));
                     $("div#sesame").hide();
                 },
                 fillToInputSesame: function (element) {
@@ -769,6 +782,7 @@
                         idTreatmentPackage: $(element).attr("idTreatmentPackage"),
                         idPackage: $(element).val()
                     }, function (data) {
+
                     })
                 },
                 getIdPackage: function (element) {
@@ -896,7 +910,7 @@
                                 $("tbody#PackagesTable").empty();
                                 for (var i = 0; i < data.length; i++) {
                                     var tr = "";
-                                    tr += "<tr id='" + data[i]["detailId"] + "' id-treatmentPackage ='" + data[i]["sesame"] + "'  onclick='diagnosticView.updateProfessional(this)'>";
+                                    tr += "<tr id='" + data[i]["detailId"] + "' name-location='"+data[i]["locationName"]+"' id-treatmentPackage ='" + data[i]["sesame"] + "'  onclick='diagnosticView.updateProfessional(this)'>";
                                     tr += "<td>" + data[i]["serial"] + "</td>";
                                     tr += "<td>" + data[i]["locationName"] + "</td>";
                                     tr += "<td>" + data[i]["time"] + "</td>";
@@ -939,7 +953,8 @@
                 updateProfessional: function (element) {
                     diagnosticView.idDetail = $(element).attr("id")
                     $("input#Serial").val($(element).find("td").eq(0).text());
-                    $("select#Sesame").val($(element).attr("id-treatmentPackage"));
+                    $("input#Sesame").val($(element).attr("id-treatmentPackage"));
+                    $("input#SesameName").val($(element).attr("name-location"));
                     $("input#Time").val($(element).find("td").eq(2).text());
                     $("input#Professional").val($(element).find("td").eq(3).text());
                     $("input#Location").val($(element).find("td").eq(4).text());
