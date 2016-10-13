@@ -1025,6 +1025,7 @@
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Lưu thành công");
                                 $("button[name=modalAgree]").hide();
+                                $("input#None").prop("checked",true);
                             }
                         });
                     } else {
@@ -1052,12 +1053,14 @@
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Lưu thành công");
                                     $("button[name=modalAgree]").hide();
+                                    $("input#None").prop("checked",true);
                                 } else if (data === "2") {
                                     diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage, '');
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Sửa thành công");
                                     $("button[name=modalAgree]").hide();
                                     diagnosticView.idDetail = null;
+                                    $("input#None").prop("checked",true);
                                 }
                             });
                         } else {

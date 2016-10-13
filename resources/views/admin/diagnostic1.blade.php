@@ -51,6 +51,7 @@
                                 <th>Gói</th>
                                 <th>Tình trạng</th>
                                 <th>Thông tin</th>
+                                <th>Chi tiết</th>
                             </tr>
                             </thead>
                             <tbody id="tbodyDiagnosticList">
@@ -185,7 +186,7 @@
                                                id="Morning"
                                                name="radio"
                                                style="height: 20px;width: 20px;display: inline-block"
-                                                onchange="diagnosticView.loadTime(this)">
+                                               onchange="diagnosticView.loadTime(this)">
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12 col-lg-4">
                                         <label for="Affternoon"><b>Chiều</b></label>
@@ -219,29 +220,31 @@
                                            name="Professional"
                                            onfocus="diagnosticView.loadProfessional()">
                                 </div>
-                                <div class="form-group form-md-line-input col-md-12 col-lg-4">
-                                    <label for="Location"><b>Vị trí điều trị</b></label>
-                                    <input type="text" class="form-control"
-                                           id="Location"
-                                           name="Location">
-                                </div>
-                                <div class="form-group form-md-line-input col-md-12 col-lg-4">
-                                    <label for="Minute"><b>Phút</b></label>
-                                    <input type="text" class="form-control"
-                                           id="Minute"
-                                           onkeypress="diagnosticView.enternumber()"
-                                           name="Minute">
-                                </div>
-                                <div class="form-group form-md-line-input col-md-12 col-lg-4">
-                                    <label for="DoctorCode"><b>Bác sĩ</b></label>
-                                    <select class="form-control" name="DoctorCode" id="DoctorCode"
-                                            onchange="diagnosticView.loadDetailByDoctor()">
-                                        @if($doctors)
-                                            @foreach($doctors as $item)
-                                                <option value="{{$item->code}}">{{$item->code}}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
+                                <div style="padding-top: 20%;">
+                                    <div class="form-group form-md-line-input col-md-12 col-lg-4">
+                                        <label for="Location"><b>Vị trí điều trị</b></label>
+                                        <input type="text" class="form-control"
+                                               id="Location"
+                                               name="Location">
+                                    </div>
+                                    <div class="form-group form-md-line-input col-md-12 col-lg-4">
+                                        <label for="Minute"><b>Phút</b></label>
+                                        <input type="text" class="form-control"
+                                               id="Minute"
+                                               onkeypress="diagnosticView.enternumber()"
+                                               name="Minute">
+                                    </div>
+                                    <div class="form-group form-md-line-input col-md-12 col-lg-4">
+                                        <label for="DoctorCode"><b>Bác sĩ</b></label>
+                                        <select class="form-control" name="DoctorCode" id="DoctorCode"
+                                                onchange="diagnosticView.loadDetailByDoctor()">
+                                            @if($doctors)
+                                                @foreach($doctors as $item)
+                                                    <option value="{{$item->code}}">{{$item->code}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group form-md-line-input col-md-12 col-lg-6">
                                     <div class="form-group form-md-line-input col-md-12 col-lg-6">
@@ -262,7 +265,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="form-group noborder" style="margin-top: 50%; text-align: center;">
+                        <div class="form-group noborder" style="margin-top: 30%; text-align: center;">
                             <button type="button" name="CompleteTreatmentPackage"
                                     onclick="diagnosticView.CompleteTreatmentPackage()"
                                     class="btn default">Thêm
@@ -340,20 +343,20 @@
                                                placeholder="Nguyễn Văn A">
                                     </div>
                                     {{--<div class="">--}}
-                                        {{--<div class="form-group form-md-line-input col-md-6">--}}
-                                            {{--<label for="Sex"><b>Giới tính</b></label>--}}
-                                            {{--<select class="form-control" name="Sex" id="Sex">--}}
-                                                {{--<option value="1">Nam</option>--}}
-                                                {{--<option value="2">Nữ</option>--}}
-                                            {{--</select>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="form-group form-md-line-input col-md-6">--}}
-                                            {{--<label for="Birthday"><b>Năm sinh</b></label>--}}
-                                            {{--<input type="text" class="form-control"--}}
-                                                   {{--id="Birthday"--}}
-                                                   {{--name="Birthday">--}}
+                                    {{--<div class="form-group form-md-line-input col-md-6">--}}
+                                    {{--<label for="Sex"><b>Giới tính</b></label>--}}
+                                    {{--<select class="form-control" name="Sex" id="Sex">--}}
+                                    {{--<option value="1">Nam</option>--}}
+                                    {{--<option value="2">Nữ</option>--}}
+                                    {{--</select>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group form-md-line-input col-md-6">--}}
+                                    {{--<label for="Birthday"><b>Năm sinh</b></label>--}}
+                                    {{--<input type="text" class="form-control"--}}
+                                    {{--id="Birthday"--}}
+                                    {{--name="Birthday">--}}
 
-                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     {{--</div>--}}
                                 </div>
                                 <div name="tableAddNewTreatmentPackages" style="display: none">
@@ -714,13 +717,13 @@
                     $("div#professional").hide();
                 },
                 loadTime:function (element) {
-                     if($(element).attr("id")==="Morning"){
+                    if($(element).attr("id")==="Morning"){
                         $("input#Time").val("Sáng");
-                     }else if($(element).attr("id")==="Affternoon"){
-                         $("input#Time").val("Chiều");
-                     }else if($(element).attr("id")==="None"){
-                         $("input#Time").val("");
-                     }
+                    }else if($(element).attr("id")==="Affternoon"){
+                        $("input#Time").val("Chiều");
+                    }else if($(element).attr("id")==="None"){
+                        $("input#Time").val("");
+                    }
                 },
 
                 checked: function (element) {
@@ -768,7 +771,7 @@
                             tr += "<td>Đau hơn</td>";
                         }
                         tr += "<td>" + data[0][i]["regimensNote"] + "</td>";
-//                        tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[0][i]["active"] + "' data-date='" + data[0][i]["createdDate"] + "' data-Id='" + data[0][i]["id"] + "' data-umpteenth='" + data[0][i]["umpteenth"] + "' onclick='diagnosticView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";//<button type='button' style='margin-left: 5%;border-color: rgb(212, 0, 0);background-color: rgb(212, 0, 0);' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.deleteTreatmentPackages(this)'><i class='fa fa-times' ></i></button>
+                        tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[0][i]["active"] + "' data-date='" + data[0][i]["createdDate"] + "' data-Id='" + data[0][i]["id"] + "' data-umpteenth='" + data[0][i]["umpteenth"] + "' onclick='diagnosticView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";//<button type='button' style='margin-left: 5%;border-color: rgb(212, 0, 0);background-color: rgb(212, 0, 0);' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.deleteTreatmentPackages(this)'><i class='fa fa-times' ></i></button>
                         row += tr;
                     }
                     $("tbody#tbodyDiagnosticList"
@@ -1007,7 +1010,6 @@
                 }
                 ,
                 CompleteTreatmentPackage: function () {
-                    console.log(diagnosticView.DiagnosticObject);
                     diagnosticView.count = $("input[name=Umpteenth]").val();
                     if ($("input[name=checkbox]").prop("checked") === true) {
                         diagnosticView.setValueObject();
@@ -1023,17 +1025,18 @@
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Lưu thành công");
                                 $("button[name=modalAgree]").hide();
+                                $("input#None").prop("checked",true);
                             }
                         });
                     } else {
                         $("#addProfessional").validate({
                             rules: {
                                 Professional: "required",
-                                Location: "required",
+                                SesameName: "required",
                             },
                             messages: {
                                 Professional: "Không được rỗng",
-                                Location: "Không được rỗng",
+                                SesameName: "Không được rỗng",
                             }
                         });
                         if ($("#addProfessional").valid()) {
@@ -1050,12 +1053,14 @@
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Lưu thành công");
                                     $("button[name=modalAgree]").hide();
+                                    $("input#None").prop("checked",true);
                                 } else if (data === "2") {
                                     diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage, '');
                                     $("div#modalConfirm").modal("show");
                                     $("div#modalContent").empty().append("Sửa thành công");
                                     $("button[name=modalAgree]").hide();
                                     diagnosticView.idDetail = null;
+                                    $("input#None").prop("checked",true);
                                 }
                             });
                         } else {
