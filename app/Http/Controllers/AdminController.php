@@ -155,7 +155,7 @@ class AdminController extends Controller
             return view('admin.patient')->with('patients', $patient)->with('ages', $age)
                 ->with('sourceCustomers', $sourceCustomer)->with('provinces', $province);
         } catch (Exception $ex) {
-
+            return $ex;
         }
     }
 
@@ -970,6 +970,31 @@ class AdminController extends Controller
         return view('admin.surveyprogression')->with('professionals', $this->getDiagnostic());
     }
 
+    public function gettingSick()
+    {
+        try {
+            $age = Age::where('active', 1)->get();
+            $province = Provinces::where('active', 1)->get();
+            $patient = PatientManagement::where('active', 1)->orderBy('updated_at', 'desc')->get();
+            $sourceCustomer = SourceCustomer::where('active', 1)->get();
+            return view('admin.patient1')->with('patients', $patient)->with('ages', $age)
+                ->with('sourceCustomers', $sourceCustomer)->with('provinces', $province);
+        } catch (Exception $ex) {
+            return $ex;
+        }
+    }
+    public function getViewDiagnostic1()
+    {
+        $package = Package::where('active', 1)->get();
+        $patient = PatientManagement::where('active', 1)->get();
+        $location = LocationTreatment::where('active', 1)->orderBy('name','asc')->get()->toArray();
+        $doctor = Doctor::where('active', 1)->get();
+        $professional = ProfessionalTreatment::where("active",1)->orderBy('name','asc')->get()->toArray();
+        return view('admin.diagnostic1')->with('professionals', $this->getDiagnostic())
+            ->with('packages', $package)->with('patients', $patient)
+            ->with('locations', $location)->with('doctors', $doctor)
+            ->with('professionals',$professional);
+    }
     private function validator(array $data, $variable)
     {
         $rules = null;
@@ -977,20 +1002,20 @@ class AdminController extends Controller
             $datas = [
                 'Id' => $data['dataUser']['Id'],
                 'Name' => $data['dataUser']['Name'],
-                'Password' => $data['dataUser']['Password'],
+//                'Password' => $data['dataUser']['Password'],
                 'RoleId' => $data['dataUser']['RoleId'],
                 'Email' => $data['dataUser']['Email']
             ];
             $rules = [
                 'Name' => 'required|min:6',
-                'Password' => 'required|min:6',
+//                'Password' => 'required|min:6',
                 'RoleId' => 'required',
                 'Email' => 'required|email'
             ];
             [
                 'Name.required' => 'Tên đăng nhập không được rỗng',
-                'Password.required' => 'Mật khẩu không được rỗng',
-                'Password.min' => 'Mật khẩu phải có 6 kí tự đến 20 kí tự',
+//                'Password.required' => 'Mật khẩu không được rỗng',
+//                'Password.min' => 'Mật khẩu phải có 6 kí tự đến 20 kí tự',
                 'Name.min' => 'Tên đăng nhập phải có 6 kí tự đến 20 kí tự',
                 'RoleId.required' => 'Quyền sử dụng không được rỗng',
                 'Email.required' => 'Email không được rỗng',
@@ -1345,7 +1370,7 @@ class AdminController extends Controller
     {
         $date = date('Y-m-d');
         $max = DB::table('detailed_treatments')->where('active',1)->where('treatmentPackageId', $request->get('idPackageTreatment'))->max('createdDate');
-        $count = DB::table('detailed_treatments')->where('active',1)->where('treatmentPackageId', $request->get('idPackageTreatment'))->where('createdDate', $max)->count();
+        $count = DB::table('detailed_treatments')->where('active',1)->where('treatmentPackageId', $request->get('idPackageTreatment'))->where('sesame','<>',0)->where('createdDate', $max)->count();
         $check = $this->checkCompleteDetailsTreatment($max, $count, $request);
         $detailedTreatment = DB::table('detailed_treatments as detail')
             ->join('location_treatments as location', 'detail.sesame', '=', 'location.id')
@@ -2122,13 +2147,13 @@ class AdminController extends Controller
     {
         try {
             if ($request->get('click') == 7) {
-                $update = User::where('name', '!=', 'root')->get();
+                $update = User::where('name', '!=', 'tts_vinhduc')->get();
                 foreach ($update as $item) {
                     $item->active = 0;
                     $item->save();
                 }
             } else if ($request->get('click') == 14) {
-                $update = User::where('name', '!=', 'root')->get();
+                $update = User::where('name', '!=', 'tts_vinhduc')->get();
                 foreach ($update as $item) {
                     $item->active = 1;
                     $item->save();

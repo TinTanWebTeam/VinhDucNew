@@ -138,8 +138,8 @@
                 <div style="background-color: white;">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <div style="color: #00a859;font-size: 17px;" name="title"><span name="title">tiết điều trị của mã phiếu:</span>
-                                @if(Auth::user()->name ==="admin")
+                            <div style="color: #00a859;font-size: 17px;" name="title"><span name="title"> Chi tiết điều trị của mã phiếu:</span>
+                                @if(Auth::user()->positionId == 1 || Auth::user()->positionId == 5)
                                     <button type="button" class="btn btn-info btn-circle pull-right"
                                             onclick="professionalView.Show()"
                                             style="width: 50px;"><i class="fa fa-plus"></i>
@@ -571,7 +571,7 @@
                             id: $(element).attr("id")
                         }, function (data) {
                             if (data === "1") {
-                                if ($(element).attr("role") === "admin") {
+                                if ($(element).attr("positionId") === "1" || $(element).attr("positionId") === "5") {
                                     $(element).css("background-color", "#00a859").css('color', '#ffffff');
                                     $(element).text(professionalView.DateEnd);
                                 } else {

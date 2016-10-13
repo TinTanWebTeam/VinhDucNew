@@ -36,7 +36,7 @@
                                     onclick="professionalView.Start(this)">
                                 Bắt đầu
                             </button>
-                        @elseif($item["ail"] !==-1 && \Auth::User()->name === 'admin' )
+                        @elseif($item["ail"] !==-1 && (\Auth::User()->positionId === 1 || \Auth::User()->positionId === 5))
                             <button type="button" class="btn blue"
                                     id="{{$detail->detailId}}"
                                     name="Start"
@@ -44,7 +44,7 @@
                                     onclick="professionalView.Start(this)">
                                 {{$item["dateStart"]}}
                             </button>
-                        @elseif($item["therapistCode"]==="" || \Auth::User()->name === 'admin')
+                        @elseif($item["therapistCode"]==="" || \Auth::User()->positionId === 1 ||\Auth::User()->positionId === 5)
                             <button type="button" class="btn blue"
                                     id="{{$detail->detailId}}"
                                     name="Start"
@@ -98,24 +98,24 @@
                             <button type="button" class="btn blue"
                                     id="{{$detail->detailId}}"
                                     name="saveDetail"
-                                    role="{{\Auth::User()->name}}"
+                                    positionId="{{\Auth::User()->positionId}}"
                                     onclick="professionalView.saveDetail(this)">
                                 Kết thúc
                             </button>
-                        @elseif($item["ail"] !==-1 && \Auth::User()->name === 'admin' )
+                        @elseif($item["ail"] !==-1 && (\Auth::User()->positionId === 1 || \Auth::User()->positionId === 5 ))
                             <button type="button" class="btn blue"
                                     id="{{$detail->detailId}}"
                                     name="saveDetail"
                                     style="background-color:#00a859;color:#ffffff"
-                                    role="{{\Auth::User()->name}}"
+                                    positionId="{{\Auth::User()->positionId}}"
                                     onclick="professionalView.saveDetail(this)">
                                 {{$item["dateEnd"]}}
                             </button>
-                        @elseif($item["therapistCode"]==="" || \Auth::User()->name === 'admin')
+                        @elseif($item["therapistCode"]==="" || \Auth::User()->positionId === 1 ||\Auth::User()->positionId === 5)
                             <button type="button" class="btn blue"
                                     id="{{$detail->detailId}}"
                                     name="saveDetail"
-                                    role="{{\Auth::User()->name}}"
+                                    positionId="{{\Auth::User()->positionId}}"
                                     onclick="professionalView.saveDetail(this)">
                                 Kết thúc
                             </button>

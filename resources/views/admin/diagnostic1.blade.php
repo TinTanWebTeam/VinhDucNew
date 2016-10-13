@@ -51,7 +51,6 @@
                                 <th>Gói</th>
                                 <th>Tình trạng</th>
                                 <th>Thông tin</th>
-                                <th>Chi tiết</th>
                             </tr>
                             </thead>
                             <tbody id="tbodyDiagnosticList">
@@ -220,7 +219,6 @@
                                            name="Professional"
                                            onfocus="diagnosticView.loadProfessional()">
                                 </div>
-                                <div style="padding-top: 20%;">
                                 <div class="form-group form-md-line-input col-md-12 col-lg-4">
                                     <label for="Location"><b>Vị trí điều trị</b></label>
                                     <input type="text" class="form-control"
@@ -245,7 +243,6 @@
                                         @endif
                                     </select>
                                 </div>
-                                </div>
                                 <div class="form-group form-md-line-input col-md-12 col-lg-6">
                                     <div class="form-group form-md-line-input col-md-12 col-lg-6">
                                         <label for="checkbox"><b>Tái khám</b></label>
@@ -265,7 +262,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="form-group noborder" style="margin-top: 30%; text-align: center;">
+                        <div class="form-group noborder" style="margin-top: 50%; text-align: center;">
                             <button type="button" name="CompleteTreatmentPackage"
                                     onclick="diagnosticView.CompleteTreatmentPackage()"
                                     class="btn default">Thêm
@@ -771,7 +768,7 @@
                             tr += "<td>Đau hơn</td>";
                         }
                         tr += "<td>" + data[0][i]["regimensNote"] + "</td>";
-                        tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[0][i]["active"] + "' data-date='" + data[0][i]["createdDate"] + "' data-Id='" + data[0][i]["id"] + "' data-umpteenth='" + data[0][i]["umpteenth"] + "' onclick='diagnosticView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";//<button type='button' style='margin-left: 5%;border-color: rgb(212, 0, 0);background-color: rgb(212, 0, 0);' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.deleteTreatmentPackages(this)'><i class='fa fa-times' ></i></button>
+//                        tr += "<td style='min-width: 100px;'><button  type='button' style='margin-left: 20%; background-color: #999999; border-color: #999999' class='btn btn-info btn-circle' data-active='" + data[0][i]["active"] + "' data-date='" + data[0][i]["createdDate"] + "' data-Id='" + data[0][i]["id"] + "' data-umpteenth='" + data[0][i]["umpteenth"] + "' onclick='diagnosticView.fillUpdateToTable(this,String(\"\"))' ><i class='fa fa-cog' ></i></button></td>";//<button type='button' style='margin-left: 5%;border-color: rgb(212, 0, 0);background-color: rgb(212, 0, 0);' class='btn btn-info btn-circle' data-Id='" + data[i]["id"] + "' onclick='diagnosticView.deleteTreatmentPackages(this)'><i class='fa fa-times' ></i></button>
                         row += tr;
                     }
                     $("tbody#tbodyDiagnosticList"
@@ -1010,6 +1007,7 @@
                 }
                 ,
                 CompleteTreatmentPackage: function () {
+                    console.log(diagnosticView.DiagnosticObject);
                     diagnosticView.count = $("input[name=Umpteenth]").val();
                     if ($("input[name=checkbox]").prop("checked") === true) {
                         diagnosticView.setValueObject();
@@ -1031,11 +1029,11 @@
                         $("#addProfessional").validate({
                             rules: {
                                 Professional: "required",
-                                SesameName: "required",
+                                Location: "required",
                             },
                             messages: {
                                 Professional: "Không được rỗng",
-                                SesameName: "Không được rỗng",
+                                Location: "Không được rỗng",
                             }
                         });
                         if ($("#addProfessional").valid()) {

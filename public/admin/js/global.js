@@ -79,19 +79,24 @@ Diagnostic.click(function () {
             $("div.page-container").empty().append(data);
         })
     }
-    if ($(this).find("a").text().trim() === "report") {
-        $.get(url + "admin/report", function (data) {
+    if ($(this).find("a").text().trim() === "Nhận bệnh") {
+        $.get(url + "admin/gettingSick", function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+    if ($(this).find("a").text().trim() === "Chẩn đoán BN") {
+        $.get(url + "admin/getViewDiagnostic1", function (data) {
+            $("div.page-container").empty().append(data);
+        })
+    }
+    if ($(this).find("a").text().trim() === "Điều trị chuyên môn") {
+        $.get(url + "admin/getViewProfessional", function (data) {
             $("div.page-container").empty().append(data);
         })
     }
 });
 var SurveyProgression = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li > ul.nav.nav-second-level >li>ul.nav.nav-third-level>li");
 SurveyProgression.click(function () {
-    if ($(this).find("a").text().trim() === "Điều trị chuyên môn") {
-        $.get(url + "admin/getViewProfessional", function (data) {
-            $("div.page-container").empty().append(data);
-        })
-    }
     if ($(this).find("a").text().trim() === "Phác đồ điều trị") {
         $.get(url + "admin/getRegimens", function (data) {
             $("div.page-container").empty().append(data);

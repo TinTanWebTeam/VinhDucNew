@@ -40,21 +40,26 @@
                 <li>
                     <a href="javascript:;"><i class="fa fa-dashboard fa-fw"></i> Trang chủ</a>
                 </li>
+                @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 6)
+                <li>
+                    <a href="javascript:;">Nhận bệnh</a>
+                </li>
+                <li>
+                    <a href="javascript:;">Chẩn đoán BN</a>
+                </li>
+                @endif
+                @if(Auth::user()->roleId == 1)
                 <li>
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Quản lý<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="javascript:;">Chức vụ</a>
                         </li>
-                        @if(Auth::user()->roleId == 1)
+
                             <li>
                                 <a href="javascript:;">Người dùng</a>
                             </li>
-                        @else
-                        @endif
-                        <li>
-                            <a href="javascript:;">Bệnh nhân</a>
-                        </li>
+
                         <li>
                             <a href="javascript:;">Điều trị viên</a>
                         </li>
@@ -87,6 +92,8 @@
                         </li>
                     </ul>
                 </li>
+                @else
+                @endif
                 @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 2)
                     <li>
                         <a href="javascript:;"><i class="fa fa-book fa-fw"></i> Hồ sơ bệnh án<span></span></a>
@@ -98,6 +105,12 @@
                 @else
 
                 @endif
+                @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 4 || Auth::user()->positionId == 5 || Auth::user()->positionId == 3)
+                <li>
+                    <a href="javascript:;">Điều trị chuyên môn</a>
+                </li>
+                @endif
+                @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 4 || Auth::user()->positionId == 5 )
                 <li>
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Khảo sát<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -105,16 +118,12 @@
                             <a href="javascript:;"> <i class="fa fa-wrench fa-fw"></i>Tiến triển bệnh<span
                                         class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 3 )
-                                    <li>
-                                        <a href="javascript:;">Điều trị chuyên môn</a>
-                                    </li>
+
+
                                     <li>
                                         <a href="javascript:;">Phác đồ điều trị</a>
                                     </li>
-                                @else
 
-                                @endif
                                 <li>
                                     <a href="javascript:;">Thống kê bệnh nhân</a>
                                 </li>
@@ -142,6 +151,9 @@
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
+                @else
+
+                @endif
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::get('getViewTherapist','AdminController@getViewTherapist');
     Route::get('getViewTreatmentPackage','AdminController@getViewTreatmentPackage');
     Route::get('getViewDiagnostic','AdminController@getViewDiagnostic');
+    Route::get('getViewDiagnostic1','AdminController@getViewDiagnostic1');
     Route::get('getSurveyProgression','AdminController@getSurveyProgression');
     Route::get('getRegimens','AdminController@getRegimens');
     Route::get('getViewProfessional','AdminController@getViewProfessional');
@@ -39,8 +40,10 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::get('getSearchCodeProfessional','AdminController@getSearchCodeProfessional');
     Route::get('getViewSourceCustomer','AdminController@getViewSourceCustomer');
     Route::get('getSearchCodePatient','AdminController@getSearchCodePatient');
-   // Route::get('getSearchCodeProfessional','AdminController@getSearchCodeProfessional');
-    //Anh Tam
+    Route::get('gettingSick','AdminController@gettingSick');
+
+    // Route::get('getSearchCodeProfessional','AdminController@getSearchCodeProfessional');
+    //Anh TamgettingSick
 
     Route::get('getViewPackage','AdminController@getViewPackage');
     Route::get('SurveyProgression','AdminController@SurveyProgression');
