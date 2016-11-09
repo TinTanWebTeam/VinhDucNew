@@ -1398,7 +1398,7 @@ class AdminController extends Controller
             $arraystatus = [];
             foreach ($detailedTreatment as $item) {
 
-                $status = Status::where('active', 1)->where('detailTreatmentId', $item->detailId)->where('createdDate', $date)->first();//->where('createdDate',$date)
+                $status = Status::where('active', 1)->where('ail','<>',-1)->where('detailTreatmentId', $item->detailId)->where('createdDate', $date)->first();//->where('createdDate',$date)
 
                 if ($status == true) {
                     $array = [
@@ -1420,12 +1420,13 @@ class AdminController extends Controller
                     array_push($arraystatus, $array);
                 }
             }
+            
             $Therapist = ManagementTherapist::where('active', 1)->get();
             return view('admin.tbody')->with('detailedTreatments', $detailedTreatment)->with('therapists', $Therapist)->with('arraystatus', $arraystatus);
         } else {
             $arraystatus = [];
             foreach ($detailedTreatment as $item) {
-                $status = Status::where('active', 1)->where('detailTreatmentId', $item->detailId)->first();//->where('createdDate',$date)
+                $status = Status::where('active', 1)->where('ail','<>',-1)->where('detailTreatmentId', $item->detailId)->first();//->where('createdDate',$date)
 
                 if ($status) {
                     $array = [
@@ -1618,7 +1619,7 @@ class AdminController extends Controller
 
     public function searchProfessionalTherapist(Request $request)
     {
-        try {
+//        try {
             $searchProfessionalTherapist = DB::table('detailed_treatments')
                 ->join('patient_managements', 'detailed_treatments.patientId', '=', 'patient_managements.code')
                 ->join('statuses', 'detailed_treatments.id', '=', 'statuses.detailTreatmentId')
@@ -1637,9 +1638,9 @@ class AdminController extends Controller
                 ->groupBy('detailed_treatments.professionalTreatment', 'management_therapists.name')
                 ->get();
             return $searchProfessionalTherapist;
-        } catch (Exception $ex) {
-            return $ex;
-        }
+//        } catch (Exception $ex) {
+//            return $ex;
+//        }
     }
 
     public function deleteProfessional(Request $request)

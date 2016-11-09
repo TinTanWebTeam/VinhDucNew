@@ -110,7 +110,7 @@
                     <a href="javascript:;">Điều trị chuyên môn</a>
                 </li>
                 @endif
-                @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 4 || Auth::user()->positionId == 5 )
+                @if(Auth::user()->roleId == 1 || Auth::user()->positionId == 4 || Auth::user()->positionId == 5 || Auth::user()->positionId == 6)
                 <li>
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Khảo sát<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">

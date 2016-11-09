@@ -549,7 +549,8 @@
             saveDetail: function (element) {
                 if (professionalView.check == true) {
                     $idTherapist = $(element).parent().parent().find("td").eq(6).children().val();
-                    $idstatus = $(element).parent().parent().find("td").eq(7).children().val();
+                    $idstatus = $(element).parent().parent().find("td").eq(8).children().val();
+
                     if ($idTherapist === "") {
                         $("div#modalConfirm").modal("show");
                         $("div#modalContent").empty().append("Chưa chọn chuyên viên thực hiện");
