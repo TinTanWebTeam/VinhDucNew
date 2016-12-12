@@ -89,6 +89,10 @@
 <!-- END PAGE LEVEL SCRIPTS -->
 <!-- BEGIN THEME LAYOUT SCRIPTS -->
 <!-- END THEME LAYOUT SCRIPTS -->
+<script src=" {{ asset('js/moment.js') }}"></script>
+
+<script src=" {{ asset('admin/js/global.js') }}"></script>
+
 <script>
    $('#flash-overlay-modal').modal();
 </script>

@@ -202,6 +202,7 @@
             data: null,
             check: true,
             DateStart: null,
+            Resets:null,
             DateEnd: null,
             deleteTreatmentPackage: null,
             ProfessionalObject: {
@@ -402,6 +403,7 @@
                 }
             },
             fillUpdateToTable: function (element, result) {
+                professionalView.Resets = element;
                 $("span[name=title]").text("Chi tiết điều trị của mã phiếu: " + $(element).attr("data-code") + "");
                 var d = new Date();
                 var year = d.getFullYear();
@@ -569,7 +571,8 @@
                             dateEnd: professionalView.DateEnd,
                             patientId: $("input[name=Id]").val(),
 //                    treatmentPackageId:professionalView.idTreatmentPackage
-                            id: $(element).attr("id")
+                            id: $(element).attr("id"),
+                            idStatus:$(element).attr("idStatus")
                         }, function (data) {
                             if (data === "1") {
                                 if ($(element).attr("positionId") === "1" || $(element).attr("positionId") === "5") {
@@ -582,8 +585,22 @@
                                 $("div#modalConfirm").modal("show");
                                 $("div#modalContent").empty().append("Lưu thành công");
                                 $("button[name=modalAgree]").hide();
+                                professionalView.fillUpdateToTable(professionalView.Resets,'');
                             } else if (data === "2") {
-
+                                if ($(element).attr("positionId") === "1" || $(element).attr("positionId") === "5") {
+                                    $(element).css("background-color", "#00a859").css('color', '#ffffff');
+                                    $(element).text(professionalView.DateEnd);
+                                } else {
+                                    $(element).parent().parent().hide();
+                                }
+                                $("div#modalConfirm").modal("show");
+                                $("div#modalContent").empty().append("Sửa thành công");
+                                $("button[name=modalAgree]").hide();
+                                professionalView.fillUpdateToTable(professionalView.Resets,'');
+                            }else{
+                                $("div#modalConfirm").modal("show");
+                                $("div#modalContent").empty().append("Lưu KHÔNG thành công");
+                                $("button[name=modalAgree]").hide();
                             }
                         })
                     }

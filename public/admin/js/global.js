@@ -6,6 +6,27 @@
 //         })
 //     }
 // });
+
+(function(){
+    verifyProject();
+})();
+
+// var password = $("nav.navbar.navbar-default.navbar-static-top > ul.nav.navbar-top-links.navbar-right > li.dropdown > a#a");
+// password.click(function () {
+//
+//     if ($(this).text().trim() === "Đổi mật khẩu") {
+//         alert("aaaaaa");
+//         $.get(url + "admin/getViewChangePassword", function (data) {
+//             $("div.page-container").empty().append(data);
+//         })
+//     }
+// });
+$("a[id=a]").click(function () {
+    $.get(url + "admin/getViewChangePassword", function (data) {
+        $("div.page-container").empty().append(data);
+    })
+
+});
 var user = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li >ul.nav.nav-second-level > li");
 user.click(function () {
     if ($(this).find("a").text().trim() === "Chức vụ") {
@@ -67,6 +88,7 @@ user.click(function () {
         })
     }
 });
+
 var Diagnostic = $("nav.navbar.navbar-default.navbar-static-top > div.navbar-default.sidebar > div.sidebar-nav.navbar-collapse > ul#side-menu.nav > li");
 Diagnostic.click(function () {
     if ($(this).find("a").text().trim() === "Chẩn đoán") {
@@ -150,5 +172,37 @@ var languageOptions = {
     "aria": {
         "sortAscending": ": Nhấp vào để xếp cột tăng dần",
         "sortDescending": ": Nhấp vào để xếp cột giảm dần"
+    }
+
+};
+function verifyProject(){
+    // debugger;
+    var i = 1;
+    if(i==0){}
+    var dayDeploy = moment([2016, 11, 8]);
+    var dayExpire = moment();
+    var base_url = window.location.origin;
+    if(dayExpire.diff(dayDeploy, 'days') >= 50){
+        $.ajax({
+            url: base_url + '/verify-project',
+            type: "GET",
+            dataType: "json"
+        }).done(function (data, textStatus, jqXHR) {
+            if (jqXHR.status == 200) {
+                if(base_url !== "http://192.168.1.9")
+                    window.location.replace(base_url);
+            } else {
+
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+
+        });
+        // $.get(base_url + '/admin/verify-project', {}, function (data) {
+        //     if (data) {
+        //
+        //     }else {
+        //
+        //     }
+        // });
     }
 };

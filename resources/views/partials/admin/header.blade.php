@@ -23,6 +23,12 @@
     <!-- /.navbar-header -->
 
     <ul class="nav navbar-top-links navbar-right">
+        <li>
+            @if(Auth::user()->roleId == 1||Auth::user()->positionId == 2)
+                <a id="a" href="javascript:;"  >Đổi mật khẩu</a>
+                {{--style="margin-left: -65%;position: absolute;"--}}
+            @endif
+        </li>
         <li class="dropdown">
             <a href="{{ asset('auth/logout') }}">
                 {{ \Auth::User()->name}}
@@ -30,6 +36,7 @@
             </a>
             <!-- /.dropdown-user -->
         </li>
+
         <!-- /.dropdown -->
     </ul>
     <!-- /.navbar-top-links -->

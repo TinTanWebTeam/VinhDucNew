@@ -71,12 +71,12 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="table-responsive" style="height: 200px;overflow: scroll;">
+                        <div class="table-responsive" style="height: 500px;overflow: scroll;">
                             <table class="table table-hover order-column" id="PackagesTable"
                                    style="overflow: scroll;">
                                 <thead>
                                 <tr>
-                                    <th>STT</th>
+                                    <th>STT  điều trị</th>
                                     <th>Vùng</th>
                                     <th>Thời gian</th>
                                     <th>Điều trị chuyên môn</th>
@@ -153,7 +153,7 @@
                         <form action="" id="addProfessional">
                             <div id="addProfessional">
                                 <div class="form-group form-md-line-input col-md-12 col-lg-3">
-                                    <label for="Serial"><b>STT</b></label>
+                                    <label for="Serial"><b>STT điều trị</b></label>
                                     <input type="text" class="form-control"
                                            id="Serial"
                                            name="Serial"
@@ -220,7 +220,7 @@
                                            name="Professional"
                                            onfocus="diagnosticView.loadProfessional()">
                                 </div>
-                                <div style="padding-top: 20%;">
+                                <div style="padding-top: 16%;">
                                     <div class="form-group form-md-line-input col-md-12 col-lg-4">
                                         <label for="Location"><b>Vị trí điều trị</b></label>
                                         <input type="text" class="form-control"
@@ -236,14 +236,21 @@
                                     </div>
                                     <div class="form-group form-md-line-input col-md-12 col-lg-4">
                                         <label for="DoctorCode"><b>Bác sĩ</b></label>
-                                        <select class="form-control" name="DoctorCode" id="DoctorCode"
-                                                onchange="diagnosticView.loadDetailByDoctor()">
-                                            @if($doctors)
-                                                @foreach($doctors as $item)
-                                                    <option value="{{$item->code}}">{{$item->code}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
+                                        {{--<select class="form-control" name="DoctorCode" id="DoctorCode"--}}
+                                        {{--doctorCode = "{{\Auth::User()->name}}"--}}
+                                        {{--onchange="diagnosticView.loadDetailByDoctor()">--}}
+                                        {{--@if($doctors)--}}
+                                        {{--@foreach($doctors as $item)--}}
+                                        {{--<option value="{{\Auth::User()->name}}">{{\Auth::User()->name}}</option>--}}
+                                        {{--@endforeach--}}
+                                        {{--@endif--}}
+                                        {{--</select>--}}
+                                        <input type="text" class="form-control"
+                                               id="DoctorCode"
+                                               onkeypress="diagnosticView.enternumber()"
+                                               name="DoctorCode"
+                                               value="{{\Auth::User()->name}}"
+                                               readonly="readonly">
                                     </div>
                                 </div>
                                 <div class="form-group form-md-line-input col-md-12 col-lg-6">
@@ -263,18 +270,22 @@
                                                name="Umpteenth">
                                     </div>
                                 </div>
+                                <div>
+                                    <div class="form-group noborder" style="margin-top: 30%; text-align: center;">
+                                        <button type="button" name="CompleteTreatmentPackage"
+                                                onclick="diagnosticView.CompleteTreatmentPackage()"
+                                                class="btn default">Thêm
+                                        </button>
+                                        <button type="button" name="cancelTreatment"
+                                                onclick="diagnosticView.cancelTreatment(this)"
+                                                class="btn default">Trở về
+                                        </button>
+                                    </div>
+
+                                </div>
                             </div>
                         </form>
-                        <div class="form-group noborder" style="margin-top: 30%; text-align: center;">
-                            <button type="button" name="CompleteTreatmentPackage"
-                                    onclick="diagnosticView.CompleteTreatmentPackage()"
-                                    class="btn default">Thêm
-                            </button>
-                            <button type="button" name="cancelTreatment"
-                                    onclick="diagnosticView.cancelTreatment(this)"
-                                    class="btn default">Trở về
-                            </button>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -550,7 +561,7 @@
                                    style="margin-bottom: 0px;">
                                 <thead>
                                 <tr>
-                                    <th class="text-center">STT</th>
+                                    <th class="text-center">STT điều trị</th>
                                     <th class="text-center">Vùng</th>
                                     <th class="text-center">Thời gian</th>
                                     <th class="text-center">Điều trị chuyên môn</th>
@@ -904,8 +915,8 @@
                         idPackageTreatment: diagnosticView.idTreatmentPackage
                     }, function (data) {
                         if (data.length !== 0) {
-                            var bs = data[0]["createdBy"];
-                            $("select#DoctorCode").val(bs);
+//                            var bs = data[0]["createdBy"];
+//                            $("select#DoctorCode").val(bs);
                             diagnosticView.data = data;
                             if (data.length !== 0) {
                                 var row = "";
@@ -922,7 +933,7 @@
                                     tr += "<td>" + data[i]["minute"] + "</td>";
                                     tr += "<td>" + data[i]["createdBy"] + "</td>";
                                     tr += "<td>" + data[i]["createdDate"] + "</td>";
-                                    if (data[i]["createdDate"] === strDate) {
+                                    if (data[i]["createdDate"] === strDate && data[i]["createdBy"] === $("input#DoctorCode").val()) {
                                         tr += "<td <button type='button' style='margin-left: 30%;margin-top: 2%;' class='btn btn-danger btn-circle' data-Id='" + data[i]["detailId"] + "' onclick='diagnosticView.deleteTable(this)'><i class='fa fa-times '></i></button></td>";
                                     } else {
                                     }
@@ -962,7 +973,7 @@
                     $("input#Professional").val($(element).find("td").eq(3).text());
                     $("input#Location").val($(element).find("td").eq(4).text());
                     $("input#Minute").val($(element).find("td").eq(5).text());
-                    $("select#DoctorCode").val($(element).find("td").eq(6).text());
+                    $("input#DoctorCode").val($(element).find("td").eq(6).text());
                 },
                 fillAddNewToTable: function () {
                     $("tbody#PackagesTable").children().children().css("background-color", "white").css('color', '#555555');
@@ -1018,7 +1029,8 @@
                             idTreatmentPackage: diagnosticView.idTreatmentPackage,
                             data: diagnosticView.DiagnosticObject,
                             idPatient: $("input[name=Code]").val(),
-                            idDetail: diagnosticView.idDetail
+                            idDetail: diagnosticView.idDetail,
+                            doctorCode:$("input#DoctorCode").val()
                         }, function (data) {
                             if (data[0] === 1) {
                                 diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage, diagnosticView.count);
@@ -1041,12 +1053,14 @@
                         });
                         if ($("#addProfessional").valid()) {
                             diagnosticView.setValueObject();
+
                             $.post(url + "admin/updateUmpteenthTreatmentPackages", {
                                 _token: _token,
                                 idTreatmentPackage: diagnosticView.idTreatmentPackage,
                                 data: diagnosticView.DiagnosticObject,
                                 idPatient: $("input[name=Code]").val(),
-                                idDetail: diagnosticView.idDetail
+                                idDetail: diagnosticView.idDetail,
+                                doctorCode:$("input#DoctorCode").val()
                             }, function (data) {
                                 if (data[0] === 1) {
                                     diagnosticView.fillUpdateToTable('', diagnosticView.idTreatmentPackage, data[1]["umpteenth"]);
@@ -1154,7 +1168,8 @@
                     $.post(url + "admin/loadDetailByDoctor", {
                         _token: _token,
                         data: diagnosticView.DiagnosticObject,
-                        idPackageTreatment: diagnosticView.idTreatmentPackage
+                        idPackageTreatment: diagnosticView.idTreatmentPackage,
+                        doctorCode:$("input#DoctorCode").val()
                     }, function (data) {
                         if (data[0].length !== 0) {
                             var row = "";
@@ -1171,7 +1186,10 @@
                                 tr += "<td>" + data[0][i]["minute"] + "</td>";
                                 tr += "<td>" + data[0][i]["createdBy"] + "</td>";
                                 tr += "<td>" + data[0][i]["createdDate"] + "</td>";
-                                if (data[0][i]["createdDate"] === data[1] && data[0][i]["createdBy"] === $("select#DoctorCode option:selected").text()) {
+//                                if (data[0][i]["createdDate"] === data[1] && data[0][i]["createdBy"] === $("select#DoctorCode option:selected").text()) {
+//                                    tr += "<td <button type='button' style='margin-left: 30%;margin-top: 2%;' class='btn btn-danger btn-circle' data-Id='" + data[0][i]["detailId"] + "' onclick='diagnosticView.deleteTable(this)'><i class='fa fa-times '></i></button></td>";
+//                                } else {
+                                if (data[0][i]["createdBy"] === $("input#DoctorCode").val()) {
                                     tr += "<td <button type='button' style='margin-left: 30%;margin-top: 2%;' class='btn btn-danger btn-circle' data-Id='" + data[0][i]["detailId"] + "' onclick='diagnosticView.deleteTable(this)'><i class='fa fa-times '></i></button></td>";
                                 } else {
                                 }

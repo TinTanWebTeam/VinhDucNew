@@ -1,5 +1,14 @@
-{{--Model--}}
-<div class="modal fade" id="modalConfirm" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+<style>
+    td.details-control {
+        background: url({{asset('img/details_open.png')}}) no-repeat center center;
+        /*background-color: red;*/
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        background: url({{asset('img/details_close.png')}}) no-repeat center center;
+    }
+</style>
+<div class="modal fade" id="modalConfirm" tabindex="-1" role="basic" aria-hidden="true" style="display: none;" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" id="modalContent">Chắt chắn xoá ?</div>
@@ -15,6 +24,7 @@
     <!-- /.modal-dialog -->
 </div>
 {{--End Modal--}}
+
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -51,42 +61,50 @@
 
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover order-column" id="tablestatisticsTherapistViewList"
-                           style="margin-bottom: 0px;">
+                    <table class="table table-bordered table-hover order-column display" id="tablestatisticsTherapistViewList"
+                           style="margin-bottom: 0px;" cellspacing="0">
+
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Mã chuyên viên</th>
                             <th>Chuyên viên</th>
                             <th>Điều trị chuyên môn</th>
-                            {{--<th>Ngày</th>--}}
-                            {{--<th>Mã bệnh nhân</th>--}}
-                            {{--<th>Tình trạng</th>--}}
                             <th>Tổng</th>
                         </tr>
                         </thead>
-                        <tbody id="tbodyStatisticTherapistList">
+                        <tfoot>
+                        <tr>
+                            <th colspan="4" style="text-align:right">Tổng:</th>
+                            <th></th>
+                        </tr>
+                        </tfoot>
+
+                        <tbody id="tbodyStatisticTherapistList" onload="statisticsTherapistView.search();">
                         @if($searchProfessionalTherapists)
                             @foreach($searchProfessionalTherapists as $item)
-                                <tr id="{{$item->id}}" onclick="tmPackageView.viewListTmPackages(this)"
-                                    style="cursor: pointer">
-                                    <td>{{$item->codeTherapist}}</td>
-                                    <td>{{$item->nameTherapist}}</td>
-                                    <td>{{$item->name}}</td>
-                                    {{--<td>{{$item->createdDate}}</td>--}}
-                                    {{--<td>{{$item->code}}</td>--}}
-                                    {{--@if($item->ail==0)--}}
-                                        {{--<td>Không đau</td>--}}
-                                    {{--@elseif($item->ail==1)--}}
-                                        {{--<td>Có Đau</td>--}}
-                                    {{--@elseif($item->ail==2)--}}
-                                        {{--<td>Có giảm</td>--}}
-                                    {{--@elseif($item->ail==3)--}}
-                                        {{--<td>Không giảm</td>--}}
-                                    {{--@endif--}}
-                                    <td>{{$item->total}}</td>
+                                <tr id="{{$item->id}}"
+                                style="cursor: pointer">
+                                <td class="details-control" Professional ="{{$item->name}}" codeTherapist = "{{$item->codeTherapist}}" onclick="statisticsTherapistView.childrow(this)"></td>
+                                <td>{{$item->codeTherapist}}</td>
+                                <td>{{$item->nameTherapist}}</td>
+                                {{--<td>{{$item->name}}</td>--}}
+                                {{--<td>{{$item->createdDate}}</td>--}}
+                                {{--<td>{{$item->code}}</td>--}}
+                                    @if($item->ail==0)
+                                        <td>Không đau</td>
+                                    @elseif($item->ail==1)
+                                        <td>Có Đau</td>
+                                    @elseif($item->ail==2)
+                                        <td>Có giảm</td>
+                                    @elseif($item->ail==3)
+                                        <td>Không giảm</td>
+                                    @endif
+                                <td>{{$item->total}}</td>
                                 </tr>
                             @endforeach
                         @endif
+
                         </tbody>
                     </table>
                 </div>
@@ -94,16 +112,20 @@
         </div>
     </div>
 </div>
-<script>
 
+
+<script>
     $(function () {
+
         if (typeof (statisticsTherapistView) === 'undefined') {
             statisticsTherapistView = {
+                searchPatient:null,
                 StatisticsTherapistObject: {
                     FromDate: null,
                     ToDate: null,
                     TherapistId: null
                 },
+                dataSearch : null,
                 resetStatisticsTherapistObject: function () {
                     for (var propertyName in statisticsTherapistView.StatisticsTherapistObject) {
                         if (statisticsTherapistView.StatisticsTherapistObject.hasOwnProperty(propertyName)) {
@@ -140,15 +162,96 @@
                         statisticsTherapistView.fillTbody(data);
                     })
                 },
+
+//                searchPatientByCodeTherapist:function (codeTherapist,Professional) {
+//                    statisticsTherapistView.setValueObject();
+//                    $.post(url + "admin/searchPatientByCodeTherapist", {
+//                        _token: _token,
+//                        data: statisticsTherapistView.StatisticsTherapistObject,
+//                        codeTherapist: codeTherapist,
+//                        Professional: Professional
+//                    }, function (data) {
+//                        statisticsTherapistView.dataSearch = data;
+//                    })
+//                },
+                childrow:function (element) {
+                    var tr = $(element).closest('tr');
+                    var row = table.row( tr );
+                    if ( row.child.isShown() ) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    }
+                    else {
+//                        statisticsTherapistView.searchPatientByCodeTherapist($(element).attr("codeTherapist"),$(element).attr("Professional"));
+//                        // Open this row
+//                        console.log(statisticsTherapistView.dataSearch);
+                        statisticsTherapistView.setValueObject();
+                        $.post(url + "admin/searchPatientByCodeTherapist", {
+                            _token: _token,
+                            data: statisticsTherapistView.StatisticsTherapistObject,
+                            codeTherapist: $(element).attr("codeTherapist"),
+                            Professional: $(element).attr("Professional")
+                        }, function (data) {
+                            if(data){
+                                row.child(statisticsTherapistView.format(data)).show();
+                                tr.addClass('shown');
+                            }
+                        })
+                    }
+                },
+                format: function ( data ) {
+                    var i;
+                    var tr = "";
+                    for(i = 0; i < data.length; i++) {
+                        tr += '<tr>' +
+                        '<td>' + data[i]["code"] + '</td>' +
+                        '<td>' + data[i]["fullName"] + '</td>' +
+                        '<td>' + data[i]["createdDate"] + '</td>';
+//                        '<td>' + data[i]["ail"] + '</td>' +
+
+                        if (data[i]["ail"] == 0) {
+                            tr += "<td>Không đau</td>";
+                        } else if (data[i]["ail"] == 1) {
+                            tr += "<td>Có đau</td>";
+                        } else if (data[i]["ail"] == 2) {
+                            tr += "<td>Có giảm</td>";
+                        } else if (data[i]["ail"] == 3) {
+                            tr += "<td>Không giảm</td>";
+                        }
+                        tr +='</tr>';
+
+
+
+
+                    }
+                return '<table class="table table-bordered table-hover order-column" cellpadding="5" cellspacing="0" border="0" style="margin-left: 43px;">'+
+                        '<thead>'+
+                            '<tr class="label-info ">'+
+                                 '<th>Mã bệnh nhân</th>'+
+                                 '<th>Tên bệnh nhân</th>'+
+                                 '<th>Ngày điều trị</th>'+
+                                 '<th>Tình trạng</th>'+
+                            '</tr>'+
+                        '</thead>' +
+                        '<tbody>'+ tr +
+
+                         '</tbody>'+
+                        '</table>';
+                },
+
                 fillTbody: function (data) {
+                    table.destroy();
                     $("tbody#tbodyStatisticTherapistList").empty();
                     var row = "";
                     for (var i = 0; i < data.length; i++) {
                         var tr = "";
                         tr += "<tr id=" + data[i]["id"] + ">";
+                        tr += "<td class='details-control' Professional ='"+data[i]["name"]+"' codeTherapist = '"+data[i]["codeTherapist"]+"' onclick='statisticsTherapistView.childrow(this)'></td>";
                         tr += "<td>" + data[i]["codeTherapist"] + "</td>";
                         tr += "<td>" + data[i]["nameTherapist"] + "</td>";
                         tr += "<td>" + data[i]["name"] + "</td>";
+
 //                        tr += "<td>" + data[i]["createdDate"] + "</td>";
 //                        tr += "<td>" + data[i]["code"] + "</td>";
 //                        if (data[i]["ail"] == 0) {
@@ -164,10 +267,39 @@
                         row += tr;
                     }
                     $("b[name=ToTal]").text("Tổng: " + data.length + "");
-                    table.destroy();
-                    $("tbody#tbodyStatisticTherapistList").empty();
                     $("tbody#tbodyStatisticTherapistList").append(row);
-                    table = $("#tablestatisticsTherapistViewList").DataTable({language: languageOptions});
+                    table = $("#tablestatisticsTherapistViewList").DataTable({
+                        footerCallback: function ( row, data, start, end, display ) {
+                            var api = this.api(), data;
+                            // Remove the formatting to get integer data for summation
+                            var intVal = function ( i ) {
+                                return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '')*1 :
+                                        typeof i === 'number' ?
+                                                i : 0;
+                            };
+                            // Total over all pages
+                            total = api
+                                    .column( 4 )
+                                    .data()
+                                    .reduce( function (a, b) {
+                                        return intVal(a) + intVal(b);
+                                    }, 0 );
+                            // Total over this page
+                            pageTotal = api
+                                    .column( 4, { page: 'current'} )
+                                    .data()
+                                    .reduce( function (a, b) {
+                                        return intVal(a) + intVal(b);
+                                    }, 0 );
+                            // Update footer
+                            $( api.column(4 ).footer() ).html(
+                                    ' Có '+pageTotal +' ( Trong '+ total +')'
+                            );
+                        },
+                        language: languageOptions,
+                    });
+
                     $("input[aria-controls=tablestatisticsTherapistViewList]").on('keyup', function () {
                         $("b[name=ToTal]").empty().html("Tổng: " + $("#tbodyStatisticTherapistList").find("tr").length);
                     });
@@ -176,11 +308,56 @@
         }
     });
 
-    var table = $("#tablestatisticsTherapistViewList").DataTable({language: languageOptions});
+//    var table = $("#tablestatisticsTherapistViewList").DataTable({
+//        language: languageOptions,
+//        "columns": [
+//            {
+//                "className":      'details-control',
+//                "orderable":      false,
+//                "data":           null,
+//                "defaultContent": ''
+//            },
+//            { "data": "Mã chuyên viên" },
+//            { "data": "Chuyên viên" },
+//            { "data": "Điều trị chuyên môn" },
+//            { "data": "Tổng" }
+//        ],
+//        "order": [[1, 'asc']]
+//    });
+    table = $("#tablestatisticsTherapistViewList").DataTable({
+        footerCallback: function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                i.replace(/[\$,]/g, '')*1 :
+                        typeof i === 'number' ?
+                                i : 0;
+            };
+            // Total over all pages
+            total = api
+                    .column( 4 )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+            // Total over this page
+            pageTotal = api
+                    .column( 4, { page: 'current'} )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+            // Update footer
+            $( api.column(4 ).footer() ).html(
+                    ' Có '+pageTotal +' ( Trong '+ total +')'
+            );
+        },
+        language: languageOptions,
+    });
     $("input[aria-controls=tablestatisticsTherapistViewList]").on('keyup', function () {
         $("b[name=ToTal]").empty().html("Tổng: " + $("#tbodyStatisticTherapistList").find("tr").length);
     });
-
     //setup before functions
     var typingTimer;                //timer identifier
     var doneTypingInterval = 1000;  //time in ms, 3 second for example

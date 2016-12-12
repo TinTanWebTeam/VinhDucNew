@@ -55,6 +55,7 @@
         <div class="form-group form-md-line-input col-md-2">
             <label for="Umpteenth"><b>Khám mới / Tái khám</b></label>
             <select class="form-control" name="Umpteenth" id="Umpteenth" onchange="statisticsPatientView.search()">
+                <option value="2">Tất cả</option>
                 <option value="0">Khám mới</option>
                 <option value="1">Tái khám</option>
             </select>

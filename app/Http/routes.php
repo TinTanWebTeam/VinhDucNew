@@ -13,12 +13,13 @@ Route::group(['middleware' => ['guest']],function (){
     Route::get('auth/login','Auth\AuthController@getLogin');
     Route::post('auth/login','Auth\AuthController@postLogin');
 });
-
+Route::get('verify-project', 'AdminController@getVerifyProject');
 /*
  * Admin Route
  * */
 Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     //Get
+
     Route::get('dashboard','AdminController@dashboard');
     Route::get('getViewUser','AdminController@getViewUser');
     Route::get('getViewPosition','AdminController@getViewPosition');
@@ -55,6 +56,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::get('getViewSearch','AdminController@getViewSearch');
     Route::get('getViewInformationSurveys','AdminController@getViewInformationSurveys');
     Route::get('getViewStatistics','AdminController@getViewStatistics');
+    Route::get('getViewChangePassword','AdminController@getViewChangePassword');
     //Post------------------------------------------
     Route::post('postViewUser','AdminController@postViewUser');
     Route::post('deleteUser','AdminController@deleteUser');
@@ -99,7 +101,7 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::post('updatePackageForTreatmentPackage','AdminController@updatePackageForTreatmentPackage');
     Route::post('updateuser','AdminController@updateuser');
     Route::post('searchPatientByCodePatient','AdminController@searchPatientByCodePatient');
-
+    Route::post('searchPatientByCodeTherapist','AdminController@searchPatientByCodeTherapist');
     //AnhTam
     Route::post('deleteTreatmentPackage','AdminController@deleteTreatmentPackage');
     Route::post('addNewAndUpdatePackage','AdminController@addNewAndUpdatePackage');
@@ -125,5 +127,5 @@ Route::group(['middleware' => ['auth'],'prefix' => 'admin'],function (){
     Route::post('deleteInformation','AdminController@deleteInformation');
     Route::post('addNewAndUpdateInformation','AdminController@addNewAndUpdateInformation');
     Route::post('searchStatistical','AdminController@searchStatistical');
-
+    Route::post('changePassword','AdminController@changePassword');
 });

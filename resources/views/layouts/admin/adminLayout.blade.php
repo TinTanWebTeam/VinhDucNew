@@ -46,6 +46,9 @@
 <!-- END FOOTER -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
+<link rel="stylesheet" href="../bower_components/dataTableFull/Responsive-2.1.0/css/responsive.bootstrap.min.css">
+
+
 <!-- Bootstrap Core JavaScript -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -63,9 +66,12 @@
     var url = "{{ asset('') }}";
     var _token = "{{ csrf_token() }}";
 </script>
+<script src=" {{ asset('js/moment.js') }}"></script>
 <script src="../../admin/js/global.js"></script>
 <script src="{{ asset('admin/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('admin/js/dataTables.bootstrap.min.js') }}"></script>
+<script src="../bower_components/dataTableFull/Responsive-2.1.0/js/dataTables.responsive.min.js"></script>
+<script src="../bower_components/dataTableFull/Responsive-2.1.0/js/responsive.bootstrap.min.js"></script>
 <script src="{{ asset('admin/js/printThis.js') }}"></script>
 </body>
 </html>
